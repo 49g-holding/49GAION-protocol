@@ -1,7 +1,7 @@
 # Fails a pull request that adds or changes a binary file under the normative
 # paths of the 49GAION Standard, Protocol or Library. Binaries (PDF, images,
 # compressed bundles, office files) are kept outside the repository, cited by link
-# and SHA-256 in the reference list. Not a required check.
+# and SHA-256 in the reference list. Required status check on main (main-protection ruleset).
 name: no-binaries
 
 on:
