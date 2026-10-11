@@ -1,0 +1,19 @@
+{
+  "unit_kind": "HOAC",
+  "code": "TenHOAC-TM",
+  "parent": "TenHOAC-GOV",
+  "type": "TM",
+  "full_name": "Top Management",
+  "card_version": "v1",
+  "version": "1.0.0",
+  "lineage": {
+    "id": "TenHOAC-TM",
+    "version": "1.0.0",
+    "relation": "original"
+  },
+  "lifecycle_state": "designed",
+  "inner_units": [
+    "TenAIOC-SI",
+    "TenAIOC-SL"
+  ]
+}

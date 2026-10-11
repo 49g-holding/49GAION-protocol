@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/port-card.schema.json",
   "title": "49GAION Port card",
-  "description": "Every unit, AIOC or HOAC, has two inputs and two outputs; each is described by one Port card. The type is set by the port itself, never by message content. Human silence is never consent. Standard section 5.",
+  "description": "Every unit, AIOC or HOAC, at every depth, has one input and one output of each kind (AI and HU), plus the stop door; each is described by one Port card. The type is set by the port itself, never by message content. A human port never passes through an AI unit. Human silence is never consent. Standard §6.1.",
   "type": "object",
   "required": ["unit", "port", "direction", "type", "identification", "accepted_content", "authority_limit", "audit_trail", "required_tests", "enforcement"],
   "additionalProperties": false,

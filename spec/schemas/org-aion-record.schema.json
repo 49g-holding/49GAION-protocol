@@ -29,7 +29,7 @@
       "items": {
         "type": "string"
       },
-      "description": "Standard sections taken; at delivery the [ORG]AION's Standard is identical to the 49GAION Standard or a subset, never contradicting it."
+      "description": "Standard sections taken; at delivery the [ORG]AION's Standard is identical to the 49GAION Standard or stricter, never contradictory."
     },
     "parts_taken": {
       "type": "array",
@@ -203,7 +203,7 @@
     },
     "delivery_test": {
       "type": "object",
-      "description": "The fixed delivery test at handover (Standard section 11). The [ORG]AION is handed over only when all three are PASS.",
+      "description": "The fixed delivery test at handover (Standard §1.4). The [ORG]AION is handed over only when all three are PASS.",
       "required": [
         "hoac_gov_in_place",
         "human_floor_in_place",
