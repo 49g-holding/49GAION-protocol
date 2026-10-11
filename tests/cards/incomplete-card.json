@@ -1,5 +1,4 @@
 {
-  "aioc": "TENAIOC-SL",
   "type": "foundational",
   "full_name": "Source Lifecycle",
   "card_version": "v1",
@@ -27,5 +26,7 @@
     "received",
     "in-progress",
     "done"
-  ]
+  ],
+  "code": "TENAIOC-SL",
+  "unit_kind": "AIOC"
 }

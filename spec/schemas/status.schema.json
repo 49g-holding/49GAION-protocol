@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/status.schema.json",
   "title": "49GAION Work Item status (the one shared list)",
-  "description": "The one status list (v1 B-12). Used by the Work Item schema, AIOC cards and decision records. Protocol \u00a75.2.",
+  "description": "The one status list. Used by the Work Item schema and unit cards. Protocol §4.2.",
   "type": "string",
   "enum": [
     "received",

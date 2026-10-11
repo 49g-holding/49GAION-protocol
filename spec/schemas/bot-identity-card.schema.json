@@ -62,7 +62,9 @@
       "type": "string"
     },
     "status": {
+      "description": "DRAFT until the card's test has run once with recorded evidence; APPROVED only with that evidence.",
       "enum": [
+        "DRAFT",
         "RESEARCH",
         "CANDIDATE",
         "ACCEPTED",

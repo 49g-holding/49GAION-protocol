@@ -1,27 +1,86 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/aioc-card.schema.json",
-  "title": "49GAION Operating Protocol - AIOC card",
-  "description": "The card is a section of the AIOC's blueprint file (49GAION-aioc template section 1). It declares what the AIOC receives, what it delivers, in what format, and how it is woken. Aligned in vocabulary with the A2A Agent Card (Protocol section 12). Required 'type' (the AIOC Type, a card field, never part of the name); optional 'org_aion' and 'anatomy'; the Configuration slot 'budget_cap'.",
+  "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/unit-card.schema.json",
+  "title": "49GAION Operating Protocol - unit card (AIOC or HOAC)",
+  "description": "The card of one unit, AIOC or HOAC, at any depth (Standard §1.7, §4.1 item 7). For an AIOC it is a section of the AIOC's blueprint file (49GAION-aioc template §1). It declares the unit's code, its kind, its parent, its inner units, what it receives and delivers, and, for an AIOC, how it is woken. A composite unit is one unit from outside: one card, its ports and its stop door. Aligned in vocabulary with the A2A Agent Card (Protocol §12). The Type is a card field, never part of the code.",
   "type": "object",
   "required": [
-    "aioc",
+    "unit_kind",
+    "code",
+    "parent",
     "type",
     "full_name",
     "card_version",
-    "blueprint_version",
-    "template_version",
-    "input_door",
-    "wake",
-    "receives",
-    "delivers",
     "version",
     "lineage",
-    "skills",
     "lifecycle_state"
   ],
   "additionalProperties": false,
   "allOf": [
+    {
+      "if": {
+        "properties": {
+          "unit_kind": {
+            "const": "AIOC"
+          }
+        },
+        "required": [
+          "unit_kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "blueprint_version",
+          "template_version",
+          "input_door",
+          "wake",
+          "receives",
+          "delivers",
+          "skills",
+          "configuration"
+        ],
+        "properties": {
+          "code": {
+            "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)AIOC-[A-Z]{2,5}(-[A-Z]{2,5})?$"
+          },
+          "type": {
+            "enum": [
+              "foundational",
+              "structural",
+              "specialised",
+              "connector",
+              "other"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "unit_kind": {
+            "const": "HOAC"
+          }
+        },
+        "required": [
+          "unit_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "code": {
+            "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)HOAC-(GOV|TM|ACS)(-[A-Z]{2,5})?$"
+          },
+          "type": {
+            "enum": [
+              "GOV",
+              "TM",
+              "ACS"
+            ]
+          }
+        }
+      }
+    },
     {
       "if": {
         "properties": {
@@ -41,20 +100,42 @@
     }
   ],
   "properties": {
-    "aioc": {
+    "unit_kind": {
+      "enum": [
+        "AIOC",
+        "HOAC"
+      ],
+      "description": "The kind of unit. Neither kind ranks above the other by its kind (Standard §1.1)."
+    },
+    "code": {
       "type": "string",
-      "description": "The core's operational name, for example [ORG]AIOC-SL. Only cores use the [ORG]AIOC prefix (49GAION Naming Standard).",
-      "pattern": "^[0-9A-Z]+AIOC-[A-Z]{2,5}$"
+      "description": "The unit's one fixed code, never changed when the unit moves (Naming Standard R14). An AIOC: [ORG]AIOC-[INITIALS], for example [ORG]AIOC-SL or TenAIOC-SL. A HOAC: [ORG]HOAC-<TYPE>, for example [ORG]HOAC-TM, TenHOAC-GOV or [ORG]HOAC-ACS-SL.",
+      "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)(AIOC-[A-Z]{2,5}|HOAC-(GOV|TM|ACS))(-[A-Z]{2,5})?$"
+    },
+    "parent": {
+      "type": "string",
+      "description": "The code of the unit that holds this one, or 'none' at the top of the organisation (Standard §1.7, item 2; Naming Standard R14). A change of parent needs the approval of the human seat over the unit; OCO cannot make it alone.",
+      "pattern": "^(none|(\\[ORG\\]|[0-9A-Za-z]+)(AIOC-[A-Z]{2,5}|HOAC-(GOV|TM|ACS))(-[A-Z]{2,5})?)$"
+    },
+    "inner_units": {
+      "type": "array",
+      "description": "The codes of the units this unit holds directly, of either kind, listed by link, never by copy (Standard §1.7, item 7). Each inner unit has its own card whose parent is this unit's code. Empty or absent for a unit that holds none.",
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)(AIOC-[A-Z]{2,5}|HOAC-(GOV|TM|ACS))(-[A-Z]{2,5})?$"
+      }
+    },
+    "ports": {
+      "type": "array",
+      "description": "The unit's Port cards: one input and one output of each kind (AI and HU), plus the stop door (Standard §6.1).",
+      "items": {
+        "$ref": "port-card.schema.json"
+      }
     },
     "type": {
-      "enum": [
-        "foundational",
-        "structural",
-        "specialised",
-        "connector",
-        "other"
-      ],
-      "description": "The AIOC Type: why the AIOC exists (49GAION-aioc docs/WHAT-IS-AN-AIOC.md section 4). foundational: every organisation needs it. structural: exists because of the organisation's structure. specialised: exists because the business needs it. connector: connects, translates and coordinates between other AIOCs. other: a type added to the open list in the Standard; name and describe it in type_description. Panel is not a type (it is a capability of every AIOC); the AION Builder is a 49GAION capability, not an AIOC type. Which AIOCs an organisation has is decided in its [ORG]AION."
+      "type": "string",
+      "description": "For an AIOC, the AIOC Type: why the AIOC exists (49GAION-aioc docs/WHAT-IS-AN-AIOC.md §4): foundational, structural, specialised, connector, or other (described in type_description). For a HOAC, the HOAC type: GOV, TM or ACS (Standard §4.1). Panel is not a type; the AION Builder is a 49GAION capability, not an AIOC type."
     },
     "org_aion": {
       "type": "string",
@@ -67,7 +148,7 @@
     },
     "full_name": {
       "type": "string",
-      "description": "Full name written beside the code once, for example Operating Core Office."
+      "description": "Full name written beside the code once, for example Organization Core Office."
     },
     "organisation": {
       "type": "string",
@@ -297,7 +378,7 @@
     },
     "configuration": {
       "type": "object",
-      "description": "The AIOC's Configuration (49GAION-aioc template section 15): 49GAION fixes the path; who holds each role is configured in each organisation. Every slot must be filled; an AIOC with any empty slot does not pass the joining test. Each value records who set it, when and in which version; a changed value is marked replaced_by, never deleted. budget_cap, the AIOC's cap on AI spend through the shared AI gateway.",
+      "description": "The AIOC's Configuration (49GAION-aioc template §15): 49GAION fixes the path; who holds each role is configured in each organisation. Every slot must be filled; an AIOC with any empty slot does not pass the joining test. Each value records who set it, when and in which version; a changed value is marked replaced_by, never deleted. office_accountable_human: the HOAC seat accountable for OCO, which decides objections held open (Protocol §4.7). central_head: the OCO of this unit's [ORG]AION. budget_cap: the AIOC's cap on AI spend through the shared AI gateway. chain_depth: the maximum depth of Work Item chains, set by the organisation. unattended_action: what a Chief of Staff may do with no human present (Protocol §7).",
       "required": [
         "office_accountable_human",
         "central_head",
@@ -306,7 +387,8 @@
         "bounce_limit",
         "chain_depth",
         "halt_request_priority",
-        "budget_cap"
+        "budget_cap",
+        "unattended_action"
       ],
       "properties": {
         "office_accountable_human": {
@@ -507,18 +589,18 @@
             "read-record-triage",
             "act-within-limits"
           ],
-          "description": "v1 decision A13: what a Chief of Staff may do after an automatic wake-up with no human present. Default read-record-triage; set by the accountable human."
+          "description": "What a Chief of Staff may do after an automatic wake-up with no human present (Protocol §7): read-record-triage (the default) or act-within-limits. Set by the accountable human."
         }
       }
     },
     "version": {
       "type": "string",
       "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?$",
-      "description": "SemVer version of this AIOC (v1 B-27; A2A AgentCard requires a version)."
+      "description": "SemVer version of this unit (A2A AgentCard requires a version)."
     },
     "lineage": {
       "type": "object",
-      "description": "Where this AIOC comes from (v1 B-27, B-28).",
+      "description": "Where this unit comes from: the unit and version it was derived, merged or split from.",
       "required": [
         "id",
         "version",
@@ -545,7 +627,7 @@
     "skills": {
       "type": "array",
       "minItems": 1,
-      "description": "What the AIOC can do (A2A AgentSkill alignment; v1 B-27).",
+      "description": "What the AIOC can do (A2A AgentSkill alignment).",
       "items": {
         "type": "object",
         "required": [
@@ -578,7 +660,7 @@
     },
     "statuses": {
       "type": "array",
-      "description": "Statuses this AIOC uses; each from the shared list (status.schema.json; v1 B-12).",
+      "description": "Statuses this unit uses; each from the shared list (status.schema.json; Protocol §4.2).",
       "items": {
         "$ref": "status.schema.json"
       }
@@ -593,7 +675,7 @@
         "replaced",
         "retired"
       ],
-      "description": "AIOC lifecycle state."
+      "description": "Unit lifecycle state."
     }
   },
   "$defs": {

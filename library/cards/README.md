@@ -1,6 +1,6 @@
 # Library cards of 49GAION capabilities
 
-Part cards and bot identity cards for the **AION Builder** (the 49GAION capability that builds `[ORG]AION` products, Standard §1.2 and §1.3) and for the **Self-Improvement** of each `[ORG]AION`. Protocol §10 requires a card for every part.
+Part cards and bot identity cards for the **AION Builder** (the 49GAION capability that builds `[ORG]AION` products, Standard §1.2 and §1.3) and for the **Self-Improvement AIOC** that carries out Self-Improvement inside `[ORG]HOAC-TM` (Standard §2.1). Protocol §10 requires a card for every part.
 
 | Card | Schema | Test |
 |---|---|---|
@@ -9,4 +9,4 @@ Part cards and bot identity cards for the **AION Builder** (the 49GAION capabili
 | `aion-builder.bot-identity-card.json` | `spec/schemas/bot-identity-card.schema.json` | the same tests |
 | `org-aion-self-improvement.bot-identity-card.json` | `spec/schemas/bot-identity-card.schema.json` | the same tests |
 
-Each card keeps its lifecycle state until its test has run once with recorded evidence. All four cards are validated by `tests/cards/check_cards.py`.
+Each card is `DRAFT` until its test has run once with recorded evidence; no card here has that evidence yet. All four cards are validated by `tests/cards/check_cards.py`.

@@ -1,4 +1,4 @@
-"""Fixed test for AIOC cards (v1 B-27): a complete card must pass, an incomplete card must fail."""
+"""Fixed test for unit cards (AIOC and HOAC): complete cards must pass, an incomplete card and bad codes must fail; Library cards validate."""
 import json, pathlib, sys
 from jsonschema import Draft202012Validator
 from referencing import Registry, Resource
@@ -8,9 +8,19 @@ reg = Registry().with_resources([(n, Resource.from_contents(s)) for n, s in sche
                                 [(s["$id"], Resource.from_contents(s)) for s in schemas.values() if "$id" in s])
 for n, s in schemas.items():
     Draft202012Validator.check_schema(s)
-val = Draft202012Validator(schemas["aioc-card.schema.json"], registry=reg)
+val = Draft202012Validator(schemas["unit-card.schema.json"], registry=reg)
 here = pathlib.Path(__file__).parent
-ok = not list(val.iter_errors(json.loads((here / "valid-card.json").read_text())))
+ok = all(not list(val.iter_errors(json.loads((here / n).read_text())))
+         for n in ("valid-card.json", "valid-hoac-card.json"))
+for n in ("valid-card.json", "valid-hoac-card.json"):
+    print(n, [e.message for e in val.iter_errors(json.loads((here / n).read_text()))][:3] or "valid")
+code_schema = schemas["unit-card.schema.json"]["properties"]["code"]
+good_codes = ["[ORG]AIOC-SL", "TenAIOC-SL", "[ORG]AIOC-OCO", "[ORG]HOAC-GOV", "TenHOAC-GOV", "[ORG]HOAC-ACS-SL"]
+bad_codes = ["49GAION-SL", "[ORG]AIOC-", "TenHOAC-CEO", "Ten AIOC-SL", "[ORG]AIOC-sl"]
+cv = Draft202012Validator(code_schema)
+codes_ok = all(cv.is_valid(c) for c in good_codes) and not any(cv.is_valid(c) for c in bad_codes)
+print("code pattern accepts examples and rejects bad codes:", codes_ok)
+ok = ok and codes_ok
 bad = list(val.iter_errors(json.loads((here / "incomplete-card.json").read_text())))
 print("valid card passes:", ok); print("incomplete card rejected:", bool(bad), [e.message for e in bad][:5])
 lib = pathlib.Path(__file__).resolve().parents[2] / "library" / "cards"
