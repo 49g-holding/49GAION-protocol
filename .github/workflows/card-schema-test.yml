@@ -1,5 +1,5 @@
-# Fixed test for AIOC cards: every schema is valid JSON Schema; a
-# complete card passes; an incomplete card is rejected. Not a required check.
+# Fixed test for unit cards (AIOC and HOAC): every schema is valid JSON Schema;
+# complete cards pass; an incomplete card and bad codes are rejected.
 name: card-schema-test
 on:
   pull_request:
