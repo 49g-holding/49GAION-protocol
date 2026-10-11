@@ -1,0 +1,23 @@
+# Required check on main. Decision records are never edited (49GAION Standard §2.1).
+# Fails a pull request that edits, renames, copies over or changes the type of any
+# existing decisions/DR-*.md file. Allowed: in the 49GAION hub, adding a new
+# decisions/DR-####-*.md file; in 49GAION-protocol and 49GAION-aioc, deleting only
+# decisions/DR-0001-49gaion-v1-0-0-day-zero.md (the one record is kept in the hub).
+name: frozen-records
+on:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen-records:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Check decision records
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          REPO: ${{ github.event.repository.name }}
+        run: bash .github/scripts/frozen-records.sh
