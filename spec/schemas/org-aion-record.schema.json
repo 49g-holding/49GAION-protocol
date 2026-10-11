@@ -1,0 +1,282 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/org-aion-record.schema.json",
+  "title": "49GAION - [ORG]AION record",
+  "description": "The record of one [ORG]AION, kept by the AION Builder during the design period and delivered with the product: the Standard, Protocol and Library versions it is based on, the sections and parts taken, the gate status of each design stage, the Library harvest, the acceptance test, the delivery test and its isolation boundary.",
+  "type": "object",
+  "required": [
+    "org_aion",
+    "standard_version",
+    "sections_taken",
+    "parts_taken",
+    "stages",
+    "isolation",
+    "delivery_test"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "org_aion": {
+      "type": "string",
+      "pattern": "^.+AION$",
+      "description": "The [ORG]AION, written with the organisation's brand prefix (for example TenAION)."
+    },
+    "standard_version": {
+      "type": "string",
+      "description": "The 49GAION Standard version the [ORG]AION is based on."
+    },
+    "sections_taken": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Standard sections taken; at delivery the [ORG]AION's Standard is identical to the 49GAION Standard or a subset, never contradicting it."
+    },
+    "parts_taken": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "part",
+          "version"
+        ],
+        "properties": {
+          "part": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "stages": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/stage",
+          "properties": {
+            "stage": {
+              "const": "Intake"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/stage",
+          "properties": {
+            "stage": {
+              "const": "TOM"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/stage",
+          "properties": {
+            "stage": {
+              "const": "Job descriptions and responsibilities"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/stage",
+          "properties": {
+            "stage": {
+              "const": "Ionize"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/stage",
+          "properties": {
+            "stage": {
+              "const": "Build AIOCs and Panels"
+            }
+          }
+        },
+        {
+          "$ref": "#/$defs/stage",
+          "properties": {
+            "stage": {
+              "const": "Assemble and connect"
+            }
+          }
+        }
+      ],
+      "items": false,
+      "description": "The six design stages in order. No stage starts before the previous gate has passed."
+    },
+    "acceptance_test": {
+      "type": "object",
+      "properties": {
+        "no_contradiction_with_standard": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "NOT_RUN"
+          ]
+        },
+        "all_part_tests_pass": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "NOT_RUN"
+          ]
+        },
+        "samples_traverse_full_chain": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "NOT_RUN"
+          ]
+        },
+        "evidence": {
+          "type": "string"
+        }
+      }
+    },
+    "isolation": {
+      "type": "object",
+      "required": [
+        "own_space",
+        "own_data",
+        "own_accounts"
+      ],
+      "properties": {
+        "own_space": {
+          "type": "string"
+        },
+        "own_data": {
+          "type": "string"
+        },
+        "own_accounts": {
+          "type": "string"
+        },
+        "cross_org_aion_access": {
+          "const": "none"
+        }
+      }
+    },
+    "library_harvest": {
+      "type": "array",
+      "description": "Capabilities designed for this [ORG]AION that were not in the 49GAION Library; each blueprint is added back to the 49GAION Library, generalised (no organisation data) and tested.",
+      "items": {
+        "type": "object",
+        "required": [
+          "capability",
+          "blueprint",
+          "test"
+        ],
+        "properties": {
+          "capability": {
+            "type": "string"
+          },
+          "blueprint": {
+            "type": "string"
+          },
+          "test": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "versions": {
+      "type": "object",
+      "description": "The Standard, Protocol and Library versions, recorded separately.",
+      "required": [
+        "standard",
+        "protocol",
+        "library"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "standard": {
+          "type": "string"
+        },
+        "protocol": {
+          "type": "string"
+        },
+        "library": {
+          "type": "string"
+        }
+      }
+    },
+    "delivery_test": {
+      "type": "object",
+      "description": "The fixed delivery test at handover (Standard section 11). The [ORG]AION is handed over only when all three are PASS.",
+      "required": [
+        "hoac_gov_in_place",
+        "human_floor_in_place",
+        "stop_ports_in_place",
+        "evidence"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "hoac_gov_in_place": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "NOT_RUN"
+          ]
+        },
+        "human_floor_in_place": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "NOT_RUN"
+          ]
+        },
+        "stop_ports_in_place": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "NOT_RUN"
+          ]
+        },
+        "evidence": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "$defs": {
+    "stage": {
+      "type": "object",
+      "required": [
+        "stage",
+        "gate_status"
+      ],
+      "properties": {
+        "stage": {
+          "type": "string"
+        },
+        "gate_status": {
+          "enum": [
+            "not-started",
+            "in-progress",
+            "gate-passed"
+          ]
+        },
+        "gate_evidence": {
+          "type": "string",
+          "description": "Required when gate_status is gate-passed."
+        }
+      },
+      "if": {
+        "properties": {
+          "gate_status": {
+            "const": "gate-passed"
+          }
+        },
+        "required": [
+          "gate_status"
+        ]
+      },
+      "then": {
+        "required": [
+          "gate_evidence"
+        ]
+      }
+    }
+  }
+}

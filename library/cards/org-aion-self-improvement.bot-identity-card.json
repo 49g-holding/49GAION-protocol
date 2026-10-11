@@ -1,0 +1,18 @@
+{
+  "bot": "[ORG]AION Self-Improvement bot",
+  "role": "Checks its [ORG]AION and proposes updates; pull requests only",
+  "account": {
+    "id": "(per [ORG]AION)",
+    "separate": true
+  },
+  "allowed_actions": [
+    "read the [ORG]AION's records and tests",
+    "open pull requests"
+  ],
+  "ask_first_actions": [
+    "any merge (only after the accountable human's approval)"
+  ],
+  "accountable_human_position": "[ORG]HOAC-TM",
+  "card_version": "v2",
+  "status": "APPROVED"
+}

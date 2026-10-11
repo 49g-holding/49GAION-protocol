@@ -1,0 +1,25 @@
+{
+  "part": "[ORG]AION Self-Improvement",
+  "version": "v2",
+  "inputs": [
+    {
+      "name": "the [ORG]AION's lessons and failing samples",
+      "format": "versioned file in git (ID + version)"
+    },
+    {
+      "name": "the [ORG]AION's test results",
+      "format": "versioned file in git (ID + version)"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "pull requests to the [ORG]AION's definitions",
+      "format": "versioned file in git (ID + version)"
+    }
+  ],
+  "test": {
+    "id": "TEST-ORG-AION-SI",
+    "version": "v2"
+  },
+  "status": "APPROVED"
+}

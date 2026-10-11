@@ -1,0 +1,627 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/aioc-card.schema.json",
+  "title": "49GAION Operating Protocol - AIOC card",
+  "description": "The card is a section of the AIOC's blueprint file (49GAION-aioc template section 1). It declares what the AIOC receives, what it delivers, in what format, and how it is woken. Aligned in vocabulary with the A2A Agent Card (Protocol section 12). Required 'type' (the AIOC Type, a card field, never part of the name); optional 'org_aion' and 'anatomy'; the Configuration slot 'budget_cap'.",
+  "type": "object",
+  "required": [
+    "aioc",
+    "type",
+    "full_name",
+    "card_version",
+    "blueprint_version",
+    "template_version",
+    "input_door",
+    "wake",
+    "receives",
+    "delivers",
+    "version",
+    "lineage",
+    "skills",
+    "lifecycle_state"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "type": {
+            "const": "other"
+          }
+        },
+        "required": [
+          "type"
+        ]
+      },
+      "then": {
+        "required": [
+          "type_description"
+        ]
+      }
+    }
+  ],
+  "properties": {
+    "aioc": {
+      "type": "string",
+      "description": "The core's operational name, for example [ORG]AIOC-SL. Only cores use the [ORG]AIOC prefix (49GAION Naming Standard).",
+      "pattern": "^[0-9A-Z]+AIOC-[A-Z]{2,5}$"
+    },
+    "type": {
+      "enum": [
+        "foundational",
+        "structural",
+        "specialised",
+        "connector",
+        "other"
+      ],
+      "description": "The AIOC Type: why the AIOC exists (49GAION-aioc docs/WHAT-IS-AN-AIOC.md section 4). foundational: every organisation needs it. structural: exists because of the organisation's structure. specialised: exists because the business needs it. connector: connects, translates and coordinates between other AIOCs. other: a type added to the open list in the Standard; name and describe it in type_description. Panel is not a type (it is a capability of every AIOC); the AION Builder is a 49GAION capability, not an AIOC type. Which AIOCs an organisation has is decided in its [ORG]AION."
+    },
+    "org_aion": {
+      "type": "string",
+      "description": "The [ORG]AION this AIOC belongs to, written with the organisation's brand prefix (for example TenAION).",
+      "pattern": "^.+AION$"
+    },
+    "type_description": {
+      "type": "string",
+      "description": "Required when type is 'other': the name of the added type, why AIOCs of that type exist, and the Standard change that added it (the list of types is open)."
+    },
+    "full_name": {
+      "type": "string",
+      "description": "Full name written beside the code once, for example Operating Core Office."
+    },
+    "organisation": {
+      "type": "string",
+      "description": "The organisation whose core this is, for example Ten."
+    },
+    "card_version": {
+      "type": "string",
+      "pattern": "^v[0-9]+(\\.[0-9]+\\.[0-9]+)?(-rc[0-9]+)?$"
+    },
+    "blueprint_version": {
+      "type": "string",
+      "pattern": "^v[0-9]+(\\.[0-9]+\\.[0-9]+)?(-rc[0-9]+)?$"
+    },
+    "template_version": {
+      "type": "string",
+      "description": "The version of the 49GAION AIOC Blueprint Template this blueprint was filled from.",
+      "pattern": "^v[0-9]+(\\.[0-9]+\\.[0-9]+)?(-rc[0-9]+)?$"
+    },
+    "mother_blueprint": {
+      "type": "object",
+      "description": "The versioned default blueprint in 49GAION this AIOC customised, if one exists.",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        }
+      }
+    },
+    "input_door": {
+      "type": "string",
+      "description": "Always the capability named 'Chief of Staff' in this AIOC's blueprint: the AIOC's voice to its HOAC seat. Input arrives only through the typed ports and the Input socket; HU ports, including the stop door, never pass through an AI. Capability names are plain English, with no code and no [ORG]AIOC prefix; the AIOC is given by the 'aioc' field.",
+      "const": "Chief of Staff"
+    },
+    "wake": {
+      "type": "object",
+      "required": [
+        "method"
+      ],
+      "properties": {
+        "method": {
+          "enum": [
+            "queue"
+          ],
+          "description": "The AIOC's runtime is woken from its queue."
+        },
+        "poll_interval_minutes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "verified": {
+          "type": "boolean",
+          "description": "true only when the wake method has passed the cross-AIOC test case 8."
+        }
+      }
+    },
+    "receives": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/workKind"
+      }
+    },
+    "delivers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "kind",
+          "format"
+        ],
+        "properties": {
+          "kind": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string"
+          },
+          "usual_receivers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "anatomy": {
+      "type": "object",
+      "description": "The three layers of every AIOC and its delivery path: Panel (the only human surface, with a Health section), Back office (the AI workspace; hosts the Chief of Staff and the Office; carries protocol traffic), Versioned Definition (from which both are built and rebuilt).",
+      "required": [
+        "panel",
+        "back_office",
+        "definition",
+        "delivery"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "panel": {
+          "type": "object",
+          "required": [
+            "health"
+          ],
+          "properties": {
+            "health": {
+              "type": "object",
+              "required": [
+                "tests",
+                "metrics"
+              ],
+              "properties": {
+                "tests": {
+                  "type": "boolean",
+                  "description": "true when the Health section shows the fixed-test results."
+                },
+                "metrics": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Simple metrics shown, at least stuck, returned and late items.",
+                  "allOf": [
+                    {
+                      "contains": {
+                        "const": "stuck"
+                      }
+                    },
+                    {
+                      "contains": {
+                        "const": "returned"
+                      }
+                    },
+                    {
+                      "contains": {
+                        "const": "late"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "back_office": {
+          "type": "object",
+          "properties": {
+            "converses_with_humans": {
+              "type": "boolean"
+            },
+            "hosts": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Capabilities that live in the Back office, for example Chief of Staff, Office."
+            },
+            "protocol_traffic": {
+              "const": true,
+              "description": "Protocol traffic between AIOCs goes through the Back office."
+            }
+          }
+        },
+        "definition": {
+          "type": "object",
+          "required": [
+            "location",
+            "version"
+          ],
+          "properties": {
+            "location": {
+              "type": "string",
+              "description": "Repository and path of the Versioned Definition (the blueprint)."
+            },
+            "version": {
+              "type": "string",
+              "description": "Commit or version the Panel and the Back office were built from."
+            }
+          }
+        },
+        "delivery": {
+          "type": "object",
+          "required": [
+            "rollback"
+          ],
+          "properties": {
+            "rollback": {
+              "const": "one-click",
+              "description": "Delivery path: definition change, tests, Panel and Back office update, one-click rollback."
+            }
+          }
+        },
+        "connectors": {
+          "type": "array",
+          "description": "Swappable connectors, one per tool role; access managed in the Panel. Tool names belong to an [ORG]AION, never to the Standard.",
+          "items": {
+            "type": "object",
+            "required": [
+              "role",
+              "connector"
+            ],
+            "properties": {
+              "role": {
+                "type": "string"
+              },
+              "connector": {
+                "type": "string"
+              },
+              "access_managed_in": {
+                "const": "panel"
+              }
+            }
+          }
+        },
+        "gateway": {
+          "type": "object",
+          "properties": {
+            "metering_id": {
+              "type": "string",
+              "description": "Per-AIOC cost-metering identity on the shared AI gateway."
+            }
+          }
+        }
+      }
+    },
+    "configuration": {
+      "type": "object",
+      "description": "The AIOC's Configuration (49GAION-aioc template section 15): 49GAION fixes the path; who holds each role is configured in each organisation. Every slot must be filled; an AIOC with any empty slot does not pass the joining test. Each value records who set it, when and in which version; a changed value is marked superseded_by, never deleted. budget_cap, the AIOC's cap on AI spend through the shared AI gateway.",
+      "required": [
+        "office_accountable_human",
+        "central_head",
+        "discussion_limits",
+        "waiting_deadlines",
+        "bounce_limit",
+        "chain_depth",
+        "halt_request_priority",
+        "budget_cap"
+      ],
+      "properties": {
+        "office_accountable_human": {
+          "type": "object",
+          "required": [
+            "value",
+            "set_by",
+            "date",
+            "version"
+          ],
+          "properties": {
+            "value": {},
+            "set_by": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "replaced_by": {
+              "type": "string"
+            }
+          }
+        },
+        "central_head": {
+          "type": "object",
+          "required": [
+            "value",
+            "set_by",
+            "date",
+            "version"
+          ],
+          "properties": {
+            "value": {},
+            "set_by": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "replaced_by": {
+              "type": "string"
+            }
+          }
+        },
+        "discussion_limits": {
+          "type": "object",
+          "required": [
+            "value",
+            "set_by",
+            "date",
+            "version"
+          ],
+          "properties": {
+            "value": {},
+            "set_by": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "replaced_by": {
+              "type": "string"
+            }
+          }
+        },
+        "waiting_deadlines": {
+          "type": "object",
+          "required": [
+            "value",
+            "set_by",
+            "date",
+            "version"
+          ],
+          "properties": {
+            "value": {},
+            "set_by": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "replaced_by": {
+              "type": "string"
+            }
+          }
+        },
+        "bounce_limit": {
+          "type": "object",
+          "required": [
+            "value",
+            "set_by",
+            "date",
+            "version"
+          ],
+          "properties": {
+            "value": {},
+            "set_by": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "replaced_by": {
+              "type": "string"
+            }
+          }
+        },
+        "chain_depth": {
+          "type": "object",
+          "required": [
+            "value",
+            "set_by",
+            "date",
+            "version"
+          ],
+          "properties": {
+            "value": {},
+            "set_by": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "replaced_by": {
+              "type": "string"
+            }
+          }
+        },
+        "halt_request_priority": {
+          "type": "object",
+          "required": [
+            "value",
+            "set_by",
+            "date",
+            "version"
+          ],
+          "properties": {
+            "value": {},
+            "set_by": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "replaced_by": {
+              "type": "string"
+            }
+          }
+        },
+        "budget_cap": {
+          "type": "object",
+          "required": [
+            "value",
+            "set_by",
+            "date",
+            "version"
+          ],
+          "properties": {
+            "value": {},
+            "set_by": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "replaced_by": {
+              "type": "string"
+            }
+          }
+        },
+        "unattended_action": {
+          "type": "string",
+          "enum": [
+            "read-record-triage",
+            "act-within-limits"
+          ],
+          "description": "v1 decision A13: what a Chief of Staff may do after an automatic wake-up with no human present. Default read-record-triage; set by the accountable human."
+        }
+      }
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(-[0-9A-Za-z.-]+)?$",
+      "description": "SemVer version of this AIOC (v1 B-27; A2A AgentCard requires a version)."
+    },
+    "lineage": {
+      "type": "object",
+      "description": "Where this AIOC comes from (v1 B-27, B-28).",
+      "required": [
+        "id",
+        "version",
+        "relation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "relation": {
+          "enum": [
+            "original",
+            "derived",
+            "merged",
+            "split"
+          ]
+        }
+      }
+    },
+    "skills": {
+      "type": "array",
+      "minItems": 1,
+      "description": "What the AIOC can do (A2A AgentSkill alignment; v1 B-27).",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "name",
+          "tags"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "description": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "statuses": {
+      "type": "array",
+      "description": "Statuses this AIOC uses; each from the shared list (status.schema.json; v1 B-12).",
+      "items": {
+        "$ref": "status.schema.json"
+      }
+    },
+    "lifecycle_state": {
+      "enum": [
+        "proposed",
+        "designed",
+        "built",
+        "joined",
+        "live",
+        "replaced",
+        "retired"
+      ],
+      "description": "AIOC lifecycle state."
+    }
+  },
+  "$defs": {
+    "workKind": {
+      "type": "object",
+      "required": [
+        "kind",
+        "format",
+        "acceptance_test"
+      ],
+      "properties": {
+        "kind": {
+          "type": "string",
+          "description": "A kind of work the AIOC accepts (A2A: skill)."
+        },
+        "format": {
+          "type": "string",
+          "description": "The format it must arrive in."
+        },
+        "acceptance_test": {
+          "type": "string",
+          "description": "Reference (ID + version) to the fixed test the input socket applies."
+        },
+        "decision_needed": {
+          "type": "boolean",
+          "description": "true if this kind always needs a human decision."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+# Fails a pull request that adds or changes a binary file under the normative
+# paths of the 49GAION Standard, Protocol or Library. Binaries (PDF, images,
+# compressed bundles, office files) are kept outside the repository, cited by link
+# and SHA-256 in the reference list. Not a required check.
+name: no-binaries
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  no-binaries:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out with full log
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Scan added or changed files on normative paths
+        shell: bash
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          # Normative paths: hub Standard, naming standard,
+          # protocol spec and schemas, AIOC definition docs and template.
+          NORMATIVE='^(49GAION\.md|upstream/[^/]+$|standards/|spec/|docs/|template/|library/)'
+          [ -n "$BASE" ] || BASE=$(git rev-parse HEAD~1)
+          BAD=""
+          while IFS= read -r f; do
+            [ -n "$f" ] && [ -f "$f" ] || continue
+            echo "$f" | grep -q -E "$NORMATIVE" || continue
+            case "$f" in *.svg) continue;; esac   # SVG is text
+            if ! grep -Iq . "$f" && [ -s "$f" ]; then BAD="$BAD$f"$'\n'; fi
+          done < <(git diff --name-only --diff-filter=AM "$BASE"...HEAD)
+          if [ -n "$BAD" ]; then
+            printf '%s' "$BAD"
+            echo "::error::Binary files on normative paths (listed above). Keep them outside the repository and cite link + SHA-256 in the reference list."
+            exit 1
+          fi
+          echo "No binary files added on normative paths."

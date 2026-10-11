@@ -1,0 +1,47 @@
+{
+  "aioc": "TENAIOC-SL",
+  "type": "foundational",
+  "full_name": "Source Lifecycle",
+  "card_version": "v1",
+  "blueprint_version": "v1",
+  "template_version": "v1.0.0",
+  "input_door": "Chief of Staff",
+  "wake": {
+    "method": "queue"
+  },
+  "receives": [
+    {
+      "kind": "source to register",
+      "format": "markdown with source block",
+      "acceptance_test": "TEST-SL-IN v1"
+    }
+  ],
+  "delivers": [
+    {
+      "kind": "registered source",
+      "format": "source record"
+    }
+  ],
+  "version": "1.0.0",
+  "lineage": {
+    "id": "TENAIOC-SL",
+    "version": "1.0.0",
+    "relation": "original"
+  },
+  "skills": [
+    {
+      "id": "register-source",
+      "name": "Register a source",
+      "tags": [
+        "sources",
+        "provenance"
+      ]
+    }
+  ],
+  "lifecycle_state": "designed",
+  "statuses": [
+    "received",
+    "in-progress",
+    "done"
+  ]
+}

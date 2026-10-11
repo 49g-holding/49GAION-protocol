@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/part-card.schema.json",
+  "title": "49GAION Standard - part card",
+  "description": "Every part in the 49GAION Library has a card: inputs, outputs, test, version. Tests travel with their parts. Roles only; tool names appear only in an [ORG]AION.",
+  "type": "object",
+  "required": [
+    "part",
+    "version",
+    "inputs",
+    "outputs",
+    "test"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "part": {
+      "type": "string",
+      "description": "The part's full name, in plain English."
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^v[0-9]+(\\.[0-9]+)?(-rc[0-9]+)?$"
+    },
+    "inputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "format"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "outputs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "format"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "format": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "test": {
+      "type": "object",
+      "required": [
+        "id",
+        "version"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "location": {
+          "type": "string"
+        },
+        "last_result": {
+          "enum": [
+            "PASS",
+            "FAIL",
+            "NOT_RUN"
+          ],
+          "description": "NOT_RUN is never PASS."
+        }
+      }
+    },
+    "tool_roles": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tool roles the part needs (roles only, never tool names)."
+    },
+    "replaces": {
+      "type": "string",
+      "description": "The part version this one replaces; the old card is kept."
+    },
+    "status": {
+      "enum": [
+        "RESEARCH",
+        "CANDIDATE",
+        "ACCEPTED",
+        "APPROVED",
+        "REPLACED",
+        "REJECTED"
+      ]
+    }
+  }
+}

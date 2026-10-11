@@ -1,0 +1,14 @@
+name: stale-labels
+on:
+  pull_request:
+  push:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  stale-labels:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Version label matches state.json; no process markers in the main text
+        run: bash .github/scripts/stale-labels.sh

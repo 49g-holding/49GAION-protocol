@@ -1,0 +1,48 @@
+# Fails the pull request if any tracked text file, the PR title or the PR body
+# contains Persian/Arabic-script characters (U+0600-U+06FF, U+FB50-U+FDFF,
+# U+FE70-U+FEFF). On push to main and on manual runs, only tracked text files are scanned. Nothing in GitHub may be Persian.
+# Required check on main in the three 49GAION repositories.
+name: no-persian
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  no-persian:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the pull request head
+        uses: actions/checkout@v4
+
+      - name: Check tracked text files
+        run: |
+          # -I skips binary files (for example PDFs), whose bytes can match by accident.
+          if git grep -I -n -P '[\x{0600}-\x{06FF}\x{FB50}-\x{FDFF}\x{FE70}-\x{FEFF}]'; then
+            echo "::error::Persian characters found in tracked files (listed above)."
+            exit 1
+          fi
+          echo "No Persian characters in tracked text files."
+
+      - name: Check pull request title and body
+        # Runs only for pull_request events; push and manual runs scan tracked text files only.
+        if: github.event_name == 'pull_request'
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          python3 - <<'PY'
+          import os, re, sys
+          pattern = re.compile('[\u0600-\u06FF\uFB50-\uFDFF\uFE70-\uFEFF]')
+          bad = [name for name in ("PR_TITLE", "PR_BODY") if pattern.search(os.environ.get(name) or "")]
+          if bad:
+              print("::error::Persian characters found in: " + ", ".join(bad))
+              sys.exit(1)
+          print("No Persian characters in the pull request title or body.")
+          PY

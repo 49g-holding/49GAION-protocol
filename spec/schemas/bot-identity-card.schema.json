@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/bot-identity-card.schema.json",
+  "title": "49GAION Standard - bot identity card",
+  "description": "Every bot states its role, its own separate account, its allowed actions, and the actions that require a prior request to the accountable human.",
+  "type": "object",
+  "required": [
+    "bot",
+    "role",
+    "account",
+    "allowed_actions",
+    "ask_first_actions",
+    "accountable_human_position"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "bot": {
+      "type": "string"
+    },
+    "aioc": {
+      "type": "string",
+      "pattern": "^[0-9A-Z]+AIOC-[A-Z]{2,5}$"
+    },
+    "role": {
+      "type": "string",
+      "description": "The role card the bot performs."
+    },
+    "account": {
+      "type": "object",
+      "required": [
+        "id",
+        "separate"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "separate": {
+          "const": true,
+          "description": "The bot's own account; never a human's and never shared with another bot."
+        }
+      }
+    },
+    "allowed_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "ask_first_actions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Actions that require a prior request to the accountable human."
+    },
+    "accountable_human_position": {
+      "type": "string",
+      "description": "The position (never a person's name) of the accountable human."
+    },
+    "card_version": {
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "RESEARCH",
+        "CANDIDATE",
+        "ACCEPTED",
+        "APPROVED",
+        "REPLACED",
+        "REJECTED"
+      ]
+    }
+  }
+}

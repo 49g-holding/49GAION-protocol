@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/work-item.schema.json",
+  "title": "49GAION Operating Protocol - Work Item",
+  "description": "Every hand-off between AIOCs is one Work Item. (spec sections 5 and 6). Aligned in vocabulary with the A2A v1.0 Task (spec section 11).",
+  "type": "object",
+  "required": ["id", "sender", "receiver", "requested_output", "acceptance_test", "status", "owner", "sources", "bounce_count", "decision_needed"],
+  "additionalProperties": false,
+  "properties": {
+    "id": { "type": "string", "description": "Unique ID of the Work Item in the shared queue." },
+    "sender": { "type": "string", "description": "Sending AIOC, for example [ORG]AIOC-SL. Opened by its Chief of Staff." },
+    "receiver": { "type": "string", "description": "Receiving AIOC. First owner is its Chief of Staff." },
+    "requested_output": { "type": "string", "description": "What is wanted, in the receiver's declared format (from its card)." },
+    "acceptance_test": { "type": "string", "description": "How the output will be judged done and the input judged fit; reference (ID + version) or full criteria." },
+    "status": {
+      "enum": ["received", "in-progress", "needs-input", "objection-open", "stopped", "done", "rejected"],
+      "$comment": "The one shared status list (v1 B-12); kept equal to status.schema.json by tests/cards/check_cards.py.",
+      "description": "A2A mapping: received=TASK_STATE_SUBMITTED, in-progress=TASK_STATE_WORKING, needs-input=TASK_STATE_INPUT_REQUIRED, done=TASK_STATE_COMPLETED, rejected=TASK_STATE_REJECTED."
+    },
+    "owner": { "type": ["string", "null"], "description": "Exactly one node at a time; null only when status is done. Only the owner writes." },
+    "sources": {
+      "type": "array",
+      "description": "Versioned links, never copied text (spec section 10).",
+      "items": {
+        "type": "object",
+        "required": ["id", "version", "location"],
+        "properties": {
+          "id": { "type": "string" },
+          "version": { "type": "string" },
+          "location": { "type": "string", "description": "Controlling-copy location, for example a repository path at a commit or tag." }
+        }
+      }
+    },
+    "bounce_count": { "type": "integer", "minimum": 0 },
+    "bounce_limit": { "type": "integer", "minimum": 1, "default": 3, "description": "The bounce limit set in the [ORG]AION's Configuration." },
+    "stopped": { "type": "boolean", "default": false, "description": "true when the stop rule fired; the item then goes, with its full history, to the [ORG]HOAC-ACS seat of the receiving unit; if that seat is empty, to the seat that delegated it (Protocol section 4.4)." },
+    "type": { "enum": ["work", "design-proposal"], "default": "work", "description": "design-proposal = an [ORG]HOAC-ACS seat's proposal, correction or critique of the AIs, addressed to the AI Office responsible for that unit (Protocol section 4.7)." },
+    "decision_needed": { "type": "boolean" },
+    "proposal_kind": { "enum": ["proposal", "correction", "critique"], "description": "For type design-proposal." },
+    "proposal_answer": { "enum": ["accepted", "refused", "in-discussion"], "description": "The answer of the AI Office responsible for that unit, recorded with proposal_reason." },
+    "proposal_reason": { "type": "string", "description": "The reason of the AI Office responsible for that unit for its answer." },
+    "failing_samples": { "type": "array", "items": { "type": "string" }, "description": "Links to real failing samples; at least one for a critique. When the hub accepts the critique, they join the position's fixed test." },
+    "caused_change": { "type": "string", "description": "For an accepted design-proposal: the commit of the design change and the version it replaces." },
+    "objection": { "type": "object", "description": "For status objection-open (spec section 5.9): no AI, including the Office's own Chief of Staff, can close or act on it; only the HOAC seat accountable for that AI Office decides and closes it.", "required": ["raised_by", "accountable_human"], "properties": { "raised_by": { "type": "string", "description": "The unit's [ORG]HOAC-ACS seat." }, "accountable_human": { "type": "string", "description": "The HOAC seat accountable for the AI Office (a Configuration setting)." }, "decision": { "type": "string" }, "decided_by": { "type": "string", "description": "Must be accountable_human; an AI or bot account is never valid here." } } },
+    "parent_work_item": { "type": ["string", "null"], "description": "The id of the parent Work Item; required for a sub-work item (an item opened to serve another item); null for a top-level item. Chains must be acyclic (no A->B->A): the protocol check walks the parent links before a sub-item is opened (spec section 5.7)." },
+    "chain_depth": { "type": "integer", "minimum": 0, "maximum": 3, "default": 0, "description": "0 for a top-level item; the parent's chain_depth + 1 for a sub-work item. The maximum is set in the [ORG]AION's Configuration." },
+    "status_entered_at": { "type": "string", "format": "date-time", "description": "When the item entered its current status; the status's maximum waiting time is counted from here (spec section 5.6)." },
+    "wait_escalation": { "enum": ["none", "reminded", "escalated"], "default": "none", "description": "reminded = the owner was reminded after the status's maximum waiting time; escalated = still waiting after one more period, raised to the [ORG]HOAC-ACS seat of the receiving unit, or if empty to the seat that delegated it (Protocol section 4.6)." },
+    "reason": { "type": "string", "description": "Required when status is rejected or needs-input, or when stopped is true." },
+    "output": {
+      "type": "object",
+      "properties": {
+        "location": { "type": "string" },
+        "evidence": { "type": "array", "items": { "type": "string" }, "description": "Visible evidence answering each acceptance criterion." },
+        "made_from": { "type": "array", "items": { "type": "string" }, "description": "Source IDs and versions the output was made from." }
+      }
+    }
+  },
+  "allOf": [
+    { "if": { "properties": { "status": { "enum": ["rejected", "needs-input"] } } }, "then": { "required": ["reason"] } },
+    { "if": { "required": ["stopped"], "properties": { "stopped": { "const": true } } }, "then": { "required": ["reason"] } },
+    { "if": { "properties": { "status": { "const": "done" } } }, "then": { "required": ["output"] } },
+    { "if": { "required": ["status"], "properties": { "status": { "const": "objection-open" } } }, "then": { "required": ["objection"] } },
+    { "if": { "required": ["proposal_answer"] }, "then": { "required": ["proposal_reason"] } },
+    { "if": { "required": ["type"], "properties": { "type": { "const": "design-proposal" } } }, "then": { "required": ["proposal_kind"] } },
+    { "if": { "required": ["proposal_kind"], "properties": { "proposal_kind": { "const": "critique" } } }, "then": { "required": ["failing_samples"], "properties": { "failing_samples": { "minItems": 1 } } } },
+    { "if": { "required": ["chain_depth"], "properties": { "chain_depth": { "minimum": 1 } } }, "then": { "required": ["parent_work_item"], "properties": { "parent_work_item": { "type": "string" } } } },
+    { "if": { "required": ["parent_work_item"], "properties": { "parent_work_item": { "type": "string" } } }, "then": { "required": ["chain_depth"], "properties": { "chain_depth": { "minimum": 1 } } } }
+  ]
+}

@@ -1,0 +1,72 @@
+# Required check on main in the three 49GAION repositories.
+# 1. Fixture test: every line of tests/fixtures/no-org-names/bad-names.txt is flagged,
+#    no line of good-names.txt is.
+# 2. Scan: no tracked text file names an organisation-specific unit, host or company,
+#    uses a 49-prefixed code or the bare name of one organisation's product, or carries private organisation detail.
+#    Allowed: 49GAION (the framework) and [ORG]AION (its product). Only the approved
+#    product-release section of the 49GAION README (verbatim markers) may name that product.
+# 3. Guard: a pull request that changes .github/ must change nothing outside .github/.
+# The scanner and fixture script are always taken from main (the base of the pull request),
+# never from the pull request head.
+name: no-org-names
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  no-org-names:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the pull request head (full log)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Check out main (scripts)
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha || github.sha }}
+          path: .main-ref
+          sparse-checkout: |
+            .github/scripts
+          sparse-checkout-cone-mode: false
+
+      - name: Guard (.github/ changes go in their own pull request)
+        if: github.event_name == 'pull_request'
+        shell: bash
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          CHANGED=$(git diff --name-only "$BASE"...HEAD)
+          GH=$(echo "$CHANGED" | grep -c '^\.github/' || true)
+          OTHER=$(echo "$CHANGED" | grep -v '^\.github/' | grep -c . || true)
+          echo "$CHANGED"
+          if [ "$GH" -gt 0 ] && [ "$OTHER" -gt 0 ]; then
+            echo "::error::This pull request changes .github/ together with other files. Put .github/ changes in their own pull request."
+            exit 1
+          fi
+          echo "Guard passed."
+
+      - name: Fixture test (bad names must fail, good names must pass)
+        shell: bash
+        env:
+          S: .main-ref/.github/scripts/no-org-names.sh
+        run: bash .main-ref/.github/scripts/no-org-names-fixture.sh
+
+      - name: Scan texts
+        shell: bash
+        run: |
+          HITS=$(bash .main-ref/.github/scripts/no-org-names.sh | grep -v '^\.main-ref/' || true)
+          if [ -n "$HITS" ]; then
+            echo "$HITS"
+            echo "::error::Organisation-specific names, private detail, hosts or 49-prefixed codes found (listed above). Use [ORG], [ORG]HOAC-TM / [ORG]HOAC-GOV for human authority, name the AIOC by its function, write 49GAION for the framework and [ORG]AION for its product."
+            exit 1
+          fi
+          echo "No organisation-specific names or private detail found."
