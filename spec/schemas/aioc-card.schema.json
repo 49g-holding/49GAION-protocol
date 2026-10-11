@@ -297,7 +297,7 @@
     },
     "configuration": {
       "type": "object",
-      "description": "The AIOC's Configuration (49GAION-aioc template section 15): 49GAION fixes the path; who holds each role is configured in each organisation. Every slot must be filled; an AIOC with any empty slot does not pass the joining test. Each value records who set it, when and in which version; a changed value is marked superseded_by, never deleted. budget_cap, the AIOC's cap on AI spend through the shared AI gateway.",
+      "description": "The AIOC's Configuration (49GAION-aioc template section 15): 49GAION fixes the path; who holds each role is configured in each organisation. Every slot must be filled; an AIOC with any empty slot does not pass the joining test. Each value records who set it, when and in which version; a changed value is marked replaced_by, never deleted. budget_cap, the AIOC's cap on AI spend through the shared AI gateway.",
       "required": [
         "office_accountable_human",
         "central_head",
