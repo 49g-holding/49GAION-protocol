@@ -1,6 +1,6 @@
 # 49GAION Operating Protocol
 
-**Version `v1.0.0` · approved by Iman Tajik (Founder).** How AIOCs and the parts of 49GAION work together, at the general level. The rules of 49GAION are in the 49GAION Standard (`49g-holding/49GAION`, `upstream/49GAION-UPSTREAM.md`); exact values (limits, timings, tools, routes) live in the Protocol of each `[ORG]AION`. History lives in git and the decision records (index: `49g-holding/49GAION`, `decisions/records/README.md`).
+**Version `v1.0.0` · approved by Iman Tajik (Founder).** How AIOCs and the parts of 49GAION work together, at the general level. The rules of 49GAION are in the 49GAION Standard (`49g-holding/49GAION`, `upstream/49GAION-UPSTREAM.md`); exact values (limits, timings, tools, routes) live in the Protocol of each `[ORG]AION`. Decisions are recorded in `decisions/README.md`.
 
 49GAION is an organisation design framework: a framework for building organisations from interchangeable AI and human parts.
 
