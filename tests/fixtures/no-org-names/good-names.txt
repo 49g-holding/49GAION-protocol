@@ -3,8 +3,8 @@ See https://github.com/49g-holding/49GAION-protocol for the protocol.
 The repositories live under 49g-holding.
 The 49GAION Standard and [ORG]AIOC-SL.
 Effective, iterative, ocean (words that contain the letters but are not names).
-The [ORG]AIOC-OCO (Organization Core Office) is the highest executive of the AIOCs.
-Nike AION, Powered by 49GAION
+The [ORG]AIOC-OCO (Organization Core Office) is the AI hub: every AIOC joins, is maintained and upgraded through it.
+Ten AION, Powered by 49GAION
 Each [ORG]AION has its own HOAC-GOV.
 See github.com/49g-holding/49GAION-protocol and the 49GAION-aioc repository.
 The AION Builder builds [ORG]AION products.
