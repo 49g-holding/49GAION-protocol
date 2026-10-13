@@ -1,7 +1,7 @@
 {
   "unit_kind": "AIOC",
   "code": "TenAIOC-SL",
-  "parent": "TenHOAC-TM",
+  "parent": "TenCELL-TMS",
   "type": "foundational",
   "full_name": "Source Lifecycle",
   "card_version": "v1",
