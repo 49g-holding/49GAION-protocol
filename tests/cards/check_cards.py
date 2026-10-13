@@ -23,6 +23,9 @@ LEGACY = {"must-fail-pod-in-pod.json": "RULE-POD-HOLDS-CELLS", "must-fail-hoac-u
           "must-fail-cell-suffix.json": "code", "must-fail-human-cell-attached-to.json": "RULE-ATTACHED-AI",
           "must-fail-pod-attached-to.json": "RULE-ATTACHED-AI"}
 ok = True
+ROWS = []  # (fixture, expected, actual, as expected) for the fixture log
+def row(name, expected, actual, good):
+    ROWS.append((name, expected, actual, good))
 
 def signatures(schema_name, err):
     """Rule names and property paths an error (and its sub-errors) points at."""
@@ -64,11 +67,14 @@ def run(folder, schema_name, extra=lambda c: []):
         errs = [e.message for e in raw] + extra(c)
         rules = sorted({s for e in raw for s in signatures(schema_name, e) if s.startswith("RULE-")} | {x for x in extra(c) if x.startswith("RULE-")})
         print(f"{folder}/{f.name}:", "valid" if not errs else f"NOT VALID {rules} {errs[:3]}"); ok &= not errs
+        row(f"{folder}/{f.name}", "pass", "pass" if not errs else "fail " + ",".join(rules or ["schema"]), not errs)
     for f in sorted(d.glob("must-fail-*.json")):
         c = json.loads(f.read_text()); want = c.pop("$expect", None) or LEGACY.get(f.name)
         errs = list(V[schema_name].iter_errors(c)); sigs = set().union(*[signatures(schema_name, e) for e in errs]) | set(extra(c))
         hit = want is not None and any(want == s or s.startswith(want) or want in s for s in sigs)
         print(f"{folder}/{f.name}:", f"rejected on {want}" if hit else f"NOT REJECTED ON {want} (got {sorted(sigs)[:6]})"); ok &= hit
+        got = sorted(s for s in sigs if s.startswith("RULE-") or s == want) or sorted(sigs)[:2]
+        row(f"{folder}/{f.name}", f"fail {want}", ("fail " + ",".join(got)) if errs or extra(c) else "pass", hit)
 
 run("tests/cards", "unit-card.schema.json", code_rules)
 import re
@@ -97,6 +103,33 @@ for g in sorted(p for p in _b.glob("must-fail-*") if p.is_dir()):
     print(f"tests/cards/bots/{g.name}/:", "rejected on RULE-CREDENTIAL-SHARED" if hit else "NOT REJECTED ON RULE-CREDENTIAL-SHARED"); ok &= hit
 run("tests/signatures", "signature.schema.json")
 run("tests/work-items", "work-item.schema.json")
+# Signature sets (Protocol §4.9 items 5 and 6, §4.10 item 3): rules over one action's signatures.
+NEVER_HELD = re.compile(r"(^|-)(stop|disconnect|disconnection|narrow|revoke|raise)(-|$)")
+def set_rules(S):
+    errs = []
+    ty, tgt, sigs = S["type"], S["target"], S["signatures"]
+    for s in sigs:
+        errs += ["SIG-SCHEMA " + e.message for e in V["signature.schema.json"].iter_errors(s)]
+    if NEVER_HELD.search(ty["id"]) or ty.get("never_held"):
+        errs.append("SIG-NEVER-HELD: a stop, disconnection, narrowing or revoking of AI access or raising to a human is never listed or held")
+    for s in sigs:
+        if s["signer_cell"] == tgt["code"]:
+            errs.append(f"SIG-SELF: {s['signer_cell']} signs an action on itself")
+        ent = S.get("signer_entities", {}).get(s["signer_cell"])
+        if tgt.get("entity") and ent != tgt["entity"]:
+            errs.append(f"SIG-ENTITY: {s['signer_cell']} (entity {ent}) signs for entity {tgt['entity']}")
+    people = {s["signer_identity_ref"] for s in sigs} - {S.get("requester_identity_ref")}
+    need = ty.get("signers_required", 1)
+    if len(people) < need:
+        errs.append(f"SIG-DUAL: {need} distinct persons other than the requester needed, {len(people)} found")
+    return errs
+for f in sorted((ROOT / "tests/signatures/sets").glob("*.json")):
+    S = json.loads(f.read_text()); want = S.get("$expect", "pass"); errs = set_rules(S)
+    codes = sorted({e.split(":")[0].split(" ")[0] for e in errs})
+    good = (not errs) if want == "pass" else want in codes
+    print(f"tests/signatures/sets/{f.name}:", ("valid" if not errs else errs) if want == "pass" else (f"rejected on {want}" if good else f"NOT REJECTED ON {want} {codes}"))
+    row(f"tests/signatures/sets/{f.name}", want if want == "pass" else f"fail {want}", "pass" if not errs else "fail " + ",".join(codes), good); ok &= good
+
 for f in sorted((ROOT / "tests/cards/superseded").glob("*.json")):
     errs = list(V["unit-card.schema.json"].iter_errors(json.loads(f.read_text())))
     print(f"superseded (reading only) {f.name}: {len(errs)} finding(s) under v1.5.0")
@@ -109,12 +142,18 @@ uc = pat("unit-card.schema.json", "code")
 good = ["[ORG]AIOC-SL", "TenAIOC-SL", "[ORG]AIOC-OCO", "[ORG]POD-RV", "TenPOD-RV", "[ORG]CELL-SLCS", "TenCELL-TMS"]
 badc = ["49GAION-SL", "[ORG]AIOC-", "[ORG]HOAC-GOV", "TenCELL-TMS-SL", "Ten AIOC-SL", "[ORG]AIOC-sl", "[ORG]POD-rv"]
 r = all(uc.is_valid(c) for c in good) and not any(uc.is_valid(c) for c in badc); print("unit code pattern:", r); ok &= r
+def prow(label, v, vals, want):
+    for x in vals:
+        got = v.is_valid(x); row(f"pattern {label}: {x}", "accept" if want else "reject", "accept" if got else "reject", got == want)
+prow("unit code", uc, good, True); prow("unit code", uc, badc, False)
 h = pat("unit-card.schema.json", "hoac")
 r = all(h.is_valid(c) for c in ["[ORG]HOAC-GOV", "TenHOAC-TM", "[ORG]HOAC-ACS"]) and not h.is_valid("[ORG]HOAC-CEO"); print("hoac label pattern:", r); ok &= r
 b = pat("bot-identity-card.schema.json", "aioc")
 r = all(b.is_valid(c) for c in ["TenAIOC-SL", "[ORG]AIOC-SL", "TENAIOC-SL"]) and not any(b.is_valid(c) for c in ["TenAIOC-sl", "AIOC-SL", "Ten AIOC-SL"]); print("bot-identity aioc pattern (R13):", r); ok &= r
+prow("bot-identity aioc (widened, R13)", b, ["TenAIOC-SL", "[ORG]AIOC-SL", "TENAIOC-SL"], True); prow("bot-identity aioc (widened, R13)", b, ["TenAIOC-sl", "AIOC-SL", "Ten AIOC-SL"], False)
 pv = pat("part-card.schema.json", "version")
 r = all(pv.is_valid(v) for v in ["v2", "v1.3", "v1.3.0", "v1.3.0-rc1"]) and not any(pv.is_valid(v) for v in ["1.3.0", "v1.3.0.1", "v1..3", "vX"]); print("part-card version pattern (R7):", r); ok &= r
+prow("part-card version (widened, R7)", pv, ["v2", "v1.3", "v1.3.0", "v1.3.0-rc1"], True); prow("part-card version (widened, R7)", pv, ["1.3.0", "v1.3.0.1", "v1..3", "vX"], False)
 
 lib = ROOT / "library" / "cards"
 for f in sorted(lib.glob("*.json")):
@@ -137,5 +176,17 @@ def find_enum(o):
             if r: return r
 same = find_enum(schemas["work-item.schema.json"]) == schemas["status.schema.json"]["enum"]
 print("work-item status list equals the shared list:", same); ok &= same
+
+# Fixture log: every fixture of this test and of the reference organisations, expected against actual.
+import subprocess
+orgs = subprocess.run([sys.executable, str(ROOT / "tests/orgs/check_orgs.py")], capture_output=True, text=True, env={**__import__("os").environ, "FIXTURE_LOG": "1"})
+for line in orgs.stdout.splitlines():
+    if line.startswith("LOGROW\t"):
+        _, n, e, a_, g = line.split("\t"); row(n, e, a_, g == "1")
+print("\n===== FIXTURE LOG (fixture | expected | actual | result) =====")
+for n, e, a_, g in ROWS:
+    print(f"{n} | {e} | {a_} | {'as expected' if g else 'NOT AS EXPECTED'}")
+print(f"===== {sum(1 for r in ROWS if r[3])}/{len(ROWS)} as expected =====\n")
+ok &= all(r[3] for r in ROWS)
 print("card-schema-test:", "PASS" if ok else "FAIL")
 sys.exit(0 if ok else 1)

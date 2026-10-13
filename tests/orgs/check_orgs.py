@@ -95,6 +95,9 @@ def check(org):
         b = R["floor_bindings"].get(hf); e = parts.get(b)
         if not e or e.get("seat_kind") != "human" or not e.get("hoac") or not e.get("filled"):
             errs.append(("D-2", f"{hf}: not bound to a filled human Cell carrying a HOAC label"))
+    for hf in R["floor_bindings"]:
+        if hf not in HF:
+            errs.append(("D-2", f"{hf}: cited Human Floor item does not exist in Standard §1.5 (HF-01..HF-19)"))
     seat = {e["hoac"].split("-")[-1]: e for e in R["parts"] if e.get("hoac") and e["kind"] == "CELL" and not e.get("scoped_entity")}
     for a, b in DISTINCT:
         if a in seat and b in seat and seat[a].get("person") and seat[a].get("person") == seat[b].get("person"):
@@ -126,6 +129,9 @@ def check(org):
             errs.append(("HOAC-OVER", f"hoac_over({q['part']}, {q['type']}, {q.get('entity')}, {q['date']}) = {got}, expected {q['expect']}"))
     return R, errs
 
+import os
+def LOG(n, e, a, g):
+    if os.environ.get("FIXTURE_LOG"): print("LOGROW\t" + "\t".join([n, e, a, "1" if g else "0"]))
 ok = True
 # The reference set is fixed: all four must be present and non-empty, and the D-4 cycle case
 # must be present. A missing or empty folder fails (FIXTURE-ORGS-REFERENCE-MISSING).
@@ -150,10 +156,12 @@ for org in orgs:
         line = " (line D-4)" if R["expect"] in D4 else ""
         print(f"{org.name}: {'rejected on ' + R['expect'] + line if hit else 'NOT REJECTED ON ' + R['expect']} {[m for _, m in errs][:2]}")
         ok &= hit
+        LOG(f"tests/orgs/{org.name}", f"fail {R['expect']}", "fail " + ",".join(sorted(codes)) if codes else "pass", hit)
     else:
         print(f"{org.name}: {'passes D-1..D-4' if not errs else 'FAILS'}")
         for c, m in errs: print(f"   {c}: {m}")
         ok &= not errs
+        LOG(f"tests/orgs/{org.name}", "pass D-1..D-4", "pass" if not errs else "fail " + ",".join(sorted(codes)), not errs)
 if not orgs:
     print("no reference organisations"); ok = False
 print("fixture-orgs:", "PASS" if ok else "FAIL")
