@@ -1,0 +1,29 @@
+# Required check on main. Runs the must-fail and must-pass cases of the checks in this
+# repository (.github/tests/selftest.py). A must-fail case counts only when it fails on its
+# own rule with the named error in the log.
+name: ci-selftest
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  ci-selftest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pyyaml==6.0.2 jsonschema==4.23.0
+      - name: Fetch companion repositories
+        run: |
+          bash .github/scripts/fetch.sh 49GAION .deps/hub "${{ vars.HUB_REF }}"
+          bash .github/scripts/fetch.sh 49GAION-aioc .deps/aioc "${{ vars.AIOC_REF }}"
+      - name: Must-fail and must-pass cases
+        env:
+          REF_DEPS: ${{ github.workspace }}/.deps
+          SELF_DIR_VAR: PROTOCOL_DIR
+        run: python3 .github/tests/selftest.py

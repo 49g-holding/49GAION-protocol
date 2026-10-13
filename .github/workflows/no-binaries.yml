@@ -1,12 +1,15 @@
-# Fails a pull request that adds or changes a binary file under the normative
-# paths of the 49GAION Standard, Protocol or Library. Binaries (PDF, images,
-# compressed bundles, office files) are kept outside the repository, cited by link
-# and SHA-256 in the reference list. Required status check on main (main-protection ruleset).
+# Required check on main. Fails a change that adds or changes a binary file anywhere in the
+# repository (no path filter: a required check never has one). Binaries (PDF, images,
+# compressed bundles, office files) are kept outside the repository, cited by link and
+# SHA-256 in the reference list. SVG is text and passes.
+# On a pull request the base is its base commit; on a push to main, the commit before the push.
 name: no-binaries
 
 on:
   pull_request:
     types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -21,25 +24,21 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Scan added or changed files on normative paths
+      - name: Scan added or changed files
         shell: bash
         env:
-          BASE: ${{ github.event.pull_request.base.sha }}
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
-          # Normative paths: hub Standard, naming standard,
-          # protocol spec and schemas, AIOC definition docs and template.
-          NORMATIVE='^(49GAION\.md|upstream/[^/]+$|standards/|spec/|docs/|template/|library/)'
-          [ -n "$BASE" ] || BASE=$(git rev-parse HEAD~1)
+          if [ -z "$BASE" ] || ! git cat-file -e "$BASE^{commit}" 2>/dev/null; then BASE=$(git rev-parse HEAD~1); fi
           BAD=""
           while IFS= read -r f; do
             [ -n "$f" ] && [ -f "$f" ] || continue
-            echo "$f" | grep -q -E "$NORMATIVE" || continue
             case "$f" in *.svg) continue;; esac   # SVG is text
             if ! grep -Iq . "$f" && [ -s "$f" ]; then BAD="$BAD$f"$'\n'; fi
           done < <(git diff --name-only --diff-filter=AM "$BASE"...HEAD)
           if [ -n "$BAD" ]; then
             printf '%s' "$BAD"
-            echo "::error::Binary files on normative paths (listed above). Keep them outside the repository and cite link + SHA-256 in the reference list."
+            echo "::error::NO-BINARIES: binary files added or changed (listed above). Keep them outside the repository and cite link + SHA-256 in the reference list."
             exit 1
           fi
-          echo "No binary files added on normative paths."
+          echo "No binary files added or changed."
