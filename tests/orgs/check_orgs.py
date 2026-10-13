@@ -12,7 +12,7 @@ that can be read from a register:
   D-3  every part has exactly one stop door (from its card)
   D-4  (codes CHAIN-*) every accountable_to chain is acyclic, ends at the GOV Cell, and passes at least one
        Cell of seat kind human carrying a HOAC label; the Charter is the only part with
-       parent none
+       parent none; every accountable_to names a human Cell carrying a HOAC label (CHAIN-TARGET)
 A reference organisation passes every line. A must-fail organisation (folder name
 must-fail-*) names in "expect" the code it must fail with, and counts only if it fails with
 that code. The Protocol function hoac_over(part, type, entity, date) is implemented here and
@@ -61,13 +61,26 @@ def hoac_over(parts, part, dtype, entity, date):
     """The Cell that signs a listed type for a part (Standard §4.4, item 8): the nearest Cell,
     along accountable_to and starting with the part's own label, whose authority_scope covers
     the type and the entity and has not expired on the event's date; never the part itself
-    for its own restart, never a seat that is the subject of the action (recusal passes it up)."""
+    for its own restart, never a seat that is the subject of the action (recusal passes it up).
+    For a restart it also skips every Cell inside the stopped part (by parent) or under it (by
+    accountable_to), so the signer is above the stopped part (Standard §4.4, item 6)."""
+    skip = {part}
+    if dtype == "restart-stopped-unit":
+        for c in parts:
+            a, s = parts[c].get("parent"), set()
+            while a and a not in s:
+                if a == part: skip.add(c); break
+                s.add(a); a = parts.get(a, {}).get("parent")
+            a, s = parts[c].get("accountable_to"), set()
+            while a and a not in s:
+                if a == part: skip.add(c); break
+                s.add(a); a = parts.get(a, {}).get("accountable_to")
     seen, cur = set(), parts[part].get("accountable_to") if parts[part]["kind"] == "CELL" else parts[part].get("label_holder", parts[part].get("accountable_to"))
     while cur and cur not in seen:
         seen.add(cur); e = parts.get(cur)
         if e is None: return None
         sc = e.get("authority_scope")
-        if e.get("hoac") and e.get("seat_kind") == "human" and e.get("filled") and cur != part and sc and dtype in sc["decision_types"] \
+        if e.get("hoac") and e.get("seat_kind") == "human" and e.get("filled") and cur not in skip and sc and dtype in sc["decision_types"] \
            and sc.get("entity", entity) in (entity, None) and sc["expires"] >= date:
             return cur
         cur = e.get("accountable_to")
@@ -109,6 +122,10 @@ def check(org):
     if len(roots) != 1:
         errs.append(("CHAIN-TWO-ROOTS", f"parts with parent none: {roots}; only the Charter has none"))
     for e in R["parts"]:
+        a = e.get("accountable_to"); t = parts.get(a, {})
+        if a and not (t.get("kind") == "CELL" and t.get("seat_kind") == "human" and t.get("hoac")):
+            errs.append(("CHAIN-TARGET", f"{e['code']}: accountable_to {a} is not a human Cell carrying a HOAC label"))
+    for e in R["parts"]:
         if e["code"] == gov: continue
         path, cur, human = [e["code"]], e.get("accountable_to"), False
         while cur and cur not in path:
@@ -146,7 +163,7 @@ for name in REQUIRED:
         good = False
     if not good:
         print(f"FIXTURE-ORGS-REFERENCE-MISSING {name}: folder missing or register empty"); ok = False
-D4 = {"CHAIN-CYCLE", "CHAIN-NOT-ENDING-AT-GOV", "CHAIN-NO-HUMAN-HOAC", "CHAIN-TWO-ROOTS"}
+D4 = {"CHAIN-CYCLE", "CHAIN-NOT-ENDING-AT-GOV", "CHAIN-NO-HUMAN-HOAC", "CHAIN-TWO-ROOTS", "CHAIN-TARGET"}
 orgs = sorted(p for p in HERE.iterdir() if p.is_dir())
 for org in orgs:
     R, errs = check(org)
