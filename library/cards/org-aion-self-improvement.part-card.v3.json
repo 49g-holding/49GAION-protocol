@@ -11,11 +11,11 @@
       "format": "versioned file in git (ID + version)"
     },
     {
-      "name": "the shared queue, read-only (Standard §2.1, item 7)",
+      "name": "the shared queue, pseudonymised, read-only (Standard §2.1, item 7)",
       "format": "read-only record stream"
     },
     {
-      "name": "the gateway logs, read-only (Standard §2.1, item 7)",
+      "name": "the gateway logs, pseudonymised, read-only (Standard §2.1, item 7)",
       "format": "append-only log"
     }
   ],

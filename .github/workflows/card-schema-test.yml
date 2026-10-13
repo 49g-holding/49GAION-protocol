@@ -1,10 +1,13 @@
 # Fixed test for unit cards (AIOC and HOAC): every schema is valid JSON Schema;
 # complete cards pass; an incomplete card and bad codes are rejected.
+# Correction (DR-0004): "(AIOC and HOAC)" reads "(AIOC, Pod and Cell)"; HOAC is a label on a
+# Cell, a Pod or an AIOC, never a unit kind.
 name: card-schema-test
 on:
   pull_request:
   push:
     branches: [main]
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
