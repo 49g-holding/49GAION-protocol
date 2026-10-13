@@ -1,6 +1,6 @@
 # 49GAION Operating Protocol
 
-**Version `v1.3.0` · approved by the governing seat (GOV) of 49GAION.**
+**Version `v1.3.0` · proposed.**
 
 49GAION is an organisation design framework: a framework for building organisations from interchangeable AI and human parts. This repository holds its Operating Protocol: how AIOCs, Pods, Cells and the parts work together (the unit card, the Work Item, the shared queue, the ports (one input and one output of each kind, AI and HU, plus the stop door) per unit, the input check, routing, wake, provenance and the stop rule). General level only; exact values and tools live in the Protocol of each `[ORG]AION`.
 

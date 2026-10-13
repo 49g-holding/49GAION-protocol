@@ -1,6 +1,6 @@
 # 49GAION Operating Protocol
 
-**Version `v1.3.0` · approved by the governing seat (GOV) of 49GAION.** How AIOCs, Pods, Cells and the parts of 49GAION work together, at the general level. The rules of 49GAION are in the 49GAION Standard (`49g-holding/49GAION`, `upstream/49GAION-UPSTREAM.md`); exact values (limits, timings, tools, routes) live in the Protocol of each `[ORG]AION`. Decisions are recorded once, in the hub ([`49GAION/decisions/README.md`](https://github.com/49g-holding/49GAION/blob/main/decisions/README.md)); this version follows `49GAION/DR-0002` and `49GAION/DR-0004`.
+**Version `v1.3.0` · proposed.** How AIOCs, Pods, Cells and the parts of 49GAION work together, at the general level. The rules of 49GAION are in the 49GAION Standard (`49g-holding/49GAION`, `upstream/49GAION-UPSTREAM.md`); exact values (limits, timings, tools, routes) live in the Protocol of each `[ORG]AION`. Decisions are recorded once, in the hub ([`49GAION/decisions/README.md`](https://github.com/49g-holding/49GAION/blob/main/decisions/README.md)); this version follows `49GAION/DR-0002` and `49GAION/DR-0004`.
 
 49GAION is an organisation design framework: a framework for building organisations from interchangeable AI and human parts.
 
@@ -82,12 +82,12 @@ A Work Item is `done` only when the requester's acceptance test passes on visibl
 3. The stop door of each Cell, Pod and AIOC is outside it. Stopping a Pod or an AIOC stops everything under it, and nothing inside can bypass the stop.
 
 ### 4.9 The Human Floor signature gate
-1. The Standard keeps the Human Floor signature list of decision types (Standard §4.4, item 6); an `[ORG]AION` may add types, never remove one. The tool gateway runs an action of a listed type only with a valid signature of a human seat with authority for it, even in an AIOC that is 100% AI. If that seat is empty or retired, the action is held, never skipped.
+1. The Standard keeps the Human Floor signature list of decision types (Standard §4.4, item 6); an `[ORG]AION` may add types, never remove one. The tool gateway runs an action of a listed type only with a valid signature, even in an AIOC that is 100% AI. A signature is valid only from the human seat with authority over that part: the nearest HOAC above it, within its authority (Standard §4.3, item 2). For a restart of a stopped unit, the signature comes from the HOAC above the stopped unit, never from the stopped unit or anything under it. If that seat is empty or retired, the action is held, never skipped.
 2. Every other AI action is logged at the gateway with the code of the accountable seat above the acting Cell.
 3. An AIOC may be up to 100% AI. The organisation-wide Human Floor is set in the Standard (§1.5).
 
 ### 4.10 The unit register at work
-1. The unit register is append-only (Standard §4.4). `[ORG]AIOC-OCO` writes AI Cell records; `[ORG]HOAC-TM` writes human Cell records. A filler change, a parent change, a retirement, and each external port's `connected` and `disconnected` events are recorded events on the existing entry.
+1. The unit register is append-only (Standard §4.4). `[ORG]AIOC-OCO` writes AI Cell records; `[ORG]HOAC-TM` writes human Cell records. An event whose decision type is on the Human Floor signature list (for example granting or widening access, or changing a parent) is written only with that seat's valid signature (§4.9); `[ORG]AIOC-OCO` cannot write it alone. A filler change, a parent change, a retirement, and each external port's `connected` and `disconnected` events are recorded events on the existing entry.
 2. The gateway opens access only for an active, filled Cell whose filler has passed the seat's fixed test, and closes it automatically on a filler change or retirement. Access never pools within a Pod.
 3. A signature is recorded with the code of the Cell it is given for. Two approvals by one person under two Cells, where two people are required, are flagged and do not count as dual approval.
 4. Work moves from human to AI, or from one version to the next, only when the fixed test owned by the seat passes; it moves back when the score drops below the recorded threshold.
