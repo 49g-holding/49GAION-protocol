@@ -1,0 +1,19 @@
+{
+  "unit_kind": "POD",
+  "code": "TenPOD-OUT",
+  "parent": "TenAIOC-SL",
+  "type": "Human Reviewer",
+  "full_name": "Review",
+  "hoac": "TenHOAC-ACS",
+  "inner_units": [
+    "TenPOD-RV"
+  ],
+  "card_version": "v1",
+  "version": "1.0.0",
+  "lineage": {
+    "id": "TenPOD-OUT",
+    "version": "1.0.0",
+    "relation": "original"
+  },
+  "lifecycle_state": "designed"
+}
