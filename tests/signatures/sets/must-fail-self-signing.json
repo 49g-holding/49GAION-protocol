@@ -1,0 +1,44 @@
+{
+  "$expect": "SIG-SELF",
+  "target": {
+    "code": "TenCELL-TMS",
+    "entity": "E1"
+  },
+  "type": {
+    "id": "restart-stopped-unit",
+    "human_floor": "HF-12"
+  },
+  "signatures": [
+    {
+      "signature_id": "SIG-0010",
+      "decision_type": "sign-contract",
+      "target_code": "TenAIOC-SL",
+      "payload_hash": "sha256:abababababababababababababababababababababababababababababababab",
+      "signer_cell": "TenCELL-TMS",
+      "signer_seat_kind": "human",
+      "signer_role": "filler",
+      "signer_identity_ref": "idref:p1",
+      "signer_credential": {
+        "kind": "human-live-sign-in",
+        "authenticator": "phishing-resistant",
+        "bound_to_one_person": true
+      },
+      "executor_cell": "TenCELL-SLCS",
+      "work_item_id": "WI-0042",
+      "nonce": "n-0010aa7d4c3e9f01",
+      "issued_at": "2026-10-13T09:00:00Z",
+      "expires_at": "2026-10-13T10:00:00Z",
+      "sign_in_evidence": {
+        "signed_in_at": "2026-10-13T08:59:30Z",
+        "session_ref": "sess-91"
+      }
+    }
+  ],
+  "signer_entities": {
+    "TenCELL-TMS": "E1",
+    "TenCELL-GOV": "E1",
+    "TenCELL-FIN": "E1",
+    "TenCELL-TM2": "E2"
+  },
+  "requester_identity_ref": "idref:req1"
+}

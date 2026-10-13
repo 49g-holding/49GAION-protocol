@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/process-record.schema.json",
+  "title": "49GAION Operating Protocol - process record and challenger",
+  "description": "One challenger to a process champion in the improvement loop (Standard §2.3). Exact values (margin, rounds, dwell time) come from the [ORG]AION's Configuration (49GAION-aioc template §15).",
+  "type": "object",
+  "required": [
+    "process",
+    "champion",
+    "challenger",
+    "golden_set_id",
+    "margin",
+    "rounds",
+    "dwell_time",
+    "judge",
+    "assurance_verdict"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "process": {
+      "type": "string"
+    },
+    "champion": {
+      "type": "string",
+      "description": "Version in force."
+    },
+    "challenger": {
+      "type": "string",
+      "description": "Version proposed, as a difference to the champion."
+    },
+    "golden_set_id": {
+      "type": "string"
+    },
+    "margin": {
+      "type": "number"
+    },
+    "rounds": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "dwell_time": {
+      "type": "string",
+      "description": "ISO 8601 duration."
+    },
+    "judge": {
+      "type": "string",
+      "description": "Code of the judging part, separate from the proposer."
+    },
+    "assurance_verdict": {
+      "enum": [
+        "win",
+        "loss",
+        "no-margin"
+      ]
+    },
+    "approving_seat": {
+      "type": "string",
+      "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
+    },
+    "signature_ref": {
+      "type": "string",
+      "pattern": "^SIG-[0-9A-Za-z-]+$"
+    }
+  },
+  "allOf": [
+    {
+      "$comment": "RULE-PROMOTION-SIGNED: a promoted challenger names its approving seat and signature.",
+      "if": {
+        "required": [
+          "approving_seat"
+        ]
+      },
+      "then": {
+        "required": [
+          "signature_ref"
+        ]
+      }
+    }
+  ]
+}

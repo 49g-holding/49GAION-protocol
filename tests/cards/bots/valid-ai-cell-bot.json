@@ -1,0 +1,26 @@
+{
+  "bot": "TenCELL-SLWR bot",
+  "role": "Fills TenCELL-SLWR",
+  "account": {
+    "id": "cred-slwr",
+    "separate": true
+  },
+  "allowed_actions": [
+    "read its Cell's Work Items",
+    "prepare drafts for its person"
+  ],
+  "ask_first_actions": [
+    "anything outside its Cell's authority limit"
+  ],
+  "accountable_human_position": "TenHOAC-ACS",
+  "card_version": "v3",
+  "status": "DRAFT",
+  "credential": {
+    "id": "cred-slwr",
+    "holder": "TenCELL-SLWR",
+    "shared": false
+  },
+  "cell_kind": "ai-cell",
+  "never_signs": true,
+  "memory_on_filler_change": "sealed"
+}

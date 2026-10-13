@@ -1,0 +1,121 @@
+{
+  "unit_kind": "POD",
+  "code": "TenPOD-BD",
+  "parent": "TenAIOC-CH",
+  "type": "Human Reviewer",
+  "full_name": "TenPOD-BD",
+  "accountable_to": "TenCELL-GOV",
+  "inner_units": [
+    "TenCELL-BDA",
+    "TenCELL-BDB",
+    "TenCELL-BDC"
+  ],
+  "fixed_test": {
+    "id": "TEST-BD",
+    "version": "v1",
+    "owner": "TenCELL-GOV"
+  },
+  "card_version": "v1",
+  "version": "1.0.0",
+  "lineage": {
+    "id": "TenPOD-BD",
+    "version": "1.0.0",
+    "relation": "original"
+  },
+  "lifecycle_state": "designed",
+  "ports": [
+    {
+      "unit": "TenPOD-BD",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "ai-in",
+      "direction": "input",
+      "type": "AI",
+      "identification": "technical-key"
+    },
+    {
+      "unit": "TenPOD-BD",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "ai-out",
+      "direction": "output",
+      "type": "AI",
+      "identification": "technical-key"
+    },
+    {
+      "unit": "TenPOD-BD",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "hu-in",
+      "direction": "input",
+      "type": "HU",
+      "identification": "live-human-sign-in-at-gateway"
+    },
+    {
+      "unit": "TenPOD-BD",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "hu-out",
+      "direction": "output",
+      "type": "HU",
+      "identification": "live-human-sign-in-at-gateway"
+    },
+    {
+      "unit": "TenPOD-BD",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "stop",
+      "direction": "input",
+      "type": "HU",
+      "identification": "live-human-sign-in-at-gateway",
+      "stop_door": true
+    }
+  ],
+  "hoac": "TenHOAC-TM",
+  "decision_rule": {
+    "members": [
+      "TenCELL-BDA",
+      "TenCELL-BDB",
+      "TenCELL-BDC"
+    ],
+    "quorum": 2,
+    "majority": "simple",
+    "chair": "TenCELL-BDA",
+    "casting_vote": true
+  }
+}
