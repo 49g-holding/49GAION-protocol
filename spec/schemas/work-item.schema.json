@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/work-item.schema.json",
   "title": "49GAION Operating Protocol - Work Item",
-  "description": "Every hand-off between units is one Work Item (Protocol §4). Aligned in vocabulary with the A2A v1.0 Task (Protocol §12).",
+  "description": "Every hand-off between units is one Work Item (Protocol §4). Aligned in vocabulary with the A2A v1.0 Task (Protocol §12). Reading note (v1.5.0): 'accepted' by OCO means ready for decision, not approved; approval is recorded in approved_by and, for a listed decision type, signature_ref.",
   "type": "object",
   "required": ["id", "sender", "receiver", "requested_output", "acceptance_test", "status", "owner", "sources", "bounce_count", "decision_needed"],
   "additionalProperties": false,
@@ -41,6 +41,12 @@
     "proposal_reason": { "type": "string", "description": "The reason of OCO for its answer." },
     "failing_samples": { "type": "array", "items": { "type": "string" }, "description": "Links to real failing samples; at least one for a critique. When the hub accepts the critique, they join the position's fixed test." },
     "caused_change": { "type": "string", "description": "For an accepted design-proposal: the commit of the design change and the version it replaces." },
+    "approved_by": { "type": "string", "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$", "description": "The code of the human Cell that approved the change; required with caused_change (Standard §2.1, item 5). Since v1.5.0." },
+    "signature_ref": { "type": "string", "pattern": "^SIG-[0-9A-Za-z-]+$", "description": "The signature ID in the unit register for a listed decision type; no names (Protocol §4.10, item 9). Since v1.5.0." },
+    "current_text": { "type": "string", "description": "For a design-proposal: the current text (Standard §2.1, item 3). Since v1.5.0." },
+    "proposed_text": { "type": "string", "description": "For a design-proposal: the proposed text (Standard §2.1, item 3). Since v1.5.0." },
+    "evidence": { "type": "array", "items": { "type": "string" }, "description": "For a design-proposal: the evidence, by link (Standard §2.1, item 3). Since v1.5.0." },
+    "affected": { "type": "array", "items": { "type": "string" }, "description": "For a design-proposal: the codes of the parts and the tests it affects (Standard §2.1, item 3). Since v1.5.0." },
     "objection": { "type": "object", "description": "For status objection-open (Protocol §4.7): no AI, including the Chief of Staff of OCO, can close or act on it; only the HOAC seat accountable for OCO decides and closes it.", "required": ["raised_by", "accountable_human"], "properties": { "raised_by": { "type": "string", "description": "The unit's [ORG]HOAC-ACS seat." }, "accountable_human": { "type": "string", "description": "The HOAC seat accountable for OCO (a Configuration setting)." }, "decision": { "type": "string" }, "decided_by": { "type": "string", "description": "Must be accountable_human; an AI or bot account is never valid here." } } },
     "parent_work_item": { "type": ["string", "null"], "description": "The id of the parent Work Item; required for a sub-work item (an item opened to serve another item); null for a top-level item. Chains must be acyclic (no A->B->A): the protocol check walks the parent links before a sub-item is opened (Protocol §4.6)." },
     "chain_depth": { "type": "integer", "minimum": 0, "default": 0, "description": "0 for a top-level item; the parent's chain_depth + 1 for a sub-work item. The maximum is set by each organisation in its Configuration; the schema sets no cap." },
@@ -65,6 +71,7 @@
     { "if": { "required": ["type"], "properties": { "type": { "const": "design-proposal" } } }, "then": { "required": ["proposal_kind"] } },
     { "if": { "required": ["proposal_kind"], "properties": { "proposal_kind": { "const": "critique" } } }, "then": { "required": ["failing_samples"], "properties": { "failing_samples": { "minItems": 1 } } } },
     { "if": { "required": ["chain_depth"], "properties": { "chain_depth": { "minimum": 1 } } }, "then": { "required": ["parent_work_item"], "properties": { "parent_work_item": { "type": "string" } } } },
-    { "if": { "required": ["parent_work_item"], "properties": { "parent_work_item": { "type": "string" } } }, "then": { "required": ["chain_depth"], "properties": { "chain_depth": { "minimum": 1 } } } }
+    { "if": { "required": ["parent_work_item"], "properties": { "parent_work_item": { "type": "string" } } }, "then": { "required": ["chain_depth"], "properties": { "chain_depth": { "minimum": 1 } } } },
+    { "$comment": "RULE-CAUSED-CHANGE-APPROVED: a change caused by a Work Item names its approver (v1.5.0).", "if": { "required": ["caused_change"] }, "then": { "required": ["approved_by"] } }
   ]
 }

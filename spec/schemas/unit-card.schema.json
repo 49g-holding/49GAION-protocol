@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/unit-card.schema.json",
   "title": "49GAION Operating Protocol - unit card (AIOC, Pod or Cell)",
-  "description": "The card of one AIOC, Pod or Cell, at any depth (Standard \u00a71.7; AIOC definition docs/CELLS-AND-PODS.md). The AIOC is the only unit kind; Pods and Cells are parts held in an AIOC's Blueprint (49GAION-aioc template \u00a71). HOAC (Human Oversight & Accountability Control) is a label of human accountability, recorded in the 'hoac' field of the card of the part that carries it, never a unit kind. An AIOC or a Pod is one piece from outside: one card of the same shape as a Cell's, its ports and its stop door. Aligned in vocabulary with the A2A Agent Card (Protocol \u00a712). The type is a card field, never part of the code.",
+  "description": "The card of one AIOC, Pod or Cell, at any depth (Standard \u00a71.7; AIOC definition docs/CELLS-AND-PODS.md). The AIOC is the only unit kind; Pods and Cells are parts held in an AIOC's Blueprint (49GAION-aioc template \u00a71). HOAC (Human Oversight & Accountability Control) is a label of human accountability, recorded in the 'hoac' field of the card of the part that carries it, never a unit kind. An AIOC or a Pod is one piece from outside: one card of the same shape as a Cell's, its ports and its stop door. Aligned in vocabulary with the A2A Agent Card (Protocol \u00a712). The type is a card field, never part of the code. Correction (v1.5.0): \"template \u00a71\" above reads \"template \u00a717\" for the cards of Pods and Cells; the AIOC's own card is template \u00a71. Two relations (Standard \u00a71.7, item 12): parent names only the AIOC or Pod whose Blueprint holds the part's card; accountable_to names the human Cell carrying a HOAC label to which the part answers. A Cell is never a parent.",
   "type": "object",
   "required": [
     "unit_kind",
@@ -82,7 +82,8 @@
             "filler"
           ]
         }
-      }
+      },
+      "$comment": "RULE-POD-HOLDS-CELLS: a Pod holds Cells only"
     },
     {
       "if": {
@@ -146,6 +147,243 @@
             "const": "ai"
           }
         }
+      },
+      "$comment": "RULE-ATTACHED-AI: attached_to only on an AI Cell"
+    },
+    {
+      "$comment": "RULE-STOP-DOOR: every kind has ports with exactly one stop door (Standard \u00a74.3, item 1)",
+      "if": {
+        "required": [
+          "unit_kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "ports"
+        ],
+        "properties": {
+          "ports": {
+            "contains": {
+              "required": [
+                "stop_door"
+              ],
+              "properties": {
+                "stop_door": {
+                  "const": true
+                }
+              }
+            },
+            "minContains": 1,
+            "maxContains": 1
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-FIXED-TEST: every kind has a fixed test (Standard \u00a73.2, item 9)",
+      "if": {
+        "required": [
+          "unit_kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "fixed_test"
+        ]
+      }
+    },
+    {
+      "$comment": "RULE-NO-FILLER-KIND: no filler_kind on a Pod or an AIOC",
+      "if": {
+        "properties": {
+          "unit_kind": {
+            "enum": [
+              "POD",
+              "AIOC"
+            ]
+          }
+        },
+        "required": [
+          "unit_kind"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "filler_kind"
+          ]
+        }
+      }
+    },
+    {
+      "$comment": "RULE-HOAC-HUMAN-SEAT: a HOAC label on a Cell needs seat kind human (Standard \u00a74.1, item 11)",
+      "if": {
+        "properties": {
+          "unit_kind": {
+            "const": "CELL"
+          }
+        },
+        "required": [
+          "unit_kind",
+          "hoac"
+        ]
+      },
+      "then": {
+        "required": [
+          "filler_kind"
+        ],
+        "properties": {
+          "filler_kind": {
+            "const": "human"
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-HOAC-HOLDER: a HOAC label on a Pod or an AIOC needs a label_holder or a decision_rule (Standard \u00a74.1, item 10)",
+      "if": {
+        "properties": {
+          "unit_kind": {
+            "enum": [
+              "POD",
+              "AIOC"
+            ]
+          }
+        },
+        "required": [
+          "unit_kind",
+          "hoac"
+        ]
+      },
+      "then": {
+        "anyOf": [
+          {
+            "required": [
+              "label_holder"
+            ]
+          },
+          {
+            "required": [
+              "decision_rule"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "$comment": "RULE-PARENT-CELL: a Cell's parent is an AIOC or a Pod; a Cell is never a parent (Standard \u00a71.7, item 12)",
+      "if": {
+        "properties": {
+          "unit_kind": {
+            "const": "CELL"
+          }
+        },
+        "required": [
+          "unit_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "parent": {
+            "anyOf": [
+              {
+                "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)AIOC-[A-Z]{2,5}(-[A-Z]{2,5})?$"
+              },
+              {
+                "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)POD-[A-Z0-9]{2,8}$"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-PARENT-POD: a Pod's parent is an AIOC (Standard \u00a71.7, item 10)",
+      "if": {
+        "properties": {
+          "unit_kind": {
+            "const": "POD"
+          }
+        },
+        "required": [
+          "unit_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "parent": {
+            "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)AIOC-[A-Z]{2,5}(-[A-Z]{2,5})?$"
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-PARENT-AIOC: an AIOC's parent is an AIOC, or none for the Charter (Standard \u00a71.7, item 13)",
+      "if": {
+        "properties": {
+          "unit_kind": {
+            "const": "AIOC"
+          }
+        },
+        "required": [
+          "unit_kind"
+        ]
+      },
+      "then": {
+        "properties": {
+          "parent": {
+            "anyOf": [
+              {
+                "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)AIOC-[A-Z]{2,5}(-[A-Z]{2,5})?$"
+              },
+              {
+                "const": "none"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-ACCOUNTABLE-TO: every part names accountable_to, except the Cell carrying [ORG]HOAC-GOV (Standard \u00a71.7, items 12 and 13)",
+      "if": {
+        "not": {
+          "properties": {
+            "unit_kind": {
+              "const": "CELL"
+            },
+            "hoac": {
+              "pattern": "HOAC-GOV$"
+            }
+          },
+          "required": [
+            "unit_kind",
+            "hoac"
+          ]
+        }
+      },
+      "then": {
+        "required": [
+          "accountable_to"
+        ]
+      }
+    },
+    {
+      "$comment": "RULE-TOP-CELL: an AIOC names its top Cell (Standard \u00a71.7, item 11)",
+      "if": {
+        "properties": {
+          "unit_kind": {
+            "const": "AIOC"
+          }
+        },
+        "required": [
+          "unit_kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "top_cell"
+        ]
       }
     }
   ],
@@ -165,7 +403,7 @@
     },
     "parent": {
       "type": "string",
-      "description": "The code of the AIOC, Pod or Cell that holds this one, or 'none' at the top of the organisation (Standard \u00a71.7, item 2; Naming Standard R14). A change of parent is a recorded event and needs the approval of the human seat over the part; OCO cannot make it alone.",
+      "description": "The code of the AIOC, Pod or Cell that holds this one, or 'none' at the top of the organisation (Standard \u00a71.7, item 2; Naming Standard R14). A change of parent is a recorded event and needs the approval of the human seat over the part; OCO cannot make it alone. Since v1.5.0 (Standard \u00a71.7, item 12): a Cell's parent is an AIOC or a Pod; a Pod's parent is an AIOC; an AIOC's parent is an AIOC, or 'none' for the Charter only (Standard \u00a71.7, item 13). A Cell is never a parent; accountability follows accountable_to, never parent.",
       "pattern": "^(none|(\\[ORG\\]|[0-9A-Za-z]+)AIOC-[A-Z]{2,5}(-[A-Z]{2,5})?|(\\[ORG\\]|[0-9A-Za-z]+)POD-[A-Z0-9]{2,8}|(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8})$"
     },
     "inner_units": {
@@ -179,7 +417,7 @@
     },
     "hoac": {
       "type": "string",
-      "description": "The HOAC (Human Oversight & Accountability Control) label carried by this part, if any: [ORG]HOAC-GOV, [ORG]HOAC-TM or [ORG]HOAC-ACS (Standard \u00a74.1). A label, never a code; the part keeps its own code.",
+      "description": "The HOAC (Human Oversight & Accountability Control) label carried by this part, if any: [ORG]HOAC-GOV, [ORG]HOAC-TM or [ORG]HOAC-ACS (Standard \u00a74.1). A label, never a code; the part keeps its own code. Since v1.5.0: on a Cell only when its filler_kind is human; on a Pod or an AIOC only with a label_holder or a decision_rule (Standard \u00a74.1, items 10 and 11).",
       "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)HOAC-(GOV|TM|ACS)$"
     },
     "filler_kind": {
@@ -188,7 +426,7 @@
         "ai",
         "human-or-ai"
       ],
-      "description": "For a Cell: the kind of filler the seat allows. The seat is fixed; its filler is replaceable."
+      "description": "For a Cell: the kind of filler the seat allows. The seat is fixed; its filler is replaceable. Since v1.5.0 this is the seat kind: a HOAC label sits only on a Cell whose filler_kind is human (Standard \u00a74.1, item 11). Not used on a Pod or an AIOC."
     },
     "filler": {
       "type": "string",
@@ -216,7 +454,8 @@
         },
         "owner": {
           "type": "string",
-          "description": "The code of the seat that owns the test."
+          "description": "The code of the seat that owns the test. Since v1.5.0: a human Cell's code, never the part's own code and never an AI Cell (Standard \u00a74.4, item 3).",
+          "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
         },
         "threshold": {}
       }
@@ -279,7 +518,7 @@
     },
     "input_door": {
       "type": "string",
-      "description": "Always the capability named 'Chief of Staff' in this AIOC's blueprint: the AIOC's voice to its HOAC seat. Input arrives only through the typed ports and the Input socket; HU ports, including the stop door, never pass through an AI. Capability names are plain English, with no code and no [ORG]AIOC prefix; the AIOC is given by the 'aioc' field.",
+      "description": "Always the capability named 'Chief of Staff' in this AIOC's blueprint: the AIOC's voice to its HOAC seat. Input arrives only through the typed ports and the Input socket; HU ports, including the stop door, never pass through an AI. Capability names are plain English, with no code and no [ORG]AIOC prefix; the AIOC is given by the 'aioc' field. Correction (v1.5.0): there is no 'aioc' field on this card; the AIOC is the card's own code.",
       "const": "Chief of Staff"
     },
     "wake": {
@@ -300,7 +539,7 @@
         },
         "verified": {
           "type": "boolean",
-          "description": "true only when the wake method has passed the cross-AIOC test case 8."
+          "description": "true only when the wake method has passed the cross-AIOC test case 8. Correction (v1.5.0): 'cross-AIOC test case 8' reads 'the wake case of the cross-AIOC test (Protocol \u00a711, item 2)', whose numbering each [ORG]AION sets."
         }
       }
     },
@@ -771,6 +1010,117 @@
         "retired"
       ],
       "description": "Unit lifecycle state."
+    },
+    "accountable_to": {
+      "type": "string",
+      "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$",
+      "description": "The code of the human Cell carrying a HOAC label to which this part answers (Standard \u00a71.7, item 12). The accountability path, signatures, stop authority, and 'above' and 'under' in every rule follow accountable_to, never parent. Required on every part except the Cell that carries the unscoped [ORG]HOAC-GOV, whose authority comes from the constituting documents."
+    },
+    "top_cell": {
+      "type": "string",
+      "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$",
+      "description": "For an AIOC or a Pod: exactly one Cell whose parent is this part; it gives the part's lead (Standard \u00a71.7, item 11). Co-leadership is a Pod with a decision_rule."
+    },
+    "label_holder": {
+      "type": "string",
+      "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$",
+      "description": "For a Pod or an AIOC carrying a HOAC label: the one human Cell, whose parent is this part, that holds the label (Standard \u00a74.1, item 10)."
+    },
+    "decision_rule": {
+      "type": "object",
+      "description": "For a Pod or an AIOC carrying a HOAC label that decides together: its member Cells, quorum, majority, chair and casting vote. Each member signs under their own Cell; one person holding two seats in the same body counts once (HF-18; Standard \u00a74.1, item 10).",
+      "required": [
+        "members",
+        "quorum",
+        "majority",
+        "chair",
+        "casting_vote"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "members": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
+          }
+        },
+        "quorum": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "majority": {
+          "enum": [
+            "simple",
+            "two-thirds",
+            "unanimous"
+          ]
+        },
+        "chair": {
+          "type": "string",
+          "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
+        },
+        "casting_vote": {
+          "type": "boolean"
+        }
+      }
+    },
+    "authority_scope": {
+      "type": "object",
+      "description": "For a human Cell carrying a HOAC label: the decision types it may sign, its limits, its entity and an expiry date (Standard \u00a74.4, item 8). Expiry is checked against the date of the event it signs.",
+      "required": [
+        "decision_types",
+        "expires"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "decision_types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "limits": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "amount": {
+              "type": "string"
+            },
+            "counterparty": {
+              "type": "string"
+            },
+            "period": {
+              "type": "string"
+            }
+          }
+        },
+        "entity": {
+          "type": "string"
+        },
+        "expires": {
+          "type": "string",
+          "format": "date"
+        },
+        "authority": {
+          "enum": [
+            "constituted",
+            "delegated"
+          ],
+          "description": "Constituted authority is not limited by Standard \u00a71.7, item 4."
+        }
+      }
+    },
+    "entity": {
+      "type": "string",
+      "description": "The legal entity this part belongs to (Standard \u00a74.4, item 12). Optional where the [ORG]AION has one entity; an entry with no entity belongs to the entity of the single unscoped [ORG]HOAC-GOV."
+    },
+    "succeeded_by": {
+      "type": "string",
+      "pattern": "^((\\[ORG\\]|[0-9A-Za-z]+)AIOC-[A-Z]{2,5}(-[A-Z]{2,5})?|(\\[ORG\\]|[0-9A-Za-z]+)POD-[A-Z0-9]{2,8}|(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8})$",
+      "description": "For a retired part: its successor, to which its held actions pass (Standard \u00a74.1, item 12)."
     }
   },
   "$defs": {

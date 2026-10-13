@@ -19,7 +19,8 @@
     },
     "version": {
       "type": "string",
-      "pattern": "^v[0-9]+(\\.[0-9]+)?(-rc[0-9]+)?$"
+      "pattern": "^v[0-9]+(\\.[0-9]+){0,2}(-rc[0-9]+)?$",
+      "description": "Widened in v1.5.0 to accept three-part versions such as v1.3.0 (Naming Standard R7)."
     },
     "inputs": {
       "type": "array",

@@ -19,7 +19,8 @@
     },
     "aioc": {
       "type": "string",
-      "pattern": "^[0-9A-Z]+AIOC-[A-Z]{2,5}$"
+      "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)AIOC-[A-Z]{2,5}(-[A-Z]{2,5})?$",
+      "description": "Widened in v1.5.0 to accept brand prefixes such as TenAIOC-SL and [ORG]AIOC-SL (Naming Standard R13)."
     },
     "role": {
       "type": "string",
@@ -56,7 +57,7 @@
     },
     "accountable_human_position": {
       "type": "string",
-      "description": "The position (never a person's name) of the accountable human."
+      "description": "The position (never a person's name) of the accountable human. For the AION Builder: the governing seat (GOV) of 49GAION."
     },
     "card_version": {
       "type": "string"
