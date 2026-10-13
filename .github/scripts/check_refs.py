@@ -4,7 +4,8 @@
 test line (D-#) must point to something that exists. References to decision IDs that
 exist nowhere (for example A13 or B-12) fail.
 Repositories are found through HUB_DIR, PROTOCOL_DIR and AIOC_DIR (default: siblings
-checked out by the workflow; the repository under test is ".")."""
+checked out by the workflow; the repository under test is ".").
+In .json files the escaped section sign \u00a7 is read as § before the check."""
 import os, re, subprocess, sys, pathlib
 
 HUB = pathlib.Path(os.environ.get("HUB_DIR", "."))
@@ -63,7 +64,10 @@ KEYS = sorted(DOCS, key=len, reverse=True)
 SEC = re.compile(r"(?:§\s?|\bsection )([0-9]+(?:\.[0-9]+)*)")
 errors = []
 for f in files:
-    for n, line in enumerate(pathlib.Path(f).read_text(encoding="utf-8").splitlines(), 1):
+    body = pathlib.Path(f).read_text(encoding="utf-8")
+    if f.endswith(".json"):  # schema text may write the section sign as the JSON escape \u00a7
+        body = re.sub(r"\\u00[aA]7", "§", body)
+    for n, line in enumerate(body.splitlines(), 1):
         for m in SEC.finditer(line):
             before = line[max(0, m.start() - 80):m.start()]
             best, pos = None, -1
