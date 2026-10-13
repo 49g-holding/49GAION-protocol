@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/unit-card.schema.json",
-  "title": "49GAION Operating Protocol - unit card (AIOC or HOAC)",
-  "description": "The card of one unit, AIOC or HOAC, at any depth (Standard §1.7, §4.1 item 7). For an AIOC it is a section of the AIOC's blueprint file (49GAION-aioc template §1). It declares the unit's code, its kind, its parent, its inner units, what it receives and delivers, and, for an AIOC, how it is woken. A composite unit is one unit from outside: one card, its ports and its stop door. Aligned in vocabulary with the A2A Agent Card (Protocol §12). The Type is a card field, never part of the code.",
+  "title": "49GAION Operating Protocol - unit card (AIOC, Pod or Cell)",
+  "description": "The card of one AIOC, Pod or Cell, at any depth (Standard §1.7; AIOC definition docs/CELLS-AND-PODS.md). The AIOC is the only unit kind; Pods and Cells are parts held in an AIOC's Blueprint (49GAION-aioc template §1). HOAC (Human Oversight & Accountability Control) is a label of human accountability, recorded in the 'hoac' field of the card of the part that carries it, never a unit kind. An AIOC or a Pod is one piece from outside: one card of the same shape as a Cell's, its ports and its stop door. Aligned in vocabulary with the A2A Agent Card (Protocol §12). The type is a card field, never part of the code.",
   "type": "object",
   "required": [
     "unit_kind",
@@ -59,7 +59,7 @@
       "if": {
         "properties": {
           "unit_kind": {
-            "const": "HOAC"
+            "const": "POD"
           }
         },
         "required": [
@@ -69,14 +69,43 @@
       "then": {
         "properties": {
           "code": {
-            "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)HOAC-(GOV|TM|ACS)(-[A-Z]{2,5})?$"
+            "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)POD-[A-Z0-9]{2,8}$"
           },
-          "type": {
-            "enum": [
-              "GOV",
-              "TM",
-              "ACS"
-            ]
+          "inner_units": {
+            "items": {
+              "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
+            }
+          }
+        },
+        "not": {
+          "required": [
+            "filler"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "unit_kind": {
+            "const": "CELL"
+          }
+        },
+        "required": [
+          "unit_kind"
+        ]
+      },
+      "then": {
+        "required": [
+          "filler_kind",
+          "fixed_test"
+        ],
+        "properties": {
+          "code": {
+            "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
+          },
+          "inner_units": {
+            "maxItems": 0
           }
         }
       }
@@ -103,27 +132,72 @@
     "unit_kind": {
       "enum": [
         "AIOC",
-        "HOAC"
+        "POD",
+        "CELL"
       ],
-      "description": "The kind of unit. Neither kind ranks above the other by its kind (Standard §1.1)."
+      "description": "The kind of part: AIOC (the only unit kind), POD (a group of Cells; never holds a Pod) or CELL (the smallest part; nothing inside it)."
     },
     "code": {
       "type": "string",
-      "description": "The unit's one fixed code, never changed when the unit moves (Naming Standard R14). An AIOC: [ORG]AIOC-[INITIALS], for example [ORG]AIOC-SL or TenAIOC-SL. A HOAC: [ORG]HOAC-<TYPE>, for example [ORG]HOAC-TM, TenHOAC-GOV or [ORG]HOAC-ACS-SL.",
-      "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)(AIOC-[A-Z]{2,5}|HOAC-(GOV|TM|ACS))(-[A-Z]{2,5})?$"
+      "description": "The part's one fixed code, never changed when it moves or its filler changes; never a path and never carrying a suffix (Naming Standard R14, R15). AIOC: [ORG]AIOC-[INITIALS], e.g. [ORG]AIOC-SL or TenAIOC-SL. Pod: [ORG]POD-[INITIALS], e.g. [ORG]POD-RV. Cell: [ORG]CELL-[INITIALS], e.g. [ORG]CELL-SLCS or TenCELL-TMS.",
+      "pattern": "^((\\[ORG\\]|[0-9A-Za-z]+)AIOC-[A-Z]{2,5}(-[A-Z]{2,5})?|(\\[ORG\\]|[0-9A-Za-z]+)POD-[A-Z0-9]{2,8}|(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8})$"
     },
     "parent": {
       "type": "string",
-      "description": "The code of the unit that holds this one, or 'none' at the top of the organisation (Standard §1.7, item 2; Naming Standard R14). A change of parent needs the approval of the human seat over the unit; OCO cannot make it alone.",
-      "pattern": "^(none|(\\[ORG\\]|[0-9A-Za-z]+)(AIOC-[A-Z]{2,5}|HOAC-(GOV|TM|ACS))(-[A-Z]{2,5})?)$"
+      "description": "The code of the AIOC, Pod or Cell that holds this one, or 'none' at the top of the organisation (Standard §1.7, item 2; Naming Standard R14). A change of parent is a recorded event and needs the approval of the human seat over the part; OCO cannot make it alone.",
+      "pattern": "^(none|(\\[ORG\\]|[0-9A-Za-z]+)AIOC-[A-Z]{2,5}(-[A-Z]{2,5})?|(\\[ORG\\]|[0-9A-Za-z]+)POD-[A-Z0-9]{2,8}|(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8})$"
     },
     "inner_units": {
       "type": "array",
-      "description": "The codes of the units this unit holds directly, of either kind, listed by link, never by copy (Standard §1.7, item 7). Each inner unit has its own card whose parent is this unit's code. Empty or absent for a unit that holds none.",
+      "description": "The codes of the parts this one holds directly, by link, never by copy (Standard §1.7, item 7). An AIOC may hold AIOCs, Pods and Cells; a Pod holds Cells only; a Cell holds nothing.",
       "uniqueItems": true,
       "items": {
         "type": "string",
-        "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)(AIOC-[A-Z]{2,5}|HOAC-(GOV|TM|ACS))(-[A-Z]{2,5})?$"
+        "pattern": "^((\\[ORG\\]|[0-9A-Za-z]+)AIOC-[A-Z]{2,5}(-[A-Z]{2,5})?|(\\[ORG\\]|[0-9A-Za-z]+)POD-[A-Z0-9]{2,8}|(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8})$"
+      }
+    },
+    "hoac": {
+      "type": "string",
+      "description": "The HOAC (Human Oversight & Accountability Control) label carried by this part, if any: [ORG]HOAC-GOV, [ORG]HOAC-TM or [ORG]HOAC-ACS (Standard §4.1). A label, never a code; the part keeps its own code.",
+      "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)HOAC-(GOV|TM|ACS)$"
+    },
+    "filler_kind": {
+      "enum": [
+        "human",
+        "ai",
+        "human-or-ai"
+      ],
+      "description": "For a Cell: the kind of filler the seat allows. The seat is fixed; its filler is replaceable."
+    },
+    "filler": {
+      "type": "string",
+      "description": "For a Cell: the current filler, as recorded in the unit register (a person or an agent identity). A filler change is a register event, never a new Cell."
+    },
+    "attached_to": {
+      "type": "string",
+      "description": "For an AI Cell that assists one person: the code of that person's human Cell. A person's AI assistants are separate registered AI Cells, never unnamed.",
+      "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
+    },
+    "fixed_test": {
+      "type": "object",
+      "description": "The fixed test of this part, owned by its seat. Work moves from human to AI, or from version to version, only by passing it, and moves back if the score drops.",
+      "required": [
+        "id",
+        "version",
+        "owner"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string",
+          "description": "The code of the seat that owns the test."
+        },
+        "threshold": {}
       }
     },
     "ports": {
@@ -135,7 +209,7 @@
     },
     "type": {
       "type": "string",
-      "description": "For an AIOC, the AIOC Type: why the AIOC exists (49GAION-aioc docs/WHAT-IS-AN-AIOC.md §4): foundational, structural, specialised, connector, or other (described in type_description). For a HOAC, the HOAC type: GOV, TM or ACS (Standard §4.1). Panel is not a type; the AION Builder is a 49GAION capability, not an AIOC type."
+      "description": "For an AIOC, the AIOC Type: why the AIOC exists (49GAION-aioc docs/WHAT-IS-AN-AIOC.md §4): foundational, structural, specialised, connector, or other (described in type_description). For a Pod or a Cell, its type from the organisation's open, configurable list (for example Human Seat, Human Reviewer, AI Agent, AI Chief of Staff). The role and nature of a Pod or an AIOC are read from the type of its top Cell."
     },
     "org_aion": {
       "type": "string",

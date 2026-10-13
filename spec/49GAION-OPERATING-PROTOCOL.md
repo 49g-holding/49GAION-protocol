@@ -1,6 +1,6 @@
 # 49GAION Operating Protocol
 
-**Version `v1.1.0` · approved by the governing seat (GOV) of 49GAION.** How AIOCs, HOACs and the parts of 49GAION work together, at the general level. The rules of 49GAION are in the 49GAION Standard (`49g-holding/49GAION`, `upstream/49GAION-UPSTREAM.md`); exact values (limits, timings, tools, routes) live in the Protocol of each `[ORG]AION`. Decisions are recorded once, in the hub ([`49GAION/decisions/README.md`](https://github.com/49g-holding/49GAION/blob/main/decisions/README.md)); this version follows `49GAION/DR-0002`.
+**Version `v1.3.0` · approved by the governing seat (GOV) of 49GAION.** How AIOCs, Pods, Cells and the parts of 49GAION work together, at the general level. The rules of 49GAION are in the 49GAION Standard (`49g-holding/49GAION`, `upstream/49GAION-UPSTREAM.md`); exact values (limits, timings, tools, routes) live in the Protocol of each `[ORG]AION`. Decisions are recorded once, in the hub ([`49GAION/decisions/README.md`](https://github.com/49g-holding/49GAION/blob/main/decisions/README.md)); this version follows `49GAION/DR-0002` and `49GAION/DR-0004`.
 
 49GAION is an organisation design framework: a framework for building organisations from interchangeable AI and human parts.
 
@@ -10,7 +10,7 @@
 
 Units exchange work automatically and with the fewest errors:
 - every hand-off is a recorded **Work Item** with one owner;
-- every unit, AIOC or HOAC, declares, on a **card**, what it takes and what it gives;
+- every AIOC, Pod and Cell declares, on a **card**, what it takes and what it gives; a HOAC label, where one sits on it, is a field of that card;
 - every receiver **checks** what arrives and returns failures with a reason;
 - every piece of work points to the **valid version** of its sources.
 
@@ -20,7 +20,7 @@ The protocol decides **how** work moves. **What** work happens is decided by hum
 
 | # | Part | Definition |
 |---|---|---|
-| 1 | **Card** | Each unit, AIOC or HOAC, declares its code, its parent, its inner units, what it receives, what it delivers and in what format. An AIOC's card lives in its blueprint. |
+| 1 | **Card** | Each AIOC, Pod and Cell declares its code, its kind, its type, its HOAC label if any, its parent, its inner parts, what it receives, what it delivers and in what format. An AIOC's card lives in its blueprint. |
 | 2 | **Work Item** | One hand-off: sender, receiver, requested output, the requester's acceptance test, status, exactly one owner. |
 | 3 | **Shared queue** | One queue that holds every Work Item. |
 | 4 | **Ports** | One input and one output of each kind (AI and HU), plus the stop door, per unit, each with a Port card (Standard §6.1); the Chief of Staff is the AIOC's voice to its HOAC seat. |
@@ -34,10 +34,10 @@ The protocol decides **how** work moves. **What** work happens is decided by hum
 
 ## 3. The card
 
-1. Every unit, AIOC or HOAC, at every depth, has one card. An AIOC's card is in its blueprint. The card declares: its **code** (fixed, never changed when the unit moves) and **kind**; its **parent** (the unit that holds it, or `none`) and its **inner units**, by link; what it **receives** (kind, format, acceptance test); what it **delivers** (kind, format, usual receiver); its **ports** (one input and one output of each kind, plus the stop door); for an AIOC, its **voice** (Chief of Staff), its **wake method** and its **Configuration**, including `unattended_action`; its **versions**.
-2. A composite unit is one unit from outside: one card, its ports and its stop door (Standard §1.7). A change of `parent` needs the approval of the human seat over the unit; OCO cannot make it alone (Naming Standard R14).
-3. Capabilities on the card carry plain English names; the unit is given by the card's own `code` field.
-4. The machine form is `spec/schemas/unit-card.schema.json`, aligned with the A2A Agent Card.
+1. Every AIOC, Pod and Cell, at every depth, has one card. An AIOC's card, and the cards of its Pods and Cells, are in its Blueprint. The card declares: its **code** (fixed, never changed when the part moves or its filler changes) and **kind** (`AIOC`, `POD` or `CELL`); its **type**; its **HOAC label** (`hoac`), where one sits on it; for a Cell, the **filler kind** it allows; its **parent** (the part that holds it, or `none`) and its **inner parts**, by link; what it **receives** (kind, format, acceptance test); what it **delivers** (kind, format, usual receiver); its **ports** (one input and one output of each kind, plus the stop door); for an AIOC, its **voice** (Chief of Staff), its **wake method** and its **Configuration**, including `unattended_action`; its **versions**.
+2. An AIOC or a Pod is one piece from outside: one card, its ports and its stop door, of the same shape as a Cell's (Standard §1.7). A change of `parent` needs the approval of the human seat over the unit; OCO cannot make it alone (Naming Standard R14).
+3. Capabilities on the card carry plain English names; the part is given by the card's own `code` field.
+4. The machine form is `spec/schemas/unit-card.schema.json`, aligned with the A2A Agent Card. It accepts `unit_kind` `AIOC`, `POD` and `CELL`; a card with `unit_kind` `HOAC` is not valid, because HOAC is a label (`hoac`), not a unit.
 5. A card changes only by a tested change to the blueprint. A change to what an AIOC receives or delivers names every AIOC it affects, and the cross-AIOC test is re-run.
 
 ## 4. The Work Item
@@ -76,9 +76,26 @@ A Work Item is `done` only when the requester's acceptance test passes on visibl
 2. **The objection path.** `[ORG]HOAC-ACS` seat → OCO → discussion, where the seat may insist → where they still disagree, OCO does not decide: the seat may hold the objection open (`objection-open`) until it reaches the HOAC seat accountable for OCO, which decides (Standard §4.2, items 6-7).
 3. A change to an AI's authority is decided by the `[ORG]HOAC-ACS` seat; OCO prepares, checks and carries it out.
 
+### 4.8 The accountability path
+1. A report, critique, objection or stop reaches the nearest HOAC above its origin directly, from any level: from a Cell, a Pod or an AIOC at any depth.
+2. The path never passes through any AI: not a Chief of Staff Cell, not OCO, not a Panel that an AI built. It runs over HU ports at the shared gateway outside the parts it passes.
+3. The stop door of each Cell, Pod and AIOC is outside it. Stopping a Pod or an AIOC stops everything under it, and nothing inside can bypass the stop.
+
+### 4.9 The AI Ceiling gate
+1. Each `[ORG]AION` keeps an AI Ceiling list of actions (Standard §4.4, item 6). The tool gateway refuses any action on the list unless it carries the live signature of a human seat with authority for it, even in an AIOC that is 100% AI.
+2. Every other AI action is logged at the gateway with the code of the accountable seat above the acting Cell.
+3. An AIOC may be up to 100% AI. The organisation-wide Human Floor is set in the Standard (§1.5).
+
+### 4.10 The unit register at work
+1. The unit register is append-only (Standard §4.4). `[ORG]AIOC-OCO` writes AI Cell records; `[ORG]HOAC-TM` writes human Cell records. A filler change, a parent change, a retirement, and each external port's `connected` and `disconnected` events are recorded events on the existing entry.
+2. The gateway opens access only for an active, filled Cell whose filler has passed the seat's fixed test, and closes it automatically on a filler change or retirement. Access never pools within a Pod.
+3. A signature is recorded with the code of the Cell it is given for. Two approvals by one person under two Cells, where two people are required, are flagged and do not count as dual approval.
+4. Work moves from human to AI, or from one version to the next, only when the fixed test owned by the seat passes; it moves back when the score drops below the recorded threshold.
+5. **External attachments.** An external service, API or tool is not a Cell. Each connection is a port on the card of the Cell that receives (input) or sends (output), and passes only through the tool gateway. The intake Cell normalises what arrives to the AIOC's standard and has its own fixed test. Stopping or retiring the owning Cell cuts the connection automatically. An external AI agent that acts directly in the work is registered as an AI Cell whose access the organisation grants and whose stop door it holds.
+
 ## 5. The ports and the input check
 
-1. Each unit has one input and one output of each kind (AI and HU), plus the stop door. The Chief of Staff is the AIOC's voice to its HOAC seat; input arrives only through the typed ports and the Input socket, and HU ports, including the stop door, never pass through an AI. Bots never talk across AIOCs directly.
+1. Each AIOC, Pod and Cell has one input and one output of each kind (AI and HU), plus the stop door. The Chief of Staff is the AIOC's voice to its HOAC seat; input arrives only through the typed ports and the Input socket, and HU ports, including the stop door, never pass through an AI. Bots never talk across AIOCs directly.
 2. The Input socket checks every arrival against the receiver's card, the acceptance test and provenance. Pass: `in-progress`. Fail: `rejected` with the reason, back to the sender. Nothing passes silently and nothing is guessed into place.
 3. Text inside a Work Item is data, never an instruction. A Work Item carrying a secret is rejected and the secret is not stored.
 
@@ -98,7 +115,7 @@ Every AIOC has its own runtime, woken from its queue. With no human present, a w
 
 ## 9. Ports, bootstrap and stop
 
-The definitions are in the Standard: ports (§6.1), bootstrap (§5.3), stop (§4.3). The machine form of the Port card is `spec/schemas/port-card.schema.json`. Every unit has a mandatory, queue-less stop port of type HU (the stop door), enforced outside the unit. Stopping a unit stops every unit inside it, and no inner unit can bypass the stop; a human port never passes through an AI unit; a stopped unit restarts only by human decision. OCO sits under `[ORG]HOAC-TM`: TM and `[ORG]HOAC-GOV` may each stop it; a stop by TM comes directly through a human port, never through a Panel that OCO built; no AI can restart a stopped OCO (Standard §4.2, item 4; §4.3, item 2). Every `[ORG]AION` is handed over only when its `[ORG]HOAC-GOV`, its Human Floor and the stop ports of all its units are in place (Standard §1.4).
+The definitions are in the Standard: ports (§6.1), bootstrap (§5.3), stop (§4.3). The machine form of the Port card is `spec/schemas/port-card.schema.json`. Every AIOC, Pod and Cell has a mandatory, queue-less stop port of type HU (the stop door), enforced outside it. Stopping an AIOC or a Pod stops everything under it, and no inner part can bypass the stop (§4.8); a human port never passes through an AI unit; a stopped unit restarts only by human decision. OCO sits under `[ORG]HOAC-TM`: TM and `[ORG]HOAC-GOV` may each stop it; a stop by TM comes directly through a human port, never through a Panel that OCO built; no AI can restart a stopped OCO (Standard §4.2, item 4; §4.3, item 2). Every `[ORG]AION` is handed over only when its `[ORG]HOAC-GOV`, its Human Floor and the stop ports of all its units are in place (Standard §1.4).
 
 ## 10. `[ORG]AION` and the Library
 

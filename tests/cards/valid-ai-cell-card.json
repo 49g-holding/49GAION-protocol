@@ -1,0 +1,22 @@
+{
+  "unit_kind": "CELL",
+  "code": "TenCELL-TMSA",
+  "parent": "TenCELL-TMS",
+  "type": "AI Agent",
+  "full_name": "Top Management Seat Assistant",
+  "filler_kind": "ai",
+  "attached_to": "TenCELL-TMS",
+  "fixed_test": {
+    "id": "TEST-TMSA",
+    "version": "v1",
+    "owner": "TenCELL-TMS"
+  },
+  "card_version": "v1",
+  "version": "1.0.0",
+  "lineage": {
+    "id": "TenCELL-TMSA",
+    "version": "1.0.0",
+    "relation": "original"
+  },
+  "lifecycle_state": "designed"
+}

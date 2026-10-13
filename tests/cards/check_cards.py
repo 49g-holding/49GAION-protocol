@@ -1,4 +1,4 @@
-"""Fixed test for unit cards (AIOC and HOAC): complete cards must pass, an incomplete card and bad codes must fail; Library cards validate."""
+"""Fixed test for unit cards (AIOC, Pod and Cell): valid cards pass; must-fail cards (incomplete, Pod in Pod, HOAC as a unit kind, code with a suffix) and bad codes fail; Library cards validate."""
 import json, pathlib, sys
 from jsonschema import Draft202012Validator
 from referencing import Registry, Resource
@@ -10,17 +10,27 @@ for n, s in schemas.items():
     Draft202012Validator.check_schema(s)
 val = Draft202012Validator(schemas["unit-card.schema.json"], registry=reg)
 here = pathlib.Path(__file__).parent
+VALID = ("valid-card.json", "valid-cell-card.json", "valid-ai-cell-card.json", "valid-pod-card.json")
 ok = all(not list(val.iter_errors(json.loads((here / n).read_text())))
-         for n in ("valid-card.json", "valid-hoac-card.json"))
-for n in ("valid-card.json", "valid-hoac-card.json"):
+         for n in VALID)
+for n in VALID:
     print(n, [e.message for e in val.iter_errors(json.loads((here / n).read_text()))][:3] or "valid")
 code_schema = schemas["unit-card.schema.json"]["properties"]["code"]
-good_codes = ["[ORG]AIOC-SL", "TenAIOC-SL", "[ORG]AIOC-OCO", "[ORG]HOAC-GOV", "TenHOAC-GOV", "[ORG]HOAC-ACS-SL"]
-bad_codes = ["49GAION-SL", "[ORG]AIOC-", "TenHOAC-CEO", "Ten AIOC-SL", "[ORG]AIOC-sl"]
+good_codes = ["[ORG]AIOC-SL", "TenAIOC-SL", "[ORG]AIOC-OCO", "[ORG]POD-RV", "TenPOD-RV", "[ORG]CELL-SLCS", "TenCELL-TMS"]
+bad_codes = ["49GAION-SL", "[ORG]AIOC-", "[ORG]HOAC-GOV", "TenCELL-TMS-SL", "Ten AIOC-SL", "[ORG]AIOC-sl", "[ORG]POD-rv"]
+hoac = Draft202012Validator(schemas["unit-card.schema.json"]["properties"]["hoac"])
+codes_ok_h = all(hoac.is_valid(c) for c in ["[ORG]HOAC-GOV", "TenHOAC-TM", "[ORG]HOAC-ACS"]) and not hoac.is_valid("[ORG]HOAC-CEO")
+print("hoac label pattern:", codes_ok_h)
 cv = Draft202012Validator(code_schema)
 codes_ok = all(cv.is_valid(c) for c in good_codes) and not any(cv.is_valid(c) for c in bad_codes)
 print("code pattern accepts examples and rejects bad codes:", codes_ok)
-ok = ok and codes_ok
+ok = ok and codes_ok and codes_ok_h
+must_fail = sorted(here.glob("must-fail-*.json"))
+mf_ok = bool(must_fail)
+for f in must_fail:
+    errs = list(val.iter_errors(json.loads(f.read_text())))
+    print(f.name, "rejected" if errs else "NOT REJECTED"); mf_ok &= bool(errs)
+ok = ok and mf_ok
 bad = list(val.iter_errors(json.loads((here / "incomplete-card.json").read_text())))
 print("valid card passes:", ok); print("incomplete card rejected:", bool(bad), [e.message for e in bad][:5])
 lib = pathlib.Path(__file__).resolve().parents[2] / "library" / "cards"
