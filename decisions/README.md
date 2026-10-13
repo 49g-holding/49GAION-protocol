@@ -8,6 +8,7 @@ The decision records of 49GAION are kept once, in the hub. This repository keeps
 | [`49GAION/DR-0002`](https://github.com/49g-holding/49GAION/blob/main/decisions/DR-0002-49gaion-v1-1-0-two-hubs-composition.md) | 49GAION v1.1.0 — two hubs, shared Self-Improvement, composition |
 | [`49GAION/DR-0003`](https://github.com/49g-holding/49GAION/blob/main/decisions/DR-0003-49gaion-v1-2-0-self-improvement-loop.md) | 49GAION v1.2.0 — the improvement loop of Self-Improvement |
 | [`49GAION/DR-0004`](https://github.com/49g-holding/49GAION/blob/main/decisions/DR-0004-49gaion-v1-3-0-hoac-cells-pods.md) | 49GAION v1.3.0 — HOAC as a label; Cells and Pods |
+| [`49GAION/DR-0005`](https://github.com/49g-holding/49GAION/blob/main/decisions/DR-0005-49gaion-v1-4-0-signature-list-rules.md) | 49GAION v1.4.0 — Human Floor signature list: removal path and list location |
 
 Status of each record: [`49GAION/decisions/README.md`](https://github.com/49g-holding/49GAION/blob/main/decisions/README.md).
 
