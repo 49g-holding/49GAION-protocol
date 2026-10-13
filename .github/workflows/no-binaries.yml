@@ -34,7 +34,9 @@ jobs:
           while IFS= read -r f; do
             [ -n "$f" ] && [ -f "$f" ] || continue
             case "$f" in *.svg) continue;; esac   # SVG is text
-            if ! grep -Iq . "$f" && [ -s "$f" ]; then BAD="$BAD$f"$'\n'; fi
+            # Binary: contains a NUL byte or is not valid UTF-8 (catches files grep -I reads as text).
+            if [ -s "$f" ] && ! python3 -c 'import sys; d=open(sys.argv[1],"rb").read(); sys.exit(1 if b"\0" in d else 0); ' "$f" 2>/dev/null; then BAD="$BAD$f"$'\n'; continue; fi
+            if [ -s "$f" ] && ! python3 -c 'import sys; open(sys.argv[1],"rb").read().decode("utf-8")' "$f" 2>/dev/null; then BAD="$BAD$f"$'\n'; fi
           done < <(git diff --name-only --diff-filter=AM "$BASE"...HEAD)
           if [ -n "$BAD" ]; then
             printf '%s' "$BAD"
