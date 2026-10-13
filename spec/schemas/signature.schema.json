@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/signature.schema.json",
+  "title": "49GAION Operating Protocol - signature record",
+  "description": "The record of one human signature for an action of a listed decision type (Protocol §4.10, item 9; Standard §4.4, items 6 and 8). It holds only the payload hash, Cell codes and a pseudonymous identity reference; personal data stays in the [ORG]AION's private store. This schema proves shape only; behaviour (replay, revocation, expiry, wrong executor, altered payload, signer Cell changed, retired or stopped) is tested in each [ORG]AION's D-3 gateway delivery test.",
+  "type": "object",
+  "required": [
+    "signature_id",
+    "decision_type",
+    "target_code",
+    "payload_hash",
+    "signer_cell",
+    "signer_seat_kind",
+    "signer_identity_ref",
+    "signer_credential",
+    "executor_cell",
+    "work_item_id",
+    "nonce",
+    "issued_at",
+    "expires_at",
+    "sign_in_evidence"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "signature_id": {
+      "type": "string",
+      "pattern": "^SIG-[0-9A-Za-z-]+$",
+      "description": "The signature ID recorded in the unit register."
+    },
+    "decision_type": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9-]+$",
+      "description": "A type ID of the signature list."
+    },
+    "target_code": {
+      "type": "string",
+      "description": "The code of the part the action is on."
+    },
+    "payload_hash": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "Hash of the canonical action payload; the gateway runs the call only when its hash equals this."
+    },
+    "signer_cell": {
+      "type": "string",
+      "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$",
+      "description": "The code of the human Cell the signature is given for."
+    },
+    "signer_seat_kind": {
+      "const": "human",
+      "description": "The signer's Cell is a human seat. A signature by an AI Cell, including an attached assistant, is never valid (Protocol §4.10, items 6 and 7)."
+    },
+    "signer_role": {
+      "enum": [
+        "filler",
+        "acting-filler",
+        "deputy"
+      ],
+      "description": "The signer fills the seat, acts for it for a dated period, or signs as a deputy under a recorded delegation (Protocol §4.10, item 10)."
+    },
+    "delegation_ref": {
+      "type": "string",
+      "description": "For an acting filler or a deputy: the register event of the appointment or delegation."
+    },
+    "signer_identity_ref": {
+      "type": "string",
+      "pattern": "^idref:[0-9A-Za-z-]+$",
+      "description": "A pseudonymous reference to the signer's identity; no name."
+    },
+    "signer_credential": {
+      "type": "object",
+      "required": [
+        "kind",
+        "authenticator",
+        "bound_to_one_person"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "const": "human-live-sign-in",
+          "description": "Never an AI credential or a technical key."
+        },
+        "authenticator": {
+          "const": "phishing-resistant"
+        },
+        "bound_to_one_person": {
+          "const": true
+        }
+      }
+    },
+    "executor_cell": {
+      "type": "string",
+      "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$",
+      "description": "The Cell that may run the signed action; the gateway checks the caller is this Cell."
+    },
+    "work_item_id": {
+      "type": "string"
+    },
+    "nonce": {
+      "type": "string",
+      "minLength": 16,
+      "description": "Single-use; the gateway refuses a nonce already used."
+    },
+    "issued_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sign_in_evidence": {
+      "type": "object",
+      "required": [
+        "signed_in_at",
+        "session_ref"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "signed_in_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "session_ref": {
+          "type": "string"
+        }
+      },
+      "description": "Evidence of the fresh live sign-in made at signing (HF-10)."
+    },
+    "revoked": {
+      "type": "boolean"
+    }
+  }
+}

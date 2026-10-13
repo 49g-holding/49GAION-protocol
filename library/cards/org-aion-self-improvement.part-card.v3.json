@@ -1,0 +1,34 @@
+{
+  "part": "[ORG]AION Self-Improvement process (held in [ORG]HOAC-TM, served by AI Cells; no standalone unit)",
+  "version": "v3",
+  "inputs": [
+    {
+      "name": "the [ORG]AION's lessons and failing samples",
+      "format": "versioned file in git (ID + version)"
+    },
+    {
+      "name": "the [ORG]AION's test results",
+      "format": "versioned file in git (ID + version)"
+    },
+    {
+      "name": "the shared queue, pseudonymised, read-only (Standard §2.1, item 7)",
+      "format": "read-only record stream"
+    },
+    {
+      "name": "the gateway logs, pseudonymised, read-only (Standard §2.1, item 7)",
+      "format": "append-only log"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "pull requests to the [ORG]AION's definitions",
+      "format": "versioned file in git (ID + version)"
+    }
+  ],
+  "test": {
+    "id": "TEST-ORG-AION-SI",
+    "version": "v3"
+  },
+  "status": "DRAFT",
+  "replaces": "v2"
+}

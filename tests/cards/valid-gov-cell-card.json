@@ -1,0 +1,105 @@
+{
+  "unit_kind": "CELL",
+  "code": "TenCELL-GOV",
+  "parent": "TenAIOC-CH",
+  "type": "Human Seat",
+  "full_name": "TenCELL-GOV",
+  "filler_kind": "human",
+  "fixed_test": {
+    "id": "TEST-GOV",
+    "version": "v1",
+    "owner": "TenCELL-TMS"
+  },
+  "card_version": "v1",
+  "version": "1.0.0",
+  "lineage": {
+    "id": "TenCELL-GOV",
+    "version": "1.0.0",
+    "relation": "original"
+  },
+  "lifecycle_state": "designed",
+  "ports": [
+    {
+      "unit": "TenCELL-GOV",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "ai-in",
+      "direction": "input",
+      "type": "AI",
+      "identification": "technical-key"
+    },
+    {
+      "unit": "TenCELL-GOV",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "ai-out",
+      "direction": "output",
+      "type": "AI",
+      "identification": "technical-key"
+    },
+    {
+      "unit": "TenCELL-GOV",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "hu-in",
+      "direction": "input",
+      "type": "HU",
+      "identification": "live-human-sign-in-at-gateway"
+    },
+    {
+      "unit": "TenCELL-GOV",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "hu-out",
+      "direction": "output",
+      "type": "HU",
+      "identification": "live-human-sign-in-at-gateway"
+    },
+    {
+      "unit": "TenCELL-GOV",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "stop",
+      "direction": "input",
+      "type": "HU",
+      "identification": "live-human-sign-in-at-gateway",
+      "stop_door": true
+    }
+  ],
+  "hoac": "TenHOAC-GOV"
+}

@@ -1,0 +1,24 @@
+{
+  "signature_id": "SIG-0001",
+  "decision_type": "sign-contract",
+  "target_code": "TenAIOC-SL",
+  "payload_hash": "sha256:abababababababababababababababababababababababababababababababab",
+  "signer_cell": "TenCELL-TMS",
+  "signer_seat_kind": "human",
+  "signer_role": "filler",
+  "signer_identity_ref": "idref:7f3a",
+  "signer_credential": {
+    "kind": "human-live-sign-in",
+    "authenticator": "phishing-resistant",
+    "bound_to_one_person": true
+  },
+  "executor_cell": "TenCELL-SLCS",
+  "work_item_id": "WI-0042",
+  "issued_at": "2026-10-13T09:00:00Z",
+  "expires_at": "2026-10-13T10:00:00Z",
+  "sign_in_evidence": {
+    "signed_in_at": "2026-10-13T08:59:30Z",
+    "session_ref": "sess-91"
+  },
+  "$expect": "nonce"
+}
