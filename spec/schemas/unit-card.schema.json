@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/unit-card.schema.json",
   "title": "49GAION Operating Protocol - unit card (AIOC, Pod or Cell)",
-  "description": "The card of one AIOC, Pod or Cell, at any depth (Standard §1.7; AIOC definition docs/CELLS-AND-PODS.md). The AIOC is the only unit kind; Pods and Cells are parts held in an AIOC's Blueprint (49GAION-aioc template §1). HOAC (Human Oversight & Accountability Control) is a label of human accountability, recorded in the 'hoac' field of the card of the part that carries it, never a unit kind. An AIOC or a Pod is one piece from outside: one card of the same shape as a Cell's, its ports and its stop door. Aligned in vocabulary with the A2A Agent Card (Protocol §12). The type is a card field, never part of the code.",
+  "description": "The card of one AIOC, Pod or Cell, at any depth (Standard \u00a71.7; AIOC definition docs/CELLS-AND-PODS.md). The AIOC is the only unit kind; Pods and Cells are parts held in an AIOC's Blueprint (49GAION-aioc template \u00a71). HOAC (Human Oversight & Accountability Control) is a label of human accountability, recorded in the 'hoac' field of the card of the part that carries it, never a unit kind. An AIOC or a Pod is one piece from outside: one card of the same shape as a Cell's, its ports and its stop door. Aligned in vocabulary with the A2A Agent Card (Protocol \u00a712). The type is a card field, never part of the code.",
   "type": "object",
   "required": [
     "unit_kind",
@@ -126,6 +126,27 @@
           "type_description"
         ]
       }
+    },
+    {
+      "if": {
+        "required": [
+          "attached_to"
+        ]
+      },
+      "then": {
+        "required": [
+          "unit_kind",
+          "filler_kind"
+        ],
+        "properties": {
+          "unit_kind": {
+            "const": "CELL"
+          },
+          "filler_kind": {
+            "const": "ai"
+          }
+        }
+      }
     }
   ],
   "properties": {
@@ -144,12 +165,12 @@
     },
     "parent": {
       "type": "string",
-      "description": "The code of the AIOC, Pod or Cell that holds this one, or 'none' at the top of the organisation (Standard §1.7, item 2; Naming Standard R14). A change of parent is a recorded event and needs the approval of the human seat over the part; OCO cannot make it alone.",
+      "description": "The code of the AIOC, Pod or Cell that holds this one, or 'none' at the top of the organisation (Standard \u00a71.7, item 2; Naming Standard R14). A change of parent is a recorded event and needs the approval of the human seat over the part; OCO cannot make it alone.",
       "pattern": "^(none|(\\[ORG\\]|[0-9A-Za-z]+)AIOC-[A-Z]{2,5}(-[A-Z]{2,5})?|(\\[ORG\\]|[0-9A-Za-z]+)POD-[A-Z0-9]{2,8}|(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8})$"
     },
     "inner_units": {
       "type": "array",
-      "description": "The codes of the parts this one holds directly, by link, never by copy (Standard §1.7, item 7). An AIOC may hold AIOCs, Pods and Cells; a Pod holds Cells only; a Cell holds nothing.",
+      "description": "The codes of the parts this one holds directly, by link, never by copy (Standard \u00a71.7, item 7). An AIOC may hold AIOCs, Pods and Cells; a Pod holds Cells only; a Cell holds nothing.",
       "uniqueItems": true,
       "items": {
         "type": "string",
@@ -158,7 +179,7 @@
     },
     "hoac": {
       "type": "string",
-      "description": "The HOAC (Human Oversight & Accountability Control) label carried by this part, if any: [ORG]HOAC-GOV, [ORG]HOAC-TM or [ORG]HOAC-ACS (Standard §4.1). A label, never a code; the part keeps its own code.",
+      "description": "The HOAC (Human Oversight & Accountability Control) label carried by this part, if any: [ORG]HOAC-GOV, [ORG]HOAC-TM or [ORG]HOAC-ACS (Standard \u00a74.1). A label, never a code; the part keeps its own code.",
       "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)HOAC-(GOV|TM|ACS)$"
     },
     "filler_kind": {
@@ -175,7 +196,7 @@
     },
     "attached_to": {
       "type": "string",
-      "description": "For an AI Cell that assists one person: the code of that person's human Cell. A person's AI assistants are separate registered AI Cells, never unnamed.",
+      "description": "For an AI Cell that assists one person: the code of that person's human Cell. A person's AI assistants are separate registered AI Cells, never unnamed. Allowed only on a Cell whose filler_kind is ai.",
       "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
     },
     "fixed_test": {
@@ -202,14 +223,14 @@
     },
     "ports": {
       "type": "array",
-      "description": "The unit's Port cards: one input and one output of each kind (AI and HU), plus the stop door (Standard §6.1).",
+      "description": "The unit's Port cards: one input and one output of each kind (AI and HU), plus the stop door (Standard \u00a76.1).",
       "items": {
         "$ref": "port-card.schema.json"
       }
     },
     "type": {
       "type": "string",
-      "description": "For an AIOC, the AIOC Type: why the AIOC exists (49GAION-aioc docs/WHAT-IS-AN-AIOC.md §4): foundational, structural, specialised, connector, or other (described in type_description). For a Pod or a Cell, its type from the organisation's open, configurable list (for example Human Seat, Human Reviewer, AI Agent, AI Chief of Staff). The role and nature of a Pod or an AIOC are read from the type of its top Cell."
+      "description": "For an AIOC, the AIOC Type: why the AIOC exists (49GAION-aioc docs/WHAT-IS-AN-AIOC.md \u00a74): foundational, structural, specialised, connector, or other (described in type_description). For a Pod or a Cell, its type from the organisation's open, configurable list (for example Human Seat, Human Reviewer, AI Agent, AI Chief of Staff). The role and nature of a Pod or an AIOC are read from the type of its top Cell."
     },
     "org_aion": {
       "type": "string",
@@ -452,7 +473,7 @@
     },
     "configuration": {
       "type": "object",
-      "description": "The AIOC's Configuration (49GAION-aioc template §15): 49GAION fixes the path; who holds each role is configured in each organisation. Every slot must be filled; an AIOC with any empty slot does not pass the joining test. Each value records who set it, when and in which version; a changed value is marked replaced_by, never deleted. office_accountable_human: the HOAC seat accountable for OCO, which decides objections held open (Protocol §4.7). central_head: the OCO of this unit's [ORG]AION. budget_cap: the AIOC's cap on AI spend through the shared AI gateway. chain_depth: the maximum depth of Work Item chains, set by the organisation. unattended_action: what a Chief of Staff may do with no human present (Protocol §7).",
+      "description": "The AIOC's Configuration (49GAION-aioc template \u00a715): 49GAION fixes the path; who holds each role is configured in each organisation. Every slot must be filled; an AIOC with any empty slot does not pass the joining test. Each value records who set it, when and in which version; a changed value is marked replaced_by, never deleted. office_accountable_human: the HOAC seat accountable for OCO, which decides objections held open (Protocol \u00a74.7). central_head: the OCO of this unit's [ORG]AION. budget_cap: the AIOC's cap on AI spend through the shared AI gateway. chain_depth: the maximum depth of Work Item chains, set by the organisation. unattended_action: what a Chief of Staff may do with no human present (Protocol \u00a77).",
       "required": [
         "office_accountable_human",
         "central_head",
@@ -663,7 +684,7 @@
             "read-record-triage",
             "act-within-limits"
           ],
-          "description": "What a Chief of Staff may do after an automatic wake-up with no human present (Protocol §7): read-record-triage (the default) or act-within-limits. Set by the accountable human."
+          "description": "What a Chief of Staff may do after an automatic wake-up with no human present (Protocol \u00a77): read-record-triage (the default) or act-within-limits. Set by the accountable human."
         }
       }
     },
@@ -734,7 +755,7 @@
     },
     "statuses": {
       "type": "array",
-      "description": "Statuses this unit uses; each from the shared list (status.schema.json; Protocol §4.2).",
+      "description": "Statuses this unit uses; each from the shared list (status.schema.json; Protocol \u00a74.2).",
       "items": {
         "$ref": "status.schema.json"
       }

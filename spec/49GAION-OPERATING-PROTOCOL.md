@@ -92,6 +92,8 @@ A Work Item is `done` only when the requester's acceptance test passes on visibl
 3. A signature is recorded with the code of the Cell it is given for. Two approvals by one person under two Cells, where two people are required, are flagged and do not count as dual approval.
 4. Work moves from human to AI, or from one version to the next, only when the fixed test owned by the seat passes; it moves back when the score drops below the recorded threshold.
 5. **External attachments.** An external service, API or tool is not a Cell. Each connection is a port on the card of the Cell that receives (input) or sends (output), and passes only through the tool gateway. The intake Cell normalises what arrives to the AIOC's standard and has its own fixed test. Stopping or retiring the owning Cell cuts the connection automatically. An external AI agent that acts directly in the work is registered as an AI Cell whose access the organisation grants and whose stop door it holds.
+6. An AI Cell attached to a person, including that person's Chief of Staff, never provides that person's signature.
+7. A listed action counts as signed only when the signature is made with the human seat holder's own identity. A signature from any AI Cell's credentials, including an attached assistant, is rejected.
 
 ## 5. The ports and the input check
 
