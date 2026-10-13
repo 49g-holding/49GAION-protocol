@@ -13,12 +13,12 @@
   },
   "receives": [
     {
-      "kind": "shared queue, read-only (Standard §2.1, item 7)",
+      "kind": "shared queue, pseudonymised, read-only (Standard §2.1, item 7)",
       "format": "read-only record stream",
       "acceptance_test": "TEST-ORG-AION-SI-LOOP v1"
     },
     {
-      "kind": "gateway logs, read-only (Standard §2.1, item 7)",
+      "kind": "gateway logs, pseudonymised, read-only (Standard §2.1, item 7)",
       "format": "append-only log",
       "acceptance_test": "TEST-ORG-AION-SI-LOOP v1"
     },
@@ -43,7 +43,7 @@
   "skills": [
     {
       "id": "run-improvement-loop",
-      "name": "Run the improvement loop: shadow run, pairwise judgment, bounded rounds, golden set by the assurance unit, promotion only on a human seat's approval (Standard §2.3)",
+      "name": "Run, for [ORG]HOAC-TM, the Self-Improvement process held inside TM (Standard §2.1, item 6; not a standalone unit). Run the improvement loop: shadow run, pairwise judgment, bounded rounds, golden set by the assurance unit, promotion only on a human seat's approval (Standard §2.3)",
       "tags": [
         "self-improvement",
         "challenger",
