@@ -60,8 +60,10 @@ def run(folder, schema_name, extra=lambda c: []):
     d = ROOT / folder
     for f in sorted(d.glob("valid-*.json")):
         c = json.loads(f.read_text())
-        errs = [e.message for e in V[schema_name].iter_errors(c)] + extra(c)
-        print(f"{folder}/{f.name}:", "valid" if not errs else f"NOT VALID {errs[:3]}"); ok &= not errs
+        raw = list(V[schema_name].iter_errors(c))
+        errs = [e.message for e in raw] + extra(c)
+        rules = sorted({s for e in raw for s in signatures(schema_name, e) if s.startswith("RULE-")} | {x for x in extra(c) if x.startswith("RULE-")})
+        print(f"{folder}/{f.name}:", "valid" if not errs else f"NOT VALID {rules} {errs[:3]}"); ok &= not errs
     for f in sorted(d.glob("must-fail-*.json")):
         c = json.loads(f.read_text()); want = c.pop("$expect", None) or LEGACY.get(f.name)
         errs = list(V[schema_name].iter_errors(c)); sigs = set().union(*[signatures(schema_name, e) for e in errs]) | set(extra(c))
@@ -117,8 +119,11 @@ r = all(pv.is_valid(v) for v in ["v2", "v1.3", "v1.3.0", "v1.3.0-rc1"]) and not 
 lib = ROOT / "library" / "cards"
 for f in sorted(lib.glob("*.json")):
     sch = "unit-card.schema.json" if ".unit-card" in f.name else "part-card.schema.json" if "part-card" in f.name else "bot-identity-card.schema.json"
-    c = json.loads(f.read_text()); errs = [e.message for e in V[sch].iter_errors(c)] + (code_rules(c) if sch.startswith("unit") else [])
-    print(f"library/cards/{f.name}:", "valid" if not errs else errs[:3]); ok &= not errs
+    c = json.loads(f.read_text()); raw = list(V[sch].iter_errors(c))
+    extra_l = (code_rules(c) if sch.startswith("unit") else bot_rules(c) if "bot-identity" in sch else [])
+    errs = [e.message for e in raw] + extra_l
+    rules = sorted({s for e in raw for s in signatures(sch, e) if s.startswith("RULE-")} | set(extra_l))
+    print(f"library/cards/{f.name}:", "valid" if not errs else f"NOT VALID {rules} {errs[:3]}"); ok &= not errs
 _lib_bots = [(f.name, json.loads(f.read_text())) for f in sorted(lib.glob("*.bot-identity-card*.json"))]
 r = not shared_credentials(_lib_bots); print("library bot cards hold distinct credentials:", r); ok &= r
 r = not any(bot_rules(c) for _, c in _lib_bots); print("no library bot card is allowed to sign:", r); ok &= r
