@@ -73,6 +73,78 @@
         "REPLACED",
         "REJECTED"
       ]
+    },
+    "credential": {
+      "type": "object",
+      "required": [
+        "id",
+        "holder",
+        "shared"
+      ],
+      "additionalProperties": false,
+      "description": "The bot's own credential (v1.5.0): issued to it alone, held by the one Cell it fills, never shared with another Cell, bot or person, and never reused.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "holder": {
+          "type": "string",
+          "description": "Code of the Cell the bot fills."
+        },
+        "shared": {
+          "const": false
+        }
+      }
+    },
+    "cell_kind": {
+      "enum": [
+        "ai-cell",
+        "attached-ai-cell",
+        "chief-of-staff-cell"
+      ],
+      "description": "The kind of AI Cell the bot fills (v1.5.0)."
+    },
+    "never_signs": {
+      "type": "boolean",
+      "description": "v1.5.0: true for every bot. A bot never signs a listed type, whatever Cell it fills, including a Chief of Staff and an attached AI Cell. Stopping a part under the Standard's stop rules is not a signature."
+    },
+    "memory_on_filler_change": {
+      "enum": [
+        "sealed"
+      ],
+      "description": "v1.5.0: when the filler of the Cell changes, the bot's memory of the previous filler is sealed (kept, unreadable to the new filler), never purged."
     }
-  }
+  },
+  "allOf": [
+    {
+      "$comment": "RULE-BOT-V3: a v3 bot card names its own credential, its Cell kind, never_signs and the sealing of memory on a change of filler.",
+      "if": {
+        "properties": {
+          "card_version": {
+            "const": "v3"
+          }
+        },
+        "required": [
+          "card_version"
+        ]
+      },
+      "then": {
+        "required": [
+          "credential",
+          "cell_kind",
+          "never_signs",
+          "memory_on_filler_change"
+        ]
+      }
+    },
+    {
+      "$comment": "RULE-BOT-NEVER-SIGNS: no bot claims a right to sign.",
+      "properties": {
+        "never_signs": {
+          "const": true
+        }
+      }
+    }
+  ]
 }

@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/unit-card.schema.json",
   "title": "49GAION Operating Protocol - unit card (AIOC, Pod or Cell)",
-  "description": "The card of one AIOC, Pod or Cell, at any depth (Standard \u00a71.7; AIOC definition docs/CELLS-AND-PODS.md). The AIOC is the only unit kind; Pods and Cells are parts held in an AIOC's Blueprint (49GAION-aioc template \u00a71). HOAC (Human Oversight & Accountability Control) is a label of human accountability, recorded in the 'hoac' field of the card of the part that carries it, never a unit kind. An AIOC or a Pod is one piece from outside: one card of the same shape as a Cell's, its ports and its stop door. Aligned in vocabulary with the A2A Agent Card (Protocol \u00a712). The type is a card field, never part of the code. Correction (v1.5.0): \"template \u00a71\" above reads \"template \u00a717\" for the cards of Pods and Cells; the AIOC's own card is template \u00a71. Two relations (Standard \u00a71.7, item 12): parent names only the AIOC or Pod whose Blueprint holds the part's card; accountable_to names the human Cell carrying a HOAC label to which the part answers. A Cell is never a parent.",
+  "description": "The card of one AIOC, Pod or Cell, at any depth (Standard §1.7; AIOC definition docs/CELLS-AND-PODS.md). The AIOC is the only unit kind; Pods and Cells are parts held in an AIOC's Blueprint (49GAION-aioc template §1). HOAC (Human Oversight & Accountability Control) is a label of human accountability, recorded in the 'hoac' field of the card of the part that carries it, never a unit kind. An AIOC or a Pod is one piece from outside: one card of the same shape as a Cell's, its ports and its stop door. Aligned in vocabulary with the A2A Agent Card (Protocol §12). The type is a card field, never part of the code. Correction (v1.5.0): \"template §1\" above reads \"template §17\" for the cards of Pods and Cells; the AIOC's own card is template §1. Two relations (Standard §1.7, item 12): parent names only the AIOC or Pod whose Blueprint holds the part's card; accountable_to names the human Cell carrying a HOAC label to which the part answers. A Cell is never a parent.",
   "type": "object",
   "required": [
     "unit_kind",
@@ -151,7 +151,7 @@
       "$comment": "RULE-ATTACHED-AI: attached_to only on an AI Cell"
     },
     {
-      "$comment": "RULE-STOP-DOOR: every kind has ports with exactly one stop door (Standard \u00a74.3, item 1)",
+      "$comment": "RULE-STOP-DOOR: every kind has ports with exactly one stop door (Standard §4.3, item 1)",
       "if": {
         "required": [
           "unit_kind"
@@ -180,7 +180,7 @@
       }
     },
     {
-      "$comment": "RULE-FIXED-TEST: every kind has a fixed test (Standard \u00a73.2, item 9)",
+      "$comment": "RULE-FIXED-TEST: every kind has a fixed test (Standard §3.2, item 9)",
       "if": {
         "required": [
           "unit_kind"
@@ -216,7 +216,7 @@
       }
     },
     {
-      "$comment": "RULE-HOAC-HUMAN-SEAT: a HOAC label on a Cell needs seat kind human (Standard \u00a74.1, item 11)",
+      "$comment": "RULE-HOAC-HUMAN-SEAT: a HOAC label on a Cell needs seat kind human (Standard §4.1, item 11)",
       "if": {
         "properties": {
           "unit_kind": {
@@ -240,7 +240,7 @@
       }
     },
     {
-      "$comment": "RULE-HOAC-HOLDER: a HOAC label on a Pod or an AIOC needs a label_holder or a decision_rule (Standard \u00a74.1, item 10)",
+      "$comment": "RULE-HOAC-HOLDER: a HOAC label on a Pod or an AIOC needs a label_holder or a decision_rule (Standard §4.1, item 10)",
       "if": {
         "properties": {
           "unit_kind": {
@@ -271,7 +271,7 @@
       }
     },
     {
-      "$comment": "RULE-PARENT-CELL: a Cell's parent is an AIOC or a Pod; a Cell is never a parent (Standard \u00a71.7, item 12)",
+      "$comment": "RULE-PARENT-CELL: a Cell's parent is an AIOC or a Pod; a Cell is never a parent (Standard §1.7, item 12)",
       "if": {
         "properties": {
           "unit_kind": {
@@ -298,7 +298,7 @@
       }
     },
     {
-      "$comment": "RULE-PARENT-POD: a Pod's parent is an AIOC (Standard \u00a71.7, item 10)",
+      "$comment": "RULE-PARENT-POD: a Pod's parent is an AIOC (Standard §1.7, item 10)",
       "if": {
         "properties": {
           "unit_kind": {
@@ -318,7 +318,7 @@
       }
     },
     {
-      "$comment": "RULE-PARENT-AIOC: an AIOC's parent is an AIOC, or none for the Charter (Standard \u00a71.7, item 13)",
+      "$comment": "RULE-PARENT-AIOC: an AIOC's parent is an AIOC, or none for the Charter (Standard §1.7, item 13)",
       "if": {
         "properties": {
           "unit_kind": {
@@ -345,7 +345,7 @@
       }
     },
     {
-      "$comment": "RULE-ACCOUNTABLE-TO: every part names accountable_to, except the Cell carrying [ORG]HOAC-GOV (Standard \u00a71.7, items 12 and 13)",
+      "$comment": "RULE-ACCOUNTABLE-TO: every part names accountable_to, except the Cell carrying [ORG]HOAC-GOV (Standard §1.7, items 12 and 13)",
       "if": {
         "not": {
           "properties": {
@@ -369,7 +369,7 @@
       }
     },
     {
-      "$comment": "RULE-TOP-CELL: an AIOC names its top Cell (Standard \u00a71.7, item 11)",
+      "$comment": "RULE-TOP-CELL: an AIOC names its top Cell (Standard §1.7, item 11)",
       "if": {
         "properties": {
           "unit_kind": {
@@ -403,12 +403,12 @@
     },
     "parent": {
       "type": "string",
-      "description": "The code of the AIOC, Pod or Cell that holds this one, or 'none' at the top of the organisation (Standard \u00a71.7, item 2; Naming Standard R14). A change of parent is a recorded event and needs the approval of the human seat over the part; OCO cannot make it alone. Since v1.5.0 (Standard \u00a71.7, item 12): a Cell's parent is an AIOC or a Pod; a Pod's parent is an AIOC; an AIOC's parent is an AIOC, or 'none' for the Charter only (Standard \u00a71.7, item 13). A Cell is never a parent; accountability follows accountable_to, never parent.",
+      "description": "The code of the AIOC, Pod or Cell that holds this one, or 'none' at the top of the organisation (Standard §1.7, item 2; Naming Standard R14). A change of parent is a recorded event and needs the approval of the human seat over the part; OCO cannot make it alone. Since v1.5.0 (Standard §1.7, item 12): a Cell's parent is an AIOC or a Pod; a Pod's parent is an AIOC; an AIOC's parent is an AIOC, or 'none' for the Charter only (Standard §1.7, item 13). A Cell is never a parent; accountability follows accountable_to, never parent.",
       "pattern": "^(none|(\\[ORG\\]|[0-9A-Za-z]+)AIOC-[A-Z]{2,5}(-[A-Z]{2,5})?|(\\[ORG\\]|[0-9A-Za-z]+)POD-[A-Z0-9]{2,8}|(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8})$"
     },
     "inner_units": {
       "type": "array",
-      "description": "The codes of the parts this one holds directly, by link, never by copy (Standard \u00a71.7, item 7). An AIOC may hold AIOCs, Pods and Cells; a Pod holds Cells only; a Cell holds nothing.",
+      "description": "The codes of the parts this one holds directly, by link, never by copy (Standard §1.7, item 7). An AIOC may hold AIOCs, Pods and Cells; a Pod holds Cells only; a Cell holds nothing.",
       "uniqueItems": true,
       "items": {
         "type": "string",
@@ -417,7 +417,7 @@
     },
     "hoac": {
       "type": "string",
-      "description": "The HOAC (Human Oversight & Accountability Control) label carried by this part, if any: [ORG]HOAC-GOV, [ORG]HOAC-TM or [ORG]HOAC-ACS (Standard \u00a74.1). A label, never a code; the part keeps its own code. Since v1.5.0: on a Cell only when its filler_kind is human; on a Pod or an AIOC only with a label_holder or a decision_rule (Standard \u00a74.1, items 10 and 11).",
+      "description": "The HOAC (Human Oversight & Accountability Control) label carried by this part, if any: [ORG]HOAC-GOV, [ORG]HOAC-TM or [ORG]HOAC-ACS (Standard §4.1). A label, never a code; the part keeps its own code. Since v1.5.0: on a Cell only when its filler_kind is human; on a Pod or an AIOC only with a label_holder or a decision_rule (Standard §4.1, items 10 and 11).",
       "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)HOAC-(GOV|TM|ACS)$"
     },
     "filler_kind": {
@@ -426,7 +426,7 @@
         "ai",
         "human-or-ai"
       ],
-      "description": "For a Cell: the kind of filler the seat allows. The seat is fixed; its filler is replaceable. Since v1.5.0 this is the seat kind: a HOAC label sits only on a Cell whose filler_kind is human (Standard \u00a74.1, item 11). Not used on a Pod or an AIOC."
+      "description": "For a Cell: the kind of filler the seat allows. The seat is fixed; its filler is replaceable. Since v1.5.0 this is the seat kind: a HOAC label sits only on a Cell whose filler_kind is human (Standard §4.1, item 11). Not used on a Pod or an AIOC."
     },
     "filler": {
       "type": "string",
@@ -454,7 +454,7 @@
         },
         "owner": {
           "type": "string",
-          "description": "The code of the seat that owns the test. Since v1.5.0: a human Cell's code, never the part's own code and never an AI Cell (Standard \u00a74.4, item 3).",
+          "description": "The code of the seat that owns the test. Since v1.5.0: a human Cell's code, never the part's own code and never an AI Cell (Standard §4.4, item 3).",
           "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
         },
         "threshold": {}
@@ -462,14 +462,14 @@
     },
     "ports": {
       "type": "array",
-      "description": "The unit's Port cards: one input and one output of each kind (AI and HU), plus the stop door (Standard \u00a76.1).",
+      "description": "The unit's Port cards: one input and one output of each kind (AI and HU), plus the stop door (Standard §6.1).",
       "items": {
         "$ref": "port-card.schema.json"
       }
     },
     "type": {
       "type": "string",
-      "description": "For an AIOC, the AIOC Type: why the AIOC exists (49GAION-aioc docs/WHAT-IS-AN-AIOC.md \u00a74): foundational, structural, specialised, connector, or other (described in type_description). For a Pod or a Cell, its type from the organisation's open, configurable list (for example Human Seat, Human Reviewer, AI Agent, AI Chief of Staff). The role and nature of a Pod or an AIOC are read from the type of its top Cell."
+      "description": "For an AIOC, the AIOC Type: why the AIOC exists (49GAION-aioc docs/WHAT-IS-AN-AIOC.md §4): foundational, structural, specialised, connector, or other (described in type_description). For a Pod or a Cell, its type from the organisation's open, configurable list (for example Human Seat, Human Reviewer, AI Agent, AI Chief of Staff). The role and nature of a Pod or an AIOC are read from the type of its top Cell."
     },
     "org_aion": {
       "type": "string",
@@ -539,7 +539,7 @@
         },
         "verified": {
           "type": "boolean",
-          "description": "true only when the wake method has passed the cross-AIOC test case 8. Correction (v1.5.0): 'cross-AIOC test case 8' reads 'the wake case of the cross-AIOC test (Protocol \u00a711, item 2)', whose numbering each [ORG]AION sets."
+          "description": "true only when the wake method has passed the cross-AIOC test case 8. Correction (v1.5.0): 'cross-AIOC test case 8' reads 'the wake case of the cross-AIOC test (Protocol §11, item 2)', whose numbering each [ORG]AION sets."
         }
       }
     },
@@ -712,7 +712,7 @@
     },
     "configuration": {
       "type": "object",
-      "description": "The AIOC's Configuration (49GAION-aioc template \u00a715): 49GAION fixes the path; who holds each role is configured in each organisation. Every slot must be filled; an AIOC with any empty slot does not pass the joining test. Each value records who set it, when and in which version; a changed value is marked replaced_by, never deleted. office_accountable_human: the HOAC seat accountable for OCO, which decides objections held open (Protocol \u00a74.7). central_head: the OCO of this unit's [ORG]AION. budget_cap: the AIOC's cap on AI spend through the shared AI gateway. chain_depth: the maximum depth of Work Item chains, set by the organisation. unattended_action: what a Chief of Staff may do with no human present (Protocol \u00a77).",
+      "description": "The AIOC's Configuration (49GAION-aioc template §15): 49GAION fixes the path; who holds each role is configured in each organisation. Every slot must be filled; an AIOC with any empty slot does not pass the joining test. Each value records who set it, when and in which version; a changed value is marked replaced_by, never deleted. office_accountable_human: the HOAC seat accountable for OCO, which decides objections held open (Protocol §4.7). central_head: the OCO of this unit's [ORG]AION. budget_cap: the AIOC's cap on AI spend through the shared AI gateway. chain_depth: the maximum depth of Work Item chains, set by the organisation. unattended_action: what a Chief of Staff may do with no human present (Protocol §7).",
       "required": [
         "office_accountable_human",
         "central_head",
@@ -923,7 +923,7 @@
             "read-record-triage",
             "act-within-limits"
           ],
-          "description": "What a Chief of Staff may do after an automatic wake-up with no human present (Protocol \u00a77): read-record-triage (the default) or act-within-limits. Set by the accountable human."
+          "description": "What a Chief of Staff may do after an automatic wake-up with no human present (Protocol §7): read-record-triage (the default) or act-within-limits. Set by the accountable human."
         }
       }
     },
@@ -994,7 +994,7 @@
     },
     "statuses": {
       "type": "array",
-      "description": "Statuses this unit uses; each from the shared list (status.schema.json; Protocol \u00a74.2).",
+      "description": "Statuses this unit uses; each from the shared list (status.schema.json; Protocol §4.2).",
       "items": {
         "$ref": "status.schema.json"
       }
@@ -1014,21 +1014,21 @@
     "accountable_to": {
       "type": "string",
       "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$",
-      "description": "The code of the human Cell carrying a HOAC label to which this part answers (Standard \u00a71.7, item 12). The accountability path, signatures, stop authority, and 'above' and 'under' in every rule follow accountable_to, never parent. Required on every part except the Cell that carries the unscoped [ORG]HOAC-GOV, whose authority comes from the constituting documents."
+      "description": "The code of the human Cell carrying a HOAC label to which this part answers (Standard §1.7, item 12). The accountability path, signatures, stop authority, and 'above' and 'under' in every rule follow accountable_to, never parent. Required on every part except the Cell that carries the unscoped [ORG]HOAC-GOV, whose authority comes from the constituting documents."
     },
     "top_cell": {
       "type": "string",
       "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$",
-      "description": "For an AIOC or a Pod: exactly one Cell whose parent is this part; it gives the part's lead (Standard \u00a71.7, item 11). Co-leadership is a Pod with a decision_rule."
+      "description": "For an AIOC or a Pod: exactly one Cell whose parent is this part; it gives the part's lead (Standard §1.7, item 11). Co-leadership is a Pod with a decision_rule."
     },
     "label_holder": {
       "type": "string",
       "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$",
-      "description": "For a Pod or an AIOC carrying a HOAC label: the one human Cell, whose parent is this part, that holds the label (Standard \u00a74.1, item 10)."
+      "description": "For a Pod or an AIOC carrying a HOAC label: the one human Cell, whose parent is this part, that holds the label (Standard §4.1, item 10)."
     },
     "decision_rule": {
       "type": "object",
-      "description": "For a Pod or an AIOC carrying a HOAC label that decides together: its member Cells, quorum, majority, chair and casting vote. Each member signs under their own Cell; one person holding two seats in the same body counts once (HF-18; Standard \u00a74.1, item 10).",
+      "description": "For a Pod or an AIOC carrying a HOAC label that decides together: its member Cells, quorum, majority, chair and casting vote. Each member signs under their own Cell; one person holding two seats in the same body counts once (HF-18; Standard §4.1, item 10).",
       "required": [
         "members",
         "quorum",
@@ -1069,7 +1069,7 @@
     },
     "authority_scope": {
       "type": "object",
-      "description": "For a human Cell carrying a HOAC label: the decision types it may sign, its limits, its entity and an expiry date (Standard \u00a74.4, item 8). Expiry is checked against the date of the event it signs.",
+      "description": "For a human Cell carrying a HOAC label: the decision types it may sign, its limits, its entity and an expiry date (Standard §4.4, item 8). Expiry is checked against the date of the event it signs.",
       "required": [
         "decision_types",
         "expires"
@@ -1109,18 +1109,132 @@
             "constituted",
             "delegated"
           ],
-          "description": "Constituted authority is not limited by Standard \u00a71.7, item 4."
+          "description": "Constituted authority is not limited by Standard §1.7, item 4."
         }
       }
     },
     "entity": {
       "type": "string",
-      "description": "The legal entity this part belongs to (Standard \u00a74.4, item 12). Optional where the [ORG]AION has one entity; an entry with no entity belongs to the entity of the single unscoped [ORG]HOAC-GOV."
+      "description": "The legal entity this part belongs to (Standard §4.4, item 12). Optional where the [ORG]AION has one entity; an entry with no entity belongs to the entity of the single unscoped [ORG]HOAC-GOV."
     },
     "succeeded_by": {
       "type": "string",
       "pattern": "^((\\[ORG\\]|[0-9A-Za-z]+)AIOC-[A-Z]{2,5}(-[A-Z]{2,5})?|(\\[ORG\\]|[0-9A-Za-z]+)POD-[A-Z0-9]{2,8}|(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8})$",
-      "description": "For a retired part: its successor, to which its held actions pass (Standard \u00a74.1, item 12)."
+      "description": "For a retired part: its successor, to which its held actions pass (Standard §4.1, item 12)."
+    },
+    "processes": {
+      "type": "array",
+      "description": "v1.5.0: processes a part holds. A process is not a part: it has no code, card, Blueprint or ports of its own. Self-Improvement is held in the card of the Cell carrying [ORG]HOAC-TM and is served by AI Cells (Standard §2.1, item 6).",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "name",
+          "served_by",
+          "receives",
+          "delivers",
+          "fixed_test",
+          "access"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]+$"
+          },
+          "name": {
+            "type": "string"
+          },
+          "served_by": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "string",
+              "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z]{2,6}$"
+            },
+            "description": "Codes of the AI Cells serving the process."
+          },
+          "receives": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "kind",
+                "format"
+              ],
+              "properties": {
+                "kind": {
+                  "type": "string"
+                },
+                "format": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "delivers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "kind",
+                "format"
+              ],
+              "properties": {
+                "kind": {
+                  "type": "string"
+                },
+                "format": {
+                  "type": "string"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "fixed_test": {
+            "type": "object",
+            "required": [
+              "id",
+              "version"
+            ],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "version": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": false
+          },
+          "access": {
+            "$comment": "RULE-PROCESS-ACCESS: records are read read-only and pseudonymised, kept in no private store, and the access changes only as a Work Item; an access rule, not a signature type.",
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "read_only",
+              "pseudonymised",
+              "private_store",
+              "changes"
+            ],
+            "properties": {
+              "read_only": {
+                "const": true
+              },
+              "pseudonymised": {
+                "const": true
+              },
+              "private_store": {
+                "const": false
+              },
+              "changes": {
+                "const": "work-item"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "$defs": {

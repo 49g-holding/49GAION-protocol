@@ -16,5 +16,13 @@
   ],
   "accountable_human_position": "the governing seat (GOV) of 49GAION",
   "card_version": "v3",
-  "status": "DRAFT"
+  "status": "DRAFT",
+  "credential": {
+    "id": "(per 49GAION) AION Builder bot credential",
+    "holder": "49GAION AION Builder Cell",
+    "shared": false
+  },
+  "cell_kind": "ai-cell",
+  "never_signs": true,
+  "memory_on_filler_change": "sealed"
 }
