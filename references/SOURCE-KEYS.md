@@ -23,4 +23,4 @@ The Standard cites the pilot organisation's source documents by neutral keys, so
 | `SRC-FO-ROLES` | pilot organisation source, held privately |
 | `SRC-IT-C-0028` | pilot organisation source, held privately |
 
-Role phrases such as "the Top Management AIOC", "the protocol AIOC", "the IT AIOC" and "the engineering AIOC" name an AIOC by its function. "The Top Management AIOC" is an AI unit that works for Top Management; it is not `[ORG]HOAC-TM`, which is Top Management itself, a human unit, and decides.
+Role phrases such as "the Top Management AIOC", "the protocol AIOC", "the IT AIOC" and "the engineering AIOC" name an AIOC by its function. "The Top Management AIOC" is an AI unit that works for Top Management; it is not `[ORG]HOAC-TM`, which is Top Management itself, a human unit (superseded, 49GAION DR-0004: a label of human accountability), and decides.
