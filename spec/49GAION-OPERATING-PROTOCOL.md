@@ -62,6 +62,8 @@ One shared list, held once in `spec/schemas/status.schema.json`:
 A Work Item has exactly one owner at a time, and only the owner writes to it. Ownership moves only by an explicit hand-over.
 
 ### 4.4 The stop rule
+
+**Reading note (v1.5.0).** Where this section or §5 names the ACS or HOAC seat "of" a part that carries no label, it means the nearest HOAC above that part along `accountable_to` (§4.8).
 Each return adds one to the bounce count. When the count passes the limit set in the `[ORG]AION`, the item stops and goes, with its full history, to the `[ORG]HOAC-ACS` seat of the receiving unit; if that seat is empty, to the seat that delegated it (Standard §4.1, item 5).
 
 ### 4.5 Done
