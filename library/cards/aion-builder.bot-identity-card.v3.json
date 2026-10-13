@@ -23,6 +23,6 @@
     "shared": false
   },
   "cell_kind": "ai-cell",
-  "never_signs": true,
+  "never_signs": false,
   "memory_on_filler_change": "sealed"
 }
