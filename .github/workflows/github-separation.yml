@@ -1,0 +1,37 @@
+# Required check on main. A pull request that changes .github/ changes nothing outside
+# .github/, and a pull request that changes other paths does not touch .github/. CI rules
+# therefore always land, and run green on main, before the content that needs them.
+# The rule is inline here (no script), so the head of a pull request cannot swap a script.
+name: github-separation
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  github-separation:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: .github/ changes go in their own pull request
+        shell: bash
+        env:
+          BASE: ${{ github.event.pull_request.base.sha }}
+          EVENT: ${{ github.event_name }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT" != pull_request ]; then echo "github-separation: not a pull request; nothing to compare."; exit 0; fi
+          CHANGED=$(git diff --name-only "$BASE"...HEAD)
+          echo "$CHANGED"
+          GH=$(printf '%s\n' "$CHANGED" | grep -c '^\.github/' || true)
+          OTHER=$(printf '%s\n' "$CHANGED" | grep -v '^\.github/' | grep -c . || true)
+          if [ "$GH" -gt 0 ] && [ "$OTHER" -gt 0 ]; then
+            echo "::error::GITHUB-SEPARATION: this pull request changes .github/ ($GH files) together with other paths ($OTHER files). Put .github/ changes in their own pull request."
+            exit 1
+          fi
+          echo "github-separation: clean ($GH under .github/, $OTHER elsewhere)"

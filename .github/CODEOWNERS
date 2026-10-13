@@ -1,0 +1,6 @@
+# Code owners of 49GAION-protocol. Documentation of who decides each path: the governing
+# seat (GOV) of 49GAION. Required code-owner review is not switched on, because the account
+# that opens pull requests is the account GOV merges with; the gate on main is GOV's recorded
+# approval plus the required checks, with no bypass actors on the main-protection ruleset.
+/spec/     @imanlab49
+/.github/  @imanlab49
