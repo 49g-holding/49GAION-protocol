@@ -127,13 +127,28 @@ def check(org):
     return R, errs
 
 ok = True
-orgs = sorted(p for p in pathlib.Path(__file__).parent.iterdir() if p.is_dir())
+# The reference set is fixed: all four must be present and non-empty, and the D-4 cycle case
+# must be present. A missing or empty folder fails (FIXTURE-ORGS-REFERENCE-MISSING).
+REQUIRED = ["three-person-company", "multi-entity-group", "human-department-with-assistants",
+            "one-person-gov-and-tm", "must-fail-cycle"]
+HERE = pathlib.Path(__file__).parent
+for name in REQUIRED:
+    f = HERE / name / "register.json"
+    try:
+        good = bool(json.loads(f.read_text()).get("parts"))
+    except Exception:
+        good = False
+    if not good:
+        print(f"FIXTURE-ORGS-REFERENCE-MISSING {name}: folder missing or register empty"); ok = False
+D4 = {"CHAIN-CYCLE", "CHAIN-NOT-ENDING-AT-GOV", "CHAIN-NO-HUMAN-HOAC", "CHAIN-TWO-ROOTS"}
+orgs = sorted(p for p in HERE.iterdir() if p.is_dir())
 for org in orgs:
     R, errs = check(org)
     codes = {c for c, _ in errs}
     if org.name.startswith("must-fail-"):
         hit = R["expect"] in codes
-        print(f"{org.name}: {'rejected on ' + R['expect'] if hit else 'NOT REJECTED ON ' + R['expect']} {[m for _, m in errs][:2]}")
+        line = " (line D-4)" if R["expect"] in D4 else ""
+        print(f"{org.name}: {'rejected on ' + R['expect'] + line if hit else 'NOT REJECTED ON ' + R['expect']} {[m for _, m in errs][:2]}")
         ok &= hit
     else:
         print(f"{org.name}: {'passes D-1..D-4' if not errs else 'FAILS'}")

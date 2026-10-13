@@ -1,6 +1,6 @@
 {
   "bot": "[ORG]AION Self-Improvement bot",
-  "role": "Checks its [ORG]AION and proposes updates; pull requests only",
+  "role": "Fills an AI Cell serving the Self-Improvement process held in [ORG]HOAC-TM; checks its [ORG]AION and proposes updates; pull requests only",
   "account": {
     "id": "(per [ORG]AION)",
     "separate": true
@@ -14,5 +14,13 @@
   ],
   "accountable_human_position": "[ORG]HOAC-TM",
   "card_version": "v3",
-  "status": "DRAFT"
+  "status": "DRAFT",
+  "credential": {
+    "id": "(per [ORG]AION) Self-Improvement proposer bot credential",
+    "holder": "[ORG]CELL-SIPR",
+    "shared": false
+  },
+  "cell_kind": "ai-cell",
+  "never_signs": true,
+  "memory_on_filler_change": "sealed"
 }

@@ -1,0 +1,27 @@
+{
+  "bot": "TenCELL-TMSA bot",
+  "role": "Fills TenCELL-TMSA",
+  "account": {
+    "id": "cred-tmsa2",
+    "separate": true
+  },
+  "allowed_actions": [
+    "read its Cell's Work Items",
+    "prepare drafts for its person"
+  ],
+  "ask_first_actions": [
+    "anything outside its Cell's authority limit"
+  ],
+  "accountable_human_position": "TenHOAC-ACS",
+  "card_version": "v3",
+  "status": "DRAFT",
+  "credential": {
+    "id": "cred-tmsa2",
+    "holder": "TenCELL-TMSA",
+    "shared": false
+  },
+  "cell_kind": "attached-ai-cell",
+  "never_signs": false,
+  "memory_on_filler_change": "sealed",
+  "$expect": "RULE-BOT-NEVER-SIGNS"
+}

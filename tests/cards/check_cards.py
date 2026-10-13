@@ -69,6 +69,30 @@ def run(folder, schema_name, extra=lambda c: []):
         print(f"{folder}/{f.name}:", f"rejected on {want}" if hit else f"NOT REJECTED ON {want} (got {sorted(sigs)[:6]})"); ok &= hit
 
 run("tests/cards", "unit-card.schema.json", code_rules)
+import re
+def bot_rules(card):
+    """A bot never signs: no allowed action may grant it a signature (RULE-BOT-NEVER-SIGNS)."""
+    return ["RULE-BOT-NEVER-SIGNS"] if any(re.search(r"\bsign", a, re.I) for a in card.get("allowed_actions", [])) else []
+
+def shared_credentials(cards):
+    """RULE-CREDENTIAL-SHARED: one credential id held by more than one Cell or card."""
+    seen, errs = {}, []
+    for name, c in cards:
+        cid = (c.get("credential") or {}).get("id")
+        if cid is None: continue
+        if cid in seen: errs.append(f"RULE-CREDENTIAL-SHARED {cid}: {seen[cid]} and {name}")
+        else: seen[cid] = name
+    return errs
+
+run("tests/cards/bots", "bot-identity-card.schema.json", bot_rules)
+_b = ROOT / "tests/cards/bots"
+r = not shared_credentials([(f.name, json.loads(f.read_text())) for f in sorted(_b.glob("valid-*.json"))])
+print("tests/cards/bots valid cards hold distinct credentials:", r); ok &= r
+for g in sorted(p for p in _b.glob("must-fail-*") if p.is_dir()):
+    cards = [(f.name, json.loads(f.read_text())) for f in sorted(g.glob("*.json"))]
+    errs = [e.message for _, c in cards for e in V["bot-identity-card.schema.json"].iter_errors(c)]
+    hit = bool(shared_credentials(cards)) and not errs
+    print(f"tests/cards/bots/{g.name}/:", "rejected on RULE-CREDENTIAL-SHARED" if hit else "NOT REJECTED ON RULE-CREDENTIAL-SHARED"); ok &= hit
 run("tests/signatures", "signature.schema.json")
 run("tests/work-items", "work-item.schema.json")
 for f in sorted((ROOT / "tests/cards/superseded").glob("*.json")):
@@ -95,6 +119,10 @@ for f in sorted(lib.glob("*.json")):
     sch = "unit-card.schema.json" if ".unit-card" in f.name else "part-card.schema.json" if "part-card" in f.name else "bot-identity-card.schema.json"
     c = json.loads(f.read_text()); errs = [e.message for e in V[sch].iter_errors(c)] + (code_rules(c) if sch.startswith("unit") else [])
     print(f"library/cards/{f.name}:", "valid" if not errs else errs[:3]); ok &= not errs
+_lib_bots = [(f.name, json.loads(f.read_text())) for f in sorted(lib.glob("*.bot-identity-card*.json"))]
+r = not shared_credentials(_lib_bots); print("library bot cards hold distinct credentials:", r); ok &= r
+r = not any(bot_rules(c) for _, c in _lib_bots); print("no library bot card is allowed to sign:", r); ok &= r
+r = not list(lib.glob("*self-improvement*.unit-card*.json")); print("no standalone Self-Improvement unit card:", r); ok &= r
 
 def find_enum(o):
     if isinstance(o, dict):
