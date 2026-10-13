@@ -10,7 +10,7 @@ for n, s in schemas.items():
     Draft202012Validator.check_schema(s)
 val = Draft202012Validator(schemas["unit-card.schema.json"], registry=reg)
 here = pathlib.Path(__file__).parent
-VALID = ("valid-card.json", "valid-cell-card.json", "valid-ai-cell-card.json", "valid-pod-card.json")
+VALID = ("valid-card.json", "valid-cell-card.json", "valid-ai-cell-card.json", "valid-pod-card.json", "valid-pod-attached-to.json", "valid-human-cell-attached-to.json")
 ok = all(not list(val.iter_errors(json.loads((here / n).read_text())))
          for n in VALID)
 for n in VALID:
