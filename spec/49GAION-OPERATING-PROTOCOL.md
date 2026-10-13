@@ -81,8 +81,8 @@ A Work Item is `done` only when the requester's acceptance test passes on visibl
 2. The path never passes through any AI: not a Chief of Staff Cell, not OCO, not a Panel that an AI built. It runs over HU ports at the shared gateway outside the parts it passes.
 3. The stop door of each Cell, Pod and AIOC is outside it. Stopping a Pod or an AIOC stops everything under it, and nothing inside can bypass the stop.
 
-### 4.9 The AI Ceiling gate
-1. Each `[ORG]AION` keeps an AI Ceiling list of actions (Standard §4.4, item 6). The tool gateway refuses any action on the list unless it carries the live signature of a human seat with authority for it, even in an AIOC that is 100% AI.
+### 4.9 The Human Floor signature gate
+1. The Standard keeps the Human Floor signature list of decision types (Standard §4.4, item 6); an `[ORG]AION` may add types, never remove one. The tool gateway runs an action of a listed type only with a valid signature of a human seat with authority for it, even in an AIOC that is 100% AI. If that seat is empty or retired, the action is held, never skipped.
 2. Every other AI action is logged at the gateway with the code of the accountable seat above the acting Cell.
 3. An AIOC may be up to 100% AI. The organisation-wide Human Floor is set in the Standard (§1.5).
 
