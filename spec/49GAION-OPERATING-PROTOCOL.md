@@ -148,6 +148,7 @@ The definitions are in the Standard: ports (§6.1), bootstrap (§5.3), stop (§4
 5. The Standard names roles only; tool names appear only in an `[ORG]AION`.
 6. All AIOCs reach AI models through one shared gateway that holds keys, meters cost per AIOC and logs every call. It carries no orders.
    - **Reading note (v1.5.0).** The shared gateway is the tool gateway of each `[ORG]AION`, a registered part held in the Charter and outside every other AIOC (Standard §4.4, item 11); 49GAION runs no gateway for an `[ORG]AION`. HU ports and the stop door are served there through a sign-in that no AI built, hosts or can change (Standard §6.1, item 6).
+   - **Reading note (DR-0007).** 'outside every AIOC' (DR-0007 item 8) is read with the root rule (Standard §1.7, item 13): the gateway is held in the Charter and sits outside every other AIOC.
 
 ## 11. Joining and tests
 
