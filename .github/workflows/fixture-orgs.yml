@@ -1,8 +1,9 @@
-# Required check on main once the reference organisations are on main. Runs the reference
+# Required check on main. Runs the reference
 # organisations under tests/orgs/ (tests/orgs/check_orgs.py): every card validates against
 # the unit card schema and every organisation passes the delivery test lines D-1 to D-4
 # that can be checked from its register; each must-fail organisation fails on the rule it names.
-# If tests/orgs/ is on the base branch, it must still be there.
+# A missing or empty tests/orgs/ fails (FIXTURE-ORGS-MISSING); check_orgs.py also requires each of
+# the four reference organisations and the D-4 cycle case (FIXTURE-ORGS-REFERENCE-MISSING).
 name: fixture-orgs
 on:
   pull_request:
@@ -28,8 +29,10 @@ jobs:
           BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: |
           set -euo pipefail
-          if [ -f tests/orgs/check_orgs.py ]; then python3 tests/orgs/check_orgs.py; exit; fi
-          if [ -n "$BASE" ] && git cat-file -e "$BASE:tests/orgs/check_orgs.py" 2>/dev/null; then
-            echo "::error::FIXTURE-ORGS-REMOVED: tests/orgs/ is on the base branch and missing here."; exit 1
+          if [ ! -f tests/orgs/check_orgs.py ] || [ -z "$(find tests/orgs -mindepth 2 -name register.json -size +2c 2>/dev/null)" ]; then
+            if [ -n "$BASE" ] && git cat-file -e "$BASE:tests/orgs/check_orgs.py" 2>/dev/null; then
+              echo "::error::FIXTURE-ORGS-REMOVED: tests/orgs/ is on the base branch and missing here."; exit 1
+            fi
+            echo "::error::FIXTURE-ORGS-MISSING: tests/orgs/ is missing or holds no register."; exit 1
           fi
-          echo "::notice::fixture-orgs: no reference organisations on this tree yet (they arrive with the v1.5.0 structural package)."
+          python3 tests/orgs/check_orgs.py

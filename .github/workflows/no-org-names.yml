@@ -6,6 +6,10 @@
 #    Allowed: 49GAION (the framework) and [ORG]AION (its product). Only the approved
 #    product-release section of the 49GAION README (verbatim markers) may name that product.
 # 3. Guard: a pull request that changes .github/ must change nothing outside .github/.
+# 4. Person names: lines the change adds or changes must not name a person on the list held in
+#    the repository secret PERSON_NAMES (one full name per line; never committed, never logged).
+#    Hits are reported by path and line number only. A missing or empty secret fails, so a fork
+#    pull request (which gets no secrets) fails rather than skipping.
 # The scanner and fixture script are always taken from main (the base of the pull request),
 # never from the pull request head.
 name: no-org-names
@@ -70,3 +74,16 @@ jobs:
             exit 1
           fi
           echo "No organisation-specific names or private detail found."
+
+      - name: Person names (lines added or changed; path and line only)
+        shell: bash
+        env:
+          PERSON_NAMES: ${{ secrets.PERSON_NAMES }}
+          BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
+        run: |
+          # The script is taken from the base; only the change that first adds it runs its own copy.
+          S=.main-ref/.github/scripts/person_names.py
+          [ -f "$S" ] || S=.github/scripts/person_names.py
+          B="$BASE"
+          if [ -z "$B" ] || ! git cat-file -e "$B^{commit}" 2>/dev/null; then B=$(git rev-parse HEAD^); fi
+          python3 "$S" "$B" HEAD
