@@ -1,5 +1,5 @@
 {
-  "name": "A three-person company: one person each for GOV, TM and one Accountability Seat",
+  "name": "Three-person company",
   "parts": [
     {
       "code": "TenAIOC-CH",
@@ -41,7 +41,7 @@
       "parent": "TenAIOC-CH",
       "seat_kind": "human",
       "filled": true,
-      "accountable_to": "TenCELL-GOV",
+      "accountable_to": "TenCELL-OPS",
       "person": "idref:p2",
       "hoac": "TenHOAC-TM",
       "authority_scope": {
