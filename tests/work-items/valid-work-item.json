@@ -1,0 +1,24 @@
+{
+  "id": "WI-0042",
+  "sender": "TenAIOC-SI",
+  "receiver": "TenAIOC-OCO",
+  "requested_output": "apply the approved change",
+  "acceptance_test": "TEST-SI v1",
+  "status": "done",
+  "owner": null,
+  "sources": [
+    {
+      "id": "DES-7",
+      "version": "v2",
+      "location": "designs/DES-7.md@v2"
+    }
+  ],
+  "bounce_count": 0,
+  "decision_needed": true,
+  "output": {
+    "commit": "1a2b3c"
+  },
+  "caused_change": "commit 1a2b3c replaces v1.2.0",
+  "approved_by": "TenCELL-TMS",
+  "signature_ref": "SIG-0001"
+}

@@ -1,0 +1,118 @@
+{
+  "unit_kind": "CELL",
+  "code": "TenCELL-TMS",
+  "parent": "TenAIOC-CH",
+  "type": "Human Seat",
+  "full_name": "TenCELL-TMS",
+  "filler_kind": "human",
+  "fixed_test": {
+    "id": "TEST-TMS",
+    "version": "v1",
+    "owner": "TenCELL-GOV"
+  },
+  "accountable_to": "TenCELL-GOV",
+  "card_version": "v1",
+  "version": "1.0.0",
+  "lineage": {
+    "id": "TenCELL-TMS",
+    "version": "1.0.0",
+    "relation": "original"
+  },
+  "lifecycle_state": "designed",
+  "ports": [
+    {
+      "unit": "TenCELL-TMS",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "ai-in",
+      "direction": "input",
+      "type": "AI",
+      "identification": "technical-key"
+    },
+    {
+      "unit": "TenCELL-TMS",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "ai-out",
+      "direction": "output",
+      "type": "AI",
+      "identification": "technical-key"
+    },
+    {
+      "unit": "TenCELL-TMS",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "hu-in",
+      "direction": "input",
+      "type": "HU",
+      "identification": "live-human-sign-in-at-gateway"
+    },
+    {
+      "unit": "TenCELL-TMS",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "hu-out",
+      "direction": "output",
+      "type": "HU",
+      "identification": "live-human-sign-in-at-gateway"
+    },
+    {
+      "unit": "TenCELL-TMS",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "stop",
+      "direction": "input",
+      "type": "HU",
+      "identification": "live-human-sign-in-at-gateway",
+      "stop_door": true
+    }
+  ],
+  "hoac": "TenHOAC-TM",
+  "authority_scope": {
+    "decision_types": [
+      "sign-contract",
+      "commit-money"
+    ],
+    "limits": {
+      "amount": "as set in the [ORG]AION"
+    },
+    "entity": "Ten Holding",
+    "expires": "2027-12-31",
+    "authority": "delegated"
+  }
+}

@@ -1,0 +1,250 @@
+{
+  "name": "A multi-entity group: one unscoped GOV for the group and a GOV scoped to a trading entity",
+  "parts": [
+    {
+      "code": "TenAIOC-CH",
+      "kind": "AIOC",
+      "parent": "none",
+      "accountable_to": "TenCELL-GOV",
+      "top_cell": "TenCELL-GOV",
+      "name": "Charter",
+      "test_owner": "TenCELL-TMS",
+      "entity": "Ten Holding"
+    },
+    {
+      "code": "TenCELL-GOV",
+      "kind": "CELL",
+      "parent": "TenAIOC-CH",
+      "seat_kind": "human",
+      "filled": true,
+      "person": "idref:p1",
+      "hoac": "TenHOAC-GOV",
+      "authority_scope": {
+        "decision_types": [
+          "sign-contract",
+          "commit-money",
+          "legal-filing",
+          "set-purpose-or-values",
+          "accept-irreversible-risk",
+          "delegate-authority",
+          "change-parent",
+          "grant-or-widen-access",
+          "restart-stopped-unit"
+        ],
+        "expires": "2027-12-31",
+        "authority": "constituted"
+      },
+      "test_owner": "TenCELL-TMS",
+      "entity": "Ten Holding"
+    },
+    {
+      "code": "TenCELL-TMS",
+      "kind": "CELL",
+      "parent": "TenAIOC-CH",
+      "seat_kind": "human",
+      "filled": true,
+      "accountable_to": "TenCELL-GOV",
+      "person": "idref:p2",
+      "hoac": "TenHOAC-TM",
+      "authority_scope": {
+        "decision_types": [
+          "commit-money",
+          "delegate-authority",
+          "change-parent",
+          "grant-or-widen-access",
+          "restart-stopped-unit",
+          "accept-irreversible-risk"
+        ],
+        "expires": "2026-12-31",
+        "authority": "delegated"
+      },
+      "entity": "Ten Holding"
+    },
+    {
+      "code": "TenCELL-OPS",
+      "kind": "CELL",
+      "parent": "TenAIOC-CH",
+      "seat_kind": "human",
+      "filled": true,
+      "accountable_to": "TenCELL-TMS",
+      "person": "idref:p3",
+      "hoac": "TenHOAC-ACS",
+      "authority_scope": {
+        "decision_types": [
+          "grant-or-widen-access"
+        ],
+        "expires": "2027-12-31",
+        "authority": "delegated"
+      },
+      "entity": "Ten Holding"
+    },
+    {
+      "code": "TenAIOC-OCO",
+      "kind": "AIOC",
+      "parent": "TenAIOC-CH",
+      "accountable_to": "TenCELL-TMS",
+      "top_cell": "TenCELL-OCOC",
+      "name": "Organization Core Office",
+      "entity": "Ten Holding"
+    },
+    {
+      "code": "TenCELL-OCOC",
+      "kind": "CELL",
+      "parent": "TenAIOC-OCO",
+      "seat_kind": "ai",
+      "filled": true,
+      "accountable_to": "TenCELL-TMS",
+      "entity": "Ten Holding"
+    },
+    {
+      "code": "TenAIOC-SL",
+      "kind": "AIOC",
+      "parent": "TenAIOC-CH",
+      "accountable_to": "TenCELL-OPS",
+      "top_cell": "TenCELL-SLCS",
+      "name": "Source Lifecycle",
+      "type": "specialised",
+      "entity": "Ten Holding"
+    },
+    {
+      "code": "TenCELL-SLCS",
+      "kind": "CELL",
+      "parent": "TenAIOC-SL",
+      "seat_kind": "ai",
+      "filled": true,
+      "accountable_to": "TenCELL-OPS",
+      "entity": "Ten Holding"
+    },
+    {
+      "code": "TenAIOC-TR",
+      "kind": "AIOC",
+      "parent": "TenAIOC-CH",
+      "accountable_to": "TenCELL-TGOV",
+      "top_cell": "TenCELL-TGOV",
+      "name": "Trading entity",
+      "entity": "Ten Trading",
+      "test_owner": "TenCELL-GOV"
+    },
+    {
+      "code": "TenCELL-TGOV",
+      "kind": "CELL",
+      "parent": "TenAIOC-TR",
+      "seat_kind": "human",
+      "filled": true,
+      "accountable_to": "TenCELL-GOV",
+      "person": "idref:p4",
+      "hoac": "TenHOAC-GOV",
+      "scoped_entity": "Ten Trading",
+      "entity": "Ten Trading",
+      "authority_scope": {
+        "decision_types": [
+          "sign-contract",
+          "legal-filing"
+        ],
+        "expires": "2027-12-31",
+        "authority": "constituted",
+        "entity": "Ten Trading"
+      }
+    },
+    {
+      "code": "TenCELL-TTM",
+      "kind": "CELL",
+      "parent": "TenAIOC-TR",
+      "seat_kind": "human",
+      "filled": true,
+      "accountable_to": "TenCELL-TGOV",
+      "person": "idref:p5",
+      "hoac": "TenHOAC-TM",
+      "entity": "Ten Trading",
+      "authority_scope": {
+        "decision_types": [
+          "commit-money"
+        ],
+        "expires": "2027-12-31",
+        "authority": "delegated",
+        "entity": "Ten Trading"
+      }
+    },
+    {
+      "code": "TenAIOC-SA",
+      "kind": "AIOC",
+      "parent": "TenAIOC-TR",
+      "accountable_to": "TenCELL-TTM",
+      "top_cell": "TenCELL-SACS",
+      "name": "Sales",
+      "type": "specialised",
+      "entity": "Ten Trading"
+    },
+    {
+      "code": "TenCELL-SACS",
+      "kind": "CELL",
+      "parent": "TenAIOC-SA",
+      "seat_kind": "ai",
+      "filled": true,
+      "accountable_to": "TenCELL-TTM",
+      "entity": "Ten Trading"
+    }
+  ],
+  "floor_bindings": {
+    "HF-01": "TenCELL-GOV",
+    "HF-02": "TenCELL-GOV",
+    "HF-04": "TenCELL-GOV",
+    "HF-10": "TenCELL-GOV",
+    "HF-11": "TenCELL-GOV",
+    "HF-15": "TenCELL-GOV",
+    "HF-16": "TenCELL-GOV",
+    "HF-19": "TenCELL-GOV",
+    "HF-05": "TenCELL-TMS",
+    "HF-06": "TenCELL-TMS",
+    "HF-07": "TenCELL-TMS",
+    "HF-12": "TenCELL-TMS",
+    "HF-13": "TenCELL-TMS",
+    "HF-17": "TenCELL-TMS",
+    "HF-03": "TenCELL-OPS",
+    "HF-08": "TenCELL-OPS",
+    "HF-09": "TenCELL-OPS",
+    "HF-14": "TenCELL-OPS",
+    "HF-18": "TenCELL-OPS"
+  },
+  "events": [],
+  "queries": [
+    {
+      "part": "TenAIOC-SL",
+      "type": "sign-contract",
+      "date": "2026-10-13",
+      "expect": "TenCELL-GOV"
+    },
+    {
+      "part": "TenAIOC-SL",
+      "type": "commit-money",
+      "date": "2026-10-13",
+      "expect": "TenCELL-TMS"
+    },
+    {
+      "part": "TenAIOC-SL",
+      "type": "commit-money",
+      "date": "2027-01-05",
+      "expect": "TenCELL-GOV"
+    },
+    {
+      "part": "TenAIOC-SL",
+      "type": "grant-or-widen-access",
+      "date": "2026-10-13",
+      "expect": "TenCELL-OPS"
+    },
+    {
+      "part": "TenAIOC-SA",
+      "type": "sign-contract",
+      "entity": "Ten Trading",
+      "date": "2026-10-13",
+      "expect": "TenCELL-TGOV"
+    },
+    {
+      "part": "TenAIOC-SA",
+      "type": "commit-money",
+      "entity": "Ten Trading",
+      "date": "2026-10-13",
+      "expect": "TenCELL-TTM"
+    }
+  ]
+}

@@ -1,0 +1,174 @@
+{
+  "unit_kind": "AIOC",
+  "code": "TenAIOC-SL",
+  "parent": "TenAIOC-CH",
+  "type": "foundational",
+  "full_name": "TenAIOC-SL",
+  "card_version": "v1",
+  "blueprint_version": "v1",
+  "template_version": "v1.0.0",
+  "input_door": "Chief of Staff",
+  "wake": {
+    "method": "queue"
+  },
+  "receives": [
+    {
+      "kind": "source to register",
+      "format": "markdown with source block",
+      "acceptance_test": "TEST-SL-IN v1"
+    }
+  ],
+  "delivers": [
+    {
+      "kind": "registered source",
+      "format": "source record"
+    }
+  ],
+  "version": "1.0.0",
+  "lineage": {
+    "id": "TenAIOC-SL",
+    "version": "1.0.0",
+    "relation": "original"
+  },
+  "skills": [
+    {
+      "id": "register-source",
+      "name": "Register a source",
+      "tags": [
+        "sources",
+        "provenance"
+      ]
+    }
+  ],
+  "lifecycle_state": "designed",
+  "statuses": [
+    "received",
+    "in-progress",
+    "done"
+  ],
+  "configuration": {
+    "office_accountable_human": {
+      "value": "TenHOAC-TM",
+      "set_by": "[ORG]HOAC-TM",
+      "date": "2026-10-12",
+      "version": "v1"
+    },
+    "central_head": {
+      "value": "TenAIOC-OCO",
+      "set_by": "[ORG]HOAC-TM",
+      "date": "2026-10-12",
+      "version": "v1"
+    },
+    "discussion_limits": {
+      "value": "3 rounds",
+      "set_by": "[ORG]HOAC-TM",
+      "date": "2026-10-12",
+      "version": "v1"
+    },
+    "waiting_deadlines": {
+      "value": "per status",
+      "set_by": "[ORG]HOAC-TM",
+      "date": "2026-10-12",
+      "version": "v1"
+    },
+    "bounce_limit": {
+      "value": 3,
+      "set_by": "[ORG]HOAC-TM",
+      "date": "2026-10-12",
+      "version": "v1"
+    },
+    "chain_depth": {
+      "value": 5,
+      "set_by": "[ORG]HOAC-TM",
+      "date": "2026-10-12",
+      "version": "v1"
+    },
+    "halt_request_priority": {
+      "value": "immediate",
+      "set_by": "[ORG]HOAC-TM",
+      "date": "2026-10-12",
+      "version": "v1"
+    },
+    "budget_cap": {
+      "value": "set by the organisation",
+      "set_by": "[ORG]HOAC-TM",
+      "date": "2026-10-12",
+      "version": "v1"
+    },
+    "unattended_action": "read-record-triage"
+  },
+  "accountable_to": "TenCELL-TMS",
+  "top_cell": "TenCELL-SLCS",
+  "fixed_test": {
+    "id": "TEST-SL",
+    "version": "v1",
+    "owner": "TenCELL-TMS"
+  },
+  "ports": [
+    {
+      "unit": "TenAIOC-SL",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "ai-in",
+      "direction": "input",
+      "type": "AI",
+      "identification": "technical-key"
+    },
+    {
+      "unit": "TenAIOC-SL",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "ai-out",
+      "direction": "output",
+      "type": "AI",
+      "identification": "technical-key"
+    },
+    {
+      "unit": "TenAIOC-SL",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "hu-in",
+      "direction": "input",
+      "type": "HU",
+      "identification": "live-human-sign-in-at-gateway"
+    },
+    {
+      "unit": "TenAIOC-SL",
+      "accepted_content": [
+        "Work Item"
+      ],
+      "authority_limit": "as on the card",
+      "audit_trail": "gateway log",
+      "required_tests": [
+        "TEST-PORT v1"
+      ],
+      "enforcement": "shared-gateway-outside-unit",
+      "port": "hu-out",
+      "direction": "output",
+      "type": "HU",
+      "identification": "live-human-sign-in-at-gateway"
+    }
+  ],
+  "$expect": "RULE-STOP-DOOR"
+}
