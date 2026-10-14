@@ -188,3 +188,15 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
    - The next stage takes its sources through its own input socket, from Source Lifecycle's output socket. A document store the organisation already keeps may be connected the same way.
    - What the next stage lacks, it asks for through Source Lifecycle, which records the answer as a source.
    - What reaches the next stage is therefore documented, versioned and traceable to its source.
+6. **Replaceable in later stages.** Source Lifecycle is a part like any other (§2). In the stages after the first, another source of documents or knowledge may replace it or stand beside it. Examples:
+   - a document management system the organisation already uses;
+   - a version-controlled repository of its texts;
+   - a knowledge base;
+   - a records or archive system the organisation already keeps.
+
+   Such a source qualifies only when it connects through the same sockets and passes the joining test (§11). It must:
+   - answer by reference (ID, version and hash);
+   - answer "held" or "not held";
+   - serve only the scope its owner approved.
+
+   Tool names appear only in an `[ORG]AION` (§10, item 5).
