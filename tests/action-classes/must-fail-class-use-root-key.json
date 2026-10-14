@@ -1,0 +1,26 @@
+{
+  "class_id": "SAC-0005",
+  "version": "v1",
+  "action": "use the root key to rotate one service's credentials",
+  "trigger": "error-rate alert record",
+  "actors": [
+    "TenCELL-OPSB"
+  ],
+  "targets": [
+    "service A"
+  ],
+  "decision_types": [
+    "use-root-key"
+  ],
+  "reversible": true,
+  "envelope": {
+    "blast_cap": "one service",
+    "budget": "3 uses a day",
+    "staged_exposure": "none",
+    "time_box": "PT30M",
+    "dead_man": "PT15M"
+  },
+  "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "signature_ref": "SIG-0101",
+  "$expect": "RULE-CLASS-EXCLUDED-TYPES"
+}
