@@ -1,0 +1,26 @@
+{
+  "class_id": "SAC-0002",
+  "version": "v1",
+  "action": "roll back the last release of one service",
+  "trigger": "error-rate alert record",
+  "actors": [
+    "TenCELL-OPSB"
+  ],
+  "targets": [
+    "service A"
+  ],
+  "decision_types": [
+    "commit-money"
+  ],
+  "reversible": true,
+  "envelope": {
+    "blast_cap": "one service",
+    "budget": "3 uses a day",
+    "staged_exposure": "none",
+    "time_box": "PT30M",
+    "dead_man": "PT15M"
+  },
+  "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "signature_ref": "SIG-0101",
+  "$expect": "RULE-CLASS-EXCLUDED-TYPES"
+}

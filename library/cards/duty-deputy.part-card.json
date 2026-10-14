@@ -1,0 +1,31 @@
+{
+  "part": "49GAION Duty Deputy",
+  "version": "v1",
+  "inputs": [
+    {
+      "name": "a member's ask, through the deputy's AI input port",
+      "format": "Work Item (ID + version)"
+    },
+    {
+      "name": "the register of rulings signed by the human seat it serves",
+      "format": "versioned record (ID + version)"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "an answer citing the ruling it used, or a raise to the human seat",
+      "format": "Work Item (ID + version)"
+    },
+    {
+      "name": "the weekly sample of answers for the seat",
+      "format": "versioned record (ID + version)"
+    }
+  ],
+  "test": {
+    "id": "TEST-DUTY-DEPUTY",
+    "version": "v1",
+    "location": "library/cards/README.md",
+    "last_result": "NOT_RUN"
+  },
+  "status": "DRAFT"
+}

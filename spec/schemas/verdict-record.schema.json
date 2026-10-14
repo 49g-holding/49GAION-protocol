@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/verdict-record.schema.json",
+  "title": "49GAION Operating Protocol - verdict record",
+  "description": "The record of one verification, written by the verifier's own step and bound to the exact version it read (Protocol §8, item 5) (GOV, 14 October 2026). A new version voids it; queues and tools act only on such records, never on the text of a note. A verdict is never a signature. The verifier is never the producer (checked by tests/cards/check_cards.py).",
+  "type": "object",
+  "required": [
+    "verdict_id",
+    "work_item_id",
+    "artifact_ref",
+    "content_hash",
+    "verdict",
+    "verifier_cell",
+    "verifier_engine",
+    "producer_cell",
+    "run_ref",
+    "written_by",
+    "recorded_at"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "verdict_id": {
+      "type": "string",
+      "pattern": "^VR-[0-9A-Za-z-]+$"
+    },
+    "work_item_id": {
+      "type": "string"
+    },
+    "artifact_ref": {
+      "type": "string",
+      "description": "What was verified, by ID."
+    },
+    "content_hash": {
+      "$comment": "RULE-VERDICT-FULL-HASH: the full content hash of the exact version read",
+      "type": "string",
+      "pattern": "^(sha256:[0-9a-f]{64}|[0-9a-f]{40})$"
+    },
+    "verdict": {
+      "enum": [
+        "PASS",
+        "BLOCKING",
+        "ADVICE"
+      ]
+    },
+    "verifier_cell": {
+      "type": "string",
+      "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
+    },
+    "verifier_engine": {
+      "type": "string",
+      "description": "The model provider or engine family of the verifier."
+    },
+    "producer_cell": {
+      "type": "string",
+      "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
+    },
+    "run_ref": {
+      "type": "string"
+    },
+    "written_by": {
+      "const": "verifier-step",
+      "description": "Written by the verifier's own step, never parsed from a note."
+    },
+    "recorded_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "checks_written": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The checks the verifier wrote before reading the work."
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "counts_as_approval": {
+      "type": "boolean"
+    }
+  },
+  "allOf": [
+    {
+      "$comment": "RULE-VERDICT-ADVICE-NEVER-APPROVAL: an advice-only verdict never counts as an approval",
+      "if": {
+        "required": [
+          "verdict"
+        ],
+        "properties": {
+          "verdict": {
+            "const": "ADVICE"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "counts_as_approval": {
+            "const": false
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-VERDICT-BLOCKING-CHECK: a blocking verdict names a failing check the verifier wrote",
+      "if": {
+        "required": [
+          "verdict"
+        ],
+        "properties": {
+          "verdict": {
+            "const": "BLOCKING"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "checks_written"
+        ],
+        "properties": {
+          "checks_written": {
+            "minItems": 1
+          }
+        }
+      }
+    }
+  ]
+}

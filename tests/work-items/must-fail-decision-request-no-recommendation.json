@@ -1,0 +1,24 @@
+{
+  "id": "WI-0104",
+  "sender": "TenAIOC-SI",
+  "receiver": "TenAIOC-OCO",
+  "requested_output": "apply the approved change",
+  "acceptance_test": "TEST-SI v1",
+  "status": "in-progress",
+  "owner": "TenAIOC-SL",
+  "sources": [
+    {
+      "id": "DES-7",
+      "version": "v2",
+      "location": "designs/DES-7.md@v2"
+    }
+  ],
+  "bounce_count": 0,
+  "decision_needed": true,
+  "type": "decision-request",
+  "dissent": "none",
+  "reversible": true,
+  "meanwhile": "the builder continues on the stub",
+  "answer": "veto",
+  "$expect": "RULE-DECISION-REQUEST"
+}

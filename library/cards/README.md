@@ -41,3 +41,32 @@ Each card is `DRAFT` until its test has run once with recorded evidence; no card
 - **Status.** `DRAFT`, with `last_result` `NOT_RUN`. It stays so until the test has run once with recorded evidence.
 
 **Self-Improvement (v1.5.0, correction).** There is no standalone Self-Improvement unit card. The process is recorded on `org-aion-top-management.unit-card.json`, the card of the Cell carrying `[ORG]HOAC-TM`, under `processes`, and is served by AI Cells; its v3 part and bot cards describe that process and the bot filling an AI Cell that serves it. Every v3 bot card names its own credential, `never_signs: true`, and memory sealed on a change of filler.
+
+**Four Library parts (addition, (GOV, 14 October 2026)).** Each card is `DRAFT`, with `last_result` `NOT_RUN`, until its test has run once with recorded evidence (Protocol §16).
+
+- `duty-deputy.part-card.json`: **TEST-DUTY-DEPUTY v1.**
+  1. An ask matching a signed, current ruling is answered, citing it.
+  2. An ask matching only an expired ruling is raised, not answered.
+  3. An ask with no ruling is raised at once.
+  4. Two conflicting rulings are raised together.
+  5. An ask of a listed type is never answered.
+  6. A ruling not signed by the seat is never used.
+  7. The weekly sample reaches the seat.
+- `outside-inspector.part-card.json`: **TEST-OUTSIDE-INSPECTOR v1.**
+  1. A duty that happened is reported done with its evidence.
+  2. A missed duty is reported missed.
+  3. An unreadable probe is reported unknown, never done.
+  4. The inspector writes nowhere but its own report.
+  5. It runs when the inspected AIOC's host is down.
+- `advisory-council.part-card.json`: **TEST-ADVISORY-COUNCIL v1.**
+  1. Every member gets the same question with no instruction of the asker.
+  2. Every reply is kept whole.
+  3. The merge follows the stated rule and names the count behind each point.
+  4. The council's output is never recorded as a decision.
+- `reference-comparison.part-card.json`: **TEST-REFERENCE-COMPARISON v1.**
+  1. Every difference carries an evidence class and a cited reason.
+  2. A matter of taste is never reported as a defect.
+  3. A source behind a sign-in is marked partial.
+  4. No account is created in another party's system.
+  5. A finding is shown only after its count or citation is checked.
+

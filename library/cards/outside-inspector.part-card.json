@@ -1,0 +1,23 @@
+{
+  "part": "49GAION Outside Inspector",
+  "version": "v1",
+  "inputs": [
+    {
+      "name": "the standing duties of the inspected AIOC and their evidence locations",
+      "format": "versioned record (ID + version)"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "its own report of duties done, missed and unknown, in a store the inspected AIOC does not control",
+      "format": "versioned record (ID + version)"
+    }
+  ],
+  "test": {
+    "id": "TEST-OUTSIDE-INSPECTOR",
+    "version": "v1",
+    "location": "library/cards/README.md",
+    "last_result": "NOT_RUN"
+  },
+  "status": "DRAFT"
+}

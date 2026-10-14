@@ -45,6 +45,15 @@ The protocol decides **how** work moves. **What** work happens is decided by hum
 ### 4.1 Fields
 ID; sender; receiver; requested output; acceptance test (written by the requester); status; owner; sources (ID + version + location); bounce count; parent Work Item and chain depth (for sub-items); status entered at. Machine form: `spec/schemas/work-item.schema.json`.
 
+**Addition (GOV, 14 October 2026).** A Work Item may also carry these optional fields (`spec/schemas/work-item.schema.json`):
+- `move_on`, the move-on taken while the item waits (§4.6, item 4);
+- `assumptions`, each marked UNCONFIRMED, CONFIRMED or REFUTED;
+- `scope`, the parts and records the item expects to change, compared with the actual change at hand-off;
+- `claims`, each figure the worker wants believed, with how to reproduce it and the re-run result;
+- `verdict_ref`, the verdict record it moved on (§8, item 5);
+- `labels`, for example `disputed` (§4.4);
+- for the type `decision-request` (§4.7, item 4): `recommendation`, `dissent`, `reversible`, `meanwhile` and `answer`.
+
 ### 4.2 Statuses
 One shared list, held once in `spec/schemas/status.schema.json`:
 
@@ -61,24 +70,40 @@ One shared list, held once in `spec/schemas/status.schema.json`:
 ### 4.3 One owner, one writer
 A Work Item has exactly one owner at a time, and only the owner writes to it. Ownership moves only by an explicit hand-over.
 
+**Coordination log and leases (GOV, 14 October 2026).** Parts that share records other than Work Items keep one append-only coordination log of typed acts (open, take, done, note, ask, answer, close), each line carrying the time, the part's code, the type, what was done and a link. The first part to write "take" for an item owns it. A write that touches several records holds a lease with an expiry and a fencing token, and a stale writer is refused by the token. A part that cannot write the log leaves one immutable run file, which the next writer folds in once, by name. A lease expiry never moves a held action into execution (§4.6, item 3).
+
 ### 4.4 The stop rule
 
 **Reading note (v1.5.0).** Where this section or §5 names the ACS or HOAC seat "of" a part that carries no label, it means the nearest HOAC above that part along `accountable_to` (§4.8).
 
 Each return adds one to the bounce count. When the count passes the limit set in the `[ORG]AION`, the item stops and goes, with its full history, to the `[ORG]HOAC-ACS` seat of the receiving unit; if that seat is empty, to the seat that delegated it (Standard §4.1, item 5).
 
+**Addition (GOV, 14 October 2026).**
+1. **Loop breaker.** A Cell that runs the same item more than a set number of times in a set window stops on that item; the item goes to another Cell, of another engine where one exists, or is raised. In-loop fix rounds are capped. This counts runs by one Cell; the bounce count counts returns between parts.
+2. **Repair tripwire.** When automated recovery acts on the same target more than a set number of times or for longer than a set time, or when the first anomaly appears on work of the highest sensitivity class, automated action on it stops and the matter is raised at once to the nearest HOAC above (Standard §4.4, item 9: raising is never held).
+3. **Dispute exit.** When the bounce count of a disagreement between a producer and a verifier passes the limit, a dispute in a class the `[ORG]AION` names as sensitive goes to the nearest HOAC above with the verifier's recommendation; any other dispute may proceed with the label `disputed`, which later review samples. An objection held by a human seat (`objection-open`) is never passed this way.
+
 ### 4.5 Done
 A Work Item is `done` only when the requester's acceptance test passes on visible evidence. The performing AIOC never closes its own item. An automated run of the requester's fixed test may set `done`; changing a test or its threshold is human-only (Human Floor HF-14).
+
+**Addition (GOV, 14 October 2026).**
+1. **Honest exit.** A worker that cannot meet a protected acceptance test without changing it raises a typed spec-conflict to the test's owner (a `needs-input` reason) and moves on to other work. Tests it did not write are closed to it, and changing a test stays human-only (HF-14).
+2. **Unconfirmed assumption.** On an ambiguous request with no answer, a worker proceeds on reversible matters with each assumption marked UNCONFIRMED on the item and its evidence. It ships an irreversible matter only as a fail-closed stub that is switched off, and opens a new Work Item if a later answer differs.
 
 ### 4.6 Waiting time and sub-items
 1. Every open status has a maximum waiting time, set in the `[ORG]AION`. An item past its deadline is reminded to its owner, then raised as in §4.4.
 2. A sub-item names its parent. Chains never loop back to an AIOC already in the chain, and never exceed the maximum depth (`chain_depth`) each organisation sets in its `[ORG]AION`; this Protocol sets no fixed cap. A parent cannot be `done` while a sub-item is open.
 3. **Held actions (v1.5.0).** A held action (Standard §4.4, item 9) becomes a Work Item to the delegating seat, which may sign within its own authority, under the waiting times of item 1. A held action never turns into execution because time has passed.
+4. **Move-on and stub debt (GOV, 14 October 2026).** Every item that waits gets at once an owner, a due time and a move-on: a fail-closed stub, a default marked UNCONFIRMED, a mock, or the next item. Each stub or default is a debt record with an owner and an age cap; the wait clears only when the real thing replaces it; nothing stubbed reaches the outside world; the waiter may refuse an unsafe move-on. A move-on never covers a listed type or an irreversible act (item 3).
+5. **Stuck-item watchdog (GOV, 14 October 2026).** A sweep with no model keeps, for every open item, the time it became ready for its next step. Past a threshold it reads the cause from the system, not from the item, and repairs from a fixed menu inside its own authority: re-queue, send to the next verifier, post the missing ask, cut the missing item. It logs one line per repair and reports every repair and every still-stuck item afterwards; one failed repair, or an unclear cause, escalates. A repair is never an approval, a merge, a release or any listed type, and never restarts a part a human stopped (Standard §4.3, item 4). Its measure is "found by a person first: zero".
+6. **Stale work (GOV, 14 October 2026).** Open work past a set age is finished by a named owner within a set time, restarted from a one-page outcome, or dropped when it has no owner, under a cap on work in flight. Dropping an item a human requested is that human's decision.
+7. **Human seats (GOV, 14 October 2026).** Each human seat's answer time is part of its contract (Standard §4.1); the waiting time of an item held for a human seat counts from it. A request for a personal signature that passes its time is referred to the seat's deputy, who obtains the seat's own signature and never signs in its place (Standard §4.1).
 
 ### 4.7 Requests and objections
 1. An `[ORG]HOAC-ACS` seat's request about a unit's AIs goes to OCO as a Work Item of type `design-proposal`; OCO answers with a reason.
 2. **The objection path.** `[ORG]HOAC-ACS` seat → OCO → discussion, where the seat may insist → where they still disagree, OCO does not decide: the seat may hold the objection open (`objection-open`) until it reaches the HOAC seat accountable for OCO, which decides (Standard §4.2, items 6-7).
 3. A change to an AI's authority is decided by the `[ORG]HOAC-ACS` seat; OCO prepares, checks and carries it out.
+4. **Decision request (GOV, 14 October 2026).** A matter for a human decision is a Work Item of type `decision-request` holding one recommendation, its reason, risks, whether it can be reversed, the dissent of the preparing office and what the waiting party does meanwhile. The seat answers `yes`, `veto` or `change-this-part`, which opens a new request. A veto closes the subject; only that seat or its deputy reopens it. For a decision of a listed type or of the highest sensitivity class, no pick or score sits on the item (Standard §5.2).
 
 ### 4.8 The accountability path
 1. A report, critique, objection or stop reaches the nearest HOAC above its origin directly, from any level: from a Cell, a Pod or an AIOC at any depth.
@@ -96,6 +121,8 @@ A Work Item is `done` only when the requester's acceptance test passes on visibl
 5. **Who signs (v1.5.0).** The signer of a listed type is set in Standard §4.4, item 8: the seat bound by §1.5 or a Cell to which it has delegated the type through `authority_scope`, else the label on the part within its `authority_scope`, else the nearest HOAC above whose `authority_scope` covers the action. A part never signs its own restart, and never signs an action it is the subject of. A type marked dual needs two distinct persons, neither of them the requester (HF-18).
 6. **Policy fields (v1.5.0).** A type in the list may carry `related_floor`, `min_signer`, `signers_required`, `max_validity` and `never_held`. The gateway applies them as written.
 7. **The loaded list (v1.5.0).** The hash of the signature list the gateway loads equals the hash of the list at the latest released tag of the Standard, plus the `[ORG]AION`'s own additions; this is checked under D-2.
+8. **Signers by label (GOV, 14 October 2026).** Where an `[ORG]AION` labels items by risk (Standard §4.4), the gateway reads the label from the item's recorded flags, never from the requester, and requires the signer pair the label selects, one signature record each (§4.10, item 9).
+9. **Class signature (GOV, 14 October 2026).** A standing action class (Standard §4.4) is recorded in `spec/schemas/action-class.schema.json` and signed once as `sign-standing-action-class`, its signature bound to the class version's digest. The gateway runs an action under a class only when the actor and target are in the class, the trigger is read from its own record and never from the actor's evidence, the envelope holds counted across actors and retries, and the class is neither narrowed past the action, expired nor revoked. Each use is logged with its before and after state. A narrowing applies at once as an overlay; a widening is a new version, signed again. A class whose actions map to `commit-money`, `grant-or-widen-access` or a type bound to HF-01, HF-02 or HF-15, or that is not reversible, is refused.
 
 ### 4.10 The unit register at work
 1. The unit register is append-only (Standard §4.4). `[ORG]AIOC-OCO` writes AI Cell records; `[ORG]HOAC-TM` writes human Cell records. An event whose decision type is on the Human Floor signature list (for example granting or widening access, or changing a parent) is written only with that seat's valid signature (§4.9); `[ORG]AIOC-OCO` cannot write it alone. A filler change, a parent change, a retirement, and each external port's `connected` and `disconnected` events are recorded events on the existing entry.
@@ -112,26 +139,54 @@ A Work Item is `done` only when the requester's acceptance test passes on visibl
 11. **hoac_over (v1.5.0).** `hoac_over(part, type, entity, date)` returns the Cell that signs an action of a listed type on a part: it walks `accountable_to` from the part, starting with the part's own label holder, and returns the first filled human Cell carrying a HOAC label whose `authority_scope` covers the type and the entity and has not expired on the date of the event. It never returns the part itself for its own restart, nor a seat that is the subject of the action. It returns nothing when no such Cell exists, and the action is then held. For a restart of a stopped part it skips the part and every Cell inside it or accountable to it, and returns the first such Cell above it (Standard §4.4, item 6). A Cell's `authority_scope` covers a type whose Human Floor item the Standard binds to another seat (Standard §1.5) only by that seat's recorded delegation (Standard §4.4, item 8). Its reference implementation is `tests/orgs/check_orgs.py`.
 12. **Register writes (v1.5.0).** Creating an AI Cell, changing its filler, ports or authority limit, and retiring it are listed types, signed by the HOAC the Cell is accountable to; access opens only after that event and after the filler passes a fixed test whose owner is a human Cell, never the Cell itself or an AI Cell. `[ORG]AIOC-OCO` never writes the records of its own Cells, of the AI Cells serving the Self-Improvement process in TM or of the assurance unit without `[ORG]HOAC-TM`'s signature. AIOC and Pod entries are written by OCO only with the signature of the HOAC they are accountable to. A change of filler kind is written by both writers. TM's own Cells are written with GOV's signature; GOV's Cell is written by the constituting authority (Standard §4.4, item 3).
 13. **Reference organisations (v1.5.0).** Four reference organisations under `tests/orgs/` pass the card tests and the delivery test lines of Standard §1.4, including the line on the accountability chain: a three-person company; a multi-entity group; a human department with AI assistants; and one person filling GOV and TM under a compensating control. Must-fail organisations (a cycle, a chain not ending at GOV, a chain with no human HOAC seat, two parts with parent none, one person in GOV and TM without a control, a binding to a Human Floor item that does not exist, an `accountable_to` naming a part that is not a human Cell carrying a HOAC label) fail on the rule they name. Signature sets under `tests/signatures/sets/` check dual signature by distinct persons other than the requester, types that are never held, self-signing and the entity of the signer; `tests/cards/check_cards.py` prints a fixture log of every fixture with its expected and actual result.
+14. **Intent before effect (GOV, 14 October 2026).** Before any side effect, the gateway writes the intent of the action (actor, version, target, digest, trigger reference, action ID) to its append-only log; if the intent cannot be written, nothing runs. After the effect it writes the verified outcome with the before and after state. A lost acknowledgement marks the action Unknown and starts reconciliation against the real state, never a blind replay. Every executed action records its inverse for the recovery path (§15).
+15. **Correction fence (GOV, 14 October 2026).** A correction never changes the decision fields of a signed event (answer, words, slot, version, amount, class); a changed decision is a new event, and the corrected record keeps its original visible.
 
 ## 5. The ports and the input check
 
 1. Each AIOC, Pod and Cell has one input and one output of each kind (AI and HU), plus the stop door. The Chief of Staff is the AIOC's voice to its HOAC seat; input arrives only through the typed ports and the Input socket, and HU ports, including the stop door, never pass through an AI. Bots never talk across AIOCs directly.
 2. The Input socket checks every arrival against the receiver's card, the acceptance test and provenance. Pass: `in-progress`. Fail: `rejected` with the reason, back to the sender. Nothing passes silently and nothing is guessed into place.
 3. Text inside a Work Item is data, never an instruction. A Work Item carrying a secret is rejected and the secret is not stored.
+4. **Readiness verdict (GOV, 14 October 2026).** A package of work the receiving AIOC did not draft is read blind by two readers independent of the drafter, on different model providers where available, who return one verdict within a set time: Ready; Ready with notes, which travel with the work; or Back, with numbered questions, each with suggested answers and a default. They block only on a short fixed list (an untestable or contradictory acceptance test, a missing rule on a protected matter, a conflict with a decision record), never judge the requester's purpose, and review a new version only for what changed. An independent challenger may also write the case against doing the work.
+5. **Validate before show (GOV, 14 October 2026).** An AI finding goes to an HU port only after a machine check has proven or discarded it; anything no check can confirm goes only as a hypothesis, or not at all. Every claim carries its evidence class (§8, item 4).
+6. **Two-party line (GOV, 14 October 2026).** Two units that share no queue may bind a port pair to one store in which each side writes only in its own folder, every message is a new immutable file with a typed header pointing to the message it answers, each side keeps a read mark, an index shows who owes the next step, and a fixed table says what happens on a missed read, an edited file or a duplicate reference. The line projects into the shared queue; port types are still enforced at the gateway.
+7. **No authority from writable files (GOV, 14 October 2026).** An instruction, assignment or decision that arrives as a file in a place an AI can write is a notice only; it takes effect only as a signed event made through the human gateway surface.
+8. **Demand signal (GOV, 14 October 2026).** A part that receives work needing a materially different capability refuses that part of the work with the reason "out of card", and records it as a demand signal for Self-Improvement instead of absorbing it.
 
 ## 6. The routing table
 
 A map of which kind of work goes to which unit, built from the cards and kept by OCO. OCO maintains the map; it gives no orders and dispatches no work. Each `[ORG]AION` holds its own rows.
 
+**Receivability check (GOV, 14 October 2026).** Before routing an item to a part, the router checks that the part's installed version equals the approved version, that it has the access the item needs, that it is awake on this route, and that nobody has taken the item; a mismatch is a refusal with its reason.
+
 ## 7. Wake
 
 Every AIOC has its own runtime, woken from its queue. With no human present, a woken Chief of Staff reads, records and triages only, unless the AIOC's Configuration slot `unattended_action`, set by the accountable human, allows more.
+
+**Addition (GOV, 14 October 2026).**
+1. **Zero-cost wake.** A woken Cell first checks for work with no model call and holds a single-run lock; a model runs only when there is work. Every unattended Cell declares its cadence and is flagged when its newest output is older than twice it.
+2. **Delegation ladder.** Beyond `read-record-triage` and `act-within-limits`, the `unattended_action` slot may hold a ladder: for each class of act, decides alone, decides and reports, only prepares, or never. The level covering an act is read from the act itself; every listed type is "never" (Standard §5.2).
 
 ## 8. Provenance
 
 1. A Work Item links to its sources by ID, version and location.
 2. The receiver reads the valid version at the controlling copy; a link that does not resolve to exactly one valid version fails the input check.
 3. Output returns labelled with the sources and versions it was made from.
+4. **Evidence class (GOV, 14 October 2026).** Every claim in an output carries one evidence class: proven, measured, cited, hypothesis or not established; a fact that could not be extracted is "not extracted", never guessed.
+5. **Verdict record (GOV, 14 October 2026).** A verification is a record written by the verifier's own step, bound to the full content hash of the exact version read (`spec/schemas/verdict-record.schema.json`); a new version voids it; queues and tools act only on such records, never on the text of a note; a blocking verdict names a failing check the verifier wrote and returns the item to its producer; an advice-only verdict never counts as an approval; the verifier is never the producer.
+6. **Completion ladder (GOV, 14 October 2026).** Drafted, adopted, executed and implemented are separate states, each reached only by its own recorded event; a register row is not evidence.
+7. **Staleness and precedence (GOV, 14 October 2026).** A derived artefact (a knowledge pack, an installed instruction, a summary) is stale as soon as a source it depends on is newer, and is not relied on until regenerated. When sources disagree, the `[ORG]AION`'s fixed precedence applies, and a conflict it cannot resolve goes to a human.
+8. **Generated values (GOV, 14 October 2026).** Every figure, hash, count or identifier in a record is read from what produced it, never retyped.
+9. **Request package (GOV, 14 October 2026).** A request between units may travel as an immutable, versioned package holding:
+   - a machine-checkable header;
+   - the requester's words verbatim, with the interpretation beside them;
+   - numbered acceptance criteria;
+   - numbered rules, each with its source;
+   - a declared scope;
+   - a hash manifest of every attached file.
+
+   A change is a new version. Work tied to a superseded version pauses by itself, and a verifier fails a result built on it.
+10. **Known-failure register (GOV, 14 October 2026).** A register of past failures, vendor behaviour and never-again decisions, each with its source, is attached by area to every new Work Item at planning. It holds what cannot yet be a test, and it is never the only holder of a relationship or of tacit knowledge (HF-13).
 
 ## 9. Ports, bootstrap and stop
 
@@ -150,12 +205,18 @@ The definitions are in the Standard: ports (§6.1), bootstrap (§5.3), stop (§4
 6. All AIOCs reach AI models through one shared gateway that holds keys, meters cost per AIOC and logs every call. It carries no orders.
    - **Reading note (v1.5.0).** The shared gateway is the tool gateway of each `[ORG]AION`, a registered part held in the Charter and outside every other AIOC (Standard §4.4, item 11); 49GAION runs no gateway for an `[ORG]AION`. HU ports and the stop door are served there through a sign-in that no AI built, hosts or can change (Standard §6.1, item 6).
    - **Reading note (DR-0007).** 'outside every AIOC' (DR-0007 item 8) is read with the root rule (Standard §1.7, item 13): the gateway is held in the Charter and sits outside every other AIOC.
+7. **Runtime contract and engine binding (GOV, 14 October 2026).** One versioned runner performs the common duties of every AI Cell in a clean workspace per run; each Cell pins its runner version. A Cell's engine binding (tier, floor, model) is versioned on its card (`engine_binding`) and switches at the next run, never mid-task. Engines are re-scored on a schedule against a frozen set of past cases; a regression demotes an engine at once (Standard §5.1).
+8. **Spend (GOV, 14 October 2026).** The gateway keeps decided spend, standing commitments and metered usage as separate numbers, billed and notional apart; applies the soft hold at a set fraction of a cap; pauses a Cell past its cap alone; at the global cap holds only new non-critical starts; and keeps the last caps when its meter fails. Each capability's degradation order is read from its blueprint.
 
 ## 11. Joining and tests
 
 1. **Joining test.** An AIOC receives work only after every input and output on its card passes fixed samples; failing claims are removed from the card. An AIOC with an empty Configuration slot does not join.
 2. **Cross-AIOC test.** A fixed set of chains across AIOCs is re-run after every change to a card, the protocol or a shared part.
 3. **Outside tools** are re-tested against known samples; a tool that fails is disconnected.
+4. **Verification by a non-author (GOV, 14 October 2026).** Work is verified by a Cell that did not produce it, on another model provider where one exists, in a fresh context, with the producer's description withheld; it restates the acceptance test and writes its own checks first; one non-author pass suffices; when a verifier is unavailable the next in a fixed list verifies; a fixed share of closed items is re-verified at random.
+5. **Fresh-instance and duty-carriage tests (GOV, 14 October 2026).** On every change to a definition, a fresh instance is built from the definition alone and run against the fixed tests; every duty a role card gives a position is traced to a process step, an event or a setting, and a duty with no carrier fails the unit's fixed test.
+6. **Deterministic executor (GOV, 14 October 2026).** A routine, consequential action that is not a listed type is carried out only by a program with no model, on machine-readable preconditions (verified at the exact version, all checks green on the combined result, not held, not stopped), with one kill switch. Only a deterministic re-run of a registered check opens an action; a model's words are evidence, never authority.
+7. **Check placement (GOV, 14 October 2026).** Every automated check that is not a fixed test declares its placement, its budget per item and its degradation order, and is advisory unless it shows a real defect (Standard §3.2).
 
 ## 12. Alignment
 
@@ -211,3 +272,32 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
 
    Tool names appear only in an `[ORG]AION` (§10, item 5).
 8. **The fixed test.** Every rule of this section has a case in TEST-SOURCE-LIFECYCLE (`library/cards/README.md`). The card stays `DRAFT`, with `last_result` `NOT_RUN`, until the test has run once with recorded evidence (§10, item 3).
+
+## 14. Records
+
+**Addition (GOV, 14 October 2026).**
+1. **One home.** An AIOC's records live in one home as immutable events. Each event carries a time-sortable ID, which is also its idempotency key, the actor's Cell code and the expected revision. Two writes on the same revision are both kept: the first applies and the later becomes a question to its author.
+2. **Portals and projections.** Every register, board and number is a projection rebuilt from the events, carrying the version of the logic that built it. Every surface is a portal and keeps no copy. A write shows first as "not yet joined" and, if it fails the rules at join, as "refused at join" with the rule's ID. A change made in a projection is a request, checked before it becomes an event.
+3. **Registry.** One machine-readable registry declares every record type, field, state, event, emitter and condition; a write it does not allow is refused, and the refusal names every condition that fails.
+4. **Numbering.** One numbering service issues every readable number, a stream per type, atomically and safe to retry; no writer mints its own.
+5. **Daily check.** A daily job proves that projections equal a rebuild from the events, that no number stream has gaps or duplicates, that every act is attributed to a part, and that every reported number traces to its events. A failure opens a defect and stays flagged.
+6. **Restricted partition.** Records that name a person or carry the particulars of a corporate act live in a separate store read by named positions; every other record refers to them by ID only (Standard §4.4).
+7. **State snapshot and rules in force.** On every change the unit publishes one human-readable and one machine-readable snapshot from its registers, keeping one line in its accountable human's own words, and stops publication if a personal name or contact would appear. For every position, a generator builds the rules in force today with a fixed precedence and marks superseded and lapsed items.
+8. **Mechanism register and Reserve.** The unit's register of mechanisms and its Reserve of ideas not adopted are records like any other (Standard §2.1, §3.2).
+
+## 15. Halt, pause and cut-off at work
+
+**Addition (GOV, 14 October 2026).**
+1. **The control record.** One control record per scope holds the state (running, draining, paused, resuming), the grace time and the reason. Every runtime reads it before every start and every step. On draining, new work stops at once, and running work stops at its first safe point within the grace time and writes a structured hand-off (status, item, version, what is done, the next steps in order, open questions, where the evidence is). After the grace time, work stops with a forced hand-off. Resume follows the declared order from the hand-offs, and the next run reads its hand-off first. A halt never delays a stop (§9).
+2. **Flags and holds.** A flag or hold placed by a human seat is an event on the part or item. Every effect already queued for held work is held at the system that would run it. Work is released only when no pause, stop or superseded version still holds it. A hold placed by a human is lifted only by a human seat, under `restart-stopped-unit`.
+3. **Cut-off.** A stop of AI authority raises a cut-off epoch that every executor checks before every mutation, refusing within seconds any credential issued before it. Delegated AI authority holds only while at least two witnesses on other hosts renew a short lease from a fresh heartbeat. Human seats' own actions are never fenced. Re-arming, and any return of authority on a restored heartbeat, is signed.
+4. **Recovery path.** The inverse of an executed action runs through a recovery-only path that needs no model, broker or Panel and grants no forward authority. It journals itself when the central log is down, and writes "reverted" only after the restoration is verified. Running it is `restore-or-rollback`, unless the action was taken under a standing action class whose envelope names the automatic revert.
+5. **Soft containment.** On a deterministic breach, a containment part (never the detector) applies at once the narrowest reversible hold for the highest good in play; a human seat confirms or lifts it.
+
+## 16. Library parts added on 14 October 2026
+
+**Addition (GOV, 14 October 2026).** Four Library parts, each with its card in `library/cards/` (`DRAFT`, `last_result` `NOT_RUN`) and its fixed test in `library/cards/README.md`:
+1. **49GAION Duty Deputy:** answers members' recurring asks for a human seat only from signed, unexpired rulings, cites the ruling, and raises every ask no ruling covers and every conflict between rulings (Standard §5.2).
+2. **49GAION Outside Inspector:** checks from infrastructure that shares no failure with the inspected AIOC that its duties happened; builds nothing, directs no one, writes only its own report; never the internal-audit line (Standard §3.2).
+3. **49GAION Advisory Council:** asks several model providers independently, without the asker's instruction or a leading frame, keeps every reply whole and merges by a stated rule; decides nothing (Standard §2.4).
+4. **49GAION Reference Comparison:** compares an organisation's output with recognised references of the same kind; perception by a model, judgement by rules and cited evidence, decision by a human; facts counted, never taste; public sources only, and no account created in another party's system.

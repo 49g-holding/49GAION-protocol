@@ -1,4 +1,6 @@
 """Fixed test for the protocol's machine forms (v1.5.0).
+- Since (GOV, 14 October 2026): verdict records (tests/verdicts) and standing action classes (tests/action-classes),
+  must-pass and must-fail like the others.
 - Every schema is valid JSON Schema.
 - Must-pass: every tests/cards/valid-*.json unit card, tests/signatures/valid-*.json and
   tests/work-items/valid-*.json validates; Library cards validate against their schema.
@@ -103,6 +105,11 @@ for g in sorted(p for p in _b.glob("must-fail-*") if p.is_dir()):
     print(f"tests/cards/bots/{g.name}/:", "rejected on RULE-CREDENTIAL-SHARED" if hit else "NOT REJECTED ON RULE-CREDENTIAL-SHARED"); ok &= hit
 run("tests/signatures", "signature.schema.json")
 run("tests/work-items", "work-item.schema.json")
+def verdict_rules(v):
+    """RULE-VERDICT-NON-AUTHOR: the verifier is never the producer (Protocol §8, item 5)."""
+    return ["RULE-VERDICT-NON-AUTHOR"] if v.get("verifier_cell") and v.get("verifier_cell") == v.get("producer_cell") else []
+run("tests/verdicts", "verdict-record.schema.json", verdict_rules)
+run("tests/action-classes", "action-class.schema.json")
 # Signature sets (Protocol §4.9 items 5 and 6, §4.10 item 3): rules over one action's signatures.
 NEVER_HELD = re.compile(r"(^|-)(stop|disconnect|disconnection|narrow|revoke|raise)(-|$)")
 def set_rules(S):

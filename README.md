@@ -16,6 +16,7 @@
 | [`tests/`](tests/) | Schema tests |
 | [`tests/cards/`](tests/cards/), [`tests/signatures/`](tests/signatures/), [`tests/work-items/`](tests/work-items/) | Must-pass and must-fail fixtures of the machine forms; superseded fixtures kept in `tests/cards/superseded/` (v1.5.0) |
 | [`tests/orgs/`](tests/orgs/) | Reference organisations run through the delivery test lines of the Standard (v1.5.0) |
+| [`tests/verdicts/`](tests/verdicts/), [`tests/action-classes/`](tests/action-classes/) | Must-pass and must-fail fixtures of the verdict record and the standing action class (GOV, 14 October 2026) |
 | [`decisions/`](decisions/) | Links to the decision records, kept once in the hub |
 
 ## Related repositories
