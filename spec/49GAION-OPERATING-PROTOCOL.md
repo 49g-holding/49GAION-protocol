@@ -168,6 +168,7 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
 1. **The first part.** It is the first part an organisation receives after the Charter, with the GOV, TM and OCO installed in it (Standard §1.7, item 13; §5.3). Like every other part, it enters through OCO. It is the stage through which every source enters.
    - It works for any organisation, from a single person to a group of entities.
    - Every later part builds on it.
+   - **Reading note (GOV, 14 October 2026).** "with the GOV, TM and OCO installed in it" reads as "with `[ORG]HOAC-GOV`, `[ORG]HOAC-TM` and `[ORG]AIOC-OCO` installed in it".
 2. **What it takes.** Documents and files of any format, and a contributor's own words, by text, chat or voice.
    - Each contributor accepts an agreement before their first input. An input made before that is refused.
    - Words become a record only after the contributor approves a preview of the exact text. With no approval, nothing is recorded. Human silence is never consent.
@@ -210,4 +211,5 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
    - serve only the approved scope.
 
    Tool names appear only in an `[ORG]AION` (§10, item 5).
+   - **Reading note (GOV, 14 October 2026).** The joining test is defined in §11, item 1 (Standard §3.2, item 4).
 8. **The fixed test.** Every rule of this section has a case in TEST-SOURCE-LIFECYCLE (`library/cards/README.md`). The card stays `DRAFT`, with `last_result` `NOT_RUN`, until the test has run once with recorded evidence (§10, item 3).

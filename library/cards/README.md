@@ -37,7 +37,7 @@ Each card is `DRAFT` until its test has run once with recorded evidence; no card
   13. A connection's token appears in no file, record or log.
   14. Every connection, scope change and revocation appears in the unit register with its date, its scope and the approving seat.
   15. The next stage receives sources only by reference, through the output socket. Its request for what it lacks is recorded through Source Lifecycle.
-  16. A source that replaces Source Lifecycle in a later stage is admitted only after it passes the joining test (Protocol §11).
+  16. A source that replaces Source Lifecycle in a later stage is admitted only after it passes the joining test (Protocol §11, item 1; Standard §3.2, item 4).
 - **Status.** `DRAFT`, with `last_result` `NOT_RUN`. It stays so until the test has run once with recorded evidence.
 
 **Self-Improvement (v1.5.0, correction).** There is no standalone Self-Improvement unit card. The process is recorded on `org-aion-top-management.unit-card.json`, the card of the Cell carrying `[ORG]HOAC-TM`, under `processes`, and is served by AI Cells; its v3 part and bot cards describe that process and the bot filling an AI Cell that serves it. Every v3 bot card names its own credential, `never_signs: true`, and memory sealed on a change of filler.
