@@ -1,0 +1,39 @@
+{
+  "part": "49GAION Source Lifecycle",
+  "version": "v1",
+  "inputs": [
+    {
+      "name": "documents and files of any format, and existing collections of them, from the organisation or from its other systems",
+      "format": "file, received through the Input socket"
+    },
+    {
+      "name": "a contributor's own words, by text, chat or voice",
+      "format": "conversation, recorded only after the contributor approves a preview of the exact text"
+    },
+    {
+      "name": "a request from a connected part, including a request for a source that is missing",
+      "format": "Work Item (ID + version), received through the tool gateway"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "the organisation's sources: registered, referenced, classified and fixed, each with its status",
+      "format": "versioned record (ID + version + hash)"
+    },
+    {
+      "name": "answers to a connected part, by reference only: held or not held, within the scope approved by the [ORG]HOAC-ACS seat that [ORG]AIOC-SL is accountable to",
+      "format": "Work Item (ID + version), sent through the tool gateway"
+    },
+    {
+      "name": "what the organisation is missing, and the state of each request for a missing source",
+      "format": "versioned record (ID + version)"
+    }
+  ],
+  "test": {
+    "id": "TEST-SOURCE-LIFECYCLE",
+    "version": "v1",
+    "location": "library/cards/README.md",
+    "last_result": "NOT_RUN"
+  },
+  "status": "DRAFT"
+}

@@ -13,4 +13,31 @@ Part cards and bot identity cards for the **AION Builder** (the 49GAION capabili
 
 Each card is `DRAFT` until its test has run once with recorded evidence; no card here has that evidence yet. All the cards here are validated by `tests/cards/check_cards.py`.
 
+**49GAION Source Lifecycle (addition, GOV, 14 October 2026).** `source-lifecycle.part-card.json`, validated against `spec/schemas/part-card.schema.json`.
+
+- **What it is.** The first part an organisation receives after the Charter, and the stage through which every source enters (Protocol §13).
+- **What it does.**
+  - It takes documents of any format, and a contributor's own words.
+  - It records, references, classifies and fixes them.
+  - It tells the organisation what is missing.
+  - It serves connected parts through its input and output sockets, only through the tool gateway and only within a scope approved by a labelled human seat.
+- **Its fixed test, TEST-SOURCE-LIFECYCLE v1.** There is one case for every rule of Protocol §13:
+  1. From a sample organisation with no documents, a spoken account becomes a referenced source only after the contributor approves its preview.
+  2. With no approved preview, nothing is recorded. Silence is not consent.
+  3. Input from a contributor who has not accepted the agreement is refused.
+  4. A secret in any input (file, text, chat or voice) is refused, and appears in no record or log.
+  5. A source has exactly one valid version, and an answer never names a superseded version as valid.
+  6. A request for a source that is not held is answered "not held" and recorded as missing.
+  7. No source of the organisation appears in the 49GAION Library.
+  8. A connection takes effect only after the `[ORG]HOAC-ACS` seat that `[ORG]AIOC-SL` is accountable to approves it and sets its scope. An approval or a scope set by a bot is refused.
+  9. A read outside the approved scope, or after the scope's expiry date, is refused.
+  10. After revocation, a read through that connection is refused, and its token no longer works at the source service.
+  11. A read that does not pass through the tool gateway is refused.
+  12. After a stop, no read passes the gateway.
+  13. A connection's token appears in no file, record or log.
+  14. Every connection, scope change and revocation appears in the unit register with its date, its scope and the approving seat.
+  15. The next stage receives sources only by reference, through the output socket. Its request for what it lacks is recorded through Source Lifecycle.
+  16. A source that replaces Source Lifecycle in a later stage is admitted only after it passes the joining test (Protocol §11).
+- **Status.** `DRAFT`, with `last_result` `NOT_RUN`. It stays so until the test has run once with recorded evidence.
+
 **Self-Improvement (v1.5.0, correction).** There is no standalone Self-Improvement unit card. The process is recorded on `org-aion-top-management.unit-card.json`, the card of the Cell carrying `[ORG]HOAC-TM`, under `processes`, and is served by AI Cells; its v3 part and bot cards describe that process and the bot filling an AI Cell that serves it. Every v3 bot card names its own credential, `never_signs: true`, and memory sealed on a change of filler.
