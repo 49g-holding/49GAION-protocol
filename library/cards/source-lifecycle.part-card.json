@@ -1,0 +1,38 @@
+{
+  "part": "49GAION Source Lifecycle",
+  "version": "v1",
+  "inputs": [
+    {
+      "name": "documents and files of any format, and existing collections of them, from the owner or from the owner's other systems",
+      "format": "file, received through the Input socket"
+    },
+    {
+      "name": "the owner's or a contributor's own words, by text, chat or voice",
+      "format": "conversation, recorded only after the speaker approves a preview of the exact text"
+    },
+    {
+      "name": "a request from a connected part, including a request for a source that is missing",
+      "format": "Work Item (ID + version)"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "the owner's sources: registered, referenced, classified and fixed, each with its status",
+      "format": "versioned record (ID + version + hash)"
+    },
+    {
+      "name": "answers to a connected part, by reference only: held or not held, within the scope the owner approved",
+      "format": "Work Item (ID + version)"
+    },
+    {
+      "name": "what the owner is missing, and the state of each request for a missing source",
+      "format": "versioned record (ID + version)"
+    }
+  ],
+  "test": {
+    "id": "TEST-SOURCE-LIFECYCLE",
+    "version": "v1",
+    "last_result": "NOT_RUN"
+  },
+  "status": "DRAFT"
+}

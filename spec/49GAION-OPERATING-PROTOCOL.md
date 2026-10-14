@@ -144,6 +144,7 @@ The definitions are in the Standard: ports (§6.1), bootstrap (§5.3), stop (§4
 3. Each Library part has a card (inputs, outputs, test, version); tests travel with their parts (`spec/schemas/part-card.schema.json`). Every bot has an identity card (`spec/schemas/bot-identity-card.schema.json`). The cards of the AION Builder and of the Self-Improvement AIOC held within `[ORG]HOAC-TM` are in `library/cards/`. A card stays `DRAFT` until its test has run once with recorded evidence.
    - **Addition (v1.5.0).** Every bot has its own credential, issued to it alone, held by the one Cell it fills, and never shared or reused (`credential` on its v3 identity card). A bot never signs: this covers every bot, in an AI Cell, an attached AI Cell or a Chief of Staff Cell (`never_signs: true`); no signature record (§4.10) names a bot as signer. Stopping a part under the stop rule (§4.4) is not a signature. When the filler of a Cell changes, the bot's memory of the previous filler is sealed, never purged.
    - **Correction (v1.5.0).** There is no standalone Self-Improvement unit or unit card. Self-Improvement is a process held inside `[ORG]HOAC-TM` (Standard §2.1, item 6): its fields are recorded only on the card of the Cell carrying `[ORG]HOAC-TM`, under `processes`, and it is served by AI Cells, read as "AI Cells serving the Self-Improvement process in TM" wherever a text says "the Self-Improvement AIOC". Its access to records is an access rule, not a signature type: read-only, pseudonymised, with no private store, and changed only as a Work Item (`processes[].access`).
+   - **Addition (GOV, 14 October 2026).** The card of 49GAION Source Lifecycle, `source-lifecycle.part-card.json`, is also in `library/cards/` (§13).
 4. During design, the AION Builder adds the blueprint of any capability not already in the 49GAION Library back to the 49GAION Library, generalised and tested. Once delivered, the `[ORG]AION` belongs entirely to the customer.
 5. The Standard names roles only; tool names appear only in an `[ORG]AION`.
 6. All AIOCs reach AI models through one shared gateway that holds keys, meters cost per AIOC and logs every call. It carries no orders.
@@ -159,3 +160,31 @@ The definitions are in the Standard: ports (§6.1), bootstrap (§5.3), stop (§4
 ## 12. Alignment
 
 The card follows the A2A Agent Card; the Work Item follows the A2A task. The parts answer the failure categories of the MAST study (arXiv 2503.13657): cards and Work Items for specification failures, typed ports and one owner for misalignment between agents, the input check and visible evidence for failed verification.
+
+## 13. Source Lifecycle: the first stage
+
+**Addition (GOV, 14 October 2026).** 49GAION Source Lifecycle is a Library part (`library/cards/source-lifecycle.part-card.json`). In an `[ORG]AION` it is the AIOC `[ORG]AIOC-SL` (Naming Standard R2).
+
+1. **The first part.** It is the first part an organisation receives and the stage through which every source enters.
+   - It works on its own for any owner, from a single person to a group of entities.
+   - Every later part builds on it.
+2. **What it takes.** Documents and files of any format, and the owner's or a contributor's own words, by text, chat or voice.
+   - Each contributor accepts an agreement before their first input.
+   - Words become a record only after the speaker approves a preview of the exact text. Human silence is never consent.
+   - A secret is refused and not stored (§5, item 3).
+3. **What it does.**
+   - It registers every input, gives it a reference and classifies it.
+   - It fixes it through its own stages, so each source has one valid version (§8).
+   - It tells the owner what is missing for that kind of owner.
+   - The sources are the owner's own data and never enter the 49GAION Library (Standard §1.3, item 9).
+4. **Its sockets.**
+   - **Input socket.** It checks everything that arrives (§5; STANDARD-CAPABILITIES §4.3).
+   - **Output socket.** It answers a connected part by reference (ID, version and hash). The answer is "held" or "not held", and covers only the scope the owner approved.
+   - **Connections.**
+     - A part connects only by request.
+     - The owner's administrator approves the request and sets its scope.
+     - The connection can be revoked at any time, and every access is logged.
+5. **Then the next stage starts.**
+   - The next stage takes its sources through its own input socket, from Source Lifecycle's output socket. A document store the organisation already keeps may be connected the same way.
+   - What the next stage lacks, it asks for through Source Lifecycle, which records the answer as a source.
+   - What reaches the next stage is therefore documented, versioned and traceable to its source.

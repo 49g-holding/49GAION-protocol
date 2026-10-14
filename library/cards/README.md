@@ -13,4 +13,18 @@ Part cards and bot identity cards for the **AION Builder** (the 49GAION capabili
 
 Each card is `DRAFT` until its test has run once with recorded evidence; no card here has that evidence yet. All the cards here are validated by `tests/cards/check_cards.py`.
 
+**49GAION Source Lifecycle (addition, GOV, 14 October 2026).** `source-lifecycle.part-card.json`, validated against `spec/schemas/part-card.schema.json`.
+
+- **What it is.** The first part an organisation receives, and the stage through which every source enters (Protocol §13).
+- **What it does.**
+  - It takes documents of any format and the owner's own words.
+  - It records, references, classifies and fixes them.
+  - It tells the owner what is missing.
+  - It serves connected parts through its input and output sockets.
+- **Its fixed test, TEST-SOURCE-LIFECYCLE v1.**
+  1. From a sample owner with no documents, a spoken account becomes a referenced source only after the speaker approves its preview.
+  2. A connected part reading outside the scope it was granted is refused.
+  3. A request for a source that is not held is answered "not held" and recorded as missing.
+- **Status.** `DRAFT`. Its test has not run.
+
 **Self-Improvement (v1.5.0, correction).** There is no standalone Self-Improvement unit card. The process is recorded on `org-aion-top-management.unit-card.json`, the card of the Cell carrying `[ORG]HOAC-TM`, under `processes`, and is served by AI Cells; its v3 part and bot cards describe that process and the bot filling an AI Cell that serves it. Every v3 bot card names its own credential, `never_signs: true`, and memory sealed on a change of filler.
