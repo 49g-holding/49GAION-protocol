@@ -1,0 +1,74 @@
+{
+  "part": "49GAION Delivery and Implementation",
+  "version": "v1",
+  "inputs": [
+    {
+      "name": "a run request from the Requesting Authority's Cell, naming the way in (mode A, B or C) and the design or sources to start from",
+      "format": "Work Item (ID + version), received through the HU input port at the tool gateway"
+    },
+    {
+      "name": "mode A: the decided releases of the target operating model and of Process and Position Design",
+      "format": "release reference (ID + version + hash of its manifest), received through the Input socket from Process and Position Design, through the tool gateway"
+    },
+    {
+      "name": "mode B: a design made elsewhere, filed as a source in Source Lifecycle",
+      "format": "source reference (ID + version + hash), received through the Input socket"
+    },
+    {
+      "name": "the organisation's other sources, and in mode C everything it starts from, by reference only, from the output socket of Source Lifecycle",
+      "format": "source reference (ID + version + hash; held or not held), received through the Input socket"
+    },
+    {
+      "name": "records of work from the organisation's own tools, read only, through a projection owned by top management that removes who did the work; only after the organisation records its impact assessment and informs workers where law requires",
+      "format": "record references through a signed connection at the tool gateway"
+    },
+    {
+      "name": "decisions of the deciding positions on its drafts and proposals",
+      "format": "decision references; signed records at the gateway for listed types"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "returns to the stage that made a design release, under the Library's design return contract",
+      "format": "Work Item (ID + version) validating against library/contracts/design-return.schema.json, sent through the tool gateway"
+    },
+    {
+      "name": "needs requests to the Chief of Staff of Source Lifecycle",
+      "format": "Work Item sub-items (ID + version), sent through the tool gateway"
+    },
+    {
+      "name": "the gap report, in two tiers: what blocks launch, and what is incomplete; each gap with its consequence, evidence and a proposed fix",
+      "format": "versioned record, filed into Source Lifecycle"
+    },
+    {
+      "name": "the launch package: procedures under each process; drafts of policies, of the pay structure by job family and level, of the authority instruments and of the obligations register, each marked as a draft for professional review in its jurisdiction; the control matrix; the transition plan; the go-live criteria; readiness, rehearsals and the go or no-go package for the deciding position",
+      "format": "content-addressed records, filed into Source Lifecycle; each element decided by its deciding position"
+    },
+    {
+      "name": "the operating records: the operating rhythm and its logs, measures and forum packs, versions with their acknowledgements, runnable checklists, quarterly priorities and the value register",
+      "format": "versioned records, each traced to its design element and deciding position"
+    },
+    {
+      "name": "proposals for change at process level, trial records and the organisation health check, each to the position that can decide it",
+      "format": "Work Item (ID + version), sent through the tool gateway"
+    },
+    {
+      "name": "a full export with its trace",
+      "format": "open formats, at any time"
+    }
+  ],
+  "test": {
+    "id": "TEST-DELIVERY-AND-IMPLEMENTATION",
+    "version": "v1",
+    "location": "library/cards/README.md",
+    "last_result": "NOT_RUN"
+  },
+  "tool_roles": [
+    "source of record (the output socket of Source Lifecycle)",
+    "the output port of Process and Position Design (releases in, returns out)",
+    "tool gateway (signatures, metering, the stop door, the permission ladder)",
+    "the organisation's own tools, read only by default, each a signed connection",
+    "engines through the shared gateway; a verifier that did not write a draft checks it"
+  ],
+  "status": "DRAFT"
+}

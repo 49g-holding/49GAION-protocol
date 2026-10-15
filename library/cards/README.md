@@ -98,4 +98,64 @@ Each card is `DRAFT` until its test has run once with recorded evidence; no card
   20. An output that names a person, reads who occupies a position, or chooses what fills a position fails.
   21. After revocation, a read or return through that connection is refused and the run is held.
   22. An output checked only by the Cell that produced it does not pass to the next step.
+- **Version 2 of its fixed test (addition, GOV, 15 October 2026).** TEST-PROCESS-AND-POSITION-DESIGN v2 keeps cases 1 to 22 and adds one case for every bullet of Protocol §17, item 11:
+  23. Each step carries when it is done, its worst error and whether that error can be undone, its kinds of act from the fixed list, where its input comes from and how far it is trusted, and its confidentiality; each from a source or put to decision.
+  24. A step whose worst error cannot be undone, or that signs, pays or commits money, or communicates outside, carries at least one control, or the gap is put to decision; each step names its risks and the record it leaves.
+  25. The controls catalogue re-compiles from the process records; every position is checked against the segregation-of-duties rules, and each breach is put to decision.
+  26. Every position belongs to exactly one unit; every unit has one head position from among its own positions, one parent unit and a charter generated from what its positions hold; a charter line that traces to nothing fails.
+  27. A reporting line that departs from the units carries a decision of the Requesting Authority.
+  28. Each process has measures of quality, time and cost, or each missing kind is put to decision; the objectives cascade lists a goal with nothing under it and a measure that serves no goal.
+  29. Every forum has a tier and every measure a forum that reviews it; the review calendar re-generates from them.
+  30. Structure scenarios, when asked for, are shown side by side on the same measures; cost appears only from cost rates the organisation gives; the Requesting Authority chooses, the part never does.
+  31. Every peak-load and end-to-end figure traces to its volumes and times, and a missing term marks it incomplete.
+  32. A competence that traces to no step or decision of its position fails; each decided process carries its owner position and its re-approval date.
+  33. A reference taxonomy, flow or measure library raises a needs request or a finding, never a process, step or measure on its own.
+  34. Every return validates against the Library's design return contract, counts its rounds, and ends in a status other than open.
 - **Status.** `DRAFT`, with `last_result` `NOT_RUN`. It stays so until the test has run once with recorded evidence.
+
+**49GAION Target Operating Model (addition, GOV, 15 October 2026).** `target-operating-model.part-card.json`, validated against `spec/schemas/part-card.schema.json`.
+
+- **What it is.** The stage after Source Lifecycle (Protocol §19), linked directly to Process and Position Design.
+- **What it does.** From sources served by Source Lifecycle, it designs the target operating model of an organisation of any shape and a role register that names each role and what it decides; it sends each decided release to Process and Position Design, and answers that part's returns until each ends.
+- **Its fixed test, TEST-TARGET-OPERATING-MODEL v1.** There is one case for every rule of Protocol §19:
+  1. A source that does not come by reference from Source Lifecycle's output socket is refused; words typed or spoken to the part are not admitted as sources.
+  2. A run with no Design Request approved by the Requesting Authority does not start; the request states how fine the model is to be, within the cost limit.
+  3. A gap is asked through the Chief of Staff of Source Lifecycle, one decision per row and at most twelve rows per pass, each pass with its report of what is missing; no request is sent to a person or names a person.
+  4. Silence, or approval of a whole pass, decides nothing; a row of a listed type is decided only with a valid signature.
+  5. The release covers capabilities, value streams, decision rights, interfaces and hand-offs, and its role register names every role once with what it decides, answers for and hands to whom.
+  6. An output that names a person or says what fills a role fails.
+  7. Every element traces to its sources, and an element not decided by the Requesting Authority is not released.
+  8. The release is frozen and content-addressed, filed into Source Lifecycle, and read back by its hash.
+  9. For every decided release, a release notice reaches Process and Position Design by reference.
+  10. A return from Process and Position Design is received, shown with its age, and answered by a new decided release or by a decision of the Requesting Authority.
+  11. A return past its deadline or its set number of rounds goes to the Requesting Authority; a return set aside names the basis it goes forward on; no return stays open.
+  12. After revocation of either connection, a read, filing or return through it is refused, the run is held, and no record keeps a source's text.
+  13. Each stage's output is checked by several engines from more than one family before the next stage starts, and no unit grades its own work.
+  14. A material finding stops the release until the Requesting Authority decides it.
+- **Status.** `DRAFT`, with `last_result` `NOT_RUN`. It stays so until the test has run once with recorded evidence.
+
+**49GAION Delivery and Implementation (addition, GOV, 15 October 2026).** `delivery-and-implementation.part-card.json`, validated against `spec/schemas/part-card.schema.json`.
+
+- **What it is.** The last stage of the design chain (Protocol §20): it takes the decided design into a running organisation and stays to run and improve it, deciding nothing itself.
+- **What it does.** Diagnose, prepare, accompany, operate and improve, from the decided releases, from a design made elsewhere, or from no design.
+- **Its fixed test, TEST-DELIVERY-AND-IMPLEMENTATION v1.** There is one case for every rule of Protocol §20:
+  1. A run with no request from the Requesting Authority does not start; a release that is not decided, or whose hash does not match, is refused, each failure named.
+  2. In mode B, the imported design is mapped with what mapped, what did not and why, and the author's intent is not rewritten.
+  3. In mode C, no element is presented as decided before it is decided, and no number is stated that no source or decision gives.
+  4. A defect in a release goes back under the design return contract and its loop ends.
+  5. On a design with planted gaps, the gap check finds the launch-blocking gaps and names, for each gap, its consequence, evidence and proposed fix.
+  6. Every procedure step traces to a process step; every draft with legal effect records its entity and jurisdiction, carries the draft mark and goes to decision only after professional review.
+  7. Every answer about how the organisation works cites a design element, its version and a quoted span, or says it does not know.
+  8. The go or no-go is decided by the deciding position; the part never decides it.
+  9. Every action and decision in the logs has an owner position and a date; every value figure traces to its baseline, and only the finance position confirms a realised value.
+  10. A draft enters a record, log or plan only when a position inserts it.
+  11. A level-2 change is reversible, has no legal, pay or employment effect, is a new version with rollback and is reported the same day; a type of the Human Floor signature list is refused at every level.
+  12. A stop from any accountable position takes effect at once, outside the part's chat, and is never gated.
+  13. No output ranks, scores or watches the occupant of a position, infers emotion, or shows a measure for a single position; records of work enter only through the projection, and only after the impact assessment is recorded.
+  14. A trial is judged by a seat other than the one that proposed it.
+  15. A connection is used only within its signed scope; after revocation, a read through it is refused.
+  16. Every artefact resolves to its design element, deciding position and decision, and back; a full export re-imports into a fresh instance.
+  17. Standalone, its own gateway fails closed: one negative case for every Human Floor type passes before each release.
+- **Status.** `DRAFT`, with `last_result` `NOT_RUN`. It stays so until the test has run once with recorded evidence.
+
+**The design return contract (addition, GOV, 15 October 2026).** `library/contracts/design-return.schema.json`, with valid and must-fail examples in `library/contracts/examples/` and its checker `library/contracts/check_contracts.py` (Protocol §17, item 11; Standard §3.1, item 6).

@@ -1,0 +1,12 @@
+{
+  "must-fail-cannot-use-without-missing.json": "cannot use names what is missing",
+  "must-fail-unknown-kind.json": "only the five return kinds",
+  "must-fail-no-elements.json": "a return names at least one part",
+  "must-fail-open-not-filed.json": "an open return has its filed copy",
+  "must-fail-defect-without-evidence.json": "a defect carries evidence",
+  "must-fail-answered-without-reference.json": "an answered return names what answered it",
+  "must-fail-short-hash.json": "hashes are full SHA-256",
+  "must-fail-edits-the-release.json": "a return never carries new release text (no extra fields)",
+  "must-fail-set-aside-without-basis.json": "a return set aside by decision names the basis it goes forward on",
+  "must-fail-no-round.json": "every return carries its round"
+}

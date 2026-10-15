@@ -1,0 +1,23 @@
+{
+  "return_id": "PPDR-2",
+  "run_id": "RUN-0001",
+  "release": {
+    "release_id": "TOMR-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "kind": "accepted",
+  "elements": [
+    {
+      "part": "whole release"
+    }
+  ],
+  "evidence": [],
+  "held_here": [],
+  "filed_ref": {
+    "source_id": "SRC-88",
+    "version": "1",
+    "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "status": "open",
+  "round": 1
+}

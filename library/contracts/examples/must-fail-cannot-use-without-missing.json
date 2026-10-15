@@ -1,0 +1,35 @@
+{
+  "return_id": "PPDR-1",
+  "run_id": "RUN-0001",
+  "release": {
+    "release_id": "TOMR-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "manifest_sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "kind": "cannot use",
+  "elements": [
+    {
+      "part": "role register",
+      "element_id": "ROLE-7"
+    }
+  ],
+  "evidence": [
+    {
+      "ref": "ROLE-7"
+    },
+    {
+      "ref": "ADP-SL:SRC-12@3#p4",
+      "span_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    }
+  ],
+  "held_here": [
+    "PRC-4",
+    "PRC-9"
+  ],
+  "filed_ref": {
+    "source_id": "SRC-88",
+    "version": "1",
+    "sha256": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "status": "open",
+  "round": 1
+}
