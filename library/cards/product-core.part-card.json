@@ -1,0 +1,57 @@
+{
+  "part": "49GAION Product Core",
+  "version": "v1",
+  "inputs": [
+    {
+      "name": "product direction and product requests from the Requesting Authority and from each company of the organisation",
+      "format": "Work Item (ID + version), received through the HU input port at the tool gateway"
+    },
+    {
+      "name": "the organisation's sources, such as its product documents, terms, policies and data, by reference only, from the output socket of Source Lifecycle",
+      "format": "source reference (ID + version + hash; held or not held), received through the Input socket"
+    },
+    {
+      "name": "signals from products in use: performance, customer voice, complaints and support",
+      "format": "Work Item or record reference (ID + version), received through the tool gateway"
+    },
+    {
+      "name": "questions, first-look builds and acceptance requests from the engineering AIOC on the product line",
+      "format": "Work Item (ID + version), received through the tool gateway"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "complete product packages: the PRD, feature packages with acceptance criteria, designs for every state and copy in every language the product serves",
+      "format": "frozen, content-addressed package (manifest + parts by hash), sent on the product line to the engineering AIOC through the tool gateway"
+    },
+    {
+      "name": "answers to the engineering AIOC's questions, and acceptance of built work criterion by criterion",
+      "format": "Work Item (ID + version), sent through the tool gateway"
+    },
+    {
+      "name": "prices, fees and rates as versioned data, each change with an effective date and a reason, and reversible",
+      "format": "versioned record (ID + version), written through the tool gateway"
+    },
+    {
+      "name": "explainers and supporting documents for each product: explainer and questions and answers, help articles, user guides, partner materials, internal training",
+      "format": "versioned documents, filed into Source Lifecycle as sources"
+    },
+    {
+      "name": "product reviews with their outcome: keep, fix, grow or retire",
+      "format": "Work Item (ID + version), sent through the tool gateway"
+    }
+  ],
+  "test": {
+    "id": "TEST-PRODUCT-CORE",
+    "version": "v1",
+    "location": "library/cards/README.md",
+    "last_result": "NOT_RUN"
+  },
+  "tool_roles": [
+    "the product line to the engineering AIOC",
+    "source of record (the output socket of Source Lifecycle)",
+    "rate and configuration store (versioned)",
+    "tool gateway (signatures, metering, the stop door)"
+  ],
+  "status": "DRAFT"
+}

@@ -159,3 +159,23 @@ Each card is `DRAFT` until its test has run once with recorded evidence; no card
 - **Status.** `DRAFT`, with `last_result` `NOT_RUN`. It stays so until the test has run once with recorded evidence.
 
 **The design return contract (addition, GOV, 15 October 2026).** `library/contracts/design-return.schema.json`, with valid and must-fail examples in `library/contracts/examples/` and its checker `library/contracts/check_contracts.py` (Protocol §17, item 11; Standard §3.1, item 6).
+
+**49GAION Product Core (addition, GOV, 15 October 2026).** `product-core.part-card.json`, validated against `spec/schemas/part-card.schema.json`.
+
+- **What it is.** The organisation's one product division, shared by every company the organisation runs (Protocol §18). Its head office is the CPO Office.
+- **What it does.** It owns the what and the why of every product for the product's whole life. Each product has one team for every stage: research, the PRD, design, partnership in build, launch, run (pricing and rates, performance, communications, retention, customer voice, operations), explainers and supporting documents, and refresh or retire.
+- **Its fixed test, TEST-PRODUCT-CORE v1.** There is one case for every rule of Protocol §18:
+  1. Product Core enters through OCO. A part that bypasses OCO is refused.
+  2. A product decision about the how or the when is returned to the engineering AIOC. A decision about the what or the why taken outside Product Core is returned to it.
+  3. Every product owner reports to the CPO Office. The CPO Office's accountable seat is a human seat named by position.
+  4. Every product sits in exactly one category, and every category is one of the four kinds. A capability recorded as a product fails. A category list of the organisation found in the Library fails.
+  5. Every product has one owner position. An owner position holding two products fails, and a product with no owner position fails.
+  6. A stage of a product's life handed to another team fails.
+  7. A PRD or feature package with a blank field, or with no acceptance criteria, is refused. An output that writes code or technical design fails.
+  8. A rate changed by a code release, or with no effective date or no reason, fails. Every rate change can be reversed.
+  9. A shared standard doing a product's own work fails.
+  10. A product copied for a company, instead of configured, fails.
+  11. Product work sent to builders or to the code host other than on the product line is refused. A build finding that changes the product comes back as a question.
+  12. An output that names a person, or reads who occupies a position, fails.
+  13. Every product has its explainers and supporting documents, versioned and filed. A product with none fails.
+- **Status.** `DRAFT`, with `last_result` `NOT_RUN`. It stays so until the test has run once with recorded evidence.
