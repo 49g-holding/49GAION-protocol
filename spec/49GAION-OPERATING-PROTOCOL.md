@@ -213,6 +213,7 @@ The definitions are in the Standard: ports (§6.1), bootstrap (§5.3), stop (§4
    - **Addition (v1.5.0).** Every bot has its own credential, issued to it alone, held by the one Cell it fills, and never shared or reused (`credential` on its v3 identity card). A bot never signs: this covers every bot, in an AI Cell, an attached AI Cell or a Chief of Staff Cell (`never_signs: true`); no signature record (§4.10) names a bot as signer. Stopping a part under the stop rule (§4.4) is not a signature. When the filler of a Cell changes, the bot's memory of the previous filler is sealed, never purged.
    - **Correction (v1.5.0).** There is no standalone Self-Improvement unit or unit card. Self-Improvement is a process held inside `[ORG]HOAC-TM` (Standard §2.1, item 6): its fields are recorded only on the card of the Cell carrying `[ORG]HOAC-TM`, under `processes`, and it is served by AI Cells, read as "AI Cells serving the Self-Improvement process in TM" wherever a text says "the Self-Improvement AIOC". Its access to records is an access rule, not a signature type: read-only, pseudonymised, with no private store, and changed only as a Work Item (`processes[].access`).
    - **Addition (GOV, 14 October 2026).** The card of 49GAION Source Lifecycle, `source-lifecycle.part-card.json`, is also in `library/cards/` (§13).
+   - **Addition (GOV, 15 October 2026).** The card of 49GAION Process and Position Design, `process-and-position-design.part-card.json`, is also in `library/cards/` (§17).
 4. During design, the AION Builder adds the blueprint of any capability not already in the 49GAION Library back to the 49GAION Library, generalised and tested. Once delivered, the `[ORG]AION` belongs entirely to the customer.
 5. The Standard names roles only; tool names appear only in an `[ORG]AION`.
 6. All AIOCs reach AI models through one shared gateway that holds keys, meters cost per AIOC and logs every call. It carries no orders.
@@ -316,3 +317,37 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
 2. **49GAION Outside Inspector:** checks from infrastructure that shares no failure with the inspected AIOC that its duties happened; builds nothing, directs no one, writes only its own report; never the internal-audit line (Standard §3.2).
 3. **49GAION Advisory Council:** asks several model providers independently, without the asker's instruction or a leading frame, keeps every reply whole and merges by a stated rule; decides nothing (Standard §2.4).
 4. **49GAION Reference Comparison:** compares an organisation's output with recognised references of the same kind; perception by a model, judgement by rules and cited evidence, decision by a human; facts counted, never taste; public sources only, and no account created in another party's system.
+
+## 17. Process and Position Design: the stage after the target operating model
+
+**Addition (GOV, 15 October 2026).** 49GAION Process and Position Design is a Library part (`library/cards/process-and-position-design.part-card.json`). In an `[ORG]AION` it is the AIOC `[ORG]AIOC-PPD` (Naming Standard R2). It is a part of its own, never merged with the part that designs the target operating model or with the stage after it (Standard §3.1, item 3; `49GAION/DR-0014`).
+
+1. **Its place.** It follows the part that designs the organisation's target operating model. Like every other part, it enters through OCO.
+2. **What it takes.**
+   - **The release, directly.** A decided target operating model release with its role register, handed over by the part that made it: by reference (ID, version and hash of its manifest), through its Input socket and the tool gateway. It reads the role register first. A release that is not decided, or whose hash does not match, is not used.
+   - **Other sources.** The organisation's other sources (its existing processes, procedures, policies, volumes and times) come only by reference from Source Lifecycle's output socket (§13, item 4).
+   - **The request.** A run starts only from a request of the Requesting Authority: the Cell carrying `[ORG]HOAC-GOV`, or a human Cell to which it has delegated the design decisions (Standard §4.2, items 5 and 8).
+3. **Back to the target operating model.**
+   - It never edits the release. A defect it finds goes back to the part that made the release as a return, one of: accepted; cannot use, missing what; contradiction found; assumption invalid; request kind unsupported. Each return cites the elements it concerns.
+   - The elements a return concerns are held until a new decided release, or a decision of the Requesting Authority, answers it. Work on the other elements goes on.
+   - The two parts may go back and forth as often as needed. Each pass is a new version; nothing is overwritten.
+   - Each return is also filed into Source Lifecycle as a design report, with the same hash, so that a revised request to the part that made the release can cite it.
+4. **What it asks.** What the release and the sources do not answer, it asks of the Chief of Staff of Source Lifecycle as a needs request, and the answer is recorded there as a source (§13, item 6). It never asks a person, and a request never names a person.
+5. **What it does.** One stage, processes first; each step has one output and a done-test.
+   1. **Process architecture.** The processes under each value-stream phase and capability of the release, in levels, each with one owner position. Every phase and capability has a process, and every hand-off of the release belongs to one.
+   2. **Critical processes first.** The processes that cross parts of the model are chosen, with the reason recorded, and designed first.
+   3. **Process design.** For each process: its purpose and trigger; its ordered steps in role lanes; the inputs and outputs of each step; the decision at each step and who decides it; exceptions and escalation; measures, volumes and step times. Each step has one accountable role, each decision one decider, and each hand-off between lanes is matched at both ends.
+   4. **Positions.** The steps and decisions of each role are grouped into positions. Every step and decision sits in exactly one position, and every position holds at least one. Each job description is generated from what the position holds: its purpose, accountabilities, decisions and their limits, the positions it works with, its measures and its reporting line. A job description is never written free-hand.
+   5. **Structure.** Reporting lines inside each part, with spans and layers checked; standing forums, each with a charter. Every position has one reporting line.
+   6. **Workload.** The work each position carries, from the volumes and step times of its processes.
+   7. **Walkthrough.** The design is walked through realistic situations. Every finding is fixed or put to decision.
+   8. **Decision and release.**
+6. **What it gives.**
+   - **The release.** A Process and Position Design release with these parts: process architecture; process book; decision-rights register and authority matrix; policy register; position register with job descriptions; organisation charts; forums with charters; workload; crosswalk from the current organisation to the target; walkthrough report and quality checks; decision package.
+   - **Traced, never invented.** Every element traces to an element of the release or to a source. A measure, volume or time that no source gives is marked as an assumption and put to decision.
+   - **Decided.** Every element is decided by the Requesting Authority. Silence, or approval of a whole pass, decides nothing.
+   - **Filed.** The release is frozen and content-addressed, filed into Source Lifecycle as a source, and handed to the next stage by reference.
+7. **Positions only.** It designs positions, never people (Standard §1.1, item 9). No output names a person or reads who occupies a position. It makes no choice of what fills a position; that belongs to a later stage.
+8. **Its connections.** Two connections, each approved and scoped as in §13, item 5: to the part that made the target operating model release (read its releases; send returns), and to Source Lifecycle (read; needs requests; write only its own filed releases and returns). Revocation cuts a connection at the gateway at once and holds the run.
+9. **Assurance.** The output of each step is checked by Cells that did not produce it before the next step starts (Standard §3.2, item 14). Critical outputs are written twice, separately, and their differences are settled on the sources or put to the Requesting Authority.
+10. **The fixed test.** Every rule of this section has a case in TEST-PROCESS-AND-POSITION-DESIGN v1 (`library/cards/README.md`). The card stays `DRAFT`, with `last_result` `NOT_RUN`, until the test has run once with recorded evidence (§10, item 3).

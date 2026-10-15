@@ -1,0 +1,48 @@
+{
+  "part": "49GAION Process and Position Design",
+  "version": "v1",
+  "inputs": [
+    {
+      "name": "a run request from the Requesting Authority's Cell, naming the decided target operating model release to design from",
+      "format": "Work Item (ID + version), received through the HU input port at the tool gateway"
+    },
+    {
+      "name": "the decided target operating model release with its role register, handed over directly by the part that made it, read role register first",
+      "format": "release reference (ID + version + hash of its manifest), received through the Input socket from that part, through the tool gateway"
+    },
+    {
+      "name": "the organisation's other sources, such as its existing processes, procedures, policies, volumes and times, by reference only, from the output socket of Source Lifecycle",
+      "format": "source reference (ID + version + hash; held or not held), received through the Input socket"
+    },
+    {
+      "name": "answers to needs requests, recorded as sources in Source Lifecycle",
+      "format": "needs answer, by reference only"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "returns to the part that made the target operating model release: accepted; cannot use, missing what; contradiction found; assumption invalid; request kind unsupported; each citing the elements it concerns",
+      "format": "Work Item (ID + version), sent through the tool gateway"
+    },
+    {
+      "name": "needs requests to the Chief of Staff of Source Lifecycle, one thing and one decision per row",
+      "format": "Work Item sub-items (ID + version), sent through the tool gateway"
+    },
+    {
+      "name": "a Process and Position Design release: process architecture, process book, decision-rights register and authority matrix, policy register, position register with generated job descriptions, organisation charts, forums with charters, workload, crosswalk from the current organisation, walkthrough report and quality checks, and a decision package; positions only; decided element by element by the Requesting Authority",
+      "format": "frozen, content-addressed release (manifest + parts by hash), filed into Source Lifecycle as a source and handed to the next stage by reference"
+    }
+  ],
+  "test": {
+    "id": "TEST-PROCESS-AND-POSITION-DESIGN",
+    "version": "v1",
+    "location": "library/cards/README.md",
+    "last_result": "NOT_RUN"
+  },
+  "tool_roles": [
+    "the output port of the part that made the target operating model release",
+    "source of record (the output socket of Source Lifecycle)",
+    "tool gateway (signatures, metering, the stop door)"
+  ],
+  "status": "DRAFT"
+}
