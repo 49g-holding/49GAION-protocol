@@ -1,0 +1,238 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/49g-holding/49GAION-protocol/library/contracts/design-return.schema.json",
+  "title": "49GAION Library - design return",
+  "description": "A notice from a design stage to the stage that made the release it reads. It asks; it never changes the release. It names release parts, elements and fact-types, never a person. It always ends: answered by release, answered by decision, set aside by decision and carried forward on a stated basis, or withdrawn.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "return_id",
+    "run_id",
+    "release",
+    "kind",
+    "elements",
+    "evidence",
+    "held_here",
+    "round",
+    "status"
+  ],
+  "properties": {
+    "return_id": {
+      "type": "string",
+      "pattern": "^[A-Z]{2,8}R-[0-9]+$",
+      "description": "The sending stage's prefix and a number, for example PPDR-3."
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^RUN-[A-Za-z0-9-]+$"
+    },
+    "release": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "release_id",
+        "manifest_sha256"
+      ],
+      "properties": {
+        "release_id": {
+          "type": "string",
+          "pattern": "^[A-Z]+-?[a-f0-9]{64}$"
+        },
+        "manifest_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "kind": {
+      "enum": [
+        "accepted",
+        "cannot use",
+        "contradiction found",
+        "assumption invalid",
+        "request kind unsupported"
+      ]
+    },
+    "missing": {
+      "type": "string",
+      "minLength": 1,
+      "description": "For cannot use: a fact-type or an element, never a person."
+    },
+    "elements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "part"
+        ],
+        "properties": {
+          "part": {
+            "type": "string",
+            "minLength": 1
+          },
+          "element_id": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "ref"
+        ],
+        "properties": {
+          "ref": {
+            "type": "string",
+            "minLength": 1,
+            "description": "A release element ID or a source atom ID."
+          },
+          "span_sha256": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          }
+        }
+      }
+    },
+    "held_here": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "round": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The round of the loop between the two stages; each answer that does not end the return opens the next round."
+    },
+    "filed_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_id",
+        "version",
+        "sha256"
+      ],
+      "properties": {
+        "source_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    },
+    "status": {
+      "enum": [
+        "open",
+        "answered by release",
+        "answered by decision",
+        "set aside by decision",
+        "withdrawn"
+      ]
+    },
+    "answered_by": {
+      "type": "string",
+      "minLength": 1
+    },
+    "carried_forward_on": {
+      "enum": [
+        "known defect",
+        "decided assumption"
+      ],
+      "description": "For set aside by decision: the basis on which the affected elements go forward."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "const": "cannot use"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "missing"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "kind": {
+            "not": {
+              "const": "accepted"
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "evidence": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "answered by release",
+              "answered by decision",
+              "set aside by decision"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "answered_by"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "set aside by decision"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "carried_forward_on"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "open"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "filed_ref"
+        ]
+      }
+    }
+  ]
+}

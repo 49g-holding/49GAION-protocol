@@ -1,0 +1,58 @@
+{
+  "part": "49GAION Target Operating Model",
+  "version": "v1",
+  "inputs": [
+    {
+      "name": "a run request from the Requesting Authority's Cell, carrying the reference of an approved Design Request held in Source Lifecycle and stating how fine the model should be",
+      "format": "Work Item (ID + version), received through the HU input port at the tool gateway"
+    },
+    {
+      "name": "the organisation's sources, by reference only, from the output socket of Source Lifecycle",
+      "format": "source reference (ID + version + hash; held or not held), received through the Input socket"
+    },
+    {
+      "name": "answers to needs requests, recorded and approved as sources in Source Lifecycle",
+      "format": "needs answer, by reference only"
+    },
+    {
+      "name": "returns from Process and Position Design on a release of this part, under the Library's design return contract",
+      "format": "Work Item (ID + version) validating against library/contracts/design-return.schema.json, received through the tool gateway"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "needs requests to the Chief of Staff of Source Lifecycle, one thing and one decision per row, with a report of what is still missing",
+      "format": "Work Item sub-items (ID + version), sent through the tool gateway"
+    },
+    {
+      "name": "a target operating model release: capabilities, value streams, decision rights, interfaces and hand-offs, with a role register that names each role and what it decides; traced to its sources, walked, independently checked at every stage, and decided element by element by the Requesting Authority; it does not say what fills a role",
+      "format": "frozen, content-addressed release (manifest + parts by hash), filed into Source Lifecycle as a source of origin kind operating model"
+    },
+    {
+      "name": "a release notice to Process and Position Design for each decided release",
+      "format": "release reference (ID + version + hash of its manifest), sent through the tool gateway"
+    },
+    {
+      "name": "the answer to each return: a new decided release, or the Requesting Authority's decision, including a decision to set the return aside and carry the affected elements forward on a stated basis",
+      "format": "release reference or decision reference, recorded on the return"
+    },
+    {
+      "name": "where no release can be formed, a readiness report or a held report",
+      "format": "versioned record, filed into Source Lifecycle as a source of origin kind design report"
+    }
+  ],
+  "test": {
+    "id": "TEST-TARGET-OPERATING-MODEL",
+    "version": "v1",
+    "location": "library/cards/README.md",
+    "last_result": "NOT_RUN"
+  },
+  "tool_roles": [
+    "source of record (the output socket of Source Lifecycle)",
+    "the input port of Process and Position Design (release notices out, returns in)",
+    "tool gateway (signatures, metering, the stop door)",
+    "engines through the shared gateway; three or more engines from two or more families check each stage",
+    "reference models, read by version and hash, as a method only"
+  ],
+  "status": "DRAFT"
+}

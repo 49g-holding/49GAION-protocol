@@ -1,6 +1,6 @@
 {
   "part": "49GAION Process and Position Design",
-  "version": "v1",
+  "version": "v2",
   "inputs": [
     {
       "name": "a run request from the Requesting Authority's Cell, naming the decided target operating model release to design from",
@@ -17,25 +17,29 @@
     {
       "name": "answers to needs requests, recorded as sources in Source Lifecycle",
       "format": "needs answer, by reference only"
+    },
+    {
+      "name": "returns from the next stage on a release of this part, under the Library's design return contract",
+      "format": "Work Item (ID + version) validating against library/contracts/design-return.schema.json, received through the tool gateway"
     }
   ],
   "outputs": [
     {
-      "name": "returns to the part that made the target operating model release: accepted; cannot use, missing what; contradiction found; assumption invalid; request kind unsupported; each citing the elements it concerns",
-      "format": "Work Item (ID + version), sent through the tool gateway"
+      "name": "returns to the part that made the target operating model release, under the Library's design return contract: accepted; cannot use, missing what; contradiction found; assumption invalid; request kind unsupported; each citing the elements it concerns, each ending in a decision",
+      "format": "Work Item (ID + version) validating against library/contracts/design-return.schema.json, sent through the tool gateway"
     },
     {
       "name": "needs requests to the Chief of Staff of Source Lifecycle, one thing and one decision per row",
       "format": "Work Item sub-items (ID + version), sent through the tool gateway"
     },
     {
-      "name": "a Process and Position Design release: process architecture, process book, decision-rights register and authority matrix, policy register, position register with generated job descriptions, organisation charts, forums with charters, workload, crosswalk from the current organisation, walkthrough report and quality checks, and a decision package; positions only; decided element by element by the Requesting Authority",
+      "name": "a Process and Position Design release: process architecture, process book (each step with its done-when, worst error and reversibility, kinds of act, input source and trust, confidentiality, risks, controls and record), decision-rights register and authority matrix, policy register, controls catalogue with the segregation-of-duties check, position register with generated job descriptions and competence profiles, objectives cascade, unit register with generated unit charters, organisation charts, forums with charters and tiers, review calendar, structure scenarios when asked for, workload with the peak-load check and end-to-end times, crosswalk from the current organisation, walkthrough report and quality checks, and a decision package; each process with its re-approval date; positions only; decided element by element by the Requesting Authority",
       "format": "frozen, content-addressed release (manifest + parts by hash), filed into Source Lifecycle as a source and handed to the next stage by reference"
     }
   ],
   "test": {
     "id": "TEST-PROCESS-AND-POSITION-DESIGN",
-    "version": "v1",
+    "version": "v2",
     "location": "library/cards/README.md",
     "last_result": "NOT_RUN"
   },
