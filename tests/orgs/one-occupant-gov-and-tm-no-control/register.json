@@ -1,5 +1,5 @@
 {
-  "name": "Must fail: one-person-no-control",
+  "name": "One occupant behind GOV and TM with no compensating control passes: two positions are two parties (GOV, 15 October 2026)",
   "parts": [
     {
       "code": "TenAIOC-CH",
@@ -156,5 +156,5 @@
       "expect": "TenCELL-OPS"
     }
   ],
-  "expect": "D-2"
+  "note": "Formerly the must-fail organisation must-fail-one-person-no-control (D-2). Two positions are two parties (GOV, 15 October 2026): GOV and TM each sign under their own Cell code and each counts; no check compares the occupants behind positions, and no compensating control is required."
 }

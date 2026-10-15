@@ -14,7 +14,7 @@
 | [`spec/schemas/`](spec/schemas/) | Machine schemas: unit card (AIOC, Pod and Cell, with the HOAC label as a field), Work Item, shared status list, part card, bot identity card, `[ORG]AION` record, Port card; since v1.5.0 also the signature record and the process record |
 | [`library/cards/`](library/cards/) | Library cards of the AION Builder and the Self-Improvement AIOC (read, v1.5.0: of the Self-Improvement process in TM and the bots serving it) |
 | [`tests/`](tests/) | Schema tests |
-| [`tests/cards/`](tests/cards/), [`tests/signatures/`](tests/signatures/), [`tests/work-items/`](tests/work-items/) | Must-pass and must-fail fixtures of the machine forms; superseded fixtures kept in `tests/cards/superseded/` (v1.5.0) |
+| [`tests/cards/`](tests/cards/), [`tests/signatures/`](tests/signatures/), [`tests/work-items/`](tests/work-items/) | Must-pass and must-fail fixtures of the machine forms; superseded fixtures kept in `tests/cards/superseded/` (v1.5.0) and `tests/signatures/sets/superseded/` (GOV, 15 October 2026) |
 | [`tests/orgs/`](tests/orgs/) | Reference organisations run through the delivery test lines of the Standard (v1.5.0) |
 | [`tests/verdicts/`](tests/verdicts/), [`tests/action-classes/`](tests/action-classes/) | Must-pass and must-fail fixtures of the verdict record and the standing action class (GOV, 14 October 2026) |
 | [`decisions/`](decisions/) | Links to the decision records, kept once in the hub |

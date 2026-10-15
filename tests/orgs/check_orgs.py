@@ -1,14 +1,16 @@
 """Reference organisations (Protocol §4.10, item 11; Standard §1.4).
 
 Each folder under tests/orgs/ holds one organisation's register (register.json): its parts,
-the people filling its human seats (by pseudonymous reference only), the Human Floor
+the people filling its human seats (by pseudonymous reference only, standing in for top
+management's own occupancy record; no line of this check reads it), the Human Floor
 bindings and its register events. The check expands every entry into a unit card and
 validates it against spec/schemas/unit-card.schema.json, then runs the delivery test lines
 that can be read from a register:
   D-1  exactly one filled, unscoped Cell carrying [ORG]HOAC-GOV, seat kind human
   D-2  every Human Floor item HF-01..HF-19 is bound to a filled human Cell carrying a HOAC
-       label; where two bound seats need distinct people and one person fills both, a
-       compensating control signed by GOV, with a review date, is recorded as an event
+       label. Two positions are two parties (GOV, 15 October 2026): no line compares the
+       occupants behind positions, and a compensating control is top management's own choice,
+       read by no line of this check
   D-3  every part has exactly one stop door (from its card)
   D-4  (codes CHAIN-*) every accountable_to chain is acyclic, ends at the GOV Cell, and passes at least one
        Cell of seat kind human carrying a HOAC label; the Charter is the only part with
@@ -28,7 +30,6 @@ reg = Registry().with_resources([(n, Resource.from_contents(s)) for n, s in sche
 UNIT = Draft202012Validator(schemas["unit-card.schema.json"], registry=reg)
 CONFIG = json.loads((ROOT / "tests/cards/valid-aioc-card.json").read_text())["configuration"]
 HF = [f"HF-{i:02d}" for i in range(1, 20)]
-DISTINCT = [("GOV", "TM")]  # seats that need distinct people unless a compensating control is recorded
 
 def ports(code, stops=1):
     b = {"unit": code, "accepted_content": ["Work Item"], "authority_limit": "as on the card", "audit_trail": "gateway log",
@@ -111,13 +112,8 @@ def check(org):
     for hf in R["floor_bindings"]:
         if hf not in HF:
             errs.append(("D-2", f"{hf}: cited Human Floor item does not exist in Standard §1.5 (HF-01..HF-19)"))
-    seat = {e["hoac"].split("-")[-1]: e for e in R["parts"] if e.get("hoac") and e["kind"] == "CELL" and not e.get("scoped_entity")}
-    for a, b in DISTINCT:
-        if a in seat and b in seat and seat[a].get("person") and seat[a].get("person") == seat[b].get("person"):
-            cc = [ev for ev in R.get("events", []) if ev["type"] == "compensating-control" and ev.get("rule") == f"distinct-{a}-{b}"
-                  and ev.get("signed_by") == seat["GOV"]["code"] and ev.get("review_date")]
-            if not cc:
-                errs.append(("D-2", f"one person fills {a} and {b} with no compensating control signed by GOV"))
+    # Two positions are two parties (GOV, 15 October 2026): one occupant behind GOV and TM is not a
+    # finding, and a compensating control is not required. The check never reads "person".
     roots = [e["code"] for e in R["parts"] if e["parent"] == "none"]
     if len(roots) != 1:
         errs.append(("CHAIN-TWO-ROOTS", f"parts with parent none: {roots}; only the Charter has none"))
@@ -151,9 +147,11 @@ def LOG(n, e, a, g):
     if os.environ.get("FIXTURE_LOG"): print("LOGROW\t" + "\t".join([n, e, a, "1" if g else "0"]))
 ok = True
 # The reference set is fixed: all four must be present and non-empty, and the D-4 cycle case
-# must be present. A missing or empty folder fails (FIXTURE-ORGS-REFERENCE-MISSING).
+# must be present. Since (GOV, 15 October 2026), one-occupant-gov-and-tm-no-control is required
+# too: one occupant behind GOV and TM, with no compensating control, passes. A missing or empty
+# folder fails (FIXTURE-ORGS-REFERENCE-MISSING).
 REQUIRED = ["three-person-company", "multi-entity-group", "human-department-with-assistants",
-            "one-person-gov-and-tm", "must-fail-cycle"]
+            "one-person-gov-and-tm", "one-occupant-gov-and-tm-no-control", "must-fail-cycle"]
 HERE = pathlib.Path(__file__).parent
 for name in REQUIRED:
     f = HERE / name / "register.json"

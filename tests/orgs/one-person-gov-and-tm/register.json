@@ -1,5 +1,5 @@
 {
-  "name": "One person fills GOV and TM; a compensating control signed by GOV covers the rule that needs two people",
+  "name": "One occupant behind GOV and TM, with a compensating control recorded by GOV as the organisation's own choice; GOV and TM are two parties (GOV, 15 October 2026)",
   "parts": [
     {
       "code": "TenAIOC-CH",
@@ -166,5 +166,5 @@
       "expect": "TenCELL-OPS"
     }
   ],
-  "note": "The person signs once under each Cell code and counts once under HF-18; the control never lowers the Human Floor, never applies to HF-12 and never accepts an AI signature."
+  "note": "Two positions are two parties (GOV, 15 October 2026): GOV and TM each sign under their own Cell code and each counts, even with one occupant behind both. The compensating control below is the organisation's own choice, recorded by GOV, which holds the occupancy link of TM itself; no check reads or requires it. A control that is recorded never lowers the Human Floor, never applies to HF-12 and never accepts an AI signature."
 }
