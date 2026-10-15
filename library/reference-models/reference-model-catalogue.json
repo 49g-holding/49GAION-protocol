@@ -1,0 +1,459 @@
+{
+  "catalogue": "49GAION Reference-Model Catalogue",
+  "version": "v0.1.0",
+  "status": "draft",
+  "rules": [
+    "A pattern is a method. It may suggest a structure; it never states a fact about an organisation.",
+    "Every element a pattern suggests still needs the organisation's own evidence. Without it, the element is an assumption, with what breaks if it is false.",
+    "A pattern never raises the label of a statement, never closes an unknown and never settles a contradiction.",
+    "A pattern names role-types only: never a person or a position.",
+    "This catalogue holds no organisation's data and no copied text. Each pattern is a plain description of a widely known way to organise."
+  ],
+  "patterns": [
+    {
+      "pattern_id": "RMP-FUNCTIONAL",
+      "name": "Functional organisation",
+      "summary": "Work is grouped by kind of expertise, such as sales, operations, finance and people. Each function has one accountable lead, and the top role joins the functions together.",
+      "typical_capabilities": [
+        "Direction and governance",
+        "Sales and customer relations",
+        "Operations or delivery",
+        "Finance",
+        "People",
+        "Support services, such as legal, premises and information"
+      ],
+      "decision_rights": [
+        {
+          "decision": "Overall direction and priorities",
+          "role_type": "the top role"
+        },
+        {
+          "decision": "The budget across functions",
+          "role_type": "the top role, advised by the finance lead"
+        },
+        {
+          "decision": "Methods and standards inside a function",
+          "role_type": "the function lead"
+        },
+        {
+          "decision": "Hiring inside an approved budget",
+          "role_type": "the function lead"
+        }
+      ],
+      "typical_hand_offs": [
+        {
+          "from": "sales",
+          "to": "operations",
+          "what_crosses": "a confirmed order or commitment to deliver"
+        },
+        {
+          "from": "operations",
+          "to": "finance",
+          "what_crosses": "delivery records for billing"
+        },
+        {
+          "from": "every function",
+          "to": "finance",
+          "what_crosses": "spending requests inside the budget"
+        },
+        {
+          "from": "people",
+          "to": "every function",
+          "what_crosses": "newly filled positions ready to work"
+        }
+      ],
+      "fits_when": [
+        "There is one main line of products or services.",
+        "The organisation serves one market or a few similar ones.",
+        "Depth of expertise matters more than speed across functions."
+      ],
+      "does_not_fit_when": [
+        "There are several distinct product lines or markets that need their own priorities.",
+        "Most work needs fast coordination across many functions every day."
+      ],
+      "known_risks": [
+        "Each function serves its own goals before the whole.",
+        "Decisions that cross functions are slow and pile up at the top role.",
+        "No one owns a customer's whole experience."
+      ],
+      "never_evidence": "This pattern is never evidence for an organisation."
+    },
+    {
+      "pattern_id": "RMP-DIVISIONAL",
+      "name": "Divisional organisation",
+      "summary": "The organisation is split into divisions by product, market, customer group or region. Each division holds most of the functions it needs and answers for its own results, under a small centre.",
+      "typical_capabilities": [
+        "Direction of the whole and allocation of capital, at the centre",
+        "Rules for the whole, such as financial reporting, risk and legal, set at the centre",
+        "In each division: its sales, its delivery and its management",
+        "Review of each division's results"
+      ],
+      "decision_rights": [
+        {
+          "decision": "The strategy of the whole, and capital between divisions",
+          "role_type": "the top role at the centre"
+        },
+        {
+          "decision": "A division's plan and operations, inside its targets",
+          "role_type": "the division lead"
+        },
+        {
+          "decision": "Policies that bind every division, such as finance, risk and legal",
+          "role_type": "the centre's function leads"
+        },
+        {
+          "decision": "Prices and offers inside a division",
+          "role_type": "the division lead"
+        }
+      ],
+      "typical_hand_offs": [
+        {
+          "from": "the centre",
+          "to": "a division",
+          "what_crosses": "targets, capital and the policies that bind it"
+        },
+        {
+          "from": "a division",
+          "to": "the centre",
+          "what_crosses": "results and forecasts"
+        },
+        {
+          "from": "a division",
+          "to": "another division",
+          "what_crosses": "shared customers or internal supply, on agreed terms"
+        }
+      ],
+      "fits_when": [
+        "Products, markets or regions differ enough to need their own priorities.",
+        "Each division is large enough to carry its own functions.",
+        "Results can be measured division by division."
+      ],
+      "does_not_fit_when": [
+        "The organisation is too small to repeat functions in each division.",
+        "The products share most of their customers and their ways of working."
+      ],
+      "known_risks": [
+        "Functions are repeated in every division, at a cost.",
+        "Divisions compete for customers or resources.",
+        "The centre loses sight of risks that cross divisions.",
+        "Practices drift apart between divisions."
+      ],
+      "never_evidence": "This pattern is never evidence for an organisation."
+    },
+    {
+      "pattern_id": "RMP-MATRIX",
+      "name": "Matrix organisation",
+      "summary": "Two lines of accountability cross: one by function or expertise, one by product, project, market or region. Many roles answer to both, so the decision rights must say which line decides what.",
+      "typical_capabilities": [
+        "Function leadership: standards, expertise and people",
+        "Product, project or market leadership: priorities and results",
+        "Joint planning of the time of positions shared by the two lines",
+        "Settling conflicts between the two lines"
+      ],
+      "decision_rights": [
+        {
+          "decision": "What is delivered, and when",
+          "role_type": "the product, project or market lead"
+        },
+        {
+          "decision": "How the work is done, and its quality standards",
+          "role_type": "the function lead"
+        },
+        {
+          "decision": "How the time of shared positions is split",
+          "role_type": "the two leads jointly, under a rule agreed in advance"
+        },
+        {
+          "decision": "A conflict the two lines cannot settle",
+          "role_type": "a named role above both lines"
+        }
+      ],
+      "typical_hand_offs": [
+        {
+          "from": "a function",
+          "to": "a product, project or market",
+          "what_crosses": "positions and expertise assigned"
+        },
+        {
+          "from": "a product, project or market",
+          "to": "a function",
+          "what_crosses": "demand and priorities"
+        },
+        {
+          "from": "both lines",
+          "to": "the role above both",
+          "what_crosses": "conflicts they could not settle"
+        }
+      ],
+      "fits_when": [
+        "The work needs both deep expertise and a strong focus on products, projects or markets.",
+        "Scarce experts must be shared.",
+        "The organisation can afford the effort of coordination."
+      ],
+      "does_not_fit_when": [
+        "The decision rights of the two lines cannot be written down clearly.",
+        "The organisation is small, and a second line adds effort without benefit."
+      ],
+      "known_risks": [
+        "Accountability becomes unclear.",
+        "Decisions slow down, and the two lines come into conflict.",
+        "Coordination takes a large share of everyone's time.",
+        "People are caught between two leads."
+      ],
+      "never_evidence": "This pattern is never evidence for an organisation."
+    },
+    {
+      "pattern_id": "RMP-SHARED-SERVICE",
+      "name": "Shared-service centre",
+      "summary": "Common support work, such as finance processing, people administration, purchasing or information services, is done once, in one centre, for several units, under agreed service terms.",
+      "typical_capabilities": [
+        "Delivery of the shared services to the units served",
+        "Service terms and demand",
+        "Reporting on service against its terms",
+        "Improvement of the shared ways of working"
+      ],
+      "decision_rights": [
+        {
+          "decision": "Which services are shared, and their scope",
+          "role_type": "the role with authority over all the units served, or, between independent entities, their agreement"
+        },
+        {
+          "decision": "Service terms: levels, charges and priorities",
+          "role_type": "the centre lead and the units served, agreed under that authority"
+        },
+        {
+          "decision": "How a service is delivered",
+          "role_type": "the centre lead"
+        },
+        {
+          "decision": "Whether a unit may leave a shared service",
+          "role_type": "the same authority that decided the service is shared"
+        }
+      ],
+      "typical_hand_offs": [
+        {
+          "from": "a unit",
+          "to": "the centre",
+          "what_crosses": "requests, and the information the service needs"
+        },
+        {
+          "from": "the centre",
+          "to": "a unit",
+          "what_crosses": "the completed service and its records"
+        },
+        {
+          "from": "the centre",
+          "to": "the deciding authority",
+          "what_crosses": "service results against the agreed terms"
+        }
+      ],
+      "fits_when": [
+        "Several units need the same support work, and most of it is standard.",
+        "Gains in scale or consistency are worth the extra hand-offs.",
+        "Service terms can be stated and checked."
+      ],
+      "does_not_fit_when": [
+        "The support work differs a great deal between units, or must sit close to each unit's daily work.",
+        "Too few units share the work to gain from scale."
+      ],
+      "known_risks": [
+        "The centre drifts away from the units' needs.",
+        "Disputes arise over service terms and charges.",
+        "Units build their own hidden copies of the service.",
+        "One failure in the centre reaches every unit at once."
+      ],
+      "never_evidence": "This pattern is never evidence for an organisation."
+    },
+    {
+      "pattern_id": "RMP-HOLDING",
+      "name": "Holding with independent subsidiaries",
+      "summary": "A parent owns several subsidiaries. Each runs as an independent entity, with its own management and its own governing body. The parent acts as owner, not as operator.",
+      "typical_capabilities": [
+        "Ownership and allocation of capital, at the parent",
+        "Appointing and overseeing each subsidiary's governing body, as owner",
+        "Reporting and accounts for the whole group",
+        "In each subsidiary: its own complete operating model"
+      ],
+      "decision_rights": [
+        {
+          "decision": "Buying, selling or funding a subsidiary",
+          "role_type": "the parent's governing body"
+        },
+        {
+          "decision": "Appointing a subsidiary's governing body",
+          "role_type": "the parent, as owner, through the subsidiary's own rules"
+        },
+        {
+          "decision": "A subsidiary's strategy and operations",
+          "role_type": "that subsidiary's own governing body and management"
+        },
+        {
+          "decision": "Reporting rules for the whole group",
+          "role_type": "the parent, within what the law and each subsidiary's own rules allow"
+        }
+      ],
+      "typical_hand_offs": [
+        {
+          "from": "a subsidiary",
+          "to": "the parent",
+          "what_crosses": "results and the reports owed to the owner"
+        },
+        {
+          "from": "the parent",
+          "to": "a subsidiary",
+          "what_crosses": "capital and owner decisions, through the subsidiary's own governing body"
+        },
+        {
+          "from": "a subsidiary",
+          "to": "another subsidiary",
+          "what_crosses": "dealings on agreed terms, as between independent parties"
+        }
+      ],
+      "fits_when": [
+        "The businesses differ enough to need their own management.",
+        "Legal, regulatory or risk separation between them is needed.",
+        "The owner wants to be able to buy or sell a business as a whole."
+      ],
+      "does_not_fit_when": [
+        "The businesses depend on each other every day and need shared operations.",
+        "The parent wants to direct operations itself."
+      ],
+      "known_risks": [
+        "The parent directs operations informally and blurs the separation.",
+        "Costs are repeated in each subsidiary.",
+        "The owner's oversight of each subsidiary's risks is weak.",
+        "Dealings between subsidiaries drift away from agreed terms."
+      ],
+      "never_evidence": "This pattern is never evidence for an organisation."
+    },
+    {
+      "pattern_id": "RMP-PLATFORM",
+      "name": "Platform with business units",
+      "summary": "A central platform provides common capabilities, such as customer access, technology, data, payments or brand, and several business units build their own offers on it. The units own their markets and results; the platform owns the shared capabilities.",
+      "typical_capabilities": [
+        "The platform's capabilities, offered to the units",
+        "The platform's plan and priorities",
+        "In each unit: its offer, its customers and its results",
+        "Rules for using the platform: access, standards and charges"
+      ],
+      "decision_rights": [
+        {
+          "decision": "What the platform offers, and in what order",
+          "role_type": "the platform lead, after hearing the units' demand under an agreed rule"
+        },
+        {
+          "decision": "A unit's offer and market",
+          "role_type": "the unit lead"
+        },
+        {
+          "decision": "The standards a unit must meet to use the platform",
+          "role_type": "the platform lead"
+        },
+        {
+          "decision": "A dispute over the platform's priorities",
+          "role_type": "a named role with authority over both, or, between independent entities, their agreement"
+        }
+      ],
+      "typical_hand_offs": [
+        {
+          "from": "the platform",
+          "to": "a unit",
+          "what_crosses": "a platform capability ready to use"
+        },
+        {
+          "from": "a unit",
+          "to": "the platform",
+          "what_crosses": "demand, feedback and use"
+        },
+        {
+          "from": "a unit",
+          "to": "the platform",
+          "what_crosses": "charges or contributions, where agreed"
+        }
+      ],
+      "fits_when": [
+        "Several units need the same core capabilities and gain from sharing them.",
+        "The units serve different markets.",
+        "The shared capability would be costly to build twice."
+      ],
+      "does_not_fit_when": [
+        "The units need very different underlying capabilities.",
+        "The platform cannot be run as a service to the units.",
+        "Using the platform would turn the units into internal functions of the platform, against their own autonomy."
+      ],
+      "known_risks": [
+        "The platform becomes a bottleneck.",
+        "The units lose their autonomy to the platform's priorities.",
+        "Charges for the platform are unclear.",
+        "One failure of the platform stops every unit."
+      ],
+      "never_evidence": "This pattern is never evidence for an organisation."
+    },
+    {
+      "pattern_id": "RMP-SOLO",
+      "name": "Single-position practice",
+      "summary": "One position, the practitioner, does or directs all the work, with clients, suppliers, advisers and authorities at the boundary. The roles are hats the one position wears, so the model names each role-type that position carries and what each decides.",
+      "typical_capabilities": [
+        "Finding and agreeing work with clients",
+        "Doing the work",
+        "Administration and finance",
+        "Keeping skills and permissions current",
+        "Managing outside suppliers and advisers"
+      ],
+      "decision_rights": [
+        {
+          "decision": "Which work to accept, and on what terms",
+          "role_type": "the practitioner, as owner"
+        },
+        {
+          "decision": "How the work is done",
+          "role_type": "the practitioner, as professional"
+        },
+        {
+          "decision": "Prices and spending",
+          "role_type": "the practitioner, as owner"
+        },
+        {
+          "decision": "What is passed to outside suppliers and advisers",
+          "role_type": "the practitioner, within agreed terms"
+        }
+      ],
+      "typical_hand_offs": [
+        {
+          "from": "a client",
+          "to": "the practitioner",
+          "what_crosses": "a request and the information needed"
+        },
+        {
+          "from": "the practitioner",
+          "to": "a client",
+          "what_crosses": "the delivered work and the invoice"
+        },
+        {
+          "from": "the practitioner",
+          "to": "a supplier or adviser",
+          "what_crosses": "a defined task"
+        },
+        {
+          "from": "the practitioner",
+          "to": "an authority",
+          "what_crosses": "the filings and reports owed"
+        }
+      ],
+      "fits_when": [
+        "The work is one practitioner's, with occasional outside help.",
+        "A few client relationships or one profession define the work."
+      ],
+      "does_not_fit_when": [
+        "The work needs several roles carried by different positions at the same time.",
+        "Others hold decision rights over the work."
+      ],
+      "known_risks": [
+        "Nobody covers when the practitioner is away.",
+        "One position holds every decision, so conflicts between the roles go unseen.",
+        "Outside dependencies are not written down."
+      ],
+      "never_evidence": "This pattern is never evidence for an organisation."
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 {
   "part": "49GAION Delivery and Implementation",
-  "version": "v1",
+  "version": "v2",
   "inputs": [
     {
       "name": "a run request from the Requesting Authority's Cell, naming the way in (mode A, B or C) and the design or sources to start from",
@@ -25,6 +25,10 @@
     {
       "name": "decisions of the deciding positions on its drafts and proposals",
       "format": "decision references; signed records at the gateway for listed types"
+    },
+    {
+      "name": "the answers to its returns, on each return, from the stage that made the release",
+      "format": "the return at its next version, under the Library's design return contract, received through the tool gateway"
     }
   ],
   "outputs": [
@@ -59,13 +63,14 @@
   ],
   "test": {
     "id": "TEST-DELIVERY-AND-IMPLEMENTATION",
-    "version": "v1",
+    "version": "v2",
     "location": "library/cards/README.md",
     "last_result": "NOT_RUN"
   },
   "tool_roles": [
     "source of record (the output socket of Source Lifecycle)",
     "the output port of Process and Position Design (releases in, returns out)",
+    "the return port of the part that made the target operating model (returns out, answers in)",
     "tool gateway (signatures, metering, the stop door, the permission ladder)",
     "the organisation's own tools, read only by default, each a signed connection",
     "engines through the shared gateway; a verifier that did not write a draft checks it"

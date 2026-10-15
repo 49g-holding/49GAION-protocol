@@ -1,0 +1,8 @@
+{
+  "must-fail-answers-not-a-return.json": "an answered return is named by its return ID",
+  "must-fail-carries-release-text.json": "a notice never carries release text (no extra fields)",
+  "must-fail-not-decided.json": "only a decided release is announced: the final-status decision reference is required",
+  "must-fail-not-filed.json": "a notice names the filed copy of the release",
+  "must-fail-short-hash.json": "hashes are full SHA-256",
+  "must-fail-to-not-a-stage.json": "a notice goes to a stage, named by its code"
+}

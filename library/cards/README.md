@@ -179,3 +179,26 @@ Each card is `DRAFT` until its test has run once with recorded evidence; no card
   12. An output that names a person, or reads who occupies a position, fails.
   13. Every product has its explainers and supporting documents, versioned and filed. A product with none fails.
 - **Status.** `DRAFT`, with `last_result` `NOT_RUN`. It stays so until the test has run once with recorded evidence.
+
+**The design chain connected (addition, GOV, 16 October 2026; `49GAION/DR-0019`).** Four cards move to a new version, each `DRAFT` with `last_result` `NOT_RUN`. The register of every Library part, with the pinned mother blueprint of each AIOC part, is `library/README.md`.
+
+- `source-lifecycle.part-card.json` **v2**: needs requests from the design stages and their answers; filings of each design stage, only of its own origin kind and `design report`; notices. **TEST-SOURCE-LIFECYCLE v2** keeps cases 1 to 16 and adds one case for every bullet of Protocol §13, item 9:
+  17. A malformed needs request, one that names a person and one that asks for a secret each come back with their reason; every row of a valid request reaches the position that answers it through that position's HU port, never a named person; an unanswered request past its deadline is reminded and escalated, never closed.
+  18. The sockets contract's fixtures pass; a change without the list of the connected parts it affects fails.
+  19. For one sample of each origin kind, every field of the reference is present and matches the record; an export carries its date.
+  20. A read at a pinned snapshot returns the pinned bytes with the same hash; a needs answer is read at the snapshot it names; a snapshot named by a filed release stays readable.
+  21. A design stage's filing of another stage's origin kind is refused; an accepted filing reads back byte-identical, takes its status from the decision it cites, and a filed return keeps the hash of the return as sent.
+  22. After a revocation, narrowing, reclassification or supersession, the connected part receives a notice naming each affected reference and version, never the content.
+- `target-operating-model.part-card.json` **v2**: returns also from Delivery and Implementation; the release notice under the Library's contract. **TEST-TARGET-OPERATING-MODEL v2** keeps cases 1 to 14 and adds one case for every bullet of Protocol §19, item 11:
+  15. A return from Delivery and Implementation is received, shown with its age, and ends as a return from Process and Position Design does; after revocation of the third connection, a return through it is refused.
+  16. Every release notice validates against `library/contracts/release-notice.schema.json`, its ID is its content address, and it is sent only after the filing reads back.
+  17. A return that does not validate, names a release this part did not file, or whose filed copy does not read back with the same hash, goes back with its reason, unedited; an `accepted` return ends at once, answered by the release it names.
+  18. The rows on a return re-generate byte-identical from the return and the release; each ended return is classified by a human seat of the part, and a classification by the Chief of Staff is refused.
+- `process-and-position-design.part-card.json` **v3**: the release notice to Delivery and Implementation and the answers to its returns. **TEST-PROCESS-AND-POSITION-DESIGN v3** keeps cases 1 to 34 and adds one case for every bullet of Protocol §17, item 12:
+  35. For every decided release, a release notice under the Library's contract reaches Delivery and Implementation, naming the target operating model release it rests on.
+  36. A return from Delivery and Implementation ends as Protocol §19, item 6 says, with this part answering for its own release only; a defect of the target operating model release is not answered here.
+  37. Every element carried forward on a set-aside return is marked in the release with its basis and its decision, and listed in the decision package; an element carried forward without its basis fails the release.
+- `delivery-and-implementation.part-card.json` **v2**: returns to the part that made the target operating model, and the answers to every return. **TEST-DELIVERY-AND-IMPLEMENTATION v2** keeps cases 1 to 17 and adds one case for every bullet of Protocol §20, item 13:
+  18. A defect of a target operating model release goes to the part that made it, and its answer comes back on that connection; after revocation, a return through it is refused.
+  19. An answer by release re-opens only the work that cites a changed element; a return set aside carries its touched elements forward, each marked with its basis and listed in the decision package.
+  20. A release notice of Process and Position Design is admitted only when it validates against the Library's contract and names the target operating model release it rests on.

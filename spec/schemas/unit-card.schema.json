@@ -689,7 +689,7 @@
         },
         "connectors": {
           "type": "array",
-          "description": "Swappable connectors, one per tool role; access managed in the Panel. Tool names belong to an [ORG]AION, never to the Standard.",
+          "description": "Swappable connectors, one per tool role; access managed in the Panel. Tool names belong to an [ORG]AION, never to the Standard. Reading note (GOV, 16 October 2026; 49GAION DR-0019): the Panel shows a connection and requests it; the grant itself is signed at the tool gateway as connect-external-port by the labelled seat over the source (Standard §4.4, item 7; Protocol §13, item 5).",
           "items": {
             "type": "object",
             "required": [

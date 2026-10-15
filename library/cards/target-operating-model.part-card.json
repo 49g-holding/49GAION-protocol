@@ -1,6 +1,6 @@
 {
   "part": "49GAION Target Operating Model",
-  "version": "v1",
+  "version": "v2",
   "inputs": [
     {
       "name": "a run request from the Requesting Authority's Cell, carrying the reference of an approved Design Request held in Source Lifecycle and stating how fine the model should be",
@@ -15,7 +15,7 @@
       "format": "needs answer, by reference only"
     },
     {
-      "name": "returns from Process and Position Design on a release of this part, under the Library's design return contract",
+      "name": "returns from Process and Position Design and from Delivery and Implementation on a release of this part, under the Library's design return contract",
       "format": "Work Item (ID + version) validating against library/contracts/design-return.schema.json, received through the tool gateway"
     }
   ],
@@ -30,10 +30,10 @@
     },
     {
       "name": "a release notice to Process and Position Design for each decided release",
-      "format": "release reference (ID + version + hash of its manifest), sent through the tool gateway"
+      "format": "release notice under the Library's release notice contract (library/contracts/release-notice.schema.json): release ID, version and manifest hash, filed reference, final-status decision and the returns it answers; sent through the tool gateway"
     },
     {
-      "name": "the answer to each return: a new decided release, or the Requesting Authority's decision, including a decision to set the return aside and carry the affected elements forward on a stated basis",
+      "name": "the answer to each return, on the return itself: a new decided release, or the Requesting Authority's decision, including a decision to set the return aside and carry the affected elements forward on a stated basis; the rows put to that authority made by code from the return and the release",
       "format": "release reference or decision reference, recorded on the return"
     },
     {
@@ -43,13 +43,14 @@
   ],
   "test": {
     "id": "TEST-TARGET-OPERATING-MODEL",
-    "version": "v1",
+    "version": "v2",
     "location": "library/cards/README.md",
     "last_result": "NOT_RUN"
   },
   "tool_roles": [
     "source of record (the output socket of Source Lifecycle)",
     "the input port of Process and Position Design (release notices out, returns in)",
+    "the output port of Delivery and Implementation (returns in, answers out)",
     "tool gateway (signatures, metering, the stop door)",
     "engines through the shared gateway; three or more engines from two or more families check each stage",
     "reference models, read by version and hash, as a method only"
