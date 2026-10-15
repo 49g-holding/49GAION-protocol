@@ -2,6 +2,8 @@
 # complete cards pass; an incomplete card and bad codes are rejected.
 # Correction (DR-0004): "(AIOC and HOAC)" reads "(AIOC, Pod and Cell)"; HOAC is a label on a
 # Cell, a Pod or an AIOC, never a unit kind.
+# Addition (GOV, 16 October 2026; 49GAION/DR-0019): the Library contracts and the reference-model
+# catalogue are checked here too (library/contracts/check_contracts.py).
 name: card-schema-test
 on:
   pull_request:
@@ -20,3 +22,4 @@ jobs:
           python-version: "3.12"
       - run: pip install jsonschema referencing
       - run: python tests/cards/check_cards.py
+      - run: python library/contracts/check_contracts.py
