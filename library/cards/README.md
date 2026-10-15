@@ -80,7 +80,7 @@ Each card is `DRAFT` until its test has run once with recorded evidence; no card
   2. A release that is not decided, or whose hash does not match, is not used, and the reason goes back as a return.
   3. The role register is read first: every role in it is used by a process or returned with a reason.
   4. A source that does not come from Source Lifecycle's output socket is refused.
-  5. A defect in the release goes back to the part that made it, with a return kind and the elements it concerns. The release is never edited.
+  5. A defect in the release goes back to the part that made it, with a return kind and the elements it concerns, and is filed into Source Lifecycle with the same hash. The release is never edited.
   6. While a return is open, the elements it concerns are held and the other elements go on.
   7. A second pass with the target operating model is a new version, and the first pass stays readable.
   8. A gap is asked through the Chief of Staff of Source Lifecycle; no request is sent to a person or names a person.

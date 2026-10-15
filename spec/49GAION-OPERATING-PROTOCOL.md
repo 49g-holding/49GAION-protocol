@@ -331,6 +331,7 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
    - It never edits the release. A defect it finds goes back to the part that made the release as a return, one of: accepted; cannot use, missing what; contradiction found; assumption invalid; request kind unsupported. Each return cites the elements it concerns.
    - The elements a return concerns are held until a new decided release, or a decision of the Requesting Authority, answers it. Work on the other elements goes on.
    - The two parts may go back and forth as often as needed. Each pass is a new version; nothing is overwritten.
+   - Each return is also filed into Source Lifecycle as a design report, with the same hash, so that a revised request to the part that made the release can cite it.
 4. **What it asks.** What the release and the sources do not answer, it asks of the Chief of Staff of Source Lifecycle as a needs request, and the answer is recorded there as a source (§13, item 6). It never asks a person, and a request never names a person.
 5. **What it does.** One stage, processes first; each step has one output and a done-test.
    1. **Process architecture.** The processes under each value-stream phase and capability of the release, in levels, each with one owner position. Every phase and capability has a process, and every hand-off of the release belongs to one.
@@ -347,6 +348,6 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
    - **Decided.** Every element is decided by the Requesting Authority. Silence, or approval of a whole pass, decides nothing.
    - **Filed.** The release is frozen and content-addressed, filed into Source Lifecycle as a source, and handed to the next stage by reference.
 7. **Positions only.** It designs positions, never people (Standard §1.1, item 9). No output names a person or reads who occupies a position. It makes no choice of what fills a position; that belongs to a later stage.
-8. **Its connections.** Two connections, each approved and scoped as in §13, item 5: to the part that made the target operating model release (read its releases; send returns), and to Source Lifecycle (read; needs requests; write only its own filed releases). Revocation cuts a connection at the gateway at once and holds the run.
+8. **Its connections.** Two connections, each approved and scoped as in §13, item 5: to the part that made the target operating model release (read its releases; send returns), and to Source Lifecycle (read; needs requests; write only its own filed releases and returns). Revocation cuts a connection at the gateway at once and holds the run.
 9. **Assurance.** The output of each step is checked by Cells that did not produce it before the next step starts (Standard §3.2, item 14). Critical outputs are written twice, separately, and their differences are settled on the sources or put to the Requesting Authority.
 10. **The fixed test.** Every rule of this section has a case in TEST-PROCESS-AND-POSITION-DESIGN v1 (`library/cards/README.md`). The card stays `DRAFT`, with `last_result` `NOT_RUN`, until the test has run once with recorded evidence (§10, item 3).
