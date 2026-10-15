@@ -1,0 +1,18 @@
+{
+  "verdict_id": "VR-0003",
+  "work_item_id": "WI-0101",
+  "artifact_ref": "change 17",
+  "content_hash": "0123456",
+  "verdict": "PASS",
+  "verifier_cell": "TenCELL-VRB",
+  "verifier_engine": "provider-b",
+  "producer_cell": "TenCELL-BLA",
+  "run_ref": "run-1",
+  "written_by": "verifier-step",
+  "recorded_at": "2026-10-14T03:00:00Z",
+  "checks_written": [
+    "acceptance case 1"
+  ],
+  "counts_as_approval": true,
+  "$expect": "RULE-VERDICT-FULL-HASH"
+}

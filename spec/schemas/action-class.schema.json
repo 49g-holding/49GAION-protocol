@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/action-class.schema.json",
+  "title": "49GAION Operating Protocol - standing action class",
+  "description": "A class of reversible actions signed once as sign-standing-action-class, inside an envelope the gateway enforces (Standard §4.4; Protocol §4.9, item 9) (GOV, 14 October 2026). A narrowing applies at once as an overlay; a widening is a new version, signed again. The excluded types are commit-money, grant-or-widen-access and the types bound to HF-01, HF-02 and HF-15.",
+  "type": "object",
+  "required": [
+    "class_id",
+    "version",
+    "action",
+    "trigger",
+    "actors",
+    "targets",
+    "decision_types",
+    "reversible",
+    "envelope",
+    "digest",
+    "signature_ref"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "class_id": {
+      "type": "string",
+      "pattern": "^SAC-[0-9A-Za-z-]+$"
+    },
+    "version": {
+      "type": "string"
+    },
+    "action": {
+      "type": "string"
+    },
+    "trigger": {
+      "type": "string",
+      "description": "Read from its own record, never from the actor's evidence."
+    },
+    "actors": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
+      }
+    },
+    "targets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+    "decision_types": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$comment": "RULE-CLASS-EXCLUDED-TYPES: a class never covers commit-money, grant-or-widen-access or a type bound to HF-01, HF-02 or HF-15",
+        "type": "string",
+        "not": {
+          "enum": [
+            "commit-money",
+            "grant-or-widen-access",
+            "sign-contract",
+            "legal-filing",
+            "use-root-key",
+            "change-gateway-policy"
+          ]
+        }
+      }
+    },
+    "reversible": {
+      "$comment": "RULE-CLASS-REVERSIBLE: a class holds reversible actions only",
+      "const": true
+    },
+    "envelope": {
+      "type": "object",
+      "required": [
+        "blast_cap",
+        "budget",
+        "time_box"
+      ],
+      "properties": {
+        "blast_cap": {},
+        "budget": {},
+        "staged_exposure": {},
+        "time_box": {
+          "type": "string"
+        },
+        "dead_man": {
+          "type": "string"
+        },
+        "protected_resources": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "Digest of this class version; the signature binds it."
+    },
+    "signature_ref": {
+      "type": "string",
+      "pattern": "^SIG-[0-9A-Za-z-]+$"
+    },
+    "narrowed_by": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Overlay events that narrowed the class."
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

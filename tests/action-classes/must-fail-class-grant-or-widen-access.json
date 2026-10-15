@@ -1,0 +1,26 @@
+{
+  "class_id": "SAC-0004",
+  "version": "v1",
+  "action": "widen one service account's access for a release window",
+  "trigger": "error-rate alert record",
+  "actors": [
+    "TenCELL-OPSB"
+  ],
+  "targets": [
+    "service A"
+  ],
+  "decision_types": [
+    "grant-or-widen-access"
+  ],
+  "reversible": true,
+  "envelope": {
+    "blast_cap": "one service",
+    "budget": "3 uses a day",
+    "staged_exposure": "none",
+    "time_box": "PT30M",
+    "dead_man": "PT15M"
+  },
+  "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "signature_ref": "SIG-0101",
+  "$expect": "RULE-CLASS-EXCLUDED-TYPES"
+}

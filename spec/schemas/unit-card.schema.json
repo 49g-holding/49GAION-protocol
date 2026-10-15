@@ -457,7 +457,17 @@
           "description": "The code of the seat that owns the test. Since v1.5.0: a human Cell's code, never the part's own code and never an AI Cell (Standard §4.4, item 3).",
           "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
         },
-        "threshold": {}
+        "threshold": {},
+        "move_threshold": {
+          "description": "The run of passes that makes a move toward AI eligible; the move itself stays move-work-toward-ai (Standard §1.5, §3.2) (GOV, 14 October 2026)."
+        },
+        "return_threshold": {
+          "description": "The lower score over the window that moves the work back; moving back is never held (GOV, 14 October 2026)."
+        },
+        "window": {
+          "type": "string",
+          "description": "The window over which return_threshold is read (GOV, 14 October 2026)."
+        }
       }
     },
     "ports": {
@@ -1233,6 +1243,73 @@
               }
             }
           }
+        }
+      }
+    },
+    "sensitivity": {
+      "type": "object",
+      "required": [
+        "class"
+      ],
+      "description": "For a Cell: the sensitivity class of its work and the default filler kind it sets; never lowers the Human Floor (Standard §1.5) (GOV, 14 October 2026).",
+      "properties": {
+        "class": {
+          "type": "string"
+        },
+        "default_filler": {
+          "enum": [
+            "human",
+            "ai",
+            "human-or-ai"
+          ]
+        }
+      }
+    },
+    "assignments": {
+      "type": "array",
+      "description": "Dated assignments to programmes or engagements; carry no authority and open no access (Standard §1.7) (GOV, 14 October 2026).",
+      "items": {
+        "type": "object",
+        "required": [
+          "to",
+          "from"
+        ],
+        "properties": {
+          "to": {
+            "type": "string"
+          },
+          "from": {
+            "type": "string"
+          },
+          "until": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "retirement_condition": {
+      "type": "string",
+      "description": "For a temporary Pod or AIOC: the recorded condition on which it is retired (Standard §1.7) (GOV, 14 October 2026)."
+    },
+    "cadence": {
+      "type": "string",
+      "description": "For an unattended AI Cell: its declared cadence; flagged when its newest output is older than twice it (Protocol §8) (GOV, 14 October 2026)."
+    },
+    "engine_binding": {
+      "type": "object",
+      "description": "For an AI Cell: its versioned engine binding, apart from its role and memory; switched at the next run, never mid-task (Standard §5.1) (GOV, 14 October 2026).",
+      "properties": {
+        "tier": {
+          "type": "string"
+        },
+        "floor": {
+          "type": "string"
+        },
+        "model_ref": {
+          "type": "string"
+        },
+        "binding_version": {
+          "type": "string"
         }
       }
     }

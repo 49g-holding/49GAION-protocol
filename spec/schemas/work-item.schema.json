@@ -34,7 +34,7 @@
     "bounce_count": { "type": "integer", "minimum": 0 },
     "bounce_limit": { "type": "integer", "minimum": 1, "default": 3, "description": "The bounce limit set in the [ORG]AION's Configuration." },
     "stopped": { "type": "boolean", "default": false, "description": "true when the stop rule fired; the item then goes, with its full history, to the [ORG]HOAC-ACS seat of the receiving unit; if that seat is empty, to the seat that delegated it (Protocol §4.4)." },
-    "type": { "enum": ["work", "design-proposal"], "default": "work", "description": "design-proposal = an [ORG]HOAC-ACS seat's proposal, correction or critique of the AIs, addressed to OCO (Protocol §4.7)." },
+    "type": { "enum": ["work", "design-proposal", "decision-request"], "default": "work", "description": "design-proposal = an [ORG]HOAC-ACS seat's proposal, correction or critique of the AIs, addressed to OCO (Protocol §4.7). decision-request = a matter for a human decision as completed staff work (Protocol §4.7, item 4) (GOV, 14 October 2026)." },
     "decision_needed": { "type": "boolean" },
     "proposal_kind": { "enum": ["proposal", "correction", "critique"], "description": "For type design-proposal." },
     "proposal_answer": { "enum": ["accepted", "refused", "in-discussion"], "description": "The answer of OCO, recorded with proposal_reason." },
@@ -61,6 +61,37 @@
         "made_from": { "type": "array", "items": { "type": "string" }, "description": "Source IDs and versions the output was made from." }
       }
     }
+ ,
+    "move_on": {
+      "type": "object",
+      "required": ["kind"],
+      "description": "The move-on taken while the item waits (Protocol §4.6, item 4) (GOV, 14 October 2026). A move-on never covers a listed type or an irreversible act.",
+      "properties": {
+        "kind": { "enum": ["stub", "default", "mock", "next-item"] },
+        "debt_ref": { "type": "string", "description": "The stub-debt record a stub or default opens." },
+        "owner": { "type": "string", "description": "The position that owns the debt." },
+        "age_cap": { "type": "string", "description": "ISO 8601 duration after which the debt is raised." },
+        "refused_by_waiter": { "type": "boolean", "default": false }
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "description": "Assumptions taken on an ambiguous request; reversible matters only (GOV, 14 October 2026).",
+      "items": { "type": "object", "required": ["text", "status"], "properties": { "text": { "type": "string" }, "status": { "enum": ["UNCONFIRMED", "CONFIRMED", "REFUTED"] } } }
+    },
+    "scope": { "type": "array", "items": { "type": "string" }, "description": "The parts and records the item expects to change; compared with the actual change at hand-off (GOV, 14 October 2026)." },
+    "claims": {
+      "type": "array",
+      "description": "Figures the worker wants believed, each re-run by an independent runner (GOV, 14 October 2026).",
+      "items": { "type": "object", "required": ["claim", "reproduce"], "properties": { "claim": { "type": "string" }, "reproduce": { "type": "string" }, "rerun": { "enum": ["NOT_RUN", "MATCH", "DIFFER"], "default": "NOT_RUN" } } }
+    },
+    "verdict_ref": { "type": "string", "pattern": "^VR-[0-9A-Za-z-]+$", "description": "The verdict record the item moved on (Protocol §8, item 5) (GOV, 14 October 2026)." },
+    "labels": { "type": "array", "items": { "type": "string" }, "description": "Labels such as disputed (Protocol §4.4) (GOV, 14 October 2026)." },
+    "recommendation": { "type": "string", "description": "decision-request: one recommendation with its reason." },
+    "dissent": { "type": "string", "description": "decision-request: the dissent of the preparing office, or none." },
+    "reversible": { "type": "boolean", "description": "decision-request: whether the decision can be reversed." },
+    "meanwhile": { "type": "string", "description": "decision-request: what the waiting party does meanwhile." },
+    "answer": { "enum": ["yes", "veto", "change-this-part"], "description": "decision-request: the seat's answer; change-this-part opens a new request." }
   },
   "allOf": [
     { "if": { "properties": { "status": { "enum": ["rejected", "needs-input"] } } }, "then": { "required": ["reason"] } },
@@ -72,6 +103,8 @@
     { "if": { "required": ["proposal_kind"], "properties": { "proposal_kind": { "const": "critique" } } }, "then": { "required": ["failing_samples"], "properties": { "failing_samples": { "minItems": 1 } } } },
     { "if": { "required": ["chain_depth"], "properties": { "chain_depth": { "minimum": 1 } } }, "then": { "required": ["parent_work_item"], "properties": { "parent_work_item": { "type": "string" } } } },
     { "if": { "required": ["parent_work_item"], "properties": { "parent_work_item": { "type": "string" } } }, "then": { "required": ["chain_depth"], "properties": { "chain_depth": { "minimum": 1 } } } },
-    { "$comment": "RULE-CAUSED-CHANGE-APPROVED: a change caused by a Work Item names its approver (v1.5.0).", "if": { "required": ["caused_change"] }, "then": { "required": ["approved_by"] } }
+    { "$comment": "RULE-CAUSED-CHANGE-APPROVED: a change caused by a Work Item names its approver (v1.5.0).", "if": { "required": ["caused_change"] }, "then": { "required": ["approved_by"] } },
+    { "$comment": "RULE-MOVE-ON-DEBT: a stub or default opens a debt record with an owner and an age cap (GOV, 14 October 2026).", "if": { "required": ["move_on"], "properties": { "move_on": { "properties": { "kind": { "enum": ["stub", "default"] } } } } }, "then": { "properties": { "move_on": { "required": ["debt_ref", "owner", "age_cap"] } } } },
+    { "$comment": "RULE-DECISION-REQUEST: a decision request carries a recommendation, reversibility and what happens meanwhile (GOV, 14 October 2026).", "if": { "required": ["type"], "properties": { "type": { "const": "decision-request" } } }, "then": { "required": ["recommendation", "reversible", "meanwhile"] } }
   ]
 }

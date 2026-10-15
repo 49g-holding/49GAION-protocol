@@ -1,0 +1,23 @@
+{
+  "part": "49GAION Reference Comparison",
+  "version": "v1",
+  "inputs": [
+    {
+      "name": "the organisation's output and the recognised references of the same kind, from public sources",
+      "format": "versioned record (ID + version)"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "counted differences, each with its evidence class and a cited reason, for a human decision",
+      "format": "versioned record (ID + version)"
+    }
+  ],
+  "test": {
+    "id": "TEST-REFERENCE-COMPARISON",
+    "version": "v1",
+    "location": "library/cards/README.md",
+    "last_result": "NOT_RUN"
+  },
+  "status": "DRAFT"
+}

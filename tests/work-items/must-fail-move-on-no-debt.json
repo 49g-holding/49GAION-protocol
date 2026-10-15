@@ -1,0 +1,42 @@
+{
+  "id": "WI-0103",
+  "sender": "TenAIOC-SI",
+  "receiver": "TenAIOC-OCO",
+  "requested_output": "apply the approved change",
+  "acceptance_test": "TEST-SI v1",
+  "status": "in-progress",
+  "owner": "TenAIOC-SL",
+  "sources": [
+    {
+      "id": "DES-7",
+      "version": "v2",
+      "location": "designs/DES-7.md@v2"
+    }
+  ],
+  "bounce_count": 0,
+  "decision_needed": false,
+  "move_on": {
+    "kind": "default"
+  },
+  "assumptions": [
+    {
+      "text": "the default currency is the account's currency",
+      "status": "UNCONFIRMED"
+    }
+  ],
+  "scope": [
+    "records/accounts"
+  ],
+  "claims": [
+    {
+      "claim": "reads in under 50 ms",
+      "reproduce": "bench run 3",
+      "rerun": "NOT_RUN"
+    }
+  ],
+  "verdict_ref": "VR-0001",
+  "labels": [
+    "disputed"
+  ],
+  "$expect": "RULE-MOVE-ON-DEBT"
+}

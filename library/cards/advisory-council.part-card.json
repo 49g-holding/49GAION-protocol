@@ -1,0 +1,23 @@
+{
+  "part": "49GAION Advisory Council",
+  "version": "v1",
+  "inputs": [
+    {
+      "name": "a design question, with no instruction of the asker and no leading frame",
+      "format": "versioned file in git (ID + version)"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "every reply kept whole, and a merge by the stated rule",
+      "format": "versioned file in git (ID + version)"
+    }
+  ],
+  "test": {
+    "id": "TEST-ADVISORY-COUNCIL",
+    "version": "v1",
+    "location": "library/cards/README.md",
+    "last_result": "NOT_RUN"
+  },
+  "status": "DRAFT"
+}
