@@ -214,6 +214,7 @@ The definitions are in the Standard: ports (§6.1), bootstrap (§5.3), stop (§4
    - **Correction (v1.5.0).** There is no standalone Self-Improvement unit or unit card. Self-Improvement is a process held inside `[ORG]HOAC-TM` (Standard §2.1, item 6): its fields are recorded only on the card of the Cell carrying `[ORG]HOAC-TM`, under `processes`, and it is served by AI Cells, read as "AI Cells serving the Self-Improvement process in TM" wherever a text says "the Self-Improvement AIOC". Its access to records is an access rule, not a signature type: read-only, pseudonymised, with no private store, and changed only as a Work Item (`processes[].access`).
    - **Addition (GOV, 14 October 2026).** The card of 49GAION Source Lifecycle, `source-lifecycle.part-card.json`, is also in `library/cards/` (§13).
    - **Addition (GOV, 15 October 2026).** The card of 49GAION Process and Position Design, `process-and-position-design.part-card.json`, is also in `library/cards/` (§17).
+   - **Addition (GOV, 15 October 2026).** The card of 49GAION Product Core, `product-core.part-card.json`, is also in `library/cards/` (§18).
 4. During design, the AION Builder adds the blueprint of any capability not already in the 49GAION Library back to the 49GAION Library, generalised and tested. Once delivered, the `[ORG]AION` belongs entirely to the customer.
 5. The Standard names roles only; tool names appear only in an `[ORG]AION`.
 6. All AIOCs reach AI models through one shared gateway that holds keys, meters cost per AIOC and logs every call. It carries no orders.
@@ -351,3 +352,74 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
 8. **Its connections.** Two connections, each approved and scoped as in §13, item 5: to the part that made the target operating model release (read its releases; send returns), and to Source Lifecycle (read; needs requests; write only its own filed releases and returns). Revocation cuts a connection at the gateway at once and holds the run.
 9. **Assurance.** The output of each step is checked by Cells that did not produce it before the next step starts (Standard §3.2, item 14). Critical outputs are written twice, separately, and their differences are settled on the sources or put to the Requesting Authority.
 10. **The fixed test.** Every rule of this section has a case in TEST-PROCESS-AND-POSITION-DESIGN v1 (`library/cards/README.md`). The card stays `DRAFT`, with `last_result` `NOT_RUN`, until the test has run once with recorded evidence (§10, item 3).
+
+## 18. Product Core: the organisation's one product division
+
+**Addition (GOV, 15 October 2026).** 49GAION Product Core is a Library part (`library/cards/product-core.part-card.json`). In an `[ORG]AION` it is the AIOC `[ORG]AIOC-PC` (Naming Standard R2). This section states its structure only; its blueprint is written in its own repository.
+
+1. **Its place.** It is the organisation's one product division, shared by every company the organisation runs. It is to products what the organisation's engineering AIOC is to engineering. Like every other part, it enters through OCO.
+2. **What it owns.** The what and the why of every product, across the product's whole life: design, the partnership in build, and the run. The engineering AIOC owns the how and the when.
+3. **The CPO Office.** The head office of the part. Every product owner reports to it. It holds:
+   - the intake of product work;
+   - the portfolio of products and their categories;
+   - the shared standards of the part;
+   - the weekly product review;
+   - the line to the engineering AIOC.
+
+   Its accountable seat is a human seat, named by position (Standard §1.1, item 9).
+4. **Product categories.** The organisation sorts its products into categories. Each category is one of four kinds:
+   - **Product family.** Products grouped by the customer's principal destination, for example owning an asset, using it, or earning from it.
+   - **Platform.** The shared capabilities every product uses, for example the account, onboarding and identity checks, wallets, payments, conversion, the deal engine and reference rates. A capability is never a product, even when it has a fee, a screen or a route.
+   - **Company category.** The products of one company of the organisation that stand apart from the families, for example its own token, its own engines or its own partner programme.
+   - **AI Systems.** The AI assistants and agents, the agents that run inside engines, websites that run with agents, back offices, internal panels, and internal infrastructure tools that run the organisation and are not sold. Every business system sits under AI.
+
+   Which categories an organisation has, and what each holds, is the organisation's own record and never appears in the Library.
+5. **One product, one team.** Products are split small. Each product has one team for every stage of its life, and the team stays with it:
+   - **One owner position** whose only job is that product. An owner position holds no other product.
+   - **AI members by function:**
+     - product management and the PRD;
+     - design (UI and UX);
+     - analysis;
+     - pricing and product economics;
+     - operations and customer voice;
+     - documentation.
+
+   No stage of a product's life is handed to another team.
+6. **What each team does, in order.**
+   1. **Research and opportunity.**
+   2. **The PRD and its feature packages,** with acceptance criteria. No field is left blank; "none" is an answer.
+   3. **Design.** Flows, a screen for every state, UI and UX, and copy in every language the product serves.
+   4. **Partnership in build.**
+      - It answers the engineering AIOC's questions.
+      - It takes the first look.
+      - It accepts the product criterion by criterion.
+
+      It never writes code or technical design.
+   5. **Launch.**
+   6. **Run.**
+      - Pricing and every rate that moves over time.
+      - Performance, and the product's profit and loss.
+      - Customer communications and retention.
+      - Customer voice and complaints.
+      - Operations and upkeep.
+   7. **Explainers and supporting documents.**
+      - The product explainer and its questions and answers.
+      - Help articles and user guides.
+      - Partner materials.
+      - Internal training.
+   8. **Refresh or retire.**
+7. **Rates are data.** Every price, fee and rate of a product is kept as versioned data, with an effective date and a reason. The product's team changes it without a code release. Every change can be reversed. Whether a new rate reaches existing deals is set by each product's own terms.
+8. **Shared standards, not shared work.** The CPO Office keeps these once, and every team uses them:
+   - the design system;
+   - the pricing models;
+   - the measurement tools;
+   - the document templates.
+
+   They do no product's own work.
+9. **One product, many companies.** A product is made once. It is configured for each company and market that offers it, never copied per company.
+10. **The line to the engineering AIOC.**
+    - Product work reaches the engineering AIOC only as complete product packages, on the product line between the two parts.
+    - Nothing in Product Core speaks to builders or to the code host directly.
+    - A finding in build that would change the product comes back to the product's team as a question.
+11. **Positions only.** It names positions, never people (Standard §1.1, item 9). No output names a person or reads who occupies a position.
+12. **The fixed test.** Every rule of this section has a case in TEST-PRODUCT-CORE v1 (`library/cards/README.md`). The card stays `DRAFT`, with `last_result` `NOT_RUN`, until the test has run once with recorded evidence (§10, item 3).
