@@ -70,3 +70,32 @@ Each card is `DRAFT` until its test has run once with recorded evidence; no card
   4. No account is created in another party's system.
   5. A finding is shown only after its count or citation is checked.
 
+
+**49GAION Process and Position Design (addition, GOV, 15 October 2026).** `process-and-position-design.part-card.json`, validated against `spec/schemas/part-card.schema.json`.
+
+- **What it is.** The stage after the target operating model (Protocol §17). A part of its own, linked directly to the part that designs the target operating model.
+- **What it does.** From a decided target operating model release, it designs the organisation's processes and the positions that carry them, processes first, and returns every defect it finds to the part that made the release.
+- **Its fixed test, TEST-PROCESS-AND-POSITION-DESIGN v1.** There is one case for every rule of Protocol §17:
+  1. A run with no request from the Requesting Authority does not start.
+  2. A release that is not decided, or whose hash does not match, is not used, and the reason goes back as a return.
+  3. The role register is read first: every role in it is used by a process or returned with a reason.
+  4. A source that does not come from Source Lifecycle's output socket is refused.
+  5. A defect in the release goes back to the part that made it, with a return kind and the elements it concerns. The release is never edited.
+  6. While a return is open, the elements it concerns are held and the other elements go on.
+  7. A second pass with the target operating model is a new version, and the first pass stays readable.
+  8. A gap is asked through the Chief of Staff of Source Lifecycle; no request is sent to a person or names a person.
+  9. Every value-stream phase and capability has a process with one owner position, and every hand-off of the release belongs to a process.
+  10. The choice of critical processes is recorded with its reason.
+  11. A process with a step that has no accountable role, a decision with no decider or more than one, or an unmatched hand-off between lanes fails.
+  12. A step or decision held by no position or by two, or a position holding none, fails.
+  13. A job description with an accountability that traces to no step or decision of its position fails.
+  14. A position with no reporting line, or a forum with no charter, fails.
+  15. Every workload figure traces to the volumes and step times of its processes.
+  16. A measure, volume or time with no source is marked as an assumption and put to decision; an invented one fails.
+  17. A walkthrough finding left neither fixed nor put to decision stops the release.
+  18. An element not decided by the Requesting Authority is not released; silence decides nothing.
+  19. The filed release reads back from Source Lifecycle by its hash, and the next stage receives it by reference.
+  20. An output that names a person, reads who occupies a position, or chooses what fills a position fails.
+  21. After revocation, a read or return through that connection is refused and the run is held.
+  22. An output checked only by the Cell that produced it does not pass to the next step.
+- **Status.** `DRAFT`, with `last_result` `NOT_RUN`. It stays so until the test has run once with recorded evidence.
