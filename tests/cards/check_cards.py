@@ -7,7 +7,9 @@
 - Must-fail: every must-fail-*.json fails, and counts only if it fails on its own rule: the rule
   named in its "$expect" key (or in LEGACY for fixtures older than v1.5.0) appears among its
   errors (the "$comment" RULE-... of the schema rule, or the path of the failing property).
-- Superseded fixtures under tests/cards/superseded/ are reported for reading only.
+- Superseded fixtures under tests/cards/superseded/ and tests/signatures/sets/superseded/ are reported for reading only.
+- Since (GOV, 15 October 2026): two positions are two parties; signature sets count distinct signing
+  positions other than the requesting position (SIG-DUAL), never the persons behind them.
 - Code and version patterns accept the examples and reject malformed values."""
 import json, pathlib, sys
 from jsonschema import Draft202012Validator
@@ -125,10 +127,15 @@ def set_rules(S):
         ent = S.get("signer_entities", {}).get(s["signer_cell"])
         if tgt.get("entity") and ent != tgt["entity"]:
             errs.append(f"SIG-ENTITY: {s['signer_cell']} (entity {ent}) signs for entity {tgt['entity']}")
-    people = {s["signer_identity_ref"] for s in sigs} - {S.get("requester_identity_ref")}
+    # Two positions are two parties (GOV, 15 October 2026): dual signature counts distinct signing
+    # positions (signer_cell) other than the requesting position (requester_cell). The persons behind
+    # positions are never compared; signer_identity_ref is not read here.
     need = ty.get("signers_required", 1)
-    if len(people) < need:
-        errs.append(f"SIG-DUAL: {need} distinct persons other than the requester needed, {len(people)} found")
+    if need > 1 and not S.get("requester_cell"):
+        errs.append("SIG-DUAL: the requesting position (requester_cell) is not recorded")
+    positions = {s["signer_cell"] for s in sigs} - {S.get("requester_cell")}
+    if len(positions) < need:
+        errs.append(f"SIG-DUAL: {need} distinct positions other than the requesting position needed, {len(positions)} found")
     return errs
 for f in sorted((ROOT / "tests/signatures/sets").glob("*.json")):
     S = json.loads(f.read_text()); want = S.get("$expect", "pass"); errs = set_rules(S)
@@ -137,6 +144,9 @@ for f in sorted((ROOT / "tests/signatures/sets").glob("*.json")):
     print(f"tests/signatures/sets/{f.name}:", ("valid" if not errs else errs) if want == "pass" else (f"rejected on {want}" if good else f"NOT REJECTED ON {want} {codes}"))
     row(f"tests/signatures/sets/{f.name}", want if want == "pass" else f"fail {want}", "pass" if not errs else "fail " + ",".join(codes), good); ok &= good
 
+for f in sorted((ROOT / "tests/signatures/sets/superseded").glob("*.json")):
+    errs = set_rules(json.loads(f.read_text()))
+    print(f"superseded (reading only) tests/signatures/sets/superseded/{f.name}: {len(errs)} finding(s) under the rule of 15 October 2026")
 for f in sorted((ROOT / "tests/cards/superseded").glob("*.json")):
     errs = list(V["unit-card.schema.json"].iter_errors(json.loads(f.read_text())))
     print(f"superseded (reading only) {f.name}: {len(errs)} finding(s) under v1.5.0")

@@ -65,7 +65,7 @@
     "signer_identity_ref": {
       "type": "string",
       "pattern": "^idref:[0-9A-Za-z-]+$",
-      "description": "A pseudonymous reference to the signer's identity; no name."
+      "description": "A pseudonymous reference to the signer's identity; no name. Reading note (GOV, 15 October 2026): it serves the sign-in check and top management's records only; no rule counts or matches it across signatures, and dual signature counts distinct signing positions (Protocol §4.10, item 3)."
     },
     "signer_credential": {
       "type": "object",

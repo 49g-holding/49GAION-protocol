@@ -65,5 +65,6 @@
     "TenCELL-FIN": "E1",
     "TenCELL-TM2": "E2"
   },
-  "requester_identity_ref": "idref:req1"
+  "requester_identity_ref": "idref:req1",
+  "requester_cell": "TenCELL-FIN"
 }

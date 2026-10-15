@@ -1038,7 +1038,7 @@
     },
     "decision_rule": {
       "type": "object",
-      "description": "For a Pod or an AIOC carrying a HOAC label that decides together: its member Cells, quorum, majority, chair and casting vote. Each member signs under their own Cell; one person holding two seats in the same body counts once (HF-18; Standard §4.1, item 10).",
+      "description": "For a Pod or an AIOC carrying a HOAC label that decides together: its member Cells, quorum, majority, chair and casting vote. Each member signs under their own Cell; one person holding two seats in the same body counts once (HF-18; Standard §4.1, item 10). Reading note (GOV, 15 October 2026): two positions are two parties (Standard §1.1, item 10); 'one person holding two seats in the same body counts once' reads 'each member Cell is its own party and counts once', even when one natural person occupies two member Cells.",
       "required": [
         "members",
         "quorum",
