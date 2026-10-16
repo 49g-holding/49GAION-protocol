@@ -202,3 +202,31 @@ Each card is `DRAFT` until its test has run once with recorded evidence; no card
   18. A defect of a target operating model release goes to the part that made it, and its answer comes back on that connection; after revocation, a return through it is refused.
   19. An answer by release re-opens only the work that cites a changed element; a return set aside carries its touched elements forward, each marked with its basis and listed in the decision package.
   20. A release notice of Process and Position Design is admitted only when it validates against the Library's contract and names the target operating model release it rests on.
+
+**What the design stages also carry (addition, GOV, 16 October 2026; `49GAION/DR-0023`).** Four cards move to a new version, each `DRAFT` with `last_result` `NOT_RUN`.
+
+- `source-lifecycle.part-card.json` **v3**: the organisation dictionary, the essentials checklist, and records of the work only as the organisation's projection. **TEST-SOURCE-LIFECYCLE v3** keeps cases 1 to 22 and adds one case for every bullet of Protocol §13, item 11:
+  23. Every definition of the dictionary resolves to a source and anchor, or to an approved statement; a definition with neither is refused; two definitions of one term are both kept, with a contradiction record, until the owner decides; a connected stage reads the dictionary by reference.
+  24. Every profile opens with the seven essentials; each missing one is a gap and is never drafted by the part; the essentials still missing are shown beside a Design Request when it is put for approval.
+  25. An export of records of the work that still says who did the work is refused and nothing of it is kept; one without its impact assessment and data-protection decision is not served; an admitted one is served as an export with its date.
+  26. A decision row on an element carries its proposed priority and its answer the decided priority; an export request for records of the work states its aggregation, and one with any other aggregation is returned.
+- `target-operating-model.part-card.json` **v3**: what the model also states, and the work as it runs. **TEST-TARGET-OPERATING-MODEL v3** keeps cases 1 to 18 and adds one case for every bullet of Protocol §19, item 12:
+  19. Every element of the strategy frame is cited or not given; what the sources lack is asked once; one row decides it; purpose and values without a source in force are signed as `set-purpose-or-values`; a missing element does not stop the run, and an element written or inferred by the part fails.
+  20. Every capability is in-house, a shared service, outsourced, by a partner, or not decided, with make or buy computed from it; no provider is named; one not delivered in-house names its crossings, and a crossing that carries it pairs, is registered or is deferred, or is a seam finding.
+  21. A stream marked critical names a reason from the closed list with its atoms; one without fails.
+  22. A maturity level now cites a source; a target cites a source or a decision; neither is assessed by the part, and none is of a role, a position or a person.
+  23. Every moment of a journey is a crossing of its counterparty; a moment no crossing carries is a seam finding; nothing is designed on the party's side.
+  24. The value case re-compiles byte-identical from the decided parts and decisions and holds no figure that is not a source or a decision; it is decided in one row.
+  25. Every element decided `ACCEPT` or `CORRECT` carries its priority, proposed by the fixed rule; a priority written by an author fails.
+  26. An export that still says who did the work is refused at the Input socket; with no export, the activity profile reads no observation and the run goes on; with exports, each line cites its atoms and date and nothing in it is about a person.
+  27. The release names its four added parts by hash; a release without one fails its contract.
+- `process-and-position-design.part-card.json` **v4**: what it reads from the target operating model. **TEST-PROCESS-AND-POSITION-DESIGN v4** keeps cases 1 to 37 and adds one case for every bullet of Protocol §17, item 13:
+  38. The release-reading record covers the strategy frame, journeys, value case and activity profile, with each delivery model, maturity, criticality and priority; an element the release leaves open is recorded open, and a record that fills one fails.
+  39. The objectives cascade starts from the goals and critical numbers of the decided strategy frame; a goal not given makes no row.
+  40. The processes on a critical stream join the critical processes; the order follows the decided priority; each process and position carries its priority.
+  41. A capability outsourced or by a partner gets a hand-off and oversight steps, and an in-house process for the delivered work fails; a shared service sits with the part that provides it; one not decided is returned for what it decides.
+  42. A journey moment in no process, or out of order, is a finding; a process of a capability with a target maturity of measured or improving without a measure is a finding.
+  43. The activity profile is shown beside the designed workload, per process, with its atoms and date; nothing in it is about a person, and no position changes because of it.
+- `delivery-and-implementation.part-card.json` **v3**: the value case and the priority. **TEST-DELIVERY-AND-IMPLEMENTATION v3** keeps cases 1 to 20 and adds one case for every bullet of Protocol §20, item 14:
+  21. In mode A, the value case and every element's priority are carried by reference, byte-identical; a baseline unknown or a target not set stays so; a change by the part fails.
+  22. The waves of the transition plan follow the decided priority, then critical processes first; a departure without its reason fails.

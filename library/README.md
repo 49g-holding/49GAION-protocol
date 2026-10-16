@@ -16,10 +16,10 @@
 
 | Part | In an `[ORG]AION` | Card | Protocol | Standard | Fixed test | Mother blueprint | Status |
 |---|---|---|---|---|---|---|---|
-| 49GAION Source Lifecycle | `[ORG]AIOC-SL`, the first stage | `source-lifecycle.part-card.json` v2 | §13 | §3.1, item 7 | TEST-SOURCE-LIFECYCLE v2 | not yet held: the first instance's blueprint is private and holds an organisation's data; a mother for any organisation is to be written from it | `DRAFT`, `NOT_RUN` |
-| 49GAION Target Operating Model | `[ORG]AIOC-TOM`, the second stage | `target-operating-model.part-card.json` v2 | §19 | §3.1, item 4 | TEST-TARGET-OPERATING-MODEL v2 | `github.com/49g-holding/49aioc-tom`, `blueprint/TOM-BLUEPRINT.md`, v0.5.0, commit `00d1e086f12a74437d1aea4cdbd092ce4978a7c2` (pull request #3), SHA-256 `a90b3b5b6a0bbb288cb6078df255304715a79c061a38e5b2c53b5aabb11f336a`; its fixed test `tests/TEST-TOM.md` v4 | `DRAFT`, `NOT_RUN` |
-| 49GAION Process and Position Design | `[ORG]AIOC-PPD`, the third stage | `process-and-position-design.part-card.json` v3 | §17 | §3.1, item 3 | TEST-PROCESS-AND-POSITION-DESIGN v3 | `github.com/49g-holding/49aioc-ppd`, `blueprint/PPD-BLUEPRINT.md`, v0.4.0, commit `2d5b69c382a20ab35ee88cd1357f1431c2b6406b` (pull request #5), SHA-256 `39708621823c9031429ba758c9d7ad15e4935ce577dc317e5d1eb412cd5b73a0`; its fixed test `tests/TEST-PPD.md` v2 | `DRAFT`, `NOT_RUN` |
-| 49GAION Delivery and Implementation | `[ORG]AIOC-DI`, the last stage | `delivery-and-implementation.part-card.json` v2 | §20 | §3.1, item 5 | TEST-DELIVERY-AND-IMPLEMENTATION v2 | `github.com/49g-holding/49aioc-di`, `blueprint/DI-BLUEPRINT.md`, v0.1.1 (slice 1 of 4), commit `026fb281df98d6e1dccf9541cac05f4528a5cb1b` (pull request #3), SHA-256 `0b04f49fb8e5b65be882cb9d14bb5e940f6d21c8b1b733c042cc72e2af1b183e`; its fixed test `tests/TEST-DI.md` | `DRAFT`, `NOT_RUN` |
+| 49GAION Source Lifecycle | `[ORG]AIOC-SL`, the first stage | `source-lifecycle.part-card.json` v3 | §13 | §3.1, item 7 | TEST-SOURCE-LIFECYCLE v3 | not yet held: the first instance's blueprint is private and holds an organisation's data; a mother for any organisation is to be written from it | `DRAFT`, `NOT_RUN` |
+| 49GAION Target Operating Model | `[ORG]AIOC-TOM`, the second stage | `target-operating-model.part-card.json` v3 | §19 | §3.1, item 4 | TEST-TARGET-OPERATING-MODEL v3 | `github.com/49g-holding/49aioc-tom`, `blueprint/TOM-BLUEPRINT.md`, v0.6.0, commit `097e81e2d4a4deb50c21d9d26791a280cb5c3465` (pull request #4), SHA-256 `ea11cd76a3343b926c452dbbd887cfad075702af933fc06e6b32cb16640f4c50`; its fixed test `tests/TEST-TOM.md` v5 | `DRAFT`, `NOT_RUN` |
+| 49GAION Process and Position Design | `[ORG]AIOC-PPD`, the third stage | `process-and-position-design.part-card.json` v4 | §17 | §3.1, item 3 | TEST-PROCESS-AND-POSITION-DESIGN v4 | `github.com/49g-holding/49aioc-ppd`, `blueprint/PPD-BLUEPRINT.md`, v0.5.0, commit `c929cf347449c19ff98448cd2144cc37cb61d2e4` (pull request #6), SHA-256 `707f9dc374aeef2df17880584f2985a9a57d6d298bbd8233fdc18a7d5d5f5ce7`; its fixed test `tests/TEST-PPD.md` v3 | `DRAFT`, `NOT_RUN` |
+| 49GAION Delivery and Implementation | `[ORG]AIOC-DI`, the last stage | `delivery-and-implementation.part-card.json` v3 | §20 | §3.1, item 5 | TEST-DELIVERY-AND-IMPLEMENTATION v3 | `github.com/49g-holding/49aioc-di`, `blueprint/DI-BLUEPRINT.md`, v0.1.2 (slice 1 of 4), commit `9092804d7ffd4c0e13288b8fc78b3fc6660f6e08` (pull request #4), SHA-256 `05a4257f5fb198a37ea71a6712053e43e25ae4d8ee4d59e36e8dc41792aeecd2`; its fixed test `tests/TEST-DI.md` | `DRAFT`, `NOT_RUN` |
 | 49GAION Product Core | `[ORG]AIOC-PC` | `product-core.part-card.json` v1 | §18 | — | TEST-PRODUCT-CORE v1 | written in its own repository (Protocol §18); not yet pinned here | `DRAFT`, `NOT_RUN` |
 
 ### Capability parts and unit cards
@@ -48,9 +48,9 @@ The v2 cards of the AION Builder and of Self-Improvement are kept and marked `RE
 |---|---|---|---|
 | Reference-model catalogue | `library/reference-models/reference-model-catalogue.json` | v0.1.0, draft | §3.1, item 1 |
 
-## TEST-DESIGN-CHAIN v1
+## TEST-DESIGN-CHAIN v2
 
-One case for every item of the Protocol section The design chain (§21), run across the fixtures of the four stages as a cross-AIOC test (Protocol §11, item 2). Written before use; every case reads `NOT_RUN`.
+One case for every item of the Protocol section The design chain (§21), run across the fixtures of the four stages as a cross-AIOC test (Protocol §11, item 2). Written before use; every case reads `NOT_RUN`. Version 2 (`49GAION/DR-0023`) adds cases 12 to 15, one for every bullet of §21, item 12.
 
 1. On fixture organisations, each stage runs alone with no later stage installed, and no stage waits for a later one.
 2. Every decided release is filed into Source Lifecycle under its stage's own origin kind and reads back by hash; no stage holds or edits another stage's release.
@@ -63,5 +63,9 @@ One case for every item of the Protocol section The design chain (§21), run acr
 9. No output of any stage names a person or reads who occupies a position.
 10. Every AIOC part's mother blueprint pinned in this register reads back from its repository at the pinned commit with the pinned SHA-256.
 11. The cases above run across the four stages together, each with its own fixed test passing first.
+12. Where Source Lifecycle holds a dictionary, every stage reads it, and a term used in another meaning raises a contradiction.
+13. What a stage leaves open (not given, not decided, not set, unknown, no observation) reaches every later stage open; a later stage that fills it fails.
+14. The priority and the value case of the target operating model reach Process and Position Design and Delivery and Implementation byte-identical, by reference.
+15. No record of the work about a person enters any stage, and no output of any stage says anything about a person from records of the work.
 
 Powered by 49GAION

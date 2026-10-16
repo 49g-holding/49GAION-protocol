@@ -1,13 +1,13 @@
 {
   "part": "49GAION Process and Position Design",
-  "version": "v3",
+  "version": "v4",
   "inputs": [
     {
       "name": "a run request from the Requesting Authority's Cell, naming the decided target operating model release to design from",
       "format": "Work Item (ID + version), received through the HU input port at the tool gateway"
     },
     {
-      "name": "the decided target operating model release with its role register, handed over directly by the part that made it, read role register first",
+      "name": "the decided target operating model release with its role register, handed over directly by the part that made it, read role register first; with its strategy frame, delivery models, critical streams, journeys, priorities and activity profile, each read and never filled",
       "format": "release reference (ID + version + hash of its manifest), received through the Input socket from that part, through the tool gateway"
     },
     {
@@ -33,7 +33,7 @@
       "format": "Work Item sub-items (ID + version), sent through the tool gateway"
     },
     {
-      "name": "a Process and Position Design release: process architecture, process book (each step with its done-when, worst error and reversibility, kinds of act, input source and trust, confidentiality, risks, controls and record), decision-rights register and authority matrix, policy register, controls catalogue with the segregation-of-duties check, position register with generated job descriptions and competence profiles, objectives cascade, unit register with generated unit charters, organisation charts, forums with charters and tiers, review calendar, structure scenarios when asked for, workload with the peak-load check and end-to-end times, crosswalk from the current organisation, walkthrough report and quality checks, and a decision package; each process with its re-approval date; positions only; decided element by element by the Requesting Authority",
+      "name": "a Process and Position Design release: process architecture, process book (each step with its done-when, worst error and reversibility, kinds of act, input source and trust, confidentiality, risks, controls and record), decision-rights register and authority matrix, policy register, controls catalogue with the segregation-of-duties check, position register with generated job descriptions and competence profiles, objectives cascade, unit register with generated unit charters, organisation charts, forums with charters and tiers, review calendar, structure scenarios when asked for, workload with the peak-load check and end-to-end times, crosswalk from the current organisation, walkthrough report and quality checks, and a decision package; each process with its re-approval date; positions only; decided element by element by the Requesting Authority; its objectives cascade starts from the decided strategy frame; each process and position carries the priority of the elements it carries; a capability delivered outside is a hand-off with oversight steps; today's activity profile is shown beside the designed workload, never about a person",
       "format": "frozen, content-addressed release (manifest + parts by hash), filed into Source Lifecycle as a source and handed to the next stage by reference"
     },
     {
@@ -47,7 +47,7 @@
   ],
   "test": {
     "id": "TEST-PROCESS-AND-POSITION-DESIGN",
-    "version": "v3",
+    "version": "v4",
     "location": "library/cards/README.md",
     "last_result": "NOT_RUN"
   },

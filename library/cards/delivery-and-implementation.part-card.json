@@ -1,13 +1,13 @@
 {
   "part": "49GAION Delivery and Implementation",
-  "version": "v2",
+  "version": "v3",
   "inputs": [
     {
       "name": "a run request from the Requesting Authority's Cell, naming the way in (mode A, B or C) and the design or sources to start from",
       "format": "Work Item (ID + version), received through the HU input port at the tool gateway"
     },
     {
-      "name": "mode A: the decided releases of the target operating model and of Process and Position Design",
+      "name": "mode A: the decided releases of the target operating model and of Process and Position Design, with the value case and the priority of each element, carried unchanged",
       "format": "release reference (ID + version + hash of its manifest), received through the Input socket from Process and Position Design, through the tool gateway"
     },
     {
@@ -45,7 +45,7 @@
       "format": "versioned record, filed into Source Lifecycle"
     },
     {
-      "name": "the launch package: procedures under each process; drafts of policies, of the pay structure by job family and level, of the authority instruments and of the obligations register, each marked as a draft for professional review in its jurisdiction; the control matrix; the transition plan; the go-live criteria; readiness, rehearsals and the go or no-go package for the deciding position",
+      "name": "the launch package: procedures under each process; drafts of policies, of the pay structure by job family and level, of the authority instruments and of the obligations register, each marked as a draft for professional review in its jurisdiction; the control matrix; the transition plan, its waves in the order of the decided priority; the go-live criteria; readiness, rehearsals and the go or no-go package for the deciding position",
       "format": "content-addressed records, filed into Source Lifecycle; each element decided by its deciding position"
     },
     {
@@ -63,7 +63,7 @@
   ],
   "test": {
     "id": "TEST-DELIVERY-AND-IMPLEMENTATION",
-    "version": "v2",
+    "version": "v3",
     "location": "library/cards/README.md",
     "last_result": "NOT_RUN"
   },
