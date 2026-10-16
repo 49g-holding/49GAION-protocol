@@ -1,13 +1,13 @@
 {
   "part": "49GAION Target Operating Model",
-  "version": "v2",
+  "version": "v3",
   "inputs": [
     {
       "name": "a run request from the Requesting Authority's Cell, carrying the reference of an approved Design Request held in Source Lifecycle and stating how fine the model should be",
       "format": "Work Item (ID + version), received through the HU input port at the tool gateway"
     },
     {
-      "name": "the organisation's sources, by reference only, from the output socket of Source Lifecycle",
+      "name": "the organisation's sources, by reference only, from the output socket of Source Lifecycle; among them, where the organisation has them, exports of records of the work by role-type and process, never about a person",
       "format": "source reference (ID + version + hash; held or not held), received through the Input socket"
     },
     {
@@ -25,7 +25,7 @@
       "format": "Work Item sub-items (ID + version), sent through the tool gateway"
     },
     {
-      "name": "a target operating model release: capabilities, value streams, decision rights, interfaces and hand-offs, with a role register that names each role and what it decides; traced to its sources, walked, independently checked at every stage, and decided element by element by the Requesting Authority; it does not say what fills a role",
+      "name": "a target operating model release: capabilities (each with its delivery model, make-or-buy and maturity), value streams (critical or not, for a stated reason), decision rights, interfaces and hand-offs, with a role register that names each role and what it decides; the strategy on one page, each outside party's journey, a value case, the priority of each element, and the activity profile of the work as it runs, or no observation; each from sources and decisions only, with what they lack shown as not given, unknown or not set; traced to its sources, walked, independently checked at every stage, and decided element by element by the Requesting Authority; it does not say what fills a role",
       "format": "frozen, content-addressed release (manifest + parts by hash), filed into Source Lifecycle as a source of origin kind operating model"
     },
     {
@@ -43,7 +43,7 @@
   ],
   "test": {
     "id": "TEST-TARGET-OPERATING-MODEL",
-    "version": "v2",
+    "version": "v3",
     "location": "library/cards/README.md",
     "last_result": "NOT_RUN"
   },

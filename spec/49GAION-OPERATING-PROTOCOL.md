@@ -305,6 +305,12 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
    - **Notices.** A revocation, narrowing, reclassification or supersession that affects references a part has read sends that part a notice naming each affected reference and version, never the content.
    - **The fixed test.** TEST-SOURCE-LIFECYCLE v2 adds a case for every bullet of this item; the card moves to `v2` and stays `DRAFT`, with `last_result` `NOT_RUN`.
 10. **Reading note (GOV, 16 October 2026), item 7.** A source that stands beside Source Lifecycle is read only, through the reading part's own adapter. Asking and filing stay with Source Lifecycle. If a part ever replaces Source Lifecycle, this section names the new asking route before the replacement joins.
+11. **Addition (GOV, 16 October 2026): what it also keeps** (`49GAION/DR-0023`).
+   - **The organisation dictionary.** One source of the organisation's own terms, each with its definition and the source it comes from, or the owner's approved statement. A definition is never invented. Two sources that define a term differently are both kept, with a contradiction record, until the owner decides. It is served by reference to every design stage.
+   - **The essentials checklist.** Every profile of item 3 opens with the essentials an organisation's sources should hold: the strategy on one page, the plan, the measures, the structure of positions, the processes, the meetings, and the dictionary. A missing one is a gap and a flag only; Source Lifecycle never drafts it. The essentials still missing are shown beside a Design Request when it is put for approval.
+   - **Records of the work as it runs.** An export of records of the work is recorded only as the organisation's own projection by role-type and process, which removes who did the work, after an impact assessment and the decision of the position that holds data protection (HF-17; where personal data moves, the listed type `export-share-or-purge-personal-data`). An export that still says who did the work is refused, and nothing of it is kept. It is served as an `export` with its date.
+   - **The sockets contract.** A decision row on an element of a design carries its proposed priority, and the answer its decided priority; an export request for records of the work states its aggregation by role-type and process.
+   - **The fixed test.** TEST-SOURCE-LIFECYCLE v3 adds a case for every bullet of this item; the card moves to `v3` and stays `DRAFT`, with `last_result` `NOT_RUN`.
 
 ## 14. Records
 
@@ -383,6 +389,14 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
    - **Returns from the stage after it** come directly, under the design return contract, and end as §19, item 6 says, with this part answering for its own release only. A defect of the target operating model release is returned by that stage to the part that made it.
    - **Set aside, carried forward, shown.** An element that goes forward on a set-aside return is marked in the release with its basis (a known defect or a decided assumption) and its decision, and is listed in the decision package.
    - **The fixed test.** TEST-PROCESS-AND-POSITION-DESIGN v3 adds a case for every bullet of this item; the card moves to `v3` and stays `DRAFT`, with `last_result` `NOT_RUN`.
+13. **Addition (GOV, 16 October 2026): what it reads from the target operating model** (`49GAION/DR-0023`; the mother blueprint of the part, version 0.5.0; §19, item 12).
+   - **Read, never filled.** It accounts for the strategy frame, the journeys, the value case and the activity profile, and for each capability's delivery model and maturity, each stream's criticality and each element's priority. What the release leaves open (not given, not decided, not set, unknown, no observation) stays open.
+   - **Objectives from the strategy.** The objectives cascade starts from the one-year goals and critical numbers of the decided strategy frame.
+   - **Critical streams first, by priority.** The processes on a critical value stream join the critical processes of item 5; the order of work follows the decided priority of the elements each process carries, and each process and position carries that priority into the release.
+   - **As the capability is delivered.** In-house: its processes. Shared service: in the part that provides it, with a hand-off. Outsourced or by a partner: a hand-off to the outside party and the steps that oversee it, never an in-house process for the delivered work. Not decided: designed only as far as the delivery model is not needed, the rest returned.
+   - **Journeys and maturity.** Each outside party's journey is checked against the processes that carry its crossings, in order; a capability whose decided target maturity is measured or improving has a measure on each of its processes.
+   - **Today's work.** The activity profile is shown beside the designed workload, per process, and may be cited for a volume or a time. It is never about a person and changes no position.
+   - **The fixed test.** TEST-PROCESS-AND-POSITION-DESIGN v4 adds a case for every bullet of this item; the card moves to `v4` and stays `DRAFT`, with `last_result` `NOT_RUN`.
 
 ## 18. Product Core: the organisation's one product division
 
@@ -481,6 +495,17 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
    - **Admission.** A return is admitted only when it validates against the contract, names a release this part filed with the same manifest hash, and its filed copy reads back with the same hash; otherwise it goes back with its reason, never edited. An `accepted` return asks nothing and ends at once, answered by the release it names.
    - **Rows made by code; classified by a human seat.** The rows put to the Requesting Authority on a return are made by code from the return and the release, one decision per row. Each ended return is classified by a human seat of the part, never by its Chief of Staff, as a defect of the part or as normal discovery; a defect becomes a lesson and a test case.
    - **The fixed test.** TEST-TARGET-OPERATING-MODEL v2 adds a case for every bullet of this item; the card moves to `v2` and stays `DRAFT`, with `last_result` `NOT_RUN`.
+12. **Addition (GOV, 16 October 2026): what the model also states, and the work as it runs** (`49GAION/DR-0023`; the mother blueprint of the part, version 0.6.0). None of these adds a stage. The part never writes a goal, a target, a level or a figure of its own: each is stated by a source, decided by the Requesting Authority, or shown as not given, unknown or not set.
+   - **The strategy frame.** Purpose, values, long-range target, three-year picture, one-year goals with their measures, and critical numbers, each cited or not given. What the sources lack is asked once, through Source Lifecycle. It is decided in one row; purpose and values stay the listed type `set-purpose-or-values` where no source in force states them. A missing element never stops the run.
+   - **Delivery model and make-or-buy.** Each capability is in-house, a shared service, outsourced, by a partner, or not decided, never naming a provider; make or buy follows by code. A capability not delivered in-house names the crossings that carry it.
+   - **Critical value streams.** A stream is critical only for a cited reason from a closed list: revenue, customer, legal or regulatory, safety, continuity.
+   - **Maturity.** Each capability's level now, only from a source, and its target, only from a source or a decision, on one closed scale of five levels.
+   - **Outside parties' journeys.** For each counterparty, the moments where it meets the organisation, in order, each a crossing already declared. Nothing is designed on the party's side; a moment no crossing carries is a seam finding.
+   - **The value case.** Per outcome, its measures, baselines and targets, compiled by code from the decided parts and decisions, with no figure of the part's own; decided in one row.
+   - **Priority.** Each element carries a priority, must, should or could, proposed by a fixed rule and decided with the element.
+   - **Records of the work as it runs.** Exports by role-type and process only, admitted as §13, item 11 says; an export that still says who did the work is refused at the Input socket. From them, code compiles an activity profile; with none, the part says so and goes on. No part watches work.
+   - **The release.** These are four more parts of the release (the strategy frame, the journeys, the value case and the activity profile) and fields of its design records; the next stages read them by reference and fill nothing it leaves open.
+   - **The fixed test.** TEST-TARGET-OPERATING-MODEL v3 adds a case for every bullet of this item; the card moves to `v3` and stays `DRAFT`, with `last_result` `NOT_RUN`.
 
 ## 20. Delivery and Implementation: from the decided design to a running organisation
 
@@ -512,6 +537,10 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
    - **What an answer does.** An answer by release re-opens only the work that cites a changed element. A return set aside carries its touched elements forward on the stated basis, each marked and listed in the decision package.
    - **The notice it receives.** A release notice of Process and Position Design is read under the Library's release notice contract and names the target operating model release it rests on.
    - **The fixed test.** TEST-DELIVERY-AND-IMPLEMENTATION v2 adds a case for every bullet of this item; the card moves to `v2` and stays `DRAFT`, with `last_result` `NOT_RUN`.
+14. **Addition (GOV, 16 October 2026): the value case and the priority** (`49GAION/DR-0023`; the mother blueprint of the part, version 0.1.2; §19, item 12).
+   - **Carried unchanged.** In mode A, the value case of the target operating model release and the priority of each element are recorded by reference, never changed; a baseline unknown or a target not set stays so. The value register of item 4 starts from them.
+   - **The rollout follows the priority.** The waves of the transition plan follow the decided priority, then critical processes first; a departure states why and is decided with the plan.
+   - **The fixed test.** TEST-DELIVERY-AND-IMPLEMENTATION v3 adds a case for every bullet of this item; the card moves to `v3` and stays `DRAFT`, with `last_result` `NOT_RUN`.
 
 ## 21. The design chain: how the design stages connect
 
@@ -528,3 +557,9 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
 9. **Positions only.** No stage names a person or reads who occupies a position. Two positions are two parties (Standard §1.1, item 10).
 10. **The Library register.** Each stage is named in the Library register (`library/README.md`), with its card, its fixed test and its mother blueprint, pinned by repository, path, version and SHA-256. An organisation's instance of a stage keeps its own values in its records repository.
 11. **The fixed test.** TEST-DESIGN-CHAIN v1 (`library/README.md`) has one case for every item of this section, run across the fixtures of the four stages as a cross-AIOC test (§11, item 2).
+12. **Addition (GOV, 16 October 2026): what passes along the chain** (`49GAION/DR-0023`).
+   - **The organisation's own words.** Every stage reads the organisation dictionary of Source Lifecycle (§13, item 11), where there is one, and uses a term in the organisation's meaning.
+   - **Open stays open.** What one stage leaves open (not given, not decided, not set, unknown, no observation), no later stage fills; it asks, through Source Lifecycle, or returns.
+   - **Priority and value travel unchanged.** The priority decided with each element of the target operating model, and its value case, reach the later stages by reference and unchanged.
+   - **Never about a person.** Records of the work enter the chain only as §13, item 11 says, and no stage turns them into anything about a person.
+   - **The fixed test.** TEST-DESIGN-CHAIN v2 adds a case for every bullet of this item.
