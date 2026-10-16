@@ -13,7 +13,11 @@
 
 ## The register
 
-### AIOC parts
+**Two sections (addition, GOV, 16 October 2026; `49GAION/DR-0025`).** The Library is the one store of everything 49GAION has built and knows. **Parts**: everything 49GAION builds, from a Cell to an AIOC, with its blueprint, card, fixed test, contracts and method catalogues, and its whole history (versions, lineage, decisions, lessons, test results), held in its own home and named here. **Products**: what the Library offers, a single part offered alone or an assembly of parts placed side by side and connected; an assembly's blueprint lists its parts by pin, their connections, what it sets and one shared test, and its features are its parts' features (Standard §3.1, items 11 and 12).
+
+### Parts
+
+#### AIOC parts
 
 | Part | In an `[ORG]AION` | Card | Protocol | Standard | Fixed test | Mother blueprint | Status |
 |---|---|---|---|---|---|---|---|
@@ -23,7 +27,7 @@
 | 49GAION Delivery and Implementation | `[ORG]AIOC-DI`, the last stage | `delivery-and-implementation.part-card.json` v3 | §20 | §3.1, item 5 | TEST-DELIVERY-AND-IMPLEMENTATION v3 | `github.com/49g-holding/49aioc-di`, `blueprint/DI-BLUEPRINT.md`, v0.1.2 (slice 1 of 4), commit `d8cbac48817095485103bd9dde8a3649f67cf8e3`, SHA-256 `05a4257f5fb198a37ea71a6712053e43e25ae4d8ee4d59e36e8dc41792aeecd2`; its fixed test `tests/TEST-DI.md` | `DRAFT`, `NOT_RUN` |
 | 49GAION Product Core | `[ORG]AIOC-PC` | `product-core.part-card.json` v1 | §18 | — | TEST-PRODUCT-CORE v1 | `github.com/49g-holding/49GAION-product-core` (its mother repository, `49GAION/DR-0024`), `blueprint/PC-BLUEPRINT.md`, v0.1.0, commit `eddd73a55c1f3c2160b369b0e6b6bd079017fa05`, SHA-256 `3c965404460429f3db7bc04c5c99131fa4c96d50b40e8003dc1780501f9db780`; its fixed test `tests/TEST-PC.md` v1 | `DRAFT`, `NOT_RUN` |
 
-### Capability parts and unit cards
+#### Capability parts and unit cards
 
 | Part | Where it works | Card | Protocol | Standard | Fixed test | Status |
 |---|---|---|---|---|---|---|
@@ -36,18 +40,27 @@
 
 The v2 cards of the AION Builder and of Self-Improvement are kept and marked `REPLACED` (`library/cards/README.md`).
 
-### Contracts
+#### Contracts
 
 | Contract | File | Between | Standard |
 |---|---|---|---|
 | Design return | `library/contracts/design-return.schema.json` | a design stage and the stage that made the release it reads | §3.1, item 6 |
 | Release notice | `library/contracts/release-notice.schema.json` | a design stage and the stage after it | §3.1, item 8 |
 
-### Method catalogues
+#### Method catalogues
 
 | Catalogue | File | Version | Standard |
 |---|---|---|---|
 | Reference-model catalogue | `library/reference-models/reference-model-catalogue.json` | v0.1.0, draft | §3.1, item 1 |
+
+### Products
+
+| Product | Kind | Parts (pinned under Parts) | Connections | Shared test | Status |
+|---|---|---|---|---|---|
+| 49GAION Source Lifecycle | a single part, offered alone; it runs on its own | 49GAION Source Lifecycle | none | TEST-SOURCE-LIFECYCLE v3 | `DRAFT`, `NOT_RUN` |
+| 49GAION Organisation Design and Delivery | assembly | 49GAION Source Lifecycle, Target Operating Model, Process and Position Design, Delivery and Implementation | the release notice contract, from each stage to the next; the design return contract, from each later stage to the stage whose release it reads (Protocol §21) | TEST-DESIGN-CHAIN v2 (below) | named and defined, built later (`49GAION/DR-0025`); its parts `DRAFT`, `NOT_RUN`; Delivery and Implementation written to slice 1 of 4 |
+
+An organisation of human positions is its output; it does not decide which positions an AI fills. The next product, for an `[ORG]AION`, may use all or some of its parts.
 
 ## TEST-DESIGN-CHAIN v2
 
