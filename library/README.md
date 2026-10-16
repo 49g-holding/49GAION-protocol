@@ -9,6 +9,7 @@
 - **Its mother blueprint**, for an AIOC part, is written in its own writing repository, for any organisation, with `[ORG]` placeholders and no organisation's data. The Library holds it by pin: repository, path, version, commit and the SHA-256 of the blueprint file. A new version reaches the Library only by a pull request that moves the pin, merged by the governing seat of 49GAION. An organisation's instance keeps its own values in its own records repository.
 - **One home.** The text lives in one place; the Library holds its pin, never a second copy.
 - **A pin before its merge.** A pin may name the head commit of the writing repository's pull request that carries the version; when that pull request is merged, the pin moves to the merged commit, with the same SHA-256.
+- **A mother repository (addition, GOV, 16 October 2026; `49GAION/DR-0024`).** Where the writing repository of a part's first instance holds an organisation's data, the mother is written in the part's own public mother repository, `49GAION-<part>`, laid out and checked as a writing repository, and pinned here like any mother. Source Lifecycle and Product Core are the first two.
 
 ## The register
 
@@ -16,11 +17,11 @@
 
 | Part | In an `[ORG]AION` | Card | Protocol | Standard | Fixed test | Mother blueprint | Status |
 |---|---|---|---|---|---|---|---|
-| 49GAION Source Lifecycle | `[ORG]AIOC-SL`, the first stage | `source-lifecycle.part-card.json` v3 | §13 | §3.1, item 7 | TEST-SOURCE-LIFECYCLE v3 | not yet held: the first instance's blueprint is private and holds an organisation's data; a mother for any organisation is to be written from it | `DRAFT`, `NOT_RUN` |
+| 49GAION Source Lifecycle | `[ORG]AIOC-SL`, the first stage | `source-lifecycle.part-card.json` v3 | §13 | §3.1, item 7 | TEST-SOURCE-LIFECYCLE v3 | `github.com/49g-holding/49GAION-source-lifecycle` (its mother repository, `49GAION/DR-0024`), `blueprint/SL-BLUEPRINT.md`, v0.1.2, commit `f00b4d21814981aef8afcd586e513feea864abe5` (pull request #1), SHA-256 `ce2ace0cbb38c59e6cd518768f1bae1fdb5bbd94c60e4fa4db7e1d6b18838b44`; its fixed test `tests/TEST-SL.md` v1 | `DRAFT`, `NOT_RUN` |
 | 49GAION Target Operating Model | `[ORG]AIOC-TOM`, the second stage | `target-operating-model.part-card.json` v3 | §19 | §3.1, item 4 | TEST-TARGET-OPERATING-MODEL v3 | `github.com/49g-holding/49aioc-tom`, `blueprint/TOM-BLUEPRINT.md`, v0.6.0, commit `a8445cb006e6f2378b7694543fb65c5da48af41f`, SHA-256 `ea11cd76a3343b926c452dbbd887cfad075702af933fc06e6b32cb16640f4c50`; its fixed test `tests/TEST-TOM.md` v5 | `DRAFT`, `NOT_RUN` |
 | 49GAION Process and Position Design | `[ORG]AIOC-PPD`, the third stage | `process-and-position-design.part-card.json` v4 | §17 | §3.1, item 3 | TEST-PROCESS-AND-POSITION-DESIGN v4 | `github.com/49g-holding/49aioc-ppd`, `blueprint/PPD-BLUEPRINT.md`, v0.5.0, commit `b69997973181d15d356bccea49dd6ea0da3174bb`, SHA-256 `707f9dc374aeef2df17880584f2985a9a57d6d298bbd8233fdc18a7d5d5f5ce7`; its fixed test `tests/TEST-PPD.md` v3 | `DRAFT`, `NOT_RUN` |
 | 49GAION Delivery and Implementation | `[ORG]AIOC-DI`, the last stage | `delivery-and-implementation.part-card.json` v3 | §20 | §3.1, item 5 | TEST-DELIVERY-AND-IMPLEMENTATION v3 | `github.com/49g-holding/49aioc-di`, `blueprint/DI-BLUEPRINT.md`, v0.1.2 (slice 1 of 4), commit `d8cbac48817095485103bd9dde8a3649f67cf8e3`, SHA-256 `05a4257f5fb198a37ea71a6712053e43e25ae4d8ee4d59e36e8dc41792aeecd2`; its fixed test `tests/TEST-DI.md` | `DRAFT`, `NOT_RUN` |
-| 49GAION Product Core | `[ORG]AIOC-PC` | `product-core.part-card.json` v1 | §18 | — | TEST-PRODUCT-CORE v1 | written in its own repository (Protocol §18); not yet pinned here | `DRAFT`, `NOT_RUN` |
+| 49GAION Product Core | `[ORG]AIOC-PC` | `product-core.part-card.json` v1 | §18 | — | TEST-PRODUCT-CORE v1 | `github.com/49g-holding/49GAION-product-core` (its mother repository, `49GAION/DR-0024`), `blueprint/PC-BLUEPRINT.md`, v0.1.0, commit `cf4693195db8e195c3b1dd7cc9448f9a82465ca2` (pull request #1), SHA-256 `3c965404460429f3db7bc04c5c99131fa4c96d50b40e8003dc1780501f9db780`; its fixed test `tests/TEST-PC.md` v1 | `DRAFT`, `NOT_RUN` |
 
 ### Capability parts and unit cards
 
