@@ -1,6 +1,6 @@
 {
   "part": "49GAION Source Lifecycle",
-  "version": "v1",
+  "version": "v2",
   "inputs": [
     {
       "name": "documents and files of any format, and existing collections of them, from the organisation or from its other systems",
@@ -13,6 +13,14 @@
     {
       "name": "a request from a connected part, including a request for a source that is missing",
       "format": "Work Item (ID + version), received through the tool gateway"
+    },
+    {
+      "name": "needs requests from a connected design stage, one thing and one decision per row, each pass with its report of what is still missing",
+      "format": "Work Item sub-items (ID + version) under the published sockets contract, received through the tool gateway"
+    },
+    {
+      "name": "filings of a design stage, only of its own origin kind (operating model; process and position design; delivery and implementation) and design report, on behalf of a named HOAC position that holds a current contributor agreement",
+      "format": "content-addressed source, received through the tool gateway within the stage's write scope"
     }
   ],
   "outputs": [
@@ -27,11 +35,19 @@
     {
       "name": "what the organisation is missing, and the state of each request for a missing source",
       "format": "versioned record (ID + version)"
+    },
+    {
+      "name": "needs answers by reference, each routed to and answered by a position, never a named person; a row of a listed type decided only with its signature at the tool gateway",
+      "format": "needs answer under the published sockets contract, sent through the tool gateway"
+    },
+    {
+      "name": "notices to a connected part of every revocation, narrowing, reclassification or supersession that affects a reference it read, naming each reference and version, never the content",
+      "format": "Work Item (ID + version), sent through the tool gateway"
     }
   ],
   "test": {
     "id": "TEST-SOURCE-LIFECYCLE",
-    "version": "v1",
+    "version": "v2",
     "location": "library/cards/README.md",
     "last_result": "NOT_RUN"
   },

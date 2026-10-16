@@ -1,0 +1,16 @@
+{
+  "notice_id": "TOMN-f5764190faa8238b844ec7de51cdfa470f4da69e92bc8274f5ff27d4ec13093e",
+  "from": "[ORG]AIOC-TOM",
+  "to": "[ORG]AIOC-PPD",
+  "release": {
+    "release_id": "TOMR-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "version": "1",
+    "manifest_sha256": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "rests_on": [],
+  "final_status": "ACCEPT",
+  "final_status_ref": "DEC-41",
+  "supersedes": null,
+  "answers": [],
+  "sent_at": "2026-10-16T09:00:00Z"
+}
