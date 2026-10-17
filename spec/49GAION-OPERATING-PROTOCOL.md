@@ -222,6 +222,7 @@ The definitions are in the Standard: ports (§6.1), bootstrap (§5.3), stop (§4
    - **Addition (GOV, 15 October 2026).** The card of 49GAION Process and Position Design, `process-and-position-design.part-card.json`, is also in `library/cards/` (§17).
    - **Addition (GOV, 15 October 2026).** The cards of 49GAION Target Operating Model, `target-operating-model.part-card.json` (§19), and of 49GAION Delivery and Implementation, `delivery-and-implementation.part-card.json` (§20), are also in `library/cards/`; the Library's design return contract is in `library/contracts/` (§17, item 11).
    - **Addition (GOV, 15 October 2026).** The card of 49GAION Product Core, `product-core.part-card.json`, is also in `library/cards/` (§18).
+   - **Addition (GOV, 17 October 2026).** The card of 49GAION Operations Event Register, `operations-event-register.part-card.json`, is also in `library/cards/` (§22).
 4. During design, the AION Builder adds the blueprint of any capability not already in the 49GAION Library back to the 49GAION Library, generalised and tested. Once delivered, the `[ORG]AION` belongs entirely to the customer.
 5. The Standard names roles only; tool names appear only in an `[ORG]AION`.
 6. All AIOCs reach AI models through one shared gateway that holds keys, meters cost per AIOC and logs every call. It carries no orders.
@@ -311,6 +312,11 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
    - **Records of the work as it runs.** An export of records of the work is recorded only as the organisation's own projection by role-type and process, which removes who did the work, after an impact assessment and the decision of the position that holds data protection (HF-17; where personal data moves, the listed type `export-share-or-purge-personal-data`). An export that still says who did the work is refused, and nothing of it is kept. It is served as an `export` with its date.
    - **The sockets contract.** A decision row on an element of a design carries its proposed priority, and the answer its decided priority; an export request for records of the work states its aggregation by role-type and process.
    - **The fixed test.** TEST-SOURCE-LIFECYCLE v3 adds a case for every bullet of this item; the card moves to `v3` and stays `DRAFT`, with `last_result` `NOT_RUN`.
+12. **Addition (GOV, 17 October 2026): what it takes from the Operations Event Register** (`49GAION/DR-0027`; §22).
+   - **Correspondence.** A new origin kind, `correspondence`, class EVIDENCE: a formal item the organisation sent or received, kept because a position asked to keep its register entry. Only the Operations Event Register files it, on behalf of that position, which holds a current contributor agreement. Its hash equals the entry's content hash. It is kept as received, never edited, and never served as the organisation's own statement.
+   - **The register's scope.** It writes `correspondence`, and `export` for its projection of the work by role-type and process, under every rule of item 11. It reads references only (ID, version, status, held or not held) of the sources its entries cite, never content, under a grant signed as item 5 says; the notices of item 9 reach it for every version an entry cites. It is not a design stage.
+   - **Gap signals.** An act the register finds done without a source reaches Gap Finding as a gap signal, by reference to the register entry. It becomes a gap like any other, never a source.
+   - **The fixed test.** TEST-SOURCE-LIFECYCLE v4 adds a case for every bullet of this item; the card moves to `v4` and stays `DRAFT`, with `last_result` `NOT_RUN`.
 
 ## 14. Records
 
@@ -563,3 +569,75 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
    - **Priority and value travel unchanged.** The priority decided with each element of the target operating model, and its value case, reach the later stages by reference and unchanged.
    - **Never about a person.** Records of the work enter the chain only as §13, item 11 says, and no stage turns them into anything about a person.
    - **The fixed test.** TEST-DESIGN-CHAIN v2 adds a case for every bullet of this item.
+
+## 22. Operations Event Register: the record of the live operation
+
+**Addition (GOV, 17 October 2026; `49GAION/DR-0027`).** 49GAION Operations Event Register is a Library part (`library/cards/operations-event-register.part-card.json`). In an `[ORG]AION` it is the AIOC `[ORG]AIOC-OER` (Naming Standard R2). Its mother blueprint is in its own mother repository (`library/README.md`). This section states its rules; the blueprint states its units.
+
+1. **Its place.** A top-level AIOC under the Charter, beside Source Lifecycle. Like every part, it enters through OCO. It runs alone: with no Source Lifecycle installed, entries are made and the feeds of item 11 wait.
+2. **What it records.** One entry for each crossing of a formal act, on every surface the organisation connects. Each crossing falls in one class:
+   - **A. Formal correspondence:** letters and formal e-mail of an entity or position, in and out, and the organisation's own posts. A full, numbered entry with its due rule.
+   - **B. Requests between units or entities:** these are Work Items. The Work Item's ID is the entry's link, and the register is a projection of the queue's events (§2, §4). A formal instruction between entities is also class A, with one entry on each side.
+   - **C. Machine traffic:** AI calls through the tool gateway. The gateway log stays its home; the register keeps one root hash per log segment, and the hand-offs.
+   - **D. Code-host events:** a merge, a close with a decision, a release, a tag. Never each comment or commit of a human position, and never an author; an AI Cell's commits are its acts (item 7).
+   - **E. Noise:** newsletters, notifications, auto-replies, read receipts, sign-in mail. Counted per channel, never kept.
+   - **F. Private:** personal and direct messages, private channels, recordings of calls or meetings. Never captured.
+3. **The register entry.**
+   - **Identity and integrity.** Its readable number comes from the numbering service (§14, item 4), in a stream per entity and direction. Its event ID is also its idempotency key. Its hash covers its fields and the hash of the entry before it. It records its capture mode (`gated`, `pushed`, `fetched` or `reconciled`), when the act occurred and when it was registered, and `late` with its lag.
+   - **The crossing.** Its parties as unit or position codes, or the ID of an outside party in the restricted partition (§14, item 6).
+   - **Content, by reference.** A reference to its home, and the SHA-256 of its content. For a mutable object, a snapshot hash with its `as_of` time.
+   - **Follow-up.** Its follow-up state, as events.
+   - **Links.** Its Work Item, decision, signature, release and sources.
+   - **Governance.** Its confidentiality, legal hold and retention class. `authority: none`, unless a signature or decision is linked.
+   - **Corrections.** A correction is a new event.
+4. **Record, don't carry.** The content stays in its home, and the register holds it by reference, as a Work Item holds its sources (§2, item 8; §8). Every field of a payload that identifies a natural person is removed at the Input socket before any write. A party is the Cell code the gateway stamps on an act, or the unit or position that owns the address (a functional mailbox, a formal channel, a Work Item's port); otherwise it reads `not attributed`. The register never receives, holds or infers an identifier of a natural person. An event that cannot be cleared is refused, and nothing of it is kept.
+5. **The gateway gates; the register records.** "Register first" for a formal outgoing item is a policy of the tool gateway, under `change-gateway-policy`: the gateway takes a number before it releases the item. The register never authorises, sends, or refuses an item on its merits, and never holds an item back: an entry incomplete in form is completed later and flagged `late`. One AI never both authorises and records the same act (HF-18).
+6. **Never blocking; never on the accountability path.** If the register is down, work goes on. The item is registered later under a number from a leased block, flagged `late` with its lag. A stop, revocation, objection, critique, skip report, internal-audit report or signature prompt never waits on the register; each is registered afterwards from the gateway log (§4.8). The whistleblowing channel is never connected, and is not even counted.
+7. **Acts, not activity** (`49GAION/DR-0027`, item 4).
+   - **AI Cells.** Every act of an AI Cell is recorded, as metadata and references. A Cell that acts for a holder (a Chief of Staff, an attached assistant, a duty deputy) mirrors a human position: of it, only the acts that leave the holder's sphere are recorded (Work Items sent, signed actions carried out, formal outgoing items), never the exchange between the holder and the Cell.
+   - **Human positions.** Of a human position, only its formal acts are recorded. The register never sweeps a mailbox or a chat. It keeps no read or response times, no presence and no recordings. It keeps no count, rate or history of a human position's acts. A human position is shown only the live state of its own open items.
+   - **Queries about one position.** A query by a human position's code over time is refused. The refusal is recorded to the position that holds data protection (HF-17) and to the internal-audit line (HF-19).
+   - **A fixed list.** The projections of items 8, 10 and 12 and the measures of item 10 are the whole list. A new projection or measure, or a new class or purpose on a surface, runs only after a new impact assessment, a decision of the Cell carrying `[ORG]HOAC-TM`, and the consultation of item 14. The internal-audit line reviews the register's use every year.
+8. **Inbox and outbox.** Every unit's inbox and outbox are Panel views of the entries at its ports. Where the register is installed, a port that carries formal acts in scope names it in its `audit_trail`. Only those formal acts are registered; a human position's other passages through its HU ports are not. An address is an entity, a unit or a position, never a natural person. From a personal mailbox, only what the position itself files is recorded.
+9. **Follow-up.** A due date comes from the process design or from the rule the organisation set for the surface; with none, the entry reads `no rule`. The owning position is told before and at the due date. The watchdog chases (§4.6, item 5); the register gives no order. Every closure carries a reason, and nothing closes by silence.
+10. **What each part had and what it lacked.** For each entity, unit, process and AI Cell, the register computes eight measures against absolute bars set by the organisation:
+    - coverage against each surface's census;
+    - entries linked to a Work Item;
+    - merges with no Work Item or verdict record;
+    - entries answered on time;
+    - done Work Items whose sources resolve;
+    - entries registered late;
+    - closures with no reason;
+    - refusals at the Input socket.
+
+    A figure drawn from the acts of fewer human positions than the minimum group size, whether for a unit, a process or a role-type, rolls up to the parent unit. Nothing is ranked. Every figure carries its logic version and traces to its events (§14, items 2 and 5). None goes to appraisal, pay or discipline.
+11. **Feeds to Source Lifecycle** (§13, item 12).
+    - **Correspondence.** An entry a position asks to keep is filed as `correspondence`, with an equal hash.
+    - **The activity export.** The register's projection of the work by role-type and process is filed as an `export` with its `as_of` date, only after the decision of the position that holds data protection (§13, item 11). It is the producer of the activity profile of the design stages (§19, item 12).
+    - **Gap signals.** An act done without a source sends a gap signal, by reference.
+    - **Supersession.** On a notice of supersession from Source Lifecycle, the acts that cited the superseded version after it was superseded are marked.
+12. **Evidence, handover and cases.**
+    - **Evidence packs.** An evidence pack verifies each entry by re-hashing its home, where readable; a mismatch is a finding, never a repair.
+    - **Handover lists.** A position's handover list, built on request, holds its open entries and commitments for top management's handover entry (§4.10, item 17). The register never reads an occupancy or handover entry.
+    - **Case packs.** A case pack holds pseudonymised past cases of a process, built only under a Work Item of the Cell carrying `[ORG]HOAC-TM`. Cases for shadow runs go to Self-Improvement, once its access includes the register. Cases for the golden set go to the human seat that chooses it and to the assurance unit, never to the loop (Standard §2.3, items 4, 7 and 9; §2.4, item 4).
+13. **Integrity.** Every day the register proves that it is whole:
+    - no number stream has a gap or a duplicate, and the chain verifies;
+    - each surface's census matches, or the difference is listed;
+    - every projection equals a rebuild;
+    - every gateway log segment is anchored.
+
+    A failure flags and never blocks (§14, item 5). No part of the register can change or delete a past entry. The internal-audit line reads it directly, read only. Self-Improvement reads it once the Cell carrying `[ORG]HOAC-TM` adds it to the process's access, never its entries of the accountability path (Standard §2.1, items 7 and 8). A surface adapter that falls silent is a finding.
+14. **Before a surface is connected.**
+    - **The order.** In this order, each step recorded first:
+      1. the scope, set by the Cell carrying `[ORG]HOAC-TM`: the surface, the entities, the classes of act set as formal, and the stated purpose;
+      2. the impact assessment and a lawful basis per entity, decided by the position that holds data protection (HF-17), never on staff consent;
+      3. the steps of labour law in each entity, and the notices;
+      4. between entities, the intra-group arrangement;
+      5. the port, `connect-external-port`, with its own token held only in the platform's secret store or behind the gateway (§13, item 5);
+      6. an observed-only pilot whose negative tests pass.
+    - **Between entities.** A crossing has one entry in each entity, linked by its crossing ID and content hash. Nothing is read across without a signed grant.
+    - **Retention and disposal.** Retention follows the schedule per entity and class (HF-01). Disposal is `dispose-records-or-data`, and a legal hold blocks it. An erasure destroys the key and leaves a tombstone.
+    - **Counsel.** Correspondence with counsel is kept by reference only, Strictly confidential, with no model call.
+15. **Roles, not tools.** The part names surfaces by role; tool names appear only in an `[ORG]AION` (§10, item 5).
+16. **Positions only.** No output names a person or reads who occupies a position (Standard §1.1, item 9).
+17. **The fixed test.** Every rule of this section has a case in TEST-OPERATIONS-EVENT-REGISTER v1 (`library/cards/README.md`). The card stays `DRAFT`, with `last_result` `NOT_RUN`, until the test has run once with recorded evidence (§10, item 3).

@@ -230,3 +230,38 @@ Each card is `DRAFT` until its test has run once with recorded evidence; no card
 - `delivery-and-implementation.part-card.json` **v3**: the value case and the priority. **TEST-DELIVERY-AND-IMPLEMENTATION v3** keeps cases 1 to 20 and adds one case for every bullet of Protocol §20, item 14:
   21. In mode A, the value case and every element's priority are carried by reference, byte-identical; a baseline unknown or a target not set stays so; a change by the part fails.
   22. The waves of the transition plan follow the decided priority, then critical processes first; a departure without its reason fails.
+
+**49GAION Operations Event Register (addition, GOV, 17 October 2026; `49GAION/DR-0027`).** `operations-event-register.part-card.json` **v1**, validated against `spec/schemas/part-card.schema.json`.
+
+- **What it is.** The record of an organisation's live operation (Protocol §22). Every formal act and crossing of its units and positions, on every surface it connects, gets one number in one append-only, hash-chained register, by reference to where its content lives. It decides nothing, carries nothing and says nothing about a person: acts, not activity.
+- **What it does.**
+  - It gives every unit an inbox and an outbox.
+  - It tells each part what it had and what it lacked, by entity, unit, process and AI Cell.
+  - It feeds Source Lifecycle: correspondence, the projection of the work, and gap signals.
+  - It builds evidence packs, handover lists and case packs.
+  - It proves its own integrity every day.
+- **Its fixed test, TEST-OPERATIONS-EVENT-REGISTER v1.** There is one case for every item of Protocol §22:
+  1. The part enters through OCO; one that bypasses OCO is refused. With no Source Lifecycle installed, entries are made, and the feeds wait and are shown as waiting.
+  2. Each crossing of a connected surface lands in exactly one class. Class E is counted and never kept. Class F is never captured: a direct message or a call recording offered is refused, and nothing of it is kept.
+  3. Every entry has every field of the register entry. Its number comes from the numbering service. A repeated event ID adds no entry. A correction is a new event. Each entry's hash chains to the entry before it.
+  4. No entry holds content beyond references and hashes. A payload with a person field is cleared before any write, or refused with nothing kept. A party is a Cell code the gateway stamped or the unit or position that owns the address, otherwise `not attributed`; no identifier of a natural person is received or held. An outside party appears only by ID, with its particulars in the restricted partition.
+  5. With register first on, a formal outgoing item leaves only with a number issued before its release. The register never refuses an item on its merits and never holds one back; an entry incomplete in form is completed later and flagged late. A fixture in which one AI both authorises and records the same act fails.
+  6. With the register down, an item still goes out, and is registered later under a leased number, flagged late with its lag. A stop, a revocation, an objection and a signature prompt never wait on the register. The whistleblowing channel has no entry and no count.
+  7. No record or projection holds a read time, a response time, presence, a recording, or a count, rate or history of a human position's acts. A query by a human position's code over time is refused, and the refusal is recorded to the position that holds data protection and to the internal-audit line. Every act of an AI Cell at the gateway has an entry or a segment anchor, except that of a Cell acting for a holder only the acts that leave the holder's sphere are recorded. A projection or measure not on the fixed list fails.
+  8. Every unit's inbox and outbox list exactly its entries at its ports. No address is a natural person. An item of a personal mailbox appears only when its position filed it. A passage of a human position through its HU port that is not a formal act in scope is not registered.
+  9. An entry past its due date is shown overdue to its owning position and to the watchdog. An entry with no due rule reads `no rule`. Every closure carries a reason, and silence closes nothing.
+  10. The eight measures rebuild byte-identical from the events, with their logic version. No figure is given for one human position. A figure drawn from fewer human positions than the minimum group size, for a unit, a process or a role-type, rolls up to its parent unit. Nothing is ranked, and nothing is exported to appraisal, pay or discipline.
+  11. An entry a position asks to keep is filed into Source Lifecycle as correspondence, with an equal hash. The projection of the work, by role-type and process, is filed only after its HF-17 decision. An export with a person field is refused at both Input sockets. An act done without a source sends a gap signal by reference. After a notice of supersession, acts that cited the superseded version are marked.
+  12. An evidence pack verifies by hash against the homes. A position's handover list holds exactly its open entries and commitments, and no occupancy or handover entry is read. A case pack holds no person's particulars and is built only under its Work Item; golden-set cases go only to the human seat that chooses the golden set and to the assurance unit.
+  13. The daily gap, census and rebuild checks run, and every segment is anchored. A failure opens a finding and blocks nothing. No part of the register can change or delete a past entry. The internal-audit line reads the register directly, read only; Self-Improvement reads it only once its access includes the register, and never its entries of the accountability path.
+  14. A surface is connected only after the steps of Protocol §22, item 14, in order. Between entities there are two linked entries, and no read across without a signed grant. Disposal happens only under `dispose-records-or-data`, and a legal hold blocks it. An erasure leaves a tombstone. Correspondence with counsel is kept by reference only, with no model call.
+  15. No Library text of the part names a tool or a product.
+  16. No output names a person or reads who occupies a position.
+- **Status.** `DRAFT`, with `last_result` `NOT_RUN`. It stays so until the test has run once with recorded evidence.
+
+**Source Lifecycle takes the feeds of the Operations Event Register (addition, GOV, 17 October 2026; `49GAION/DR-0027`).** One card moves to a new version, `DRAFT` with `last_result` `NOT_RUN`.
+
+- `source-lifecycle.part-card.json` **v4**: correspondence, the register's scope, and gap signals. **TEST-SOURCE-LIFECYCLE v4** keeps cases 1 to 26 and adds one case for every bullet of Protocol §13, item 12:
+  27. A source of origin kind correspondence is filed only by the Operations Event Register, on behalf of the position that asked to keep the entry, and that position holds a current contributor agreement. Its hash equals the register entry's content hash, and it reads back byte-identical, class EVIDENCE. It is never served as the organisation's own statement. A filing of correspondence by any other part is refused.
+  28. The register files only correspondence and export, and its export is admitted only under §13, item 11. It reads references only of the sources its entries cite, under its signed grant; a read of content is refused. A notice of supersession, revocation or reclassification reaches it for every version an entry cites.
+  29. A gap signal from the Operations Event Register becomes a gap by reference to the register entry. It is never recorded as a source, and a signal that carries content is refused.

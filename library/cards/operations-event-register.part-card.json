@@ -1,0 +1,66 @@
+{
+  "part": "49GAION Operations Event Register",
+  "version": "v1",
+  "inputs": [
+    {
+      "name": "changes of state of work objects on every surface the organisation connects, within each surface's signed grant and the classes of act it set as formal: letters and formal e-mail in and out, the organisation's own posts, requests between units and entities, changes of state on its task tracker and knowledge base, formal channels of its team chat, merges and releases on its code hosts, meetings of its decision bodies",
+      "format": "surface event (home reference, state, time, content hash), received through the tool gateway; every person field removed at the Input socket before any write"
+    },
+    {
+      "name": "hand-offs between AI units and the root of each gateway log segment",
+      "format": "gateway record (Cell codes, payload hash, segment root), read only from the tool gateway's log"
+    },
+    {
+      "name": "register first: the tool gateway's request for a number before it releases a formal outgoing item",
+      "format": "registration request (metadata and content hash at release); the number from the numbering service"
+    },
+    {
+      "name": "a position's request to keep an entry, or to file an item of its personal mailbox",
+      "format": "file request, through the HU input port"
+    },
+    {
+      "name": "from Source Lifecycle: references only (ID, version, status, held or not held) of the sources its entries cite, under its signed grant, never content; and notices of supersession, revocation or reclassification for every version an entry cites",
+      "format": "source reference and notice (ID + version), received through the tool gateway"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "one numbered, hash-chained register entry for each crossing of a formal act, by reference to its home and the SHA-256 of its content; never the content, and never a natural person",
+      "format": "append-only event (number from the numbering service; previous and own hash)"
+    },
+    {
+      "name": "an inbox and an outbox for every unit and position, and the live state of each position's own open items",
+      "format": "Panel projection, rebuilt from the events"
+    },
+    {
+      "name": "what each part had and what it lacked: coverage, links, orphan merges, answers on time, work done with a source, late registration, closures with no reason, refusals; by entity, unit, process and AI Cell, never for one human position",
+      "format": "projection with its logic version, each figure traced to its events"
+    },
+    {
+      "name": "to Source Lifecycle: correspondence a position asked to keep; the projection of the work by role-type and process, after the data-protection decision (HF-17); gap signals",
+      "format": "filings within its write scope, and Work Items (ID + version), sent through the tool gateway"
+    },
+    {
+      "name": "evidence packs verified by hash; a position's handover list of open entries and commitments; pseudonymised case packs",
+      "format": "versioned packs (manifest + hashes), sent through the tool gateway"
+    },
+    {
+      "name": "integrity findings: number gaps, census differences, rebuild differences, missing segment anchors",
+      "format": "Work Item (ID + version) to the accountable seat and the internal-audit line"
+    }
+  ],
+  "test": {
+    "id": "TEST-OPERATIONS-EVENT-REGISTER",
+    "version": "v1",
+    "location": "library/cards/README.md",
+    "last_result": "NOT_RUN"
+  },
+  "tool_roles": [
+    "surface adapters, one per surface type (mail, letters, social accounts, code hosts, task tracker, knowledge base, team chat, calendars)",
+    "numbering service",
+    "append-only event store with a hash chain",
+    "restricted partition",
+    "tool gateway (connections, register first, the stop door)"
+  ],
+  "status": "DRAFT"
+}
