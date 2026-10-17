@@ -21,11 +21,12 @@
 
 | Part | In an `[ORG]AION` | Card | Protocol | Standard | Fixed test | Mother blueprint | Status |
 |---|---|---|---|---|---|---|---|
-| 49GAION Source Lifecycle | `[ORG]AIOC-SL`, the first stage | `source-lifecycle.part-card.json` v3 | §13 | §3.1, item 7 | TEST-SOURCE-LIFECYCLE v3 | `github.com/49g-holding/49GAION-source-lifecycle` (its mother repository, `49GAION/DR-0024`), `blueprint/SL-BLUEPRINT.md`, v0.1.2, commit `852beb9bf9d0eae865a1179172ee7e22b43beae0`, SHA-256 `ce2ace0cbb38c59e6cd518768f1bae1fdb5bbd94c60e4fa4db7e1d6b18838b44`; its fixed test `tests/TEST-SL.md` v1 | `DRAFT`, `NOT_RUN` |
+| 49GAION Source Lifecycle | `[ORG]AIOC-SL`, the first stage | `source-lifecycle.part-card.json` v4 | §13 | §3.1, item 7 | TEST-SOURCE-LIFECYCLE v4 | `github.com/49g-holding/49GAION-source-lifecycle` (its mother repository, `49GAION/DR-0024`), `blueprint/SL-BLUEPRINT.md`, v0.1.3, commit `d8c7033aa852316bb4e500b00b7fbccb3f4b5fed`, SHA-256 `a487397ffb65a72dce19f173322a3bfed1a9a404c2f9575bdf49b9b95f7bf71d`; its fixed test `tests/TEST-SL.md` v1 | `DRAFT`, `NOT_RUN` |
 | 49GAION Target Operating Model | `[ORG]AIOC-TOM`, the second stage | `target-operating-model.part-card.json` v3 | §19 | §3.1, item 4 | TEST-TARGET-OPERATING-MODEL v3 | `github.com/49g-holding/49aioc-tom`, `blueprint/TOM-BLUEPRINT.md`, v0.6.0, commit `a8445cb006e6f2378b7694543fb65c5da48af41f`, SHA-256 `ea11cd76a3343b926c452dbbd887cfad075702af933fc06e6b32cb16640f4c50`; its fixed test `tests/TEST-TOM.md` v5 | `DRAFT`, `NOT_RUN` |
 | 49GAION Process and Position Design | `[ORG]AIOC-PPD`, the third stage | `process-and-position-design.part-card.json` v4 | §17 | §3.1, item 3 | TEST-PROCESS-AND-POSITION-DESIGN v4 | `github.com/49g-holding/49aioc-ppd`, `blueprint/PPD-BLUEPRINT.md`, v0.5.0, commit `b69997973181d15d356bccea49dd6ea0da3174bb`, SHA-256 `707f9dc374aeef2df17880584f2985a9a57d6d298bbd8233fdc18a7d5d5f5ce7`; its fixed test `tests/TEST-PPD.md` v3 | `DRAFT`, `NOT_RUN` |
 | 49GAION Delivery and Implementation | `[ORG]AIOC-DI`, the last stage | `delivery-and-implementation.part-card.json` v3 | §20 | §3.1, item 5 | TEST-DELIVERY-AND-IMPLEMENTATION v3 | `github.com/49g-holding/49aioc-di`, `blueprint/DI-BLUEPRINT.md`, v0.1.2 (slice 1 of 4), commit `d8cbac48817095485103bd9dde8a3649f67cf8e3`, SHA-256 `05a4257f5fb198a37ea71a6712053e43e25ae4d8ee4d59e36e8dc41792aeecd2`; its fixed test `tests/TEST-DI.md` | `DRAFT`, `NOT_RUN` |
 | 49GAION Product Core | `[ORG]AIOC-PC` | `product-core.part-card.json` v1 | §18 | — | TEST-PRODUCT-CORE v1 | `github.com/49g-holding/49GAION-product-core` (its mother repository, `49GAION/DR-0024`), `blueprint/PC-BLUEPRINT.md`, v0.1.0, commit `eddd73a55c1f3c2160b369b0e6b6bd079017fa05`, SHA-256 `3c965404460429f3db7bc04c5c99131fa4c96d50b40e8003dc1780501f9db780`; its fixed test `tests/TEST-PC.md` v1 | `DRAFT`, `NOT_RUN` |
+| 49GAION Operations Event Register | `[ORG]AIOC-OER`, the record of the live operation, beside Source Lifecycle | `operations-event-register.part-card.json` v1 | §22 | §3.1, item 13 | TEST-OPERATIONS-EVENT-REGISTER v1 | `github.com/49g-holding/49GAION-operations-event-register` (its mother repository, `49GAION/DR-0024`, `DR-0027`), `blueprint/OER-BLUEPRINT.md`, v0.1.0, commit `53c35d6e43f8c520830e0ccb0d7ff2719752ca83`, SHA-256 `f4eec569abde23d517355e4927c5ffe04f17da7ad26688bdcc20522cbfb6fed1`; its fixed test `tests/TEST-OER.md` v1 | `DRAFT`, `NOT_RUN` |
 | 49GAION Engine Room | `[ORG]AIOC-ER`, the one hub for every AI engine and every paid external service; each unit draws from it with its own quota, and it never decides a unit's need | not yet written | — | — | not yet written | not yet written | named only, built later (`49GAION/DR-0026`) |
 
 #### Capability parts and unit cards
@@ -58,10 +59,14 @@ The v2 cards of the AION Builder and of Self-Improvement are kept and marked `RE
 
 | Product | Kind | Parts (pinned under Parts) | Connections | Shared test | Status |
 |---|---|---|---|---|---|
-| 49GAION Source Lifecycle | a single part, offered alone; it runs on its own | 49GAION Source Lifecycle | none | TEST-SOURCE-LIFECYCLE v3 | `DRAFT`, `NOT_RUN` |
+| 49GAION Source Lifecycle | a single part, offered alone; it runs on its own | 49GAION Source Lifecycle | none | TEST-SOURCE-LIFECYCLE v4 | `DRAFT`, `NOT_RUN` |
 | 49GAION Organisation Design and Delivery | assembly | 49GAION Source Lifecycle, Target Operating Model, Process and Position Design, Delivery and Implementation | the release notice contract, from each stage to the next; the design return contract, from each later stage to the stage whose release it reads (Protocol §21) | TEST-DESIGN-CHAIN v2 (below) | named and defined, built later (`49GAION/DR-0025`); its parts `DRAFT`, `NOT_RUN`; Delivery and Implementation written to slice 1 of 4 |
+| 49GAION Operations Event Register | a single part, offered alone; it runs on its own | 49GAION Operations Event Register | none | TEST-OPERATIONS-EVENT-REGISTER v1 | `DRAFT`, `NOT_RUN` |
+| 49GAION Organisation Memory | assembly | 49GAION Source Lifecycle, Operations Event Register | the register's scope in Source Lifecycle (it writes origin kinds `correspondence` and `export`, and reads references only) and its gap signals (Protocol §13, item 12; §22, item 11); Source Lifecycle's notices back to the register | TEST-ORGANISATION-MEMORY v1 (below) | named and defined, built later (`49GAION/DR-0027`); its parts `DRAFT`, `NOT_RUN` |
 
 An organisation of human positions is its output; it does not decide which positions an AI fills. The next product, for an `[ORG]AION`, may use all or some of its parts.
+
+Organisation Memory keeps what the organisation knows beside what it did. Placed beside Organisation Design and Delivery, it closes the loop of an AI-native operation: the design runs, the register records it, and the next design starts from the record (Standard §3.1, item 14).
 
 ## TEST-DESIGN-CHAIN v2
 
@@ -82,5 +87,19 @@ One case for every item of the Protocol section The design chain (§21), run acr
 13. What a stage leaves open (not given, not decided, not set, unknown, no observation) reaches every later stage open; a later stage that fills it fails.
 14. The priority and the value case of the target operating model reach Process and Position Design and Delivery and Implementation byte-identical, by reference.
 15. No record of the work about a person enters any stage, and no output of any stage says anything about a person from records of the work.
+
+## TEST-ORGANISATION-MEMORY v1
+
+The shared test of 49GAION Organisation Memory (`49GAION/DR-0027`), run across the fixtures of its two parts as a cross-AIOC test (Protocol §11, item 2). Written before use; every case reads `NOT_RUN`.
+
+1. Each part's own fixed test passes first: TEST-SOURCE-LIFECYCLE v4 and TEST-OPERATIONS-EVENT-REGISTER v1.
+2. Each part runs alone with the other absent: Source Lifecycle with no register, and the register with no Source Lifecycle, its feeds shown as waiting.
+3. A formal outgoing letter through the gateway takes its number before it leaves. When its position asks to keep it, Source Lifecycle files it as `correspondence`, and its hash equals the entry's content hash. The reply moves the entry to answered and links its Work Item.
+4. The period's projection of the work enters Source Lifecycle as an `export` by role-type and process, only after its HF-17 decision. A person field injected into it is refused at both Input sockets, and nothing of it is kept.
+5. A rebuild of the register's projections equals the export Source Lifecycle serves.
+6. An act done without a source raises a gap in Source Lifecycle's gap list, by reference, never as a source.
+7. A source superseded in Source Lifecycle marks, in the register, the acts that cited it after its supersession.
+8. Over the fixture run, no number stream has a gap or a duplicate.
+9. Nothing in either part names a person or reads who occupies a position, and nothing gives a figure for one human position.
 
 Powered by 49GAION

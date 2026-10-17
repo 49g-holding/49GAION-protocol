@@ -1,6 +1,6 @@
 {
   "part": "49GAION Source Lifecycle",
-  "version": "v3",
+  "version": "v4",
   "inputs": [
     {
       "name": "documents and files of any format, and existing collections of them, from the organisation or from its other systems",
@@ -25,6 +25,10 @@
     {
       "name": "exports of records of the work as it runs, only as the organisation's own projection by role-type and process, after an impact assessment and the data-protection decision (HF-17); an export that still says who did the work is refused",
       "format": "source, recorded as origin kind export with its date"
+    },
+    {
+      "name": "from the Operations Event Register: filings of origin kind correspondence (a formal item kept as received, because a position asked to keep its register entry, with the entry's content hash) and export (its projection of the work by role-type and process, under the rule for records of the work); gap signals, one per act done without a source, by reference to the register entry; and reads of references only (never content) of the sources its entries cite, under its signed grant",
+      "format": "content-addressed source within the register's write scope, and Work Item (ID + version) for a gap signal, received through the tool gateway"
     }
   ],
   "outputs": [
@@ -51,11 +55,15 @@
     {
       "name": "the organisation dictionary, its own terms with their definitions and sources, served by reference to every design stage; and the essentials checklist, flagging what the organisation's sources should hold, shown beside a Design Request when it is put for approval; never drafted for the owner",
       "format": "versioned source (dictionary) and versioned gap list, by reference"
+    },
+    {
+      "name": "to the Operations Event Register: references only (ID, version, status, held or not held) of the sources its entries cite, and notices for every version an entry cites; never content",
+      "format": "source reference and notice, sent through the tool gateway"
     }
   ],
   "test": {
     "id": "TEST-SOURCE-LIFECYCLE",
-    "version": "v3",
+    "version": "v4",
     "location": "library/cards/README.md",
     "last_result": "NOT_RUN"
   },
