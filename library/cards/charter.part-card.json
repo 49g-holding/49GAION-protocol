@@ -1,0 +1,71 @@
+{
+  "part": "49GAION Charter",
+  "version": "v1",
+  "inputs": [
+    {
+      "name": "the signatures of the Cells that carry [ORG]HOAC-GOV and [ORG]HOAC-TM: the installation and every change of the Charter, gateway policy, the engine register and every listed type",
+      "format": "signature record at the tool gateway (Protocol §4.9)"
+    },
+    {
+      "name": "every tool and engine call of every part of the organisation",
+      "format": "gateway request (caller's Cell code, decision type, payload hash), received at the tool gateway"
+    },
+    {
+      "name": "every record write and every number request of every part",
+      "format": "event with its time-sortable ID, the writer's Cell code and the expected revision; number request naming its record type and entity"
+    },
+    {
+      "name": "every Work Item of every part",
+      "format": "Work Item (spec/schemas/work-item.schema.json), written by its one owner"
+    },
+    {
+      "name": "a part's installation: its record types and its routing rows",
+      "format": "registry entries and routing rows, signed with the installation"
+    }
+  ],
+  "outputs": [
+    {
+      "name": "for every call: allowed, refused or held, with its reason, and the engine bound and the engine that served",
+      "format": "append-only gateway log entry (payload hash, Cell codes, pseudonymous identity references only)"
+    },
+    {
+      "name": "readable numbers, one stream per record type (and per entity where the type is kept per entity), never repeated and never skipped",
+      "format": "number issued by the numbering service, idempotent on the request ID"
+    },
+    {
+      "name": "every part's record home, and the projections rebuilt from it",
+      "format": "append-only events; projections carrying the version of their logic"
+    },
+    {
+      "name": "the daily check's findings: projections that differ from a rebuild, number gaps or duplicates, acts not attributed, figures that do not trace",
+      "format": "Work Item (ID + version) to the part concerned and its accountable seat"
+    },
+    {
+      "name": "Work Items routed, and items past their waiting time raised",
+      "format": "Work Item status change, and a watchdog raise to the seat §4.6 names"
+    },
+    {
+      "name": "wake signals to each part's runtime",
+      "format": "queue event per part (Protocol §7)"
+    }
+  ],
+  "test": {
+    "id": "TEST-CHARTER",
+    "version": "v1",
+    "location": "library/cards/README.md",
+    "last_result": "NOT_RUN"
+  },
+  "tool_roles": [
+    "tool gateway, with its signature check, engine register and log",
+    "live sign-in for the HU ports",
+    "registry of record types",
+    "numbering service",
+    "append-only event store",
+    "projection builder and daily check",
+    "restricted partition",
+    "shared Work Item queue, with its watchdog",
+    "router with the receivability check",
+    "wake scheduler"
+  ],
+  "status": "DRAFT"
+}
