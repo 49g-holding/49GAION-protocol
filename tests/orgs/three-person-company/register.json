@@ -154,6 +154,12 @@
       "type": "grant-or-widen-access",
       "date": "2026-10-13",
       "expect": "TenCELL-OPS"
+    },
+    {
+      "part": "TenCELL-OPS",
+      "type": "change-parent",
+      "date": "2026-10-13",
+      "expect": "TenCELL-GOV"
     }
   ]
 }
