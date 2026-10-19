@@ -16,7 +16,7 @@
     "authority_limit": { "type": "string", "description": "The most this port may carry or approve." },
     "audit_trail": { "type": "string", "description": "Where every passage through the port is recorded." },
     "required_tests": { "type": "array", "minItems": 1, "items": { "type": "string" } },
-    "enforcement": { "const": "shared-gateway-outside-unit", "description": "Enforced at a shared gateway outside the unit." },
+    "enforcement": { "const": "shared-gateway-outside-unit", "description": "Enforced at a shared gateway outside the unit. For the Charter, which holds the gateway, it reads as enforced by the gateway's own policy, changed only under change-gateway-policy, with its log reviewed by the internal-audit line (Standard §4.4, item 11; 49GAION/DR-0030)." },
     "stop_door": { "type": "boolean", "description": "true for the unit's mandatory, queue-less stop door (always type HU)." }
   },
   "allOf": [

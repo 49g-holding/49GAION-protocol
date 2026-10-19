@@ -58,6 +58,9 @@ def card(e):
                  configuration=CONFIG)
     return c
 
+CHARTER_CHANGE = {"create-or-install-unit", "retire-unit", "change-parent", "set-or-move-hoac-label",
+                  "approve-change-or-promote-challenger", "restore-or-rollback"}
+
 def hoac_over(parts, part, dtype, entity, date):
     """The Cell that signs a listed type for a part (Standard §4.4, item 8): the nearest Cell,
     along accountable_to and starting with the part's own label, whose authority_scope covers
@@ -76,6 +79,14 @@ def hoac_over(parts, part, dtype, entity, date):
             while a and a not in s:
                 if a == part: skip.add(c); break
                 s.add(a); a = parts.get(a, {}).get("accountable_to")
+    # Addition (49GAION/DR-0030): a change of a Pod or Cell of the Charter is GOV's (Standard §1.7, item 13)
+    root = next((c for c, e in parts.items() if e["kind"] == "AIOC" and e.get("parent") == "none"), None)
+    par = parts[part].get("parent")
+    if dtype in CHARTER_CHANGE and parts[part]["kind"] in ("POD", "CELL") and root and (par == root or parts.get(par, {}).get("kind") == "POD" and parts[par].get("parent") == root):
+        gov = next((c for c, e in parts.items() if e.get("hoac", "").endswith("HOAC-GOV") and "entity" not in (e.get("authority_scope") or {})), None)
+        e = parts.get(gov, {}); sc = e.get("authority_scope")
+        ok = gov and gov not in skip and e.get("seat_kind") == "human" and e.get("filled") and sc and dtype in sc["decision_types"] and sc["expires"] >= date
+        return gov if ok else None
     seen, cur = set(), parts[part].get("accountable_to") if parts[part]["kind"] == "CELL" else parts[part].get("label_holder", parts[part].get("accountable_to"))
     while cur and cur not in seen:
         seen.add(cur); e = parts.get(cur)
