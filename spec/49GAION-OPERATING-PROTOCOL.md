@@ -641,3 +641,34 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
 15. **Roles, not tools.** The part names surfaces by role; tool names appear only in an `[ORG]AION` (§10, item 5).
 16. **Positions only.** No output names a person or reads who occupies a position (Standard §1.1, item 9).
 17. **The fixed test.** Every rule of this section has a case in TEST-OPERATIONS-EVENT-REGISTER v1 (`library/cards/README.md`). The card stays `DRAFT`, with `last_result` `NOT_RUN`, until the test has run once with recorded evidence (§10, item 3).
+
+## 23. The Charter: the root and its shared services
+
+**Addition (GOV, 19 October 2026; `49GAION/DR-0029`).** 49GAION Charter is a Library part (`library/cards/charter.part-card.json`). In an `[ORG]AION` it is the AIOC `[ORG]AIOC-CH`, the root of the organisation (Standard §1.7, item 13). Its mother blueprint is in its own mother repository (`library/README.md`). This section states its rules; the blueprint states its units.
+
+1. **Its place.** The root AIOC. Its top Cell, the one carrying `[ORG]HOAC-GOV`, is the only Cell with no `accountable_to` (Standard §1.7, item 13), and every other part is installed under it. `[ORG]AIOC-OCO` prepares it; GOV installs it and signs every change to it. OCO never installs or changes it alone.
+2. **What it holds.** The Cells that carry `[ORG]HOAC-GOV` and `[ORG]HOAC-TM`, with their Offices, and three Pods: Gateway, Records and Work. Each Pod follows the Protocol sections named below; this section adds only what joins them.
+3. **The Gateway Pod.** The tool gateway of §4.9 and Standard §4.4, item 11.
+   - Every tool and engine call of every part passes through it.
+   - It checks each listed type against the loaded signature list, binds each engine from its engine register (`49GAION/DR-0020`), logs every call, and fails closed.
+   - It serves the human surface: the live sign-in behind every HU port.
+   - A stop, a disconnection, a narrowing of AI access and a raise to a human are never blocked.
+   - Its policy, its map from calls to decision types and its keys change only under `change-gateway-policy`.
+4. **The Records Pod.** §14, held once for the whole organisation.
+   - **The registry** declares every record type of every installed part. A part's installation adds its types, under the same signature that installs it.
+   - **The numbering service** issues every readable number: one stream per record type (§14, item 4), and per entity where the type is kept per entity; atomic and safe to retry. No writer mints its own.
+   - **The event store** serves every part's record home (§14, item 1). Each part writes only its own events; the store keeps them apart, append-only.
+   - **Projections** are rebuilt from the events, each with the version of its logic (§14, item 2). **The daily check** of §14, item 5 runs over every part, and a failure opens a defect for the part it concerns.
+   - **The restricted partition** of §14, item 6 is read only by the positions it names.
+5. **The Work Pod.** The shared queue of §4.
+   - Every Work Item of every part lives in it, with one owner and one writer (§4.3), its statuses (§4.2) and its waiting times (§4.6).
+   - **The watchdog** raises each item past its waiting time, as §4.6 sets.
+   - **The routing data** of §6 is kept by `[ORG]AIOC-OCO`, which dispatches nothing; the router reads it and applies the receivability check.
+   - **Wake** follows §7: each part is woken from its own queue.
+6. **One of each.** An `[ORG]AION` has one tool gateway, one numbering service and one shared queue. A part that keeps its own queue, mints its own numbers or calls a tool outside the gateway fails its joining test (§11, item 1).
+7. **No AI holds the keys.** No AI Cell holds write rights to the gateway's policy, keys or log, to the registry, or to a number stream. An AI Cell may only call them. The Pods are accountable to the Cell carrying `[ORG]HOAC-TM`, and GOV signs their changes.
+8. **The order of starting.** At installation the Pods start in this order: Records, then Gateway, then Work. No other part is installed before all three pass their cases of TEST-CHARTER v1.
+9. **Never blocking the accountability path.** A stop, a revocation and a raise to a human take effect at the gateway at once, and never wait on the Records or Work Pod. They are recorded afterwards, from the gateway log.
+10. **With Engine Room.** Engine Room supplies the engines the gateway binds and never replaces the gateway (`49GAION/DR-0026`, item 3).
+11. **Roles, not tools.** The Pods are named by role; tool names appear only in an `[ORG]AION` (§10, item 5).
+12. **The fixed test.** Every rule of this section has a case in TEST-CHARTER v1 (`library/cards/README.md`). The card stays `DRAFT`, with `last_result` `NOT_RUN`, until the test has run once with recorded evidence (§10, item 3).

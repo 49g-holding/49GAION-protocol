@@ -265,3 +265,21 @@ Each card is `DRAFT` until its test has run once with recorded evidence; no card
   27. A source of origin kind correspondence is filed only by the Operations Event Register, on behalf of the position that asked to keep the entry, and that position holds a current contributor agreement. Its hash equals the register entry's content hash, and it reads back byte-identical, class EVIDENCE. It is never served as the organisation's own statement. A filing of correspondence by any other part is refused.
   28. The register files only correspondence and export, and its export is admitted only under §13, item 11. It reads references only of the sources its entries cite, under its signed grant; a read of content is refused. A notice of supersession, revocation or reclassification reaches it for every version an entry cites.
   29. A gap signal from the Operations Event Register becomes a gap by reference to the register entry. It is never recorded as a source, and a signal that carries content is refused.
+
+**49GAION Charter (addition, GOV, 19 October 2026; `49GAION/DR-0029`).** `charter.part-card.json` **v1**, validated against `spec/schemas/part-card.schema.json`.
+
+- **What it is.** The part from which the root AIOC of every `[ORG]AION` is made (Protocol §23). It holds the Cells that carry `[ORG]HOAC-GOV` and `[ORG]HOAC-TM`, and three Pods of shared services: Gateway, Records and Work.
+- **Its fixed test, TEST-CHARTER v1.** There is one case for every item of Protocol §23:
+  1. The Charter's top Cell is the only Cell with no `accountable_to`; an installation or a change of the Charter without GOV's signature is refused, and one by `[ORG]AIOC-OCO` alone is refused.
+  2. The Charter holds the GOV and TM Cells and the three Pods; a part that names another root is refused.
+  3. A call outside the gateway is refused; a listed type without a valid signature is held; an engine call served by an engine outside the register is void; an action the gateway cannot classify is refused and raised; a stop is never blocked.
+  4. A number is never issued twice and never skipped, also under retry with the same request ID; a writer that mints its own number is refused; a write of a type the registry does not declare is refused with every failing condition named; a projection equals a rebuild from its events; the daily check finds a seeded gap, a seeded duplicate and a seeded projection difference; a read of the restricted partition by an unnamed position is refused.
+  5. A Work Item with two owners, or written by a second writer, is refused; an item past its waiting time is raised by the watchdog; the router refuses an item whose part fails the receivability check; a woken part with no work makes no model call.
+  6. A part that keeps its own queue, mints its own numbers or calls a tool outside the gateway fails its joining test.
+  7. An AI Cell's write to the gateway's policy, keys or log, to the registry or to a number stream is refused.
+  8. With the Records Pod not started, the Gateway does not start; with any Pod failing its cases, no other part is installed.
+  9. With the Records and Work Pods down, a stop, a revocation and a raise to a human take effect at once, and are recorded afterwards from the gateway log.
+  10. An engine is bound only from the engine register; Engine Room adds no path around the gateway.
+  11. No tool name appears in the Charter's mother blueprint.
+  12. The card stays `DRAFT` and `NOT_RUN` until the test has run once with recorded evidence.
+
