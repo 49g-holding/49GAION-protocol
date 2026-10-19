@@ -1160,9 +1160,9 @@
             "minItems": 1,
             "items": {
               "type": "string",
-              "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z]{2,6}$"
+              "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
             },
-            "description": "Codes of the AI Cells serving the process."
+            "description": "Codes of the AI Cells serving the process. Widened (49GAION/DR-0028) to the Cell codes of every other field, 2 to 8 upper-case letters or digits, so that a Chief of Staff Cell's code such as [ORG]CELL-COSDI2 is accepted (Naming Standard R16)."
           },
           "receives": {
             "type": "array",
