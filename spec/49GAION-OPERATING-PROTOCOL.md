@@ -1,6 +1,6 @@
 # 49GAION Operating Protocol
 
-**Version `v1.6.0` · approved by the governing seat (GOV) of 49GAION.** How AIOCs, Pods, Cells and the parts of 49GAION work together, at the general level. The rules of 49GAION are in the 49GAION Standard (`49g-holding/49GAION`, `upstream/49GAION-UPSTREAM.md`); exact values (limits, timings, tools, routes) live in the Protocol of each `[ORG]AION`. Decisions are recorded once, in the hub ([`49GAION/decisions/README.md`](https://github.com/49g-holding/49GAION/blob/main/decisions/README.md)); this version follows `49GAION/DR-0002` and `49GAION/DR-0004`.
+**Version `v1.7.0` · approved by the governing seat (GOV) of 49GAION.** How AIOCs, Pods, Cells and the parts of 49GAION work together, at the general level. The rules of 49GAION are in the 49GAION Standard (`49g-holding/49GAION`, `upstream/49GAION-UPSTREAM.md`); exact values (limits, timings, tools, routes) live in the Protocol of each `[ORG]AION`. Decisions are recorded once, in the hub ([`49GAION/decisions/README.md`](https://github.com/49g-holding/49GAION/blob/main/decisions/README.md)); this version follows `49GAION/DR-0002` and `49GAION/DR-0004`.
 
 49GAION is an organisation design framework: a framework for building organisations from interchangeable AI and human parts.
 
@@ -212,6 +212,8 @@ Every AIOC has its own runtime, woken from its queue. With no human present, a w
 
 The definitions are in the Standard: ports (§6.1), bootstrap (§5.3), stop (§4.3). The machine form of the Port card is `spec/schemas/port-card.schema.json`. Every AIOC, Pod and Cell has a mandatory, queue-less stop port of type HU (the stop door), enforced outside it. Stopping an AIOC or a Pod stops everything under it, and no inner part can bypass the stop (§4.8); a human port never passes through an AI unit; a stopped unit restarts only by human decision. OCO sits under `[ORG]HOAC-TM`: TM and `[ORG]HOAC-GOV` may each stop it; a stop by TM comes directly through a human port, never through a Panel that OCO built; no AI can restart a stopped OCO (Standard §4.2, item 4; §4.3, item 2). Every `[ORG]AION` is handed over only when its `[ORG]HOAC-GOV`, its Human Floor and the stop ports of all its units are in place (Standard §1.4).
 
+**Correction (v1.7.0).** The handover also needs the accountability chain in place: all four lines of the delivery test, D-1 to D-4 (Standard §1.4).
+
 ## 10. `[ORG]AION` and the Library
 
 1. Each `[ORG]AION` records which Standard, Protocol and Library versions it is based on, the parts it took, its Library harvest and its delivery test (`spec/schemas/org-aion-record.schema.json`). At delivery its Standard is identical to the 49GAION Standard or stricter, never contradictory.
@@ -224,6 +226,7 @@ The definitions are in the Standard: ports (§6.1), bootstrap (§5.3), stop (§4
    - **Addition (GOV, 15 October 2026).** The cards of 49GAION Target Operating Model, `target-operating-model.part-card.json` (§19), and of 49GAION Delivery and Implementation, `delivery-and-implementation.part-card.json` (§20), are also in `library/cards/`; the Library's design return contract is in `library/contracts/` (§17, item 11).
    - **Addition (GOV, 15 October 2026).** The card of 49GAION Product Core, `product-core.part-card.json`, is also in `library/cards/` (§18).
    - **Addition (GOV, 17 October 2026).** The card of 49GAION Operations Event Register, `operations-event-register.part-card.json`, is also in `library/cards/` (§22).
+   - **Addition (GOV, 19 October 2026).** The card of 49GAION Charter, `charter.part-card.json`, is also in `library/cards/` (§23; `49GAION/DR-0029`).
 4. During design, the AION Builder adds the blueprint of any capability not already in the 49GAION Library back to the 49GAION Library, generalised and tested. Once delivered, the `[ORG]AION` belongs entirely to the customer.
 5. The Standard names roles only; tool names appear only in an `[ORG]AION`.
 6. All AIOCs reach AI models through one shared gateway that holds keys, meters cost per AIOC and logs every call. It carries no orders.
@@ -378,6 +381,7 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
    - **Decided.** Every element is decided by the Requesting Authority. Silence, or approval of a whole pass, decides nothing.
    - **Filed.** The release is frozen and content-addressed, filed into Source Lifecycle as a source, and handed to the next stage by reference.
 7. **Positions only.** It designs positions, never people (Standard §1.1, item 9). No output names a person or reads who occupies a position. It makes no choice of what fills a position; that belongs to a later stage.
+   - **Reading (`49GAION/DR-0031`).** For an `[ORG]AION`, that later stage is the AI-native design (Standard §1.1, item 2): it starts from the output and from what AI can do, not from these positions one by one.
 8. **Its connections.** Two connections, each approved and scoped as in §13, item 5: to the part that made the target operating model release (read its releases; send returns), and to Source Lifecycle (read; needs requests; write only its own filed releases and returns). Revocation cuts a connection at the gateway at once and holds the run.
 9. **Assurance.** The output of each step is checked by Cells that did not produce it before the next step starts (Standard §3.2, item 14). Critical outputs are written twice, separately, and their differences are settled on the sources or put to the Requesting Authority.
 10. **The fixed test.** Every rule of this section has a case in TEST-PROCESS-AND-POSITION-DESIGN v1 (`library/cards/README.md`). The card stays `DRAFT`, with `last_result` `NOT_RUN`, until the test has run once with recorded evidence (§10, item 3).
@@ -563,7 +567,9 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
 8. **Assurance.** In every stage after Source Lifecycle, each step's output is checked before the next starts by Cells that did not produce it: three or more engines from two or more families, each alone first, then a short debate held to quotes, settled by code without a vote. A human seat of the stage rules only on what stays contested. A finding with a verified quote is never removed by a count, a majority of families, the Chief of Staff or code. Critical outputs are written twice, by authors of two families, and their differences are settled on the sources or put to the Requesting Authority. No unit grades its own work (Standard §2.3, item 9).
 9. **Positions only.** No stage names a person or reads who occupies a position. Two positions are two parties (Standard §1.1, item 10).
 10. **The Library register.** Each stage is named in the Library register (`library/README.md`), with its card, its fixed test and its mother blueprint, pinned by repository, path, version and SHA-256. An organisation's instance of a stage keeps its own values in its records repository.
+    - **Correction (v1.7.0).** The pin also holds the commit: repository, path, version, commit and SHA-256 (Standard §3.1, item 9), as the register writes it.
 11. **The fixed test.** TEST-DESIGN-CHAIN v1 (`library/README.md`) has one case for every item of this section, run across the fixtures of the four stages as a cross-AIOC test (§11, item 2).
+    - **Correction (v1.7.0).** The test in force is TEST-DESIGN-CHAIN v2, which adds the cases of item 12.
 12. **Addition (GOV, 16 October 2026): what passes along the chain** (`49GAION/DR-0023`).
    - **The organisation's own words.** Every stage reads the organisation dictionary of Source Lifecycle (§13, item 11), where there is one, and uses a term in the organisation's meaning.
    - **Open stays open.** What one stage leaves open (not given, not decided, not set, unknown, no observation), no later stage fills; it asks, through Source Lifecycle, or returns.
