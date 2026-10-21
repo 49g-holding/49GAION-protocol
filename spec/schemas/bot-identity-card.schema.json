@@ -57,7 +57,7 @@
     },
     "accountable_human_position": {
       "type": "string",
-      "description": "The position (never a person's name) of the accountable human. For the AION Builder: the governing seat (GOV) of 49GAION."
+      "description": "The position (never a person's name) of the accountable human."
     },
     "card_version": {
       "type": "string"

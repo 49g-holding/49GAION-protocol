@@ -27,7 +27,7 @@
   ],
   "test": {
     "id": "TEST-ORG-AION-SI",
-    "version": "v3"
+    "version": "v2"
   },
   "status": "DRAFT",
   "replaces": "v2"
