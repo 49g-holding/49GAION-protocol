@@ -34,14 +34,13 @@
 
 | Part | Where it works | Card | Protocol | Standard | Fixed test | Status |
 |---|---|---|---|---|---|---|
-| AION Builder | 49GAION, accountable to its governing seat | `aion-builder.part-card.v3.json`, `aion-builder.bot-identity-card.v3.json` | §10 | §1.2, §1.3 | TEST-AION-BUILDER v2 | `DRAFT`, `NOT_RUN` |
 | Self-Improvement | a process of the Cell carrying `[ORG]HOAC-TM`, served by AI Cells | `org-aion-self-improvement.part-card.v3.json`, `org-aion-self-improvement.bot-identity-card.v3.json`, `org-aion-top-management.unit-card.json` | §10 | §2 | TEST-ORG-AION-SI v2 | `DRAFT`, `NOT_RUN` |
 | Duty Deputy | inside an `[ORG]AION` | `duty-deputy.part-card.json` | §16 | — | TEST-DUTY-DEPUTY v1 | `DRAFT`, `NOT_RUN` |
 | Outside Inspector | outside the AIOC it inspects | `outside-inspector.part-card.json` | §16 | §3.2, item 12 | TEST-OUTSIDE-INSPECTOR v1 | `DRAFT`, `NOT_RUN` |
 | Advisory Council | inside an `[ORG]AION` | `advisory-council.part-card.json` | §16 | — | TEST-ADVISORY-COUNCIL v1 | `DRAFT`, `NOT_RUN` |
 | Reference Comparison | inside an `[ORG]AION` | `reference-comparison.part-card.json` | §16 | — | TEST-REFERENCE-COMPARISON v1 | `DRAFT`, `NOT_RUN` |
 
-The v2 cards of the AION Builder and of Self-Improvement are kept and marked `REPLACED` (`library/cards/README.md`).
+The v2 cards of Self-Improvement are kept and marked `REPLACED` (`library/cards/README.md`).
 
 #### Contracts
 

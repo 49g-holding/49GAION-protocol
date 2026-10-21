@@ -2,16 +2,14 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/org-aion-record.schema.json",
   "title": "49GAION - [ORG]AION record",
-  "description": "The record of one [ORG]AION, kept by the AION Builder during the design period and delivered with the product: the Standard, Protocol and Library versions it is based on, the sections and parts taken, the gate status of each design stage, the Library harvest, the acceptance test, the delivery test and its isolation boundary.",
+  "description": "The record of one [ORG]AION, delivered with the product: the Standard, Protocol and Library versions it is based on, the sections and parts taken, the Library harvest, the acceptance test, and the isolation boundary of the [ORG]AION.",
   "type": "object",
   "required": [
     "org_aion",
     "standard_version",
     "sections_taken",
     "parts_taken",
-    "stages",
-    "isolation",
-    "delivery_test"
+    "isolation"
   ],
   "additionalProperties": false,
   "properties": {
@@ -48,63 +46,6 @@
           }
         }
       }
-    },
-    "stages": {
-      "type": "array",
-      "minItems": 6,
-      "maxItems": 6,
-      "prefixItems": [
-        {
-          "$ref": "#/$defs/stage",
-          "properties": {
-            "stage": {
-              "const": "Intake"
-            }
-          }
-        },
-        {
-          "$ref": "#/$defs/stage",
-          "properties": {
-            "stage": {
-              "const": "TOM"
-            }
-          }
-        },
-        {
-          "$ref": "#/$defs/stage",
-          "properties": {
-            "stage": {
-              "const": "Job descriptions and responsibilities"
-            }
-          }
-        },
-        {
-          "$ref": "#/$defs/stage",
-          "properties": {
-            "stage": {
-              "const": "Ionize"
-            }
-          }
-        },
-        {
-          "$ref": "#/$defs/stage",
-          "properties": {
-            "stage": {
-              "const": "Build AIOCs and Panels"
-            }
-          }
-        },
-        {
-          "$ref": "#/$defs/stage",
-          "properties": {
-            "stage": {
-              "const": "Assemble and connect"
-            }
-          }
-        }
-      ],
-      "items": false,
-      "description": "The six design stages in order. No stage starts before the previous gate has passed."
     },
     "acceptance_test": {
       "type": "object",
@@ -199,83 +140,6 @@
         "library": {
           "type": "string"
         }
-      }
-    },
-    "delivery_test": {
-      "type": "object",
-      "description": "The fixed delivery test at handover (Standard §1.4). The [ORG]AION is handed over only when all three are PASS.",
-      "required": [
-        "hoac_gov_in_place",
-        "human_floor_in_place",
-        "stop_ports_in_place",
-        "evidence"
-      ],
-      "additionalProperties": false,
-      "properties": {
-        "hoac_gov_in_place": {
-          "enum": [
-            "PASS",
-            "FAIL",
-            "NOT_RUN"
-          ]
-        },
-        "human_floor_in_place": {
-          "enum": [
-            "PASS",
-            "FAIL",
-            "NOT_RUN"
-          ]
-        },
-        "stop_ports_in_place": {
-          "enum": [
-            "PASS",
-            "FAIL",
-            "NOT_RUN"
-          ]
-        },
-        "evidence": {
-          "type": "string"
-        }
-      }
-    }
-  },
-  "$defs": {
-    "stage": {
-      "type": "object",
-      "required": [
-        "stage",
-        "gate_status"
-      ],
-      "properties": {
-        "stage": {
-          "type": "string"
-        },
-        "gate_status": {
-          "enum": [
-            "not-started",
-            "in-progress",
-            "gate-passed"
-          ]
-        },
-        "gate_evidence": {
-          "type": "string",
-          "description": "Required when gate_status is gate-passed."
-        }
-      },
-      "if": {
-        "properties": {
-          "gate_status": {
-            "const": "gate-passed"
-          }
-        },
-        "required": [
-          "gate_status"
-        ]
-      },
-      "then": {
-        "required": [
-          "gate_evidence"
-        ]
       }
     }
   }

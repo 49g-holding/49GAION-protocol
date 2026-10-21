@@ -1,21 +1,23 @@
-"""Reference organisations (Protocol §4.10, item 11; Standard §1.4).
+"""Reference organisations (Protocol §4.10, items 11 and 13).
 
 Each folder under tests/orgs/ holds one organisation's register (register.json): its parts,
 the people filling its human seats (by pseudonymous reference only, standing in for top
 management's own occupancy record; no line of this check reads it), the Human Floor
 bindings and its register events. The check expands every entry into a unit card and
-validates it against spec/schemas/unit-card.schema.json, then runs the delivery test lines
-that can be read from a register:
-  D-1  exactly one filled, unscoped Cell carrying [ORG]HOAC-GOV, seat kind human
-  D-2  every Human Floor item HF-01..HF-19 is bound to a filled human Cell carrying a HOAC
-       label. Two positions are two parties (GOV, 15 October 2026): no line compares the
-       occupants behind positions, and a compensating control is top management's own choice,
-       read by no line of this check
-  D-3  every part has exactly one stop door (from its card)
-  D-4  (codes CHAIN-*) every accountable_to chain is acyclic, ends at the GOV Cell, and passes at least one
-       Cell of seat kind human carrying a HOAC label; the Charter is the only part with
-       parent none; every accountable_to names a human Cell carrying a HOAC label (CHAIN-TARGET)
-A reference organisation passes every line. A must-fail organisation (folder name
+validates it against spec/schemas/unit-card.schema.json, then checks the rules in force
+that can be read from a register (GOV, 21 October 2026):
+  GOV-SEAT       exactly one filled, unscoped Cell carrying [ORG]HOAC-GOV, seat kind human
+                 (Standard §1.3, item 2)
+  FLOOR-BINDING  every Human Floor item HF-01..HF-19 is bound to a filled human Cell carrying a
+                 HOAC label (Standard §1.5). Two positions are two parties (GOV, 15 October 2026):
+                 no check compares the occupants behind positions, and a compensating control is
+                 top management's own choice, read by no check here
+  STOP-DOOR      every part has exactly one stop door, from its card (Standard §4.3)
+  CHAIN-*        every accountable_to chain is acyclic, ends at the GOV Cell, and passes at least
+                 one Cell of seat kind human carrying a HOAC label; the Charter is the only part
+                 with parent none; every accountable_to names a human Cell carrying a HOAC label
+                 (CHAIN-TARGET) (Standard §1.7, items 12 and 13)
+A reference organisation passes every check. A must-fail organisation (folder name
 must-fail-*) names in "expect" the code it must fail with, and counts only if it fails with
 that code. The Protocol function hoac_over(part, type, entity, date) is implemented here and
 exercised by each organisation's "queries"."""
@@ -111,18 +113,18 @@ def check(org):
         if c["fixed_test"]["owner"] in (e["code"], None) or parts.get(c["fixed_test"]["owner"], {}).get("seat_kind") == "ai":
             errs.append(("CARD-TEST-OWNER", f"{e['code']}: fixed test owner must be another human Cell"))
         if sum(1 for p in c["ports"] if p.get("stop_door")) != 1:
-            errs.append(("D-3", f"{e['code']}: needs exactly one stop door"))
+            errs.append(("STOP-DOOR", f"{e['code']}: needs exactly one stop door"))
     govs = [e for e in R["parts"] if e.get("hoac", "").endswith("HOAC-GOV") and not e.get("scoped_entity")]
     if len(govs) != 1 or govs[0].get("seat_kind") != "human" or not govs[0].get("filled"):
-        errs.append(("D-1", "exactly one filled, unscoped human Cell carrying [ORG]HOAC-GOV"))
+        errs.append(("GOV-SEAT", "exactly one filled, unscoped human Cell carrying [ORG]HOAC-GOV"))
     gov = govs[0]["code"] if govs else None
     for hf in HF:
         b = R["floor_bindings"].get(hf); e = parts.get(b)
         if not e or e.get("seat_kind") != "human" or not e.get("hoac") or not e.get("filled"):
-            errs.append(("D-2", f"{hf}: not bound to a filled human Cell carrying a HOAC label"))
+            errs.append(("FLOOR-BINDING", f"{hf}: not bound to a filled human Cell carrying a HOAC label"))
     for hf in R["floor_bindings"]:
         if hf not in HF:
-            errs.append(("D-2", f"{hf}: cited Human Floor item does not exist in Standard §1.5 (HF-01..HF-19)"))
+            errs.append(("FLOOR-BINDING", f"{hf}: cited Human Floor item does not exist in Standard §1.5 (HF-01..HF-19)"))
     # Two positions are two parties (GOV, 15 October 2026): one occupant behind GOV and TM is not a
     # finding, and a compensating control is not required. The check never reads "person".
     roots = [e["code"] for e in R["parts"] if e["parent"] == "none"]
@@ -157,7 +159,7 @@ import os
 def LOG(n, e, a, g):
     if os.environ.get("FIXTURE_LOG"): print("LOGROW\t" + "\t".join([n, e, a, "1" if g else "0"]))
 ok = True
-# The reference set is fixed: all four must be present and non-empty, and the D-4 cycle case
+# The reference set is fixed: all four must be present and non-empty, and the cycle case
 # must be present. Since (GOV, 15 October 2026), one-occupant-gov-and-tm-no-control is required
 # too: one occupant behind GOV and TM, with no compensating control, passes. A missing or empty
 # folder fails (FIXTURE-ORGS-REFERENCE-MISSING).
@@ -172,22 +174,22 @@ for name in REQUIRED:
         good = False
     if not good:
         print(f"FIXTURE-ORGS-REFERENCE-MISSING {name}: folder missing or register empty"); ok = False
-D4 = {"CHAIN-CYCLE", "CHAIN-NOT-ENDING-AT-GOV", "CHAIN-NO-HUMAN-HOAC", "CHAIN-TWO-ROOTS", "CHAIN-TARGET"}
+CHAIN = {"CHAIN-CYCLE", "CHAIN-NOT-ENDING-AT-GOV", "CHAIN-NO-HUMAN-HOAC", "CHAIN-TWO-ROOTS", "CHAIN-TARGET"}
 orgs = sorted(p for p in HERE.iterdir() if p.is_dir())
 for org in orgs:
     R, errs = check(org)
     codes = {c for c, _ in errs}
     if org.name.startswith("must-fail-"):
         hit = R["expect"] in codes
-        line = " (line D-4)" if R["expect"] in D4 else ""
+        line = " (accountability chain)" if R["expect"] in CHAIN else ""
         print(f"{org.name}: {'rejected on ' + R['expect'] + line if hit else 'NOT REJECTED ON ' + R['expect']} {[m for _, m in errs][:2]}")
         ok &= hit
         LOG(f"tests/orgs/{org.name}", f"fail {R['expect']}", "fail " + ",".join(sorted(codes)) if codes else "pass", hit)
     else:
-        print(f"{org.name}: {'passes D-1..D-4' if not errs else 'FAILS'}")
+        print(f"{org.name}: {'passes every check' if not errs else 'FAILS'}")
         for c, m in errs: print(f"   {c}: {m}")
         ok &= not errs
-        LOG(f"tests/orgs/{org.name}", "pass D-1..D-4", "pass" if not errs else "fail " + ",".join(sorted(codes)), not errs)
+        LOG(f"tests/orgs/{org.name}", "pass every check", "pass" if not errs else "fail " + ",".join(sorted(codes)), not errs)
 if not orgs:
     print("no reference organisations"); ok = False
 print("fixture-orgs:", "PASS" if ok else "FAIL")

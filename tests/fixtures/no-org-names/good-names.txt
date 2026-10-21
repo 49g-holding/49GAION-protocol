@@ -7,5 +7,5 @@ The [ORG]AIOC-OCO (Organization Core Office) is the AI hub: every AIOC joins, is
 Ten AION, Powered by 49GAION
 Each [ORG]AION has its own HOAC-GOV.
 See github.com/49g-holding/49GAION-protocol and the 49GAION-aioc repository.
-The AION Builder builds [ORG]AION products.
+A bare AION is not used for the framework.
 see decisions/DR-0001-49gaion-v1-0-0-day-zero.md
