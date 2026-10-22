@@ -2,6 +2,8 @@
 
 **Addition (GOV, 16 October 2026; `49GAION/DR-0019`).** The 49GAION Library holds every ready-made part of 49GAION: its AIOC parts with their mother blueprints, its capability parts, its unit cards, its contracts and its method catalogues (Standard §3.1). Built once, configured per `[ORG]AION`, never rebuilt. This file is its register: every part is named here once.
 
+**Addition (GOV, 22 October 2026): live.** Each `[ORG]AION` configures a part inside the organisation, through its own live AI. A part is a starting point, never a finished configuration made elsewhere and installed as it is. An `[ORG]AION` may improve a part and, by its own choice, give it back (Protocol §10, item 4).
+
 ## How a part is held
 
 - **Its card** sits in `library/cards/`, valid against `spec/schemas/part-card.schema.json`, `DRAFT` with `last_result` `NOT_RUN` until its fixed test has run once with recorded evidence (Protocol §10, item 3).
@@ -35,7 +37,7 @@
 | Part | Where it works | Card | Protocol | Standard | Fixed test | Status |
 |---|---|---|---|---|---|---|
 | Self-Improvement | a process of the Cell carrying `[ORG]HOAC-TM`, served by AI Cells | `org-aion-self-improvement.part-card.v3.json`, `org-aion-self-improvement.bot-identity-card.v3.json`, `org-aion-top-management.unit-card.json` | §10 | §2 | TEST-ORG-AION-SI v2 | `DRAFT`, `NOT_RUN` |
-| 49GAION Edition Maker | 49GAION itself, under its governing seat: the start point that takes in what an organisation is for and gives back its own edition of an AION | not yet written | — | §1.2, §1.3 | not yet written | named; its requirements are written; built later (GOV, 22 October 2026) |
+| 49GAION Edition Maker | 49GAION itself, under its governing seat: the start point that takes in what an organisation is for and gives back its own edition of an AION; it hands over no finished design or configuration, and gives them to AI | not yet written | — | §1.2, §1.3 | not yet written | named; its requirements are written; built later (GOV, 22 October 2026) |
 | Duty Deputy | inside an `[ORG]AION` | `duty-deputy.part-card.json` | §16 | — | TEST-DUTY-DEPUTY v1 | `DRAFT`, `NOT_RUN` |
 | Outside Inspector | outside the AIOC it inspects | `outside-inspector.part-card.json` | §16 | §3.2, item 12 | TEST-OUTSIDE-INSPECTOR v1 | `DRAFT`, `NOT_RUN` |
 | Advisory Council | inside an `[ORG]AION` | `advisory-council.part-card.json` | §16 | — | TEST-ADVISORY-COUNCIL v1 | `DRAFT`, `NOT_RUN` |
