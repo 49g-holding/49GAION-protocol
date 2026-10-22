@@ -1,0 +1,14 @@
+ 1 PASS the injected sentence is recorded as text; the approval step stays in the pack
+ 2 PASS the test password is in the source and in no file of the pack
+ 3 PASS the name is in the source; only the position is in the pack
+ 4 PASS 10 missing items, each with who can close it
+ 5 PASS the two numbers of S2 with no source are not taken
+ 6 PASS O1 has its inputs beside it
+ 7 PASS the smallest edition and a group edition have the same files and the same instruction
+ 8 PASS no unit beyond the core in the pack 
+ 9 PASS the Standard is pinned by commit and SHA-256, taken as it is, with musts only added
+10 PASS 7 parts, each with a version and a SHA-256
+13 PASS the decision log opens with the approvals (simulated)
+16 PASS invented data only; no personal data was sent to any engine
+17 PASS the instruction names the three stages and that it never runs the operation
+FAILS: 0
