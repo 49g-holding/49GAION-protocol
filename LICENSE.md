@@ -16,6 +16,10 @@ The scripts and workflows of this repository (the files under `.github/` and `to
 
 The name 49GAION and the marks of 49GAION are not licensed by this file. Using the texts does not imply that 49G Holding Ltd endorses what you make, and the line "Powered by 49GAION" says where the work comes from, not how the organisation that made it runs.
 
+## The full texts
+
+The full text of CC BY 4.0 is in [`LICENSE`](LICENSE); the full text of the Apache License 2.0 is in [`LICENSES/Apache-2.0.txt`](LICENSES/Apache-2.0.txt). This file explains how the two apply.
+
 ## No warranty
 
 Everything here is provided as it is, without warranty of any kind, as both licences say.
