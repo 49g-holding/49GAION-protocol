@@ -8,8 +8,8 @@ Edition Maker is not built yet. Its requirements are written and approved, and t
 
 | Path | What it is |
 |---|---|
-| [`PRD.md`](PRD.md) | The product requirements, v0.7, approved by the governing seat (GOV) on 22 October 2026 |
-| [`TEST-EDITION-MAKER.md`](TEST-EDITION-MAKER.md) | The fixed test, TEST-EDITION-MAKER v4: the state of each of its 19 cases |
+| [`PRD.md`](PRD.md) | The product requirements, v0.8: v0.7 approved by the governing seat (GOV) on 22 October 2026, with the core's first named capability, Structural Adaptation, added on 25 October 2026 |
+| [`TEST-EDITION-MAKER.md`](TEST-EDITION-MAKER.md) | The fixed test, TEST-EDITION-MAKER v5: the state of each of its 20 cases |
 | [`REASONS.md`](REASONS.md) | The intake-and-output paper, v0.3: the reasons and the reviews behind each line of the PRD |
 | [`reviews/`](reviews/) | The reviews by other AI engines, kept as received, with what was applied and what was not |
 | [`trials/2026-10-22-ten-light/`](trials/2026-10-22-ten-light/REPORT.md) | A light dry run on the invented sample organisation Ten: its sources, Edition Sheet, pack, checks and evidence |
@@ -17,7 +17,7 @@ Edition Maker is not built yet. Its requirements are written and approved, and t
 ## State
 
 - **Card:** not yet written (Library register).
-- **Fixed test:** TEST-EDITION-MAKER v4, `NOT_RUN` on a built Edition Maker. One light dry run of the mechanism was made by hand, on the sample Ten.
+- **Fixed test:** TEST-EDITION-MAKER v5, `NOT_RUN` on a built Edition Maker. One light dry run of the mechanism was made by hand, on the sample Ten.
 - **Built:** later.
 
 Powered by 49GAION

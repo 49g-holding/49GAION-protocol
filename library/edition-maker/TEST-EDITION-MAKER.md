@@ -1,4 +1,4 @@
-# TEST-EDITION-MAKER v4 · the fixed test of 49GAION Edition Maker
+# TEST-EDITION-MAKER v5 · the fixed test of 49GAION Edition Maker
 
 The cases are those of [`PRD.md`](PRD.md), section 11. This file holds their state. Each case passes or fails on a built Edition Maker; until it is built and run, every case is `NOT_RUN`.
 
@@ -25,5 +25,6 @@ A light dry run of the mechanism was made by hand on 22 October 2026, on the inv
 | 17 | The instruction names the three stages; the core never runs the operation | `NOT_RUN` | pass |
 | 18 | No step on one engine: the worker, two challengers, findings and answers recorded | `NOT_RUN` | partial |
 | 19 | Every step carries the edition engineer's sign-off, in order | `NOT_RUN` | not run (added after the dry run) |
+| 20 | The core's instruction names Structural Adaptation and its rules | `NOT_RUN` | not run (added after the dry run) |
 
 Powered by 49GAION
