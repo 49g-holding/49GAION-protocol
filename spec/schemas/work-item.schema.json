@@ -4,107 +4,607 @@
   "title": "49GAION Operating Protocol - Work Item",
   "description": "Every hand-off between units is one Work Item (Protocol §4). Aligned in vocabulary with the A2A v1.0 Task (Protocol §12). Reading note (v1.5.0): 'accepted' by OCO means ready for decision, not approved; approval is recorded in approved_by and, for a listed decision type, signature_ref.",
   "type": "object",
-  "required": ["id", "sender", "receiver", "requested_output", "acceptance_test", "status", "owner", "sources", "bounce_count", "decision_needed"],
+  "required": [
+    "id",
+    "sender",
+    "receiver",
+    "requested_output",
+    "acceptance_test",
+    "status",
+    "owner",
+    "sources",
+    "bounce_count",
+    "decision_needed"
+  ],
   "additionalProperties": false,
   "properties": {
-    "id": { "type": "string", "description": "Unique ID of the Work Item in the shared queue." },
-    "sender": { "type": "string", "description": "Sending AIOC, for example [ORG]AIOC-SL. Opened by its Chief of Staff." },
-    "receiver": { "type": "string", "description": "Receiving AIOC. First owner is its Chief of Staff." },
-    "requested_output": { "type": "string", "description": "What is wanted, in the receiver's declared format (from its card)." },
-    "acceptance_test": { "type": "string", "description": "How the output will be judged done and the input judged fit; reference (ID + version) or full criteria." },
+    "id": {
+      "type": "string",
+      "description": "Unique ID of the Work Item in the shared queue."
+    },
+    "sender": {
+      "type": "string",
+      "description": "Sending AIOC, for example [ORG]AIOC-SL. Opened by its Chief of Staff."
+    },
+    "receiver": {
+      "type": "string",
+      "description": "Receiving AIOC. First owner is its Chief of Staff."
+    },
+    "requested_output": {
+      "type": "string",
+      "description": "What is wanted, in the receiver's declared format (from its card)."
+    },
+    "acceptance_test": {
+      "type": "string",
+      "description": "How the output will be judged done and the input judged fit; reference (ID + version) or full criteria."
+    },
     "status": {
-      "enum": ["received", "in-progress", "needs-input", "objection-open", "stopped", "done", "rejected"],
+      "enum": [
+        "received",
+        "in-progress",
+        "needs-input",
+        "objection-open",
+        "stopped",
+        "done",
+        "rejected"
+      ],
       "$comment": "The one shared status list ; kept equal to status.schema.json by tests/cards/check_cards.py.",
       "description": "A2A mapping: received=TASK_STATE_SUBMITTED, in-progress=TASK_STATE_WORKING, needs-input=TASK_STATE_INPUT_REQUIRED, done=TASK_STATE_COMPLETED, rejected=TASK_STATE_REJECTED."
     },
-    "owner": { "type": ["string", "null"], "description": "Exactly one node at a time; null only when status is done. Only the owner writes." },
+    "owner": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Exactly one node at a time; null only when status is done. Only the owner writes."
+    },
     "sources": {
       "type": "array",
       "description": "Versioned links, never copied text (Protocol §8).",
       "items": {
         "type": "object",
-        "required": ["id", "version", "location"],
+        "required": [
+          "id",
+          "version",
+          "location"
+        ],
         "properties": {
-          "id": { "type": "string" },
-          "version": { "type": "string" },
-          "location": { "type": "string", "description": "Controlling-copy location, for example a repository path at a commit or tag." }
+          "id": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "location": {
+            "type": "string",
+            "description": "Controlling-copy location, for example a repository path at a commit or tag."
+          }
         }
       }
     },
-    "bounce_count": { "type": "integer", "minimum": 0 },
-    "bounce_limit": { "type": "integer", "minimum": 1, "default": 3, "description": "The bounce limit set in the [ORG]AION's Configuration." },
-    "stopped": { "type": "boolean", "default": false, "description": "true when the stop rule fired; the item then goes, with its full history, to the [ORG]HOAC-ACS seat of the receiving unit; if that seat is empty, to the seat that delegated it (Protocol §4.4)." },
-    "type": { "enum": ["work", "design-proposal", "decision-request"], "default": "work", "description": "design-proposal = an [ORG]HOAC-ACS seat's proposal, correction or critique of the AIs, addressed to OCO (Protocol §4.7). decision-request = a matter for a human decision as completed staff work (Protocol §4.7, item 4) (GOV, 14 October 2026)." },
-    "decision_needed": { "type": "boolean" },
-    "proposal_kind": { "enum": ["proposal", "correction", "critique"], "description": "For type design-proposal." },
-    "proposal_answer": { "enum": ["accepted", "refused", "in-discussion"], "description": "The answer of OCO, recorded with proposal_reason." },
-    "proposal_reason": { "type": "string", "description": "The reason of OCO for its answer." },
-    "failing_samples": { "type": "array", "items": { "type": "string" }, "description": "Links to real failing samples; at least one for a critique. When the hub accepts the critique, they join the position's fixed test." },
-    "caused_change": { "type": "string", "description": "For an accepted design-proposal: the commit of the design change and the version it replaces." },
-    "approved_by": { "type": "string", "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$", "description": "The code of the human Cell that approved the change; required with caused_change (Standard §2.1, item 5). Since v1.5.0." },
-    "signature_ref": { "type": "string", "pattern": "^SIG-[0-9A-Za-z-]+$", "description": "The signature ID in the unit register for a listed decision type; no names (Protocol §4.10, item 9). Since v1.5.0." },
-    "current_text": { "type": "string", "description": "For a design-proposal: the current text (Standard §2.1, item 3). Since v1.5.0." },
-    "proposed_text": { "type": "string", "description": "For a design-proposal: the proposed text (Standard §2.1, item 3). Since v1.5.0." },
-    "evidence": { "type": "array", "items": { "type": "string" }, "description": "For a design-proposal: the evidence, by link (Standard §2.1, item 3). Since v1.5.0." },
-    "affected": { "type": "array", "items": { "type": "string" }, "description": "For a design-proposal: the codes of the parts and the tests it affects (Standard §2.1, item 3). Since v1.5.0." },
-    "objection": { "type": "object", "description": "For status objection-open (Protocol §4.7): no AI, including the Chief of Staff of OCO, can close or act on it; only the HOAC seat accountable for OCO decides and closes it.", "required": ["raised_by", "accountable_human"], "properties": { "raised_by": { "type": "string", "description": "The unit's [ORG]HOAC-ACS seat." }, "accountable_human": { "type": "string", "description": "The HOAC seat accountable for OCO (a Configuration setting)." }, "decision": { "type": "string" }, "decided_by": { "type": "string", "description": "Must be accountable_human; an AI or bot account is never valid here." } } },
-    "parent_work_item": { "type": ["string", "null"], "description": "The id of the parent Work Item; required for a sub-work item (an item opened to serve another item); null for a top-level item. Chains must be acyclic (no A->B->A): the protocol check walks the parent links before a sub-item is opened (Protocol §4.6)." },
-    "chain_depth": { "type": "integer", "minimum": 0, "default": 0, "description": "0 for a top-level item; the parent's chain_depth + 1 for a sub-work item. The maximum is set by each organisation in its Configuration; the schema sets no cap." },
-    "status_entered_at": { "type": "string", "format": "date-time", "description": "When the item entered its current status; the status's maximum waiting time is counted from here (Protocol §4.6)." },
-    "wait_escalation": { "enum": ["none", "reminded", "escalated"], "default": "none", "description": "reminded = the owner was reminded after the status's maximum waiting time; escalated = still waiting after one more period, raised to the [ORG]HOAC-ACS seat of the receiving unit, or if empty to the seat that delegated it (Protocol §4.6)." },
-    "reason": { "type": "string", "description": "Required when status is rejected or needs-input, or when stopped is true." },
+    "bounce_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "bounce_limit": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 3,
+      "description": "The bounce limit set in the [ORG]AION's Configuration."
+    },
+    "stopped": {
+      "type": "boolean",
+      "default": false,
+      "description": "true when the stop rule fired; the item then goes, with its full history, to the [ORG]HOAC-ACS seat of the receiving unit; if that seat is empty, to the seat that delegated it (Protocol §4.4)."
+    },
+    "type": {
+      "enum": [
+        "work",
+        "design-proposal",
+        "decision-request"
+      ],
+      "default": "work",
+      "description": "design-proposal = an [ORG]HOAC-ACS seat's proposal, correction or critique of the AIs, addressed to OCO (Protocol §4.7). decision-request = a matter for a human decision as completed staff work (Protocol §4.7, item 4) (GOV, 14 October 2026)."
+    },
+    "decision_needed": {
+      "type": "boolean"
+    },
+    "proposal_kind": {
+      "enum": [
+        "proposal",
+        "correction",
+        "critique"
+      ],
+      "description": "For type design-proposal."
+    },
+    "proposal_answer": {
+      "enum": [
+        "accepted",
+        "refused",
+        "in-discussion"
+      ],
+      "description": "The answer of OCO, recorded with proposal_reason."
+    },
+    "proposal_reason": {
+      "type": "string",
+      "description": "The reason of OCO for its answer."
+    },
+    "failing_samples": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Links to real failing samples; at least one for a critique. When the hub accepts the critique, they join the position's fixed test."
+    },
+    "caused_change": {
+      "type": "string",
+      "description": "For an accepted design-proposal: the commit of the design change and the version it replaces."
+    },
+    "approved_by": {
+      "type": "string",
+      "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$",
+      "description": "The code of the human Cell that approved the change; required with caused_change (Standard §2.1, item 5). Since v1.5.0."
+    },
+    "signature_ref": {
+      "type": "string",
+      "pattern": "^SIG-[0-9A-Za-z-]+$",
+      "description": "The signature ID in the unit register for a listed decision type; no names (Protocol §4.10, item 9). Since v1.5.0."
+    },
+    "current_text": {
+      "type": "string",
+      "description": "For a design-proposal: the current text (Standard §2.1, item 3). Since v1.5.0."
+    },
+    "proposed_text": {
+      "type": "string",
+      "description": "For a design-proposal: the proposed text (Standard §2.1, item 3). Since v1.5.0."
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "For a design-proposal: the evidence, by link (Standard §2.1, item 3). Since v1.5.0."
+    },
+    "affected": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "For a design-proposal: the codes of the parts and the tests it affects (Standard §2.1, item 3). Since v1.5.0."
+    },
+    "objection": {
+      "type": "object",
+      "description": "For status objection-open (Protocol §4.7): no AI, including the Chief of Staff of OCO, can close or act on it; only the HOAC seat accountable for OCO decides and closes it.",
+      "required": [
+        "raised_by",
+        "accountable_human"
+      ],
+      "properties": {
+        "raised_by": {
+          "type": "string",
+          "description": "The unit's [ORG]HOAC-ACS seat."
+        },
+        "accountable_human": {
+          "type": "string",
+          "description": "The HOAC seat accountable for OCO (a Configuration setting)."
+        },
+        "decision": {
+          "type": "string"
+        },
+        "decided_by": {
+          "type": "string",
+          "description": "Must be accountable_human; an AI or bot account is never valid here."
+        }
+      }
+    },
+    "parent_work_item": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The id of the parent Work Item; required for a sub-work item (an item opened to serve another item); null for a top-level item. Chains must be acyclic (no A->B->A): the protocol check walks the parent links before a sub-item is opened (Protocol §4.6)."
+    },
+    "chain_depth": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "0 for a top-level item; the parent's chain_depth + 1 for a sub-work item. The maximum is set by each organisation in its Configuration; the schema sets no cap."
+    },
+    "status_entered_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the item entered its current status; the status's maximum waiting time is counted from here (Protocol §4.6)."
+    },
+    "wait_escalation": {
+      "enum": [
+        "none",
+        "reminded",
+        "escalated"
+      ],
+      "default": "none",
+      "description": "reminded = the owner was reminded after the status's maximum waiting time; escalated = still waiting after one more period, raised to the [ORG]HOAC-ACS seat of the receiving unit, or if empty to the seat that delegated it (Protocol §4.6)."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Required when status is rejected or needs-input, or when stopped is true."
+    },
     "output": {
       "type": "object",
       "properties": {
-        "location": { "type": "string" },
-        "evidence": { "type": "array", "items": { "type": "string" }, "description": "Visible evidence answering each acceptance criterion." },
-        "made_from": { "type": "array", "items": { "type": "string" }, "description": "Source IDs and versions the output was made from." }
+        "location": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Visible evidence answering each acceptance criterion."
+        },
+        "made_from": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Source IDs and versions the output was made from."
+        }
       }
-    }
- ,
+    },
     "move_on": {
       "type": "object",
-      "required": ["kind"],
+      "required": [
+        "kind"
+      ],
       "description": "The move-on taken while the item waits (Protocol §4.6, item 4) (GOV, 14 October 2026). A move-on never covers a listed type or an irreversible act.",
       "properties": {
-        "kind": { "enum": ["stub", "default", "mock", "next-item"] },
-        "debt_ref": { "type": "string", "description": "The stub-debt record a stub or default opens." },
-        "owner": { "type": "string", "description": "The position that owns the debt." },
-        "age_cap": { "type": "string", "description": "ISO 8601 duration after which the debt is raised." },
-        "refused_by_waiter": { "type": "boolean", "default": false }
+        "kind": {
+          "enum": [
+            "stub",
+            "default",
+            "mock",
+            "next-item"
+          ]
+        },
+        "debt_ref": {
+          "type": "string",
+          "description": "The stub-debt record a stub or default opens."
+        },
+        "owner": {
+          "type": "string",
+          "description": "The position that owns the debt."
+        },
+        "age_cap": {
+          "type": "string",
+          "description": "ISO 8601 duration after which the debt is raised."
+        },
+        "refused_by_waiter": {
+          "type": "boolean",
+          "default": false
+        }
       }
     },
     "assumptions": {
       "type": "array",
       "description": "Assumptions taken on an ambiguous request; reversible matters only (GOV, 14 October 2026).",
-      "items": { "type": "object", "required": ["text", "status"], "properties": { "text": { "type": "string" }, "status": { "enum": ["UNCONFIRMED", "CONFIRMED", "REFUTED"] } } }
+      "items": {
+        "type": "object",
+        "required": [
+          "text",
+          "status"
+        ],
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "status": {
+            "enum": [
+              "UNCONFIRMED",
+              "CONFIRMED",
+              "REFUTED"
+            ]
+          }
+        }
+      }
     },
-    "scope": { "type": "array", "items": { "type": "string" }, "description": "The parts and records the item expects to change; compared with the actual change at hand-off (GOV, 14 October 2026)." },
+    "scope": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The parts and records the item expects to change; compared with the actual change at hand-off (GOV, 14 October 2026)."
+    },
     "claims": {
       "type": "array",
       "description": "Figures the worker wants believed, each re-run by an independent runner (GOV, 14 October 2026).",
-      "items": { "type": "object", "required": ["claim", "reproduce"], "properties": { "claim": { "type": "string" }, "reproduce": { "type": "string" }, "rerun": { "enum": ["NOT_RUN", "MATCH", "DIFFER"], "default": "NOT_RUN" } } }
+      "items": {
+        "type": "object",
+        "required": [
+          "claim",
+          "reproduce"
+        ],
+        "properties": {
+          "claim": {
+            "type": "string"
+          },
+          "reproduce": {
+            "type": "string"
+          },
+          "rerun": {
+            "enum": [
+              "NOT_RUN",
+              "MATCH",
+              "DIFFER"
+            ],
+            "default": "NOT_RUN"
+          }
+        }
+      }
     },
-    "verdict_ref": { "type": "string", "pattern": "^VR-[0-9A-Za-z-]+$", "description": "The verdict record the item moved on (Protocol §8, item 5) (GOV, 14 October 2026)." },
-    "labels": { "type": "array", "items": { "type": "string" }, "description": "Labels such as disputed (Protocol §4.4) (GOV, 14 October 2026)." },
-    "recommendation": { "type": "string", "description": "decision-request: one recommendation with its reason." },
-    "dissent": { "type": "string", "description": "decision-request: the dissent of the preparing office, or none." },
-    "reversible": { "type": "boolean", "description": "decision-request: whether the decision can be reversed." },
-    "meanwhile": { "type": "string", "description": "decision-request: what the waiting party does meanwhile." },
-    "answer": { "enum": ["yes", "veto", "change-this-part"], "description": "decision-request: the seat's answer; change-this-part opens a new request." }
+    "verdict_ref": {
+      "type": "string",
+      "pattern": "^VR-[0-9A-Za-z-]+$",
+      "description": "The verdict record the item moved on (Protocol §8, item 5) (GOV, 14 October 2026)."
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Labels such as disputed (Protocol §4.4) (GOV, 14 October 2026)."
+    },
+    "recommendation": {
+      "type": "string",
+      "description": "decision-request: one recommendation with its reason."
+    },
+    "dissent": {
+      "type": "string",
+      "description": "decision-request: the dissent of the preparing office, or none."
+    },
+    "reversible": {
+      "type": "boolean",
+      "description": "decision-request: whether the decision can be reversed."
+    },
+    "meanwhile": {
+      "type": "string",
+      "description": "decision-request: what the waiting party does meanwhile."
+    },
+    "answer": {
+      "enum": [
+        "yes",
+        "veto",
+        "change-this-part"
+      ],
+      "description": "decision-request: the seat's answer; change-this-part opens a new request."
+    },
+    "original_requester": {
+      "type": "string",
+      "description": "The original requester of the chain (49GAION/DR-0042, item 6.8; §4.1): the sender of the first Work Item of the chain this item belongs to, carried unchanged down every sub-item. An act runs only within the authority of both the unit that does it and the original requester; a request passed from a unit of lower authority through one of higher authority is refused at the gateway. Optional until the next major version of this schema; absent, the gateway reads the sender of the root item."
+    }
   },
   "allOf": [
-    { "if": { "properties": { "status": { "enum": ["rejected", "needs-input"] } } }, "then": { "required": ["reason"] } },
-    { "if": { "required": ["stopped"], "properties": { "stopped": { "const": true } } }, "then": { "required": ["reason"] } },
-    { "if": { "properties": { "status": { "const": "done" } } }, "then": { "required": ["output"] } },
-    { "if": { "required": ["status"], "properties": { "status": { "const": "objection-open" } } }, "then": { "required": ["objection"] } },
-    { "if": { "required": ["proposal_answer"] }, "then": { "required": ["proposal_reason"] } },
-    { "if": { "required": ["type"], "properties": { "type": { "const": "design-proposal" } } }, "then": { "required": ["proposal_kind"] } },
-    { "if": { "required": ["proposal_kind"], "properties": { "proposal_kind": { "const": "critique" } } }, "then": { "required": ["failing_samples"], "properties": { "failing_samples": { "minItems": 1 } } } },
-    { "if": { "required": ["chain_depth"], "properties": { "chain_depth": { "minimum": 1 } } }, "then": { "required": ["parent_work_item"], "properties": { "parent_work_item": { "type": "string" } } } },
-    { "if": { "required": ["parent_work_item"], "properties": { "parent_work_item": { "type": "string" } } }, "then": { "required": ["chain_depth"], "properties": { "chain_depth": { "minimum": 1 } } } },
-    { "$comment": "RULE-CAUSED-CHANGE-APPROVED: a change caused by a Work Item names its approver (v1.5.0).", "if": { "required": ["caused_change"] }, "then": { "required": ["approved_by"] } },
-    { "$comment": "RULE-MOVE-ON-DEBT: a stub or default opens a debt record with an owner and an age cap (GOV, 14 October 2026).", "if": { "required": ["move_on"], "properties": { "move_on": { "properties": { "kind": { "enum": ["stub", "default"] } } } } }, "then": { "properties": { "move_on": { "required": ["debt_ref", "owner", "age_cap"] } } } },
-    { "$comment": "RULE-DECISION-REQUEST: a decision request carries a recommendation, reversibility and what happens meanwhile (GOV, 14 October 2026).", "if": { "required": ["type"], "properties": { "type": { "const": "decision-request" } } }, "then": { "required": ["recommendation", "reversible", "meanwhile"] } }
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "enum": [
+              "rejected",
+              "needs-input"
+            ]
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "reason"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "stopped"
+        ],
+        "properties": {
+          "stopped": {
+            "const": true
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "reason"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "done"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "output"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "status"
+        ],
+        "properties": {
+          "status": {
+            "const": "objection-open"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "objection"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "proposal_answer"
+        ]
+      },
+      "then": {
+        "required": [
+          "proposal_reason"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "const": "design-proposal"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "proposal_kind"
+        ]
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "proposal_kind"
+        ],
+        "properties": {
+          "proposal_kind": {
+            "const": "critique"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "failing_samples"
+        ],
+        "properties": {
+          "failing_samples": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "chain_depth"
+        ],
+        "properties": {
+          "chain_depth": {
+            "minimum": 1
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "parent_work_item"
+        ],
+        "properties": {
+          "parent_work_item": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "required": [
+          "parent_work_item"
+        ],
+        "properties": {
+          "parent_work_item": {
+            "type": "string"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "chain_depth"
+        ],
+        "properties": {
+          "chain_depth": {
+            "minimum": 1
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-CAUSED-CHANGE-APPROVED: a change caused by a Work Item names its approver (v1.5.0).",
+      "if": {
+        "required": [
+          "caused_change"
+        ]
+      },
+      "then": {
+        "required": [
+          "approved_by"
+        ]
+      }
+    },
+    {
+      "$comment": "RULE-MOVE-ON-DEBT: a stub or default opens a debt record with an owner and an age cap (GOV, 14 October 2026).",
+      "if": {
+        "required": [
+          "move_on"
+        ],
+        "properties": {
+          "move_on": {
+            "properties": {
+              "kind": {
+                "enum": [
+                  "stub",
+                  "default"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "move_on": {
+            "required": [
+              "debt_ref",
+              "owner",
+              "age_cap"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-DECISION-REQUEST: a decision request carries a recommendation, reversibility and what happens meanwhile (GOV, 14 October 2026).",
+      "if": {
+        "required": [
+          "type"
+        ],
+        "properties": {
+          "type": {
+            "const": "decision-request"
+          }
+        }
+      },
+      "then": {
+        "required": [
+          "recommendation",
+          "reversible",
+          "meanwhile"
+        ]
+      }
+    }
   ]
 }
