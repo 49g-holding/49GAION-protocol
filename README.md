@@ -6,6 +6,8 @@
 
 **The product: `[ORG]AION`**, the AI Operating Nexus of one organisation; its one definition is in the 49GAION Standard, §1.3, item 1 ([`49GAION/upstream/49GAION-UPSTREAM.md`](https://github.com/49g-holding/49GAION/blob/main/upstream/49GAION-UPSTREAM.md)).
 
+**The complete definition (DR-0041).** The complete definition of 49GAION, approved by its governing seat on 25 October 2026, is [`49GAION-FRAMEWORK.md`](https://github.com/49g-holding/49GAION/blob/main/49GAION-FRAMEWORK.md) in the hub. Where this repository, or the Standard, differs from it, the complete definition governs, and the text is read with it until it is brought into line. The additions marked DR-0041 in this repository bring it into line; nothing is removed.
+
 ## What is here
 
 | Path | Holds |
