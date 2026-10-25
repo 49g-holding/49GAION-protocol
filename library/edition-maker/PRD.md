@@ -4,6 +4,8 @@
 
 **PRD v0.9** brings the PRD into line with the complete definition of 49GAION, approved by the governing seat on 25 October 2026 (`49GAION/DR-0041`), and cuts nothing. Its additions are marked DR-0041 in sections 8 and 9, and listed in section 14.
 
+**Addition (`49GAION/DR-0042`).** The governing seat confirmed on 25 October 2026 that it approved these requirements ("Yes, I set Edition Maker."); that confirmation is the source of their approval, read with `49GAION/DR-0039`. At the handover the organisation issues fresh keys for its gateway, and every key Edition Maker made, held or used for the edition is revoked. Edition Maker keeps its own rule: at every step one engine works and two challenge.
+
 **v0.8 adds one thing:** the core's instruction names its first capability, Structural Adaptation, as the 49GAION Standard defines it in its section on the product. It is written below in the core's instruction (item 13) and in the fixed test (case 20).
 
 Written on the governing seat's directions of 22 October 2026 ("write its PRD, so we build it later"; "start it"). It is built from [`REASONS.md`](REASONS.md), the intake-and-output paper (v0.3), which holds the reasons and the reviews behind each line. It lives here, in the 49GAION Library, beside its fixed test, its reviews and its trials (section 13, item 5).
