@@ -18,6 +18,8 @@ The protocol decides **how** work moves. **What** work happens is decided by hum
 
 **Reading (`49GAION/DR-0041`): the complete definition.** The complete definition of 49GAION (`49GAION-FRAMEWORK.md` in the hub) governs where this Protocol differs. 49GAION writes principles and the few safeguards that always hold; the details and the way of working are decided by AI at the time. The Top Management Group, the first AIOC under the core, is the hub of the operation, human and AI, and builds everything in the operation. Wherever this Protocol names `[ORG]AIOC-OCO` as the AI hub, it reads: the hub of the operation, or a separate `[ORG]AIOC-OCO` that serves it under Top Management, where an organisation has one. The panel is the organisation's own interface, written in code; the back office, the AI chat workspace, is an authorised interface too and keeps the panel; HU ports, stop doors and signature prompts stay at the human gateway surface (Standard §6.1, item 6).
 
+**Reading (`49GAION/DR-0042`): clarifications.** The governing seat approved clarifications of the complete definition on 25 October 2026 (`49GAION-FRAMEWORK.md`, marked DR-0042). Where this Protocol says that something always holds, or that an `[ORG]AION` may never remove it, it holds in every edition 49GAION hands over; after the handover it is the organisation's own, within the law.
+
 ## 2. The parts
 
 | # | Part | Definition |
@@ -46,6 +48,8 @@ The protocol decides **how** work moves. **What** work happens is decided by hum
 
 ### 4.1 Fields
 ID; sender; receiver; requested output; acceptance test (written by the requester); status; owner; sources (ID + version + location); bounce count; parent Work Item and chain depth (for sub-items); status entered at. Machine form: `spec/schemas/work-item.schema.json`.
+
+**Addition (`49GAION/DR-0042`): the original requester.** Every Work Item carries its original requester: the sender of the first Work Item of its chain (parent Work Item and chain depth, above). An act runs only within the authority of both the unit that does it and the original requester; an act beyond the original requester's authority is refused at the gateway, however it is routed.
 
 **Addition (GOV, 14 October 2026).** A Work Item may also carry these optional fields (`spec/schemas/work-item.schema.json`):
 - `move_on`, the move-on taken while the item waits (§4.6, item 4);
@@ -117,6 +121,7 @@ A Work Item is `done` only when the requester's acceptance test passes on visibl
 
 ### 4.9 The Human Floor signature gate
 1. The Standard keeps the Human Floor signature list of decision types (Standard §4.4, item 6); an `[ORG]AION` may add types, never remove one. The tool gateway runs an action of a listed type only with a valid signature, even in an AIOC that is 100% AI. A signature is valid only from the human seat with authority over that part: the nearest HOAC above it, within its authority (Standard §4.3, item 2). For a restart of a stopped unit, the signature comes from the HOAC above the stopped unit, never from the stopped unit or anything under it. If that seat is empty or retired, the action is held, never skipped.
+   - **Reading (`49GAION/DR-0042`).** This holds in every edition 49GAION hands over; after the handover the organisation's list is its own, within the law. A fresh live sign-in (HF-10) is needed for each signature; a standing approval, signed once with a fresh live sign-in and not again for each use under it, covers only changes that can be undone and do not widen access, budget or authority. A governance seat with a conflict of interest that signs alone is refused; the founding configuration names in advance either an independent position that decides in its place or a second, independent signature the decision also needs.
 2. Every other AI action is logged at the gateway with the code of the accountable seat above the acting Cell.
 3. An AIOC may be up to 100% AI. The organisation-wide Human Floor is set in the Standard (§1.5).
 4. An `[ORG]AION` signature list sits under `org-aion-signature-types/` or is named `*.signature-types.json`, and holds its types under the key `decision_types` (Standard §4.4, item 6).
@@ -658,6 +663,7 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
 
 1. **Its place.** The root AIOC. Its top Cell, the one carrying `[ORG]HOAC-GOV`, is the only Cell with no `accountable_to` (Standard §1.7, item 13), and every other part is installed under it. `[ORG]AIOC-OCO` prepares it; GOV installs it and signs every change to it. OCO never installs or changes it alone.
    - **Addition (`49GAION/DR-0041`): the root is the core.** The root is the core of the `[ORG]AION`, at the governance level (Standard §1.7, item 13). It holds the human position of the governance seat, which the core's AI serves and never holds, the governance panel and the organisation's own Standard, Blueprint and Library. The Top Management position sits in the Top Management Group, the first AIOC under the core; item 2's "the Cells that carry `[ORG]HOAC-GOV` and `[ORG]HOAC-TM`" is read with this. Where an organisation has no separate `[ORG]AIOC-OCO`, the routing data of item 5 is kept by the hub of the operation.
+   - **Addition (`49GAION/DR-0042`): the gateway and the stop beside the core.** They are installed with the core but run as code beside it, outside the reach of every AI, the core's own included. The core's own stop is held directly by the governance seat. Any change to the code of the gateway or the stop counts as loosening: it needs a human signature and is made by someone other than the AI it constrains. At the handover the organisation issues fresh gateway keys, and every key Edition Maker made, held or used is revoked.
 2. **What it holds.** The Cells that carry `[ORG]HOAC-GOV` and `[ORG]HOAC-TM`, with their Offices, and three Pods: Gateway, Records and Work. Each Pod follows the Protocol sections named below; this section adds only what joins them.
 3. **The Gateway Pod.** The tool gateway of §4.9 and Standard §4.4, item 11.
    - Every tool and engine call of every part passes through it.
