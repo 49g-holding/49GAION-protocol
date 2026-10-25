@@ -1,6 +1,8 @@
 # 49GAION Edition Maker: product requirements
 
-**PRD v0.7 · APPROVED** by the governing seat (GOV) on 22 October 2026, with the edition engineer added. It supersedes DRAFT v0.6.
+**PRD v0.8** · approved as v0.7 by the governing seat (GOV) on 22 October 2026, with the edition engineer added; v0.8 adds the core's first named capability, Structural Adaptation (GOV, 25 October 2026).
+
+**v0.8 adds one thing:** the core's instruction names its first capability, Structural Adaptation, as the 49GAION Standard defines it in its section on the product. It is written below in the core's instruction (item 13) and in the fixed test (case 20).
 
 Written on the governing seat's directions of 22 October 2026 ("write its PRD, so we build it later"; "start it"). It is built from [`REASONS.md`](REASONS.md), the intake-and-output paper (v0.3), which holds the reasons and the reviews behind each line. It lives here, in the 49GAION Library, beside its fixed test, its reviews and its trials (section 13, item 5).
 
@@ -253,6 +255,7 @@ What `00-INSTRUCTION.md` says, in substance:
 10. **Self-Improvement at every level.** Each unit improves its own work within its scope. A change to the structure, the Standard or the Blueprint is the core's to propose and a human seat's to sign.
 11. **The support line.** It may draw from 49GAION's Library and repository at any time; a newer version of a part enters the edition only with the owner's approval. It may give back by choice.
 12. **Live.** It keeps the organisation's design and configuration current as AI improves. A Library part is a starting point for it, never a finished configuration to install as it is.
+13. **Its first capability: Structural Adaptation** (Standard §1.3, item 1). It proposes, at every stage of the organisation's life, the structure that keeps it in balance with its resources and its needs. It starts small, with several processes sharing one AIOC; it watches and measures; and on thresholds the organisation sets, after weighing no change, repair, more capacity, a split and a merge, it proposes to split a process that has outgrown its home into an AIOC of its own, or to merge AIOCs when work shrinks. It never merges a part with the part that checks it. It shows the balance between the lines of work and does not run it. A human seat decides each change.
 
 ---
 
@@ -308,9 +311,9 @@ This is `07-STARTING-SETUP.md`. The `[ORG]AION` may change all of it.
 
 ---
 
-## 11. Acceptance: the fixed test TEST-EDITION-MAKER v4
+## 11. Acceptance: the fixed test TEST-EDITION-MAKER v5
 
-v2 added case 17 to v1; v3 added case 18; v4 adds case 19. Cases 1 to 18 are unchanged.
+v2 added case 17 to v1; v3 added case 18; v4 added case 19; v5 adds case 20. Cases 1 to 19 are unchanged.
 
 Each case passes or fails.
 
@@ -333,6 +336,7 @@ Each case passes or fails.
 17. The core's instruction names its three stages (build; follow until a successful organisation; the central hub of reporting and oversight), and in none of them does it run the operation.
 18. **No step on one engine.** For every step where an engine worked, and for the core's first plan, the record shows the engine that did the work, the two engines that challenged it, their findings and the answers. Where only two engines were allowed, the record says so; where only one was allowed, the step waited.
 19. **The edition engineer.** Every step in the record carries the edition engineer's sign-off, and no step began before the one before it was signed.
+20. **Structural Adaptation.** The core's instruction names Structural Adaptation and its rules: start small; thresholds set by the organisation, held for a set period; the options weighed with their costs; never merging a part with its checker; a human seat decides each split and merge.
 
 ---
 
