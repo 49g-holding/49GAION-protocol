@@ -2,7 +2,8 @@
 # no-org-names scanner.
 # Two checks:
 #  FULL  - organisation-specific names, hosts, 49-prefixed codes and the bare name of one organisation's product.
-#          Applied to every tracked text file except .github/ and
+#          Applied to every tracked text file except .github/, LICENSE.md (the licence names the
+#          copyright holder, and is the one place that may) and
 #          tests/fixtures/no-org-names/bad-names.txt. Only text between the markers
 #          <!-- no-org-names:verbatim-start --> and <!-- no-org-names:verbatim-end -->
 #          (the approved product-release section of the 49GAION README) is skipped.
@@ -22,7 +23,7 @@ raw() { awk -v F="$1" '{print F":"NR": "$0}' "$1"; }
 check() { lines "$1" | allow | grep -P "$PATTERN"; raw "$1" | allow | grep -P "$PILOT"; }
 if [ "${1:-}" = "--lines" ]; then lines "$2" | allow | grep -P "$PATTERN"; exit 0; fi
 if [ "${1:-}" = "--file" ]; then check "$2" | sort -u; exit 0; fi
-git ls-files | grep -v -E '^\.github/' | grep -v -x 'tests/fixtures/no-org-names/bad-names.txt' | while IFS= read -r f; do
+git ls-files | grep -v -E '^\.github/' | grep -v -x 'tests/fixtures/no-org-names/bad-names.txt' | grep -v -x 'LICENSE.md' | while IFS= read -r f; do
   [ -f "$f" ] && grep -Iq . "$f" || continue
   check "$f"
 done | sort -u
