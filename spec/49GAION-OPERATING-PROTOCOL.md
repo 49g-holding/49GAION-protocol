@@ -1,6 +1,6 @@
 # 49GAION Operating Protocol
 
-**Version `v1.7.0` · approved by the governing seat (GOV) of 49GAION.** How AIOCs, Pods, Cells and the parts of 49GAION work together, at the general level. The rules of 49GAION are in the 49GAION Standard (`49g-holding/49GAION`, `upstream/49GAION-UPSTREAM.md`); exact values (limits, timings, tools, routes) live in the Protocol of each `[ORG]AION`. Decisions are recorded once, in the hub ([`49GAION/decisions/README.md`](https://github.com/49g-holding/49GAION/blob/main/decisions/README.md)); this version follows `49GAION/DR-0002` and `49GAION/DR-0004`.
+**Version `v1.8.0` · approved by the governing seat (GOV) of 49GAION.** How AIOCs, Pods, Cells and the parts of 49GAION work together, at the general level. The rules of 49GAION are in the 49GAION Standard (`49g-holding/49GAION`, `upstream/49GAION-UPSTREAM.md`); exact values (limits, timings, tools, routes) live in the Protocol of each `[ORG]AION`. Decisions are recorded once, in the hub ([`49GAION/decisions/README.md`](https://github.com/49g-holding/49GAION/blob/main/decisions/README.md)); this version follows `49GAION/DR-0002` and `49GAION/DR-0004`.
 
 49GAION is an organisation design framework: a framework for building organisations from interchangeable AI and human parts.
 
