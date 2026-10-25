@@ -16,6 +16,8 @@ Units exchange work automatically and with the fewest errors:
 
 The protocol decides **how** work moves. **What** work happens is decided by humans: management decisions by Top Management (`[ORG]HOAC-TM`), final authority by the Governing Body (`[ORG]HOAC-GOV`) (Standard §4.2). `[ORG]HOAC-TM` is the human hub: it decides and orders. `[ORG]AIOC-OCO` (Organization Core Office) is the AI hub, under TM: every AIOC, at any depth, joins, is fixed, maintained and upgraded through it, and it gives no orders on what work is done.
 
+**Reading (`49GAION/DR-0041`): the complete definition.** The complete definition of 49GAION (`49GAION-FRAMEWORK.md` in the hub) governs where this Protocol differs. 49GAION writes principles and the few safeguards that always hold; the details and the way of working are decided by AI at the time. The Top Management Group, the first AIOC under the core, is the hub of the operation, human and AI, and builds everything in the operation. Wherever this Protocol names `[ORG]AIOC-OCO` as the AI hub, it reads: the hub of the operation, or a separate `[ORG]AIOC-OCO` that serves it under Top Management, where an organisation has one. The panel is the organisation's own interface, written in code; the back office, the AI chat workspace, is an authorised interface too and keeps the panel; HU ports, stop doors and signature prompts stay at the human gateway surface (Standard §6.1, item 6).
+
 ## 2. The parts
 
 | # | Part | Definition |
@@ -211,6 +213,8 @@ Every AIOC has its own runtime, woken from its queue. With no human present, a w
 ## 9. Ports, bootstrap and stop
 
 The definitions are in the Standard: ports (§6.1), bootstrap (§5.3), stop (§4.3). The machine form of the Port card is `spec/schemas/port-card.schema.json`. Every AIOC, Pod and Cell has a mandatory, queue-less stop port of type HU (the stop door), enforced outside it. Stopping an AIOC or a Pod stops everything under it, and no inner part can bypass the stop (§4.8); a human port never passes through an AI unit; a stopped unit restarts only by human decision. OCO sits under `[ORG]HOAC-TM`: TM and `[ORG]HOAC-GOV` may each stop it; a stop by TM comes directly through a human port, never through a Panel that OCO built; no AI can restart a stopped OCO (Standard §4.2, item 4; §4.3, item 2).
+
+**Reading (`49GAION/DR-0041`).** The bootstrap follows the path of the complete definition (Standard §5.3, item 6): Edition Maker hands over the core with the gateway and the stop; the governance seat accepts it; the core makes the first proposal; the seat hands the operation to Top Management; the Top Management Group builds and runs the operation.
 
 ## 10. `[ORG]AION` and the Library
 
@@ -653,6 +657,7 @@ The card follows the A2A Agent Card; the Work Item follows the A2A task. The par
 **Addition (GOV, 19 October 2026; `49GAION/DR-0029`).** 49GAION Charter is a Library part (`library/cards/charter.part-card.json`). In an `[ORG]AION` it is the AIOC `[ORG]AIOC-CH`, the root of the organisation (Standard §1.7, item 13). Its mother blueprint is in its own mother repository (`library/README.md`). This section states its rules; the blueprint states its units.
 
 1. **Its place.** The root AIOC. Its top Cell, the one carrying `[ORG]HOAC-GOV`, is the only Cell with no `accountable_to` (Standard §1.7, item 13), and every other part is installed under it. `[ORG]AIOC-OCO` prepares it; GOV installs it and signs every change to it. OCO never installs or changes it alone.
+   - **Addition (`49GAION/DR-0041`): the root is the core.** The root is the core of the `[ORG]AION`, at the governance level (Standard §1.7, item 13). It holds the human position of the governance seat, which the core's AI serves and never holds, the governance panel and the organisation's own Standard, Blueprint and Library. The Top Management position sits in the Top Management Group, the first AIOC under the core; item 2's "the Cells that carry `[ORG]HOAC-GOV` and `[ORG]HOAC-TM`" is read with this. Where an organisation has no separate `[ORG]AIOC-OCO`, the routing data of item 5 is kept by the hub of the operation.
 2. **What it holds.** The Cells that carry `[ORG]HOAC-GOV` and `[ORG]HOAC-TM`, with their Offices, and three Pods: Gateway, Records and Work. Each Pod follows the Protocol sections named below; this section adds only what joins them.
 3. **The Gateway Pod.** The tool gateway of §4.9 and Standard §4.4, item 11.
    - Every tool and engine call of every part passes through it.

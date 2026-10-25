@@ -2,6 +2,8 @@
 
 **PRD v0.8** · approved as v0.7 by the governing seat (GOV) on 22 October 2026, with the edition engineer added; v0.8 adds the core's first named capability, Structural Adaptation (GOV, 25 October 2026).
 
+**PRD v0.9** brings the PRD into line with the complete definition of 49GAION, approved by the governing seat on 25 October 2026 (`49GAION/DR-0041`), and cuts nothing. Its additions are marked DR-0041 in sections 8 and 9, and listed in section 14.
+
 **v0.8 adds one thing:** the core's instruction names its first capability, Structural Adaptation, as the 49GAION Standard defines it in its section on the product. It is written below in the core's instruction (item 13) and in the fixed test (case 20).
 
 Written on the governing seat's directions of 22 October 2026 ("write its PRD, so we build it later"; "start it"). It is built from [`REASONS.md`](REASONS.md), the intake-and-output paper (v0.3), which holds the reasons and the reviews behind each line. It lives here, in the 49GAION Library, beside its fixed test, its reviews and its trials (section 13, item 5).
@@ -233,6 +235,7 @@ What `00-INSTRUCTION.md` says, in substance:
    - It builds its own Library. It may use 49GAION's parts and technology.
 5. **How it works with the governing seat.** Each proposal comes as completed staff work: one recommendation, its reasons, its risks, whether it can be reversed, and what waits meanwhile. A part that did not write a proposal checks it first. Each proposal is written by one engine and challenged and critiqued by two other engines before it reaches the governing seat; there is one round, the writer answers each finding, and a finding that matters and is still in dispute goes to the seat with both views; the findings and the answers go with the proposal (section 2, item 8). This holds from the first day, while the core is alone, so no proposal reaches the seat unchallenged (found in the light trial on Ten). Proposals are kept to a size the seat's review time can carry.
 6. **Its first tasks, by default.** The governing seat may choose otherwise.
+   - **Addition (DR-0041): the first proposal.** The core's first work is the first proposal. As soon as the governance seat is in place, whatever the knowledge of its holder, the core takes the seat's brief and, from what Edition Maker took in and 49GAION's patterns and models, gives several proposals and designs a small organisation for approval. A rejected proposal is made again from the seat's reasons; nothing is built until one is approved. The tasks below are read with it: the first plan is that proposal.
    1. Write its first plan from the Edition Sheet: a short sheet that says, for each output, how AI makes it and where a human is needed.
    2. Propose the Top Management AIOC and its authority, so that operation can start; and with it, where the link between positions and the people who hold them is kept. By the Standard, that link is Top Management's alone, in its own private mechanism, and never in a unit (Standard §1.1, item 9).
    3. Have the output of first priority run once, from end to end, as a signed trial, by a first unit it builds for it. Measure its quality, cost, time and where a human was needed.
@@ -245,7 +248,9 @@ What `00-INSTRUCTION.md` says, in substance:
    2. The unit improves itself within its scope, to its fixed test.
    3. When it reaches its quality, it gets its own Panel from the mother, and the unit then runs behind its Panel.
    4. The unit joins: for operation, to Top Management; for decisions and installs, to the human seat.
+   - **Addition (DR-0041).** The Top Management Group, the first AIOC under the core, is the hub of the operation, human and AI: it builds everything in the operation, and sends its achievements to the governance level to be recorded. Each unit's back office, the AI chat workspace, keeps its panel, also after the panel is built.
 8. **After day one.** The governing seat hands operating authority to Top Management, which may delegate it further. Who signs what is the organisation's own choice; the pack gives only the means, the list of signature types and recorded delegation. Whether the organisation has a Charter or an OCO, and their shape, is also its own choice.
+   - **Addition (DR-0041), which settles the last sentence of this item.** The core is the root of the organisation, made from the Library part 49GAION Charter, with the gateway and the stop; the Top Management Group is the hub of the operation. A separate `[ORG]AIOC-OCO` is the organisation's own choice; where it exists, it serves the operation under Top Management.
 9. **Its work, in three stages (DR-0038).**
    1. It builds the organisation.
    2. It follows the organisation until it becomes a successful organisation.
@@ -270,6 +275,7 @@ This is `07-STARTING-SETUP.md`. The `[ORG]AION` may change all of it.
 3. **A shared state store:** tasks, live state, handover notes, and an append-only log of who did what.
 4. **One connector, with a separate identity for each unit:** each unit has its own credential and only the tools it needs. One unit can never rewrite another unit's spec or touch the stop.
 5. **Units that run as code:** an agent runtime runs each unit from its spec in the record. The assistant project stays the room where humans and the unit talk.
+   - **Addition (DR-0041).** The assistant project is the unit's back office: an authorised interface, and the keeper of its panel; if the panel fails, the work goes on from it.
 6. **A trace of every step:** each prompt, tool call and cost, visible to the human seats.
 7. **A stop outside the AI:** it revokes the unit's credential and cancels its work in the engine. Asking the AI to stop is never the stop.
 8. **More than one engine:** in each unit, one engine does the work and two other engines challenge and critique it, as in every step of Edition Maker.
@@ -290,6 +296,7 @@ This is `07-STARTING-SETUP.md`. The `[ORG]AION` may change all of it.
 - **Free for each unit:** its own screens, reports and tools.
 - **One data rule:** shared data lives only in the shared state store.
 - **From the first day:** one shared read-only status page shows every unit's work, with the link to the stop.
+- **Addition (DR-0041).** Each panel is the organisation's own, unique to it and written in code, from the 49GAION patterns; every task of the unit can be controlled from it. No separate admin back office is written: the back office keeps the panel. The core's panel is the governance panel: the organisation's Standard, Blueprint and Library, the decision log, the status of every unit, "decision needed", the governance veto and the link to the stop.
 
 ### 9.4 What holds the AI in check
 
@@ -361,6 +368,22 @@ Listed in v0.4 as changes to propose later. All are now written in 49GAION, merg
 3. **The first trial.** Settled (GOV, 22 October 2026): the first edition is made for a sample organisation with an invented name (for example Ten, as in the 49GAION texts) and no real data. All the cases of section 11 are run on it. When all pass, the first real organisation follows. A first, light dry run on Ten was made on 22 October 2026 ([`trials/2026-10-22-ten-light/`](trials/2026-10-22-ten-light/REPORT.md)).
 4. **The repositories.** 49GAION's repositories stay public for now, while the work goes on; the governing seat will say when they go private (GOV, 22 October 2026).
 5. **Where the requirements live.** Here, in the 49GAION Library: this PRD, its reasons, its fixed test, its reviews and its trials, so that nothing is forgotten. Edition Maker itself is built later (GOV, 22 October 2026).
+
+## 14. Brought into line with the complete definition (DR-0041)
+
+On 25 October 2026 the governing seat approved the complete definition of 49GAION (`49GAION-FRAMEWORK.md` in the hub). This PRD is read with it, and these additions bring it into line; nothing is cut.
+
+1. **The policy.** 49GAION writes principles and the few safeguards that always hold; the details and the way of working are decided by AI at the time. Where this PRD sets a way of working, it is the starting point, which the organisation's `[ORG]AION` may change.
+2. **The edition is not a bare project.** The core's greatest asset is its access to the 49GAION Library: patterns and models, AIOCs with their blueprints and operating models, panels, cores and the patterns of whole organisations.
+3. **The core is the root,** made from the Library part 49GAION Charter, with the gateway and the stop. It holds the human position of the governance seat, which its AI serves and never holds, the governance panel, and the organisation's own Standard, Blueprint and Library, which are the organisation's IP.
+4. **The handover** is complete when the governance seat accepts the edition; an edition it does not accept comes back to Edition Maker with its reasons.
+5. **The first proposal** (section 8, item 6).
+6. **Positions.** The governance seat appoints Top Management directly and keeps the final right over who holds any position; one person may hold several, or all, where the law allows; 49GAION never speaks of a one-person organisation. The governance seat records who holds its own position and Top Management; Top Management records the positions below it. This reads section 8, item 6, task 2.
+7. **Proposing is open to all;** the `[ORG]AION` rejects with a reason, or applies with the governance seat's approval, within the dial the seat holds.
+8. **The Top Management Group** is the hub of the operation and builds everything in it (section 8, item 7).
+9. **Panels and back offices** (section 9.1, item 5; section 9.3).
+10. **Governance and Delegation,** the second capability: one governance, the dial, the mandate and its envelope, one counterparty, what governance keeps, the gate, the governance veto. It is written in the Standard, §1.3, item 1.
+11. **"Powered by 49GAION"** follows any use of 49GAION.
 
 ---
 

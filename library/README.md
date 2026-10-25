@@ -4,6 +4,8 @@
 
 **Addition (GOV, 22 October 2026): live.** Each `[ORG]AION` configures a part inside the organisation, through its own live AI. A part is a starting point, never a finished configuration made elsewhere and installed as it is. An `[ORG]AION` may improve a part and, by its own choice, give it back (Protocol §10, item 4).
 
+**Addition (`49GAION/DR-0041`): the greatest asset.** The Library is the greatest asset an `[ORG]AION` has: patterns and models, AIOCs with their blueprints and their operating models, instructions and processes, panels and cores, and the patterns of whole organisations. Each organisation takes from it and personalises it; few will build something wholly new for a long time to come. What enters the Library is challenged like every 49GAION change and approved by its governing seat before others use it. The part 49GAION Charter is the part from which the core of every `[ORG]AION`, its root, is made.
+
 ## How a part is held
 
 - **Its card** sits in `library/cards/`, valid against `spec/schemas/part-card.schema.json`, `DRAFT` with `last_result` `NOT_RUN` until its fixed test has run once with recorded evidence (Protocol §10, item 3).
