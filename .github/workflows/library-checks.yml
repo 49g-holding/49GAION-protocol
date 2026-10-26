@@ -41,12 +41,13 @@ jobs:
       - uses: actions/checkout@v4
       - name: The workflow's pin equals PROTOCOL-PIN
         shell: bash
-        env:
-          WORKFLOW_SHA: ${{ github.job_workflow_sha }}
         run: |
           PIN=$(tr -d ' \n\r' < PROTOCOL-PIN)
           if ! printf '%s' "$PIN" | grep -Eq '^[0-9a-f]{40}$'; then echo "::error::PROTOCOL-PIN must hold one full commit SHA of 49GAION-protocol"; exit 1; fi
-          if [ "$PIN" != "$WORKFLOW_SHA" ]; then echo "::error::PIN-MISMATCH: PROTOCOL-PIN is $PIN but this workflow is called at $WORKFLOW_SHA. Move both in one pull request."; exit 1; fi
+          # The caller's own workflow file names the commit this workflow is called at.
+          USES=$(grep -rhoE 'uses:[[:space:]]*49g-holding/49GAION-protocol/\.github/workflows/library-checks\.yml@[0-9a-f]{40}' .github/workflows/ | sed -E 's/.*@//' | sort -u)
+          if [ -z "$USES" ]; then echo "::error::PIN-UNREADABLE: no workflow of this repository calls library-checks.yml at a full commit SHA."; exit 1; fi
+          if [ "$(printf '%s\n' "$USES" | wc -l)" -ne 1 ] || [ "$USES" != "$PIN" ]; then echo "::error::PIN-MISMATCH: PROTOCOL-PIN is $PIN but library-checks.yml is called at: $USES. Move both in one pull request."; exit 1; fi
           echo "pin $PIN"
 
   cards:
