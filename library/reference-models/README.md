@@ -1,6 +1,8 @@
 # The reference-model catalogue
 
-**Addition (GOV, 16 October 2026; `49GAION/DR-0022`).** `reference-model-catalogue.json`, version `v0.1.0`, status `draft`, valid against `reference-model-catalogue.schema.json` in this folder. A method catalogue of the 49GAION Library (Standard §3.1, item 1).
+`reference-model-catalogue.json`, version `v0.1.0`, status `draft`, valid against `reference-model-catalogue.schema.json` in this folder. A method catalogue of the 49GAION Library (Standard §3.1, item 1).
+
+Sources: DR-0022.
 
 ## What it is
 
