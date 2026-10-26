@@ -1,10 +1,12 @@
 # The 49GAION Library
 
-**Addition (GOV, 16 October 2026; `49GAION/DR-0019`).** The 49GAION Library holds every ready-made part of 49GAION: its AIOC parts with their mother blueprints, its capability parts, its unit cards, its contracts and its method catalogues (Standard §3.1). Built once, configured per `[ORG]AION`, never rebuilt. This file is its register: every part is named here once.
+The 49GAION Library holds every ready-made part of 49GAION: its AIOC parts with their mother blueprints, its capability parts, its unit cards, its contracts and its method catalogues (Standard §3.1). Built once, configured per `[ORG]AION`, never rebuilt. This file is its register: every part is named here once.
 
-**Addition (GOV, 22 October 2026): live.** Each `[ORG]AION` configures a part inside the organisation, through its own live AI. A part is a starting point, never a finished configuration made elsewhere and installed as it is. An `[ORG]AION` may improve a part and, by its own choice, give it back (Protocol §10, item 4).
+Each `[ORG]AION` configures a part inside the organisation, through its own live AI. A part is a starting point, never a finished configuration made elsewhere and installed as it is. An `[ORG]AION` may improve a part and, by its own choice, give it back (Protocol §10, item 4).
 
-**Addition (`49GAION/DR-0041`): the greatest asset.** The Library is the greatest asset an `[ORG]AION` has: patterns and models, AIOCs with their blueprints and their operating models, instructions and processes, panels and cores, and the patterns of whole organisations. Each organisation takes from it and personalises it; few will build something wholly new for a long time to come. What enters the Library is challenged like every 49GAION change and approved by its governing seat before others use it. The part 49GAION Charter is the part from which the core of every `[ORG]AION`, its root, is made.
+The Library is the greatest asset an `[ORG]AION` has: patterns and models, AIOCs with their blueprints and their operating models, instructions and processes, panels and cores, and the patterns of whole organisations. Each organisation takes from it and personalises it; few will build something wholly new for a long time to come. What enters the Library is challenged like every 49GAION change and approved by its governing seat before others use it. The part 49GAION Charter is the part from which the core of every `[ORG]AION`, its root, is made.
+
+Sources: DR-0019, DR-0041; GOV, 22 October 2026.
 
 ## How a part is held
 
@@ -13,11 +15,15 @@
 - **Its mother blueprint**, for an AIOC part, is written in its own writing repository, for any organisation, with `[ORG]` placeholders and no organisation's data. The Library holds it by pin: repository, path, version, commit and the SHA-256 of the blueprint file. A new version reaches the Library only by a pull request that moves the pin, merged by the governing seat of 49GAION. An organisation's instance keeps its own values in its own records repository.
 - **One home.** The text lives in one place; the Library holds its pin, never a second copy.
 - **A pin before its merge.** A pin may name the head commit of the writing repository's pull request that carries the version; when that pull request is merged, the pin moves to the merged commit, with the same SHA-256.
-- **A mother repository (addition, GOV, 16 October 2026; `49GAION/DR-0024`).** Where the writing repository of a part's first instance holds an organisation's data, the mother is written in the part's own public mother repository, `49GAION-<part>`, laid out and checked as a writing repository, and pinned here like any mother. Source Lifecycle and Product Core are the first two.
+- **A mother repository.** Where the writing repository of a part's first instance holds an organisation's data, the mother is written in the part's own public mother repository, `49GAION-<part>`, laid out and checked as a writing repository, and pinned here like any mother. Source Lifecycle and Product Core are the first two.
+
+Sources: DR-0024.
 
 ## The register
 
-**Two sections (addition, GOV, 16 October 2026; `49GAION/DR-0025`).** The Library is the one store of everything 49GAION has built and knows. **Parts**: everything 49GAION builds, from a Cell to an AIOC, with its blueprint, card, fixed test, contracts and method catalogues, and its whole history (versions, lineage, decisions, lessons, test results), held in its own home and named here. **Products**: what the Library offers, a single part offered alone or an assembly of parts placed side by side and connected; an assembly's blueprint lists its parts by pin, their connections, what it sets and one shared test, and its features are its parts' features (Standard §3.1, items 11 and 12).
+The Library is the one store of everything 49GAION has built and knows, in two sections. **Parts**: everything 49GAION builds, from a Cell to an AIOC, with its blueprint, card, fixed test, contracts and method catalogues, and its whole history (versions, lineage, decisions, lessons, test results), held in its own home and named here. **Products**: what the Library offers, a single part offered alone or an assembly of parts placed side by side and connected; an assembly's blueprint lists its parts by pin, their connections, what it sets and one shared test, and its features are its parts' features (Standard §3.1, items 11 and 12).
+
+Sources: DR-0025.
 
 ### Parts
 
@@ -45,8 +51,6 @@
 | Advisory Council | inside an `[ORG]AION` | `advisory-council.part-card.json` | §16 | — | TEST-ADVISORY-COUNCIL v1 | `DRAFT`, `NOT_RUN` |
 | Reference Comparison | inside an `[ORG]AION` | `reference-comparison.part-card.json` | §16 | — | TEST-REFERENCE-COMPARISON v1 | `DRAFT`, `NOT_RUN` |
 
-The v2 cards of Self-Improvement are kept and marked `REPLACED` (`library/cards/README.md`).
-
 #### Contracts
 
 | Contract | File | Between | Standard |
@@ -69,11 +73,13 @@ The v2 cards of Self-Improvement are kept and marked `REPLACED` (`library/cards/
 | 49GAION Operations Event Register | a single part, offered alone; it runs on its own | 49GAION Operations Event Register | none | TEST-OPERATIONS-EVENT-REGISTER v1 | `DRAFT`, `NOT_RUN` |
 | 49GAION Organisation Memory | assembly | 49GAION Source Lifecycle, Operations Event Register | the register's scope in Source Lifecycle (it writes origin kinds `correspondence` and `export`, and reads references only) and its gap signals (Protocol §13, item 12; §22, item 11); Source Lifecycle's notices back to the register | TEST-ORGANISATION-MEMORY v1 (below) | named and defined, built later (`49GAION/DR-0027`); its parts `DRAFT`, `NOT_RUN` |
 
-An organisation of human positions is its output; it does not decide which positions an AI fills. The next product, for an `[ORG]AION`, may use all or some of its parts.
+An organisation of human positions is its output; it does not decide which positions an AI fills. The next product, for an `[ORG]AION`, may use all or some of its parts; it is AI-native: it starts from the output and from what AI can do, and it is not simply a choice of which positions an AI fills.
 
-**Readings.** The next product is AI-native: it starts from the output and from what AI can do, and it is not simply a choice of which positions an AI fills (`49GAION/DR-0031`). "Runs on its own", in the rows above, reads: with the Charter, the root of every `[ORG]AION`, and `[ORG]AIOC-OCO` (Standard §5.3), and no other Library part (`49GAION/DR-0029`).
+A part that runs on its own runs with the Charter, the root of every `[ORG]AION`, and `[ORG]AIOC-OCO` (Standard §5.3), and no other Library part.
 
 Organisation Memory keeps what the organisation knows beside what it did. Placed beside Organisation Design and Delivery, it closes the loop of an AI-native operation: the design runs, the register records it, and the next design starts from the record (Standard §3.1, item 14).
+
+Sources: DR-0029, DR-0031.
 
 ## TEST-DESIGN-CHAIN v2
 
@@ -108,5 +114,12 @@ The shared test of 49GAION Organisation Memory (`49GAION/DR-0027`), run across t
 7. A source superseded in Source Lifecycle marks, in the register, the acts that cited it after its supersession.
 8. Over the fixture run, no number stream has a gap or a duplicate.
 9. Nothing in either part names a person or reads who occupies a position, and nothing gives a figure for one human position.
+
+## Superseded wording, by version
+
+The wording below left the body of this text when it was written clean at `v2.0.0`. Each entry names what superseded it. Nothing is lost: the layered texts up to `v1.8.0` are kept at their tags.
+
+- **The register › Parts › Capability parts and unit cards, Self-Improvement (line 48)** · superseded by the v3 cards named in the Self-Improvement row: org-aion-self-improvement.part-card.v3.json, org-aion-self-improvement.bot-identity-card.v3.json (library/cards/README.md):
+  The v2 cards of Self-Improvement are kept and marked `REPLACED` (`library/cards/README.md`).
 
 Powered by 49GAION
