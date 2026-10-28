@@ -4,6 +4,6 @@
 
 **`v2.1.0` brings the Protocol into line with the complete definition `v2.1.0`** (`49GAION/DR-0048`, `DR-0049`): the system knows only AIOCs and HOAC positions; who holds a position, and how, is the organisation's own mechanism, outside the system. The Protocol and the Library pages stay written clean, as from `v2.0.0` (`49GAION/DR-0047`): they state their current meaning in their body, and the wording they superseded is listed at the end of each text and kept at the earlier tags.
 
-**Since `v2.1.0`, on `main`, unreleased:** none.
+**Since `v2.1.0`, on `main`, unreleased:** the Library register re-pins the seven AIOC part mothers at their releases of 29 October 2026, which carry `49GAION/DR-0049` (positions only): Source Lifecycle `v0.1.5`, Target Operating Model `v0.6.2`, Process and Position Design `v0.5.2`, Delivery and Implementation `v0.2.2`, Product Core `v0.1.2`, Operations Event Register `v0.1.2`, Charter `v0.1.2`, each at its merged commit with its SHA-256. It ships with the next release.
 
 Powered by 49GAION
