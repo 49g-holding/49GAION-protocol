@@ -1,17 +1,16 @@
 """Reference organisations (Protocol §4.10, items 11 and 13).
 
 Each folder under tests/orgs/ holds one organisation's register (register.json): its parts,
-the people filling its human seats (by pseudonymous reference only, standing in for top
-management's own occupancy record; no line of this check reads it), the Human Floor
-bindings and its register events. The check expands every entry into a unit card and
+the Human Floor bindings and its register events. No register records a person: who holds a
+position is the organisation's own mechanism, outside the system (49GAION/DR-0049). The check expands every entry into a unit card and
 validates it against spec/schemas/unit-card.schema.json, then checks the rules in force
 that can be read from a register (GOV, 21 October 2026):
   GOV-SEAT       exactly one filled, unscoped Cell carrying [ORG]HOAC-GOV, seat kind human
                  (Standard §1.3, item 2)
   FLOOR-BINDING  every Human Floor item HF-01..HF-19 is bound to a filled human Cell carrying a
                  HOAC label (Standard §1.5). Two positions are two parties (GOV, 15 October 2026):
-                 no check compares the occupants behind positions, and a compensating control is
-                 top management's own choice, read by no check here
+                 no check compares the persons behind positions, and none reads a compensating
+                 control, which is the organisation's own (49GAION/DR-0049)
   STOP-DOOR      every part has exactly one stop door, from its card (Standard §4.3)
   CHAIN-*        every accountable_to chain is acyclic, ends at the GOV Cell, and passes at least
                  one Cell of seat kind human carrying a HOAC label; the Charter is the only part
@@ -125,8 +124,8 @@ def check(org):
     for hf in R["floor_bindings"]:
         if hf not in HF:
             errs.append(("FLOOR-BINDING", f"{hf}: cited Human Floor item does not exist in Standard §1.5 (HF-01..HF-19)"))
-    # Two positions are two parties (GOV, 15 October 2026): one occupant behind GOV and TM is not a
-    # finding, and a compensating control is not required. The check never reads "person".
+    # Two positions are two parties (GOV, 15 October 2026): GOV and TM are two parties whoever holds
+    # them, and no compensating control is read (49GAION/DR-0049). No register records a person.
     roots = [e["code"] for e in R["parts"] if e["parent"] == "none"]
     if len(roots) != 1:
         errs.append(("CHAIN-TWO-ROOTS", f"parts with parent none: {roots}; only the Charter has none"))
@@ -160,11 +159,11 @@ def LOG(n, e, a, g):
     if os.environ.get("FIXTURE_LOG"): print("LOGROW\t" + "\t".join([n, e, a, "1" if g else "0"]))
 ok = True
 # The reference set is fixed: all four must be present and non-empty, and the cycle case
-# must be present. Since (GOV, 15 October 2026), one-occupant-gov-and-tm-no-control is required
-# too: one occupant behind GOV and TM, with no compensating control, passes. A missing or empty
-# folder fails (FIXTURE-ORGS-REFERENCE-MISSING).
-REQUIRED = ["three-person-company", "multi-entity-group", "human-department-with-assistants",
-            "one-person-gov-and-tm", "one-occupant-gov-and-tm-no-control", "must-fail-cycle"]
+# must be present. Since 49GAION/DR-0049 the four are three-position-company, multi-entity-group,
+# human-department-with-assistants and gov-and-tm-only (GOV and TM as the only human positions).
+# A missing or empty folder fails (FIXTURE-ORGS-REFERENCE-MISSING).
+REQUIRED = ["three-position-company", "multi-entity-group", "human-department-with-assistants",
+            "gov-and-tm-only", "must-fail-cycle"]
 HERE = pathlib.Path(__file__).parent
 for name in REQUIRED:
     f = HERE / name / "register.json"

@@ -1,5 +1,5 @@
 {
-  "name": "A human department with AI assistants attached to its people",
+  "name": "A human department with AI assistants attached to its positions",
   "parts": [
     {
       "code": "TenAIOC-CH",
@@ -16,7 +16,6 @@
       "parent": "TenAIOC-CH",
       "seat_kind": "human",
       "filled": true,
-      "person": "idref:p1",
       "hoac": "TenHOAC-GOV",
       "authority_scope": {
         "decision_types": [
@@ -42,7 +41,6 @@
       "seat_kind": "human",
       "filled": true,
       "accountable_to": "TenCELL-GOV",
-      "person": "idref:p2",
       "hoac": "TenHOAC-TM",
       "authority_scope": {
         "decision_types": [
@@ -64,7 +62,6 @@
       "seat_kind": "human",
       "filled": true,
       "accountable_to": "TenCELL-TMS",
-      "person": "idref:p3",
       "hoac": "TenHOAC-ACS",
       "authority_scope": {
         "decision_types": [
@@ -123,7 +120,6 @@
       "seat_kind": "human",
       "filled": true,
       "accountable_to": "TenCELL-TMS",
-      "person": "idref:p6",
       "hoac": "TenHOAC-ACS",
       "authority_scope": {
         "decision_types": [
@@ -141,7 +137,6 @@
       "seat_kind": "human",
       "filled": true,
       "accountable_to": "TenCELL-HRH",
-      "person": "idref:p7",
       "test_owner": "TenCELL-HRH"
     },
     {

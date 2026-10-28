@@ -1,5 +1,5 @@
 {
-  "name": "One occupant behind GOV and TM with no compensating control passes: two positions are two parties (GOV, 15 October 2026)",
+  "name": "A company of three human positions: GOV, TM and one Accountability Seat",
   "parts": [
     {
       "code": "TenAIOC-CH",
@@ -16,7 +16,6 @@
       "parent": "TenAIOC-CH",
       "seat_kind": "human",
       "filled": true,
-      "person": "idref:p1",
       "hoac": "TenHOAC-GOV",
       "authority_scope": {
         "decision_types": [
@@ -42,7 +41,6 @@
       "seat_kind": "human",
       "filled": true,
       "accountable_to": "TenCELL-GOV",
-      "person": "idref:p1",
       "hoac": "TenHOAC-TM",
       "authority_scope": {
         "decision_types": [
@@ -64,7 +62,6 @@
       "seat_kind": "human",
       "filled": true,
       "accountable_to": "TenCELL-TMS",
-      "person": "idref:p3",
       "hoac": "TenHOAC-ACS",
       "authority_scope": {
         "decision_types": [
@@ -154,7 +151,12 @@
       "type": "grant-or-widen-access",
       "date": "2026-10-13",
       "expect": "TenCELL-OPS"
+    },
+    {
+      "part": "TenCELL-OPS",
+      "type": "change-parent",
+      "date": "2026-10-13",
+      "expect": "TenCELL-GOV"
     }
-  ],
-  "note": "Formerly the must-fail organisation must-fail-one-person-no-control. Two positions are two parties (GOV, 15 October 2026): GOV and TM each sign under their own Cell code and each counts; no check compares the occupants behind positions, and no compensating control is required."
+  ]
 }

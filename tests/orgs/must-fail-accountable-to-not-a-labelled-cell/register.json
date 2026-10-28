@@ -16,7 +16,6 @@
       "parent": "TenAIOC-CH",
       "seat_kind": "human",
       "filled": true,
-      "person": "idref:p1",
       "hoac": "TenHOAC-GOV",
       "authority_scope": {
         "decision_types": [
@@ -42,7 +41,6 @@
       "seat_kind": "human",
       "filled": true,
       "accountable_to": "TenCELL-GOV",
-      "person": "idref:p2",
       "hoac": "TenHOAC-TM",
       "authority_scope": {
         "decision_types": [
@@ -64,7 +62,6 @@
       "seat_kind": "human",
       "filled": true,
       "accountable_to": "TenCELL-TMS",
-      "person": "idref:p3",
       "hoac": "TenHOAC-ACS",
       "authority_scope": {
         "decision_types": [
@@ -114,7 +111,6 @@
       "seat_kind": "human",
       "filled": true,
       "accountable_to": "TenCELL-OPS",
-      "person": "idref:p4",
       "test_owner": "TenCELL-OPS"
     }
   ],

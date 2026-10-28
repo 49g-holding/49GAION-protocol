@@ -4,6 +4,8 @@
 
 **PRD v0.9** brings the PRD into line with the complete definition of 49GAION, approved by the governing seat on 25 October 2026 (`49GAION/DR-0041`), and cuts nothing. Its additions are marked DR-0041 in sections 8 and 9, and listed in section 14.
 
+**PRD v0.10** brings the PRD into line with the complete definition `v2.1.0` (`49GAION/DR-0048`), by `49GAION/DR-0049`: every human place is a position, and who holds it, and how, is the organisation's own mechanism, outside the system. Its changes, and the wording they replaced, are listed in section 15.
+
 **Addition (`49GAION/DR-0042`).** The governing seat confirmed on 25 October 2026 that it approved these requirements ("Yes, I set Edition Maker."); that confirmation is the source of their approval, read with `49GAION/DR-0039`. At the handover the organisation issues fresh keys for its gateway, and every key Edition Maker made, held or used for the edition is revoked. Edition Maker keeps its own rule: at every step one engine works and two challenge.
 
 **v0.8 adds one thing:** the core's instruction names its first capability, Structural Adaptation, as the 49GAION Standard defines it in its section on the product. It is written below in the core's instruction (item 13) and in the fixed test (case 20).
@@ -55,9 +57,9 @@ v0.4 superseded v0.3 and changed one thing: there is no separate "branded AION";
 
 ## 3. Who uses it, and how big an edition is
 
-- **The owner:** the human who holds the organisation's governing seat. In this PRD, "the owner" and "the governing seat" mean the same. The owner gives the sources, answers the questions and approves the result.
-- **Contributors:** anyone the owner names, who gives sources or a spoken account.
-- **The edition engineer:** a human seat of 49GAION, accountable for one edition from its opening to its handover. This is the sensitive part of the work, and a human holds it. The engineer takes each step forward and supervises it; runs several AI engines, one working and others challenging it; answers or escalates their findings; and signs each step as done before the next begins. The engineer is a position; its holder is kept in 49GAION's private holders register. The engineer never decides for the owner: the owner approves.
+- **The owner:** the organisation's governing seat, a position (`[ORG]HOAC-GOV`). In this PRD, "the owner" and "the governing seat" mean the same. Who holds the seat is the organisation's own mechanism, outside the system. The owner gives the sources, answers the questions and approves the result.
+- **Contributors:** the positions the owner names, which give sources or a spoken account.
+- **The edition engineer:** a human seat of 49GAION, accountable for one edition from its opening to its handover. This is the sensitive part of the work, and the seat is human: no AI holds it. The engineer takes each step forward and supervises it; runs several AI engines, one working and others challenging it; answers or escalates their findings; and signs each step as done before the next begins. The engineer is a position; who holds it is 49GAION's own mechanism, outside the system. The engineer never decides for the owner: the owner approves.
 - **Every request becomes an AION.** Every order or request made to 49GAION enters here. The size changes, never the shape.
   - **Smallest:** one human seat holding both governance and top management, the `[ORG]AION`, and one AIOC.
   - **Largest:** a group of companies, each with its own entities and outputs.
@@ -99,7 +101,7 @@ Each step has its requirements, numbered `EM-R`.
 ### Step 1. Open
 
 - **EM-R1.** An edition opens with a request made to 49GAION, through the intake gateway on 49GAION's website: one intake per customer. Every order or request made to 49GAION enters here, and none is handled outside Edition Maker. The governing seat is recorded as a position.
-- **EM-R2.** The evidence of the seat's authority is taken in, for example the constituting documents. The holder's identity is kept in the private holders register, never in the edition.
+- **EM-R2.** The evidence of the seat's authority is taken in, for example the constituting documents, and kept with the raw sources, outside the pack (EM-R22). No holder's identity enters the edition.
 - **EM-R2a.** Before any source is sent to an engine, the owner's consent is taken, with the list of engines allowed and the data each may see (section 6.1, item 9).
 
 ### Step 2. Gather
@@ -196,7 +198,7 @@ Each item holds: its value; its source (by name and date); an estimate mark, whe
 - data the owner has no right to give, or another organisation's confidential material;
 - login credentials, passwords, keys, tokens or one-time codes;
 - anything that would lower the Human Floor at the handover, or skip a human decision;
-- the owner's choice of where to put more people than the Human Floor needs; that comes after the AI-native design.
+- the owner's choice of where to put more human positions than the Human Floor needs; that comes after the AI-native design.
 
 ---
 
@@ -237,9 +239,9 @@ What `00-INSTRUCTION.md` says, in substance:
    - It builds its own Library. It may use 49GAION's parts and technology.
 5. **How it works with the governing seat.** Each proposal comes as completed staff work: one recommendation, its reasons, its risks, whether it can be reversed, and what waits meanwhile. A part that did not write a proposal checks it first. Each proposal is written by one engine and challenged and critiqued by two other engines before it reaches the governing seat; there is one round, the writer answers each finding, and a finding that matters and is still in dispute goes to the seat with both views; the findings and the answers go with the proposal (section 2, item 8). This holds from the first day, while the core is alone, so no proposal reaches the seat unchallenged (found in the light trial on Ten). Proposals are kept to a size the seat's review time can carry.
 6. **Its first tasks, by default.** The governing seat may choose otherwise.
-   - **Addition (DR-0041): the first proposal.** The core's first work is the first proposal. As soon as the governance seat is in place, whatever the knowledge of its holder, the core takes the seat's brief and, from what Edition Maker took in and 49GAION's patterns and models, gives several proposals and designs a small organisation for approval. A rejected proposal is made again from the seat's reasons; nothing is built until one is approved. The tasks below are read with it: the first plan is that proposal.
+   - **Addition (DR-0041): the first proposal.** The core's first work is the first proposal. As soon as the governance seat is in place, whatever the knowledge behind it, the core takes the seat's brief and, from what Edition Maker took in and 49GAION's patterns and models, gives several proposals and designs a small organisation for approval. A rejected proposal is made again from the seat's reasons; nothing is built until one is approved. The tasks below are read with it: the first plan is that proposal.
    1. Write its first plan from the Edition Sheet: a short sheet that says, for each output, how AI makes it and where a human is needed.
-   2. Propose the Top Management AIOC and its authority, so that operation can start; and with it, where the link between positions and the people who hold them is kept. By the Standard, that link is Top Management's alone, in its own private mechanism, and never in a unit (Standard §1.1, item 9).
+   2. Propose the Top Management AIOC and its authority, so that operation can start. Who holds each position, and how, is the organisation's own mechanism, outside the system; the core proposes positions and never touches that mechanism (Standard §1.1, item 9).
    3. Have the output of first priority run once, from end to end, as a signed trial, by a first unit it builds for it. Measure its quality, cost, time and where a human was needed.
    4. From that evidence, propose how to divide the organisation, and how human each part is.
    5. Build and install only what is approved. A rejected proposal goes back with its reason, and nothing of it is built. A part that depends on a missing item is not built until the item is closed.
@@ -332,7 +334,7 @@ Each case passes or fails.
 4. An item left unanswered appears on the missing list, with who can close it. It is never filled by a guess.
 5. A number given without a source or the estimate mark is not taken.
 6. Every output in the Edition Sheet has its inputs beside it, or is marked as missing them.
-7. An edition for one person with one task and an edition for a group have the same pack files and the same core instruction. Their first units come from the core's first proposal.
+7. An edition for a single position with one task and an edition for a group have the same pack files and the same core instruction. Their first units come from the core's first proposal.
 8. The pack holds no structure of the organisation beyond the core.
 9. The pack's Standard is identical to the 49GAION Standard or stricter, as checked against the pinned version.
 10. Every Library part in the pack carries a version and a hash.
@@ -380,12 +382,37 @@ On 25 October 2026 the governing seat approved the complete definition of 49GAIO
 3. **The core is the root,** made from the Library part 49GAION Charter, with the gateway and the stop. It holds the human position of the governance seat, which its AI serves and never holds, the governance panel, and the organisation's own Standard, Blueprint and Library, which are the organisation's IP.
 4. **The handover** is complete when the governance seat accepts the edition; an edition it does not accept comes back to Edition Maker with its reasons.
 5. **The first proposal** (section 8, item 6).
-6. **Positions.** The governance seat appoints Top Management directly and keeps the final right over who holds any position; one person may hold several, or all, where the law allows; 49GAION never speaks of a one-person organisation. The governance seat records who holds its own position and Top Management; Top Management records the positions below it. This reads section 8, item 6, task 2.
+6. **Positions.** Every human place in the edition is a position. Who holds each position, and how, is the organisation's own mechanism, outside the system, under the governance seat's ultimate authority (the complete definition, §6); one person may hold several positions, or all, where the law allows; 49GAION never speaks of a one-person organisation. This reads section 8, item 6, task 2.
 7. **Proposing is open to all;** the `[ORG]AION` rejects with a reason, or applies with the governance seat's approval, within the dial the seat holds.
 8. **The Top Management Group** is the hub of the operation and builds everything in it (section 8, item 7).
 9. **Panels and back offices** (section 9.1, item 5; section 9.3).
 10. **Governance and Delegation,** the second capability: one governance, the dial, the mandate and its envelope, one counterparty, what governance keeps, the gate, the governance veto. It is written in the Standard, §1.3, item 1.
 11. **"Powered by 49GAION"** follows any use of 49GAION.
+
+## 15. Brought into line with the complete definition `v2.1.0` (DR-0049)
+
+On 28 October 2026 the governing seat merged the complete definition `v2.1.0` (`49GAION/DR-0048`): the system knows only AIOCs and HOAC positions, and each organisation keeps its own mechanism, outside the system, for who holds its positions. `49GAION/DR-0049` brings the texts into line. In this PRD it changes the places below; each is listed with the wording it replaced.
+
+- **Section 3, the owner** · superseded by `49GAION/DR-0049`:
+  - **The owner:** the human who holds the organisation's governing seat. In this PRD, "the owner" and "the governing seat" mean the same. The owner gives the sources, answers the questions and approves the result.
+- **Section 3, contributors** · superseded by `49GAION/DR-0049`:
+  - **Contributors:** anyone the owner names, who gives sources or a spoken account.
+- **Section 3, the edition engineer, who holds it** · superseded by `49GAION/DR-0049`:
+  This is the sensitive part of the work, and a human holds it.
+- **Section 3, the edition engineer, its holder** · superseded by `49GAION/DR-0049`:
+  The engineer is a position; its holder is kept in 49GAION's private holders register.
+- **EM-R2** · superseded by `49GAION/DR-0049`:
+  - **EM-R2.** The evidence of the seat's authority is taken in, for example the constituting documents. The holder's identity is kept in the private holders register, never in the edition.
+- **Section 6.4 (Never taken in), the last item** · superseded by `49GAION/DR-0049`:
+  - the owner's choice of where to put more people than the Human Floor needs; that comes after the AI-native design.
+- **Section 8, item 6, the first proposal** · superseded by `49GAION/DR-0049`:
+  As soon as the governance seat is in place, whatever the knowledge of its holder, the core takes the seat's brief
+- **Section 8, item 6, task 2** · superseded by `49GAION/DR-0049`:
+  2. Propose the Top Management AIOC and its authority, so that operation can start; and with it, where the link between positions and the people who hold them is kept. By the Standard, that link is Top Management's alone, in its own private mechanism, and never in a unit (Standard §1.1, item 9).
+- **Section 11, case 7** · superseded by `49GAION/DR-0049`:
+  7. An edition for one person with one task and an edition for a group have the same pack files and the same core instruction.
+- **Section 14, item 6** · superseded by `49GAION/DR-0049`:
+  6. **Positions.** The governance seat appoints Top Management directly and keeps the final right over who holds any position; one person may hold several, or all, where the law allows; 49GAION never speaks of a one-person organisation. The governance seat records who holds its own position and Top Management; Top Management records the positions below it. This reads section 8, item 6, task 2.
 
 ---
 

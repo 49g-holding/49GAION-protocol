@@ -8,12 +8,9 @@
       "payload_hash": "sha256:abababababababababababababababababababababababababababababababab",
       "signer_cell": "TenCELL-TM2",
       "signer_seat_kind": "human",
-      "signer_role": "filler",
-      "signer_identity_ref": "idref:p3",
       "signer_credential": {
         "kind": "human-live-sign-in",
-        "authenticator": "phishing-resistant",
-        "bound_to_one_person": true
+        "authenticator": "phishing-resistant"
       },
       "executor_cell": "TenCELL-SLCS",
       "work_item_id": "WI-0042",
@@ -39,6 +36,5 @@
     "TenCELL-GOV": "E1",
     "TenCELL-FIN": "E1",
     "TenCELL-TM2": "E2"
-  },
-  "requester_identity_ref": "idref:req1"
+  }
 }

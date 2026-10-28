@@ -17,7 +17,6 @@
       "parent": "TenAIOC-CH",
       "seat_kind": "human",
       "filled": true,
-      "person": "idref:p1",
       "hoac": "TenHOAC-GOV",
       "authority_scope": {
         "decision_types": [
@@ -44,7 +43,6 @@
       "seat_kind": "human",
       "filled": true,
       "accountable_to": "TenCELL-GOV",
-      "person": "idref:p2",
       "hoac": "TenHOAC-TM",
       "authority_scope": {
         "decision_types": [
@@ -67,7 +65,6 @@
       "seat_kind": "human",
       "filled": true,
       "accountable_to": "TenCELL-TMS",
-      "person": "idref:p3",
       "hoac": "TenHOAC-ACS",
       "authority_scope": {
         "decision_types": [
@@ -132,7 +129,6 @@
       "seat_kind": "human",
       "filled": true,
       "accountable_to": "TenCELL-GOV",
-      "person": "idref:p4",
       "hoac": "TenHOAC-GOV",
       "scoped_entity": "Ten Trading",
       "entity": "Ten Trading",
@@ -153,7 +149,6 @@
       "seat_kind": "human",
       "filled": true,
       "accountable_to": "TenCELL-TGOV",
-      "person": "idref:p5",
       "hoac": "TenHOAC-TM",
       "entity": "Ten Trading",
       "authority_scope": {

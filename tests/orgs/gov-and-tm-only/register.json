@@ -1,5 +1,5 @@
 {
-  "name": "One occupant behind GOV and TM, with a compensating control recorded by GOV as the organisation's own choice; GOV and TM are two parties (GOV, 15 October 2026)",
+  "name": "An organisation whose only human positions are GOV and TM: two positions, two parties (Standard §1.1, item 10)",
   "parts": [
     {
       "code": "TenAIOC-CH",
@@ -16,7 +16,6 @@
       "parent": "TenAIOC-CH",
       "seat_kind": "human",
       "filled": true,
-      "person": "idref:p1",
       "hoac": "TenHOAC-GOV",
       "authority_scope": {
         "decision_types": [
@@ -42,7 +41,6 @@
       "seat_kind": "human",
       "filled": true,
       "accountable_to": "TenCELL-GOV",
-      "person": "idref:p1",
       "hoac": "TenHOAC-TM",
       "authority_scope": {
         "decision_types": [
@@ -64,7 +62,6 @@
       "seat_kind": "human",
       "filled": true,
       "accountable_to": "TenCELL-TMS",
-      "person": "idref:p2",
       "hoac": "TenHOAC-ACS",
       "authority_scope": {
         "decision_types": [
@@ -129,17 +126,7 @@
     "HF-14": "TenCELL-OPS",
     "HF-18": "TenCELL-OPS"
   },
-  "events": [
-    {
-      "type": "compensating-control",
-      "rule": "distinct-GOV-TM",
-      "control": "outside reviewer of every listed action signed under either Cell, within 10 working days",
-      "signed_by": "TenCELL-GOV",
-      "signature_ref": "SIG-0100",
-      "date": "2026-10-13",
-      "review_date": "2027-10-13"
-    }
-  ],
+  "events": [],
   "queries": [
     {
       "part": "TenAIOC-SL",
@@ -166,5 +153,5 @@
       "expect": "TenCELL-OPS"
     }
   ],
-  "note": "Two positions are two parties (GOV, 15 October 2026): GOV and TM each sign under their own Cell code and each counts, even with one occupant behind both. The compensating control below is the organisation's own choice, recorded by GOV, which holds the occupancy link of TM itself; no check reads or requires it. A control that is recorded never lowers the Human Floor, never applies to HF-12 and never accepts an AI signature."
+  "note": "Formerly one-occupant-gov-and-tm-no-control, and before that the must-fail organisation must-fail-one-person-no-control. GOV and TM each sign under their own Cell code and each counts. Who holds each position is the organisation's own mechanism, outside the system; no fixture records a person, and no check reads one (49GAION/DR-0049)."
 }

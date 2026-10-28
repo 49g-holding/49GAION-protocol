@@ -4,12 +4,9 @@
   "target_code": "TenAIOC-SL",
   "signer_cell": "TenCELL-TMS",
   "signer_seat_kind": "human",
-  "signer_role": "filler",
-  "signer_identity_ref": "idref:7f3a",
   "signer_credential": {
     "kind": "human-live-sign-in",
-    "authenticator": "phishing-resistant",
-    "bound_to_one_person": true
+    "authenticator": "phishing-resistant"
   },
   "executor_cell": "TenCELL-SLCS",
   "work_item_id": "WI-0042",

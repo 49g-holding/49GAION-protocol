@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/signature.schema.json",
   "title": "49GAION Operating Protocol - signature record",
-  "description": "The record of one human signature for an action of a listed decision type (Protocol §4.10, item 9; Standard §4.4, items 6 and 8). It holds only the payload hash, Cell codes and a pseudonymous identity reference; personal data stays in the [ORG]AION's private store. This schema proves shape only; behaviour (replay, revocation, expiry, wrong executor, altered payload, signer Cell changed, retired or stopped) is tested in the tests of each [ORG]AION's gateway.",
+  "description": "The record of one human signature for an action of a listed decision type (Protocol §4.10, item 9; Standard §4.4, items 6 and 8). It holds only the payload hash, Cell codes, times and the sign-in evidence; no person's identity and no reference to one (Standard §1.1, item 9; 49GAION/DR-0049). This schema proves shape only; behaviour (replay, revocation, expiry, wrong executor, altered payload, revoked credential, signer Cell retired or stopped) is tested in the tests of each [ORG]AION's gateway.",
   "type": "object",
   "required": [
     "signature_id",
@@ -11,7 +11,6 @@
     "payload_hash",
     "signer_cell",
     "signer_seat_kind",
-    "signer_identity_ref",
     "signer_credential",
     "executor_cell",
     "work_item_id",
@@ -51,28 +50,26 @@
       "description": "The signer's Cell is a human seat. A signature by an AI Cell, including an attached assistant, is never valid (Protocol §4.10, items 6 and 7)."
     },
     "signer_role": {
-      "enum": [
-        "filler",
-        "acting-filler",
-        "deputy"
-      ],
-      "description": "The signer fills the seat, acts for it for a dated period, or signs as a deputy under a recorded delegation (Protocol §4.10, item 10)."
+      "$comment": "RULE-NO-ACTING-OR-DEPUTY: acting fillers and deputies are the organisation's own mechanism (49GAION/DR-0049)",
+      "description": "Withdrawn by 49GAION/DR-0049. The signer is the position, under its own Cell code; whether a position has an acting holder or a deputy is the organisation's own mechanism, outside the system. A record that carries this field is refused.",
+      "not": {}
     },
     "delegation_ref": {
-      "type": "string",
-      "description": "For an acting filler or a deputy: the register event of the appointment or delegation."
+      "$comment": "RULE-NO-ACTING-OR-DEPUTY: acting fillers and deputies are the organisation's own mechanism (49GAION/DR-0049)",
+      "description": "Withdrawn by 49GAION/DR-0049, with signer_role. Delegation between positions is read from the signing Cell's authority_scope (Standard §4.4, item 8). A record that carries this field is refused.",
+      "not": {}
     },
     "signer_identity_ref": {
-      "type": "string",
-      "pattern": "^idref:[0-9A-Za-z-]+$",
-      "description": "A pseudonymous reference to the signer's identity; no name. Reading note (GOV, 15 October 2026): it serves the sign-in check and top management's records only; no rule counts or matches it across signatures, and dual signature counts distinct signing positions (Protocol §4.10, item 3)."
+      "$comment": "RULE-NO-PERSON-REFERENCE: no person's identity, and no reference to one, in the system (49GAION/DR-0049)",
+      "description": "Withdrawn by 49GAION/DR-0049. The system records no person's identity and no reference to one; any record of who stood behind a signature is the organisation's own, outside the system (Standard §1.1, item 9). A record that carries this field is refused.",
+      "not": {}
     },
     "signer_credential": {
       "type": "object",
+      "description": "The credential the organisation's mechanism issued for the signing position, used with a fresh live sign-in (Standard §1.1, item 9; HF-10). Never an AI credential or a technical key.",
       "required": [
         "kind",
-        "authenticator",
-        "bound_to_one_person"
+        "authenticator"
       ],
       "additionalProperties": false,
       "properties": {
@@ -84,7 +81,9 @@
           "const": "phishing-resistant"
         },
         "bound_to_one_person": {
-          "const": true
+          "$comment": "RULE-NO-PERSON-REFERENCE: the gateway verifies the credential for the position, never the person (49GAION/DR-0049)",
+          "description": "Withdrawn by 49GAION/DR-0049: how the organisation issues its credentials is its own mechanism, outside the system. A record that carries this field is refused.",
+          "not": {}
         }
       }
     },
@@ -122,7 +121,8 @@
           "format": "date-time"
         },
         "session_ref": {
-          "type": "string"
+          "type": "string",
+          "description": "The reference of the sign-in event at the organisation's mechanism, as evidence of the fresh live sign-in; it carries no person's identity."
         }
       },
       "description": "Evidence of the fresh live sign-in made at signing (HF-10)."

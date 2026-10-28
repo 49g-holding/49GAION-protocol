@@ -4,4 +4,6 @@
 
 **`v2.0.0` is the clean version** (`49GAION/DR-0047`): the Protocol and the Library pages state their current meaning in their body; the additions and readings since `v1.4.0` are folded in, and the wording they superseded is listed at the end of each text and kept at the earlier tags.
 
+**Since `v2.0.0`, on `main`, unreleased:** the Protocol brought into line with the complete definition `v2.1.0` (`49GAION/DR-0048`) by `49GAION/DR-0049`: only AIOCs and HOAC positions; who holds a position is the organisation's own mechanism, outside the system. It ships with the next release.
+
 Powered by 49GAION
