@@ -129,7 +129,7 @@ def set_rules(S):
             errs.append(f"SIG-ENTITY: {s['signer_cell']} (entity {ent}) signs for entity {tgt['entity']}")
     # Two positions are two parties (GOV, 15 October 2026): dual signature counts distinct signing
     # positions (signer_cell) other than the requesting position (requester_cell). The persons behind
-    # positions are never compared; signer_identity_ref is not read here.
+    # positions are never compared, and no record holds a reference to one (49GAION/DR-0049).
     need = ty.get("signers_required", 1)
     if need > 1 and not S.get("requester_cell"):
         errs.append("SIG-DUAL: the requesting position (requester_cell) is not recorded")

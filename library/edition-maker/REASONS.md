@@ -1,6 +1,6 @@
 # 49GAION Edition Maker: what it takes in, and what it gives
 
-**v0.3** · 22 October 2026 · written on the governing seat's directions of that day. **Kept as written**, as the reasons behind [`PRD.md`](PRD.md); where the two differ, the PRD governs. Two later decisions read into it: "branded AION" reads `[ORG]AION` (hub DR-0036), and Target AI Operation, named in it, is withdrawn (hub DR-0034).
+**v0.3** · 22 October 2026 · written on the governing seat's directions of that day. **Kept as written**, as the reasons behind [`PRD.md`](PRD.md); where the two differ, the PRD governs. Two later decisions read into it: "branded AION" reads `[ORG]AION` (hub DR-0036), and Target AI Operation, named in it, is withdrawn (hub DR-0034). Since hub DR-0048 and DR-0049, a human seat is a position, and who holds it, and how, is the organisation's own mechanism, outside the system: "one person with one task" reads a single position with one task; "one human seat holding both governance and top management" reads the governance and top-management positions, two parties; "each person signing in as their position" reads each position signing in with the credential the organisation's mechanism issued for it; and "recorded in the private holders register" reads "kept by the organisation's own mechanism".
 
 **Where this sits.** This is the design of 49GAION. For an organisation already far along, these stages are recorded as experience and are not redone.
 

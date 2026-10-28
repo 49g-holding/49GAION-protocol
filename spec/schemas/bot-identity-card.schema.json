@@ -57,7 +57,7 @@
     },
     "accountable_human_position": {
       "type": "string",
-      "description": "The position (never a person's name) of the accountable human."
+      "description": "The code of the accountable human position, never a person's name (49GAION/DR-0049)."
     },
     "card_version": {
       "type": "string"

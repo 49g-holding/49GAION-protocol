@@ -240,7 +240,7 @@
       }
     },
     {
-      "$comment": "RULE-HOAC-HOLDER: a HOAC label on a Pod or an AIOC needs a label_holder or a decision_rule (Standard §4.1, item 10)",
+      "$comment": "RULE-HOAC-HOLDER: a HOAC label on a Pod or an AIOC needs a label_holder (Standard §4.1, item 10; 49GAION/DR-0049)",
       "if": {
         "properties": {
           "unit_kind": {
@@ -256,18 +256,29 @@
         ]
       },
       "then": {
-        "anyOf": [
-          {
-            "required": [
-              "label_holder"
-            ]
-          },
-          {
-            "required": [
-              "decision_rule"
-            ]
-          }
+        "required": [
+          "label_holder"
         ]
+      }
+    },
+    {
+      "$comment": "RULE-NO-HUMAN-FILLER: a human Cell carries no filler; who holds a position is the organisation's own mechanism, outside the system (Standard §1.1, item 9; 49GAION/DR-0049)",
+      "if": {
+        "properties": {
+          "filler_kind": {
+            "const": "human"
+          }
+        },
+        "required": [
+          "filler_kind"
+        ]
+      },
+      "then": {
+        "not": {
+          "required": [
+            "filler"
+          ]
+        }
       }
     },
     {
@@ -417,7 +428,7 @@
     },
     "hoac": {
       "type": "string",
-      "description": "The HOAC (Human Oversight & Accountability Control) label carried by this part, if any: [ORG]HOAC-GOV, [ORG]HOAC-TM or [ORG]HOAC-ACS (Standard §4.1). A label, never a code; the part keeps its own code. Since v1.5.0: on a Cell only when its filler_kind is human; on a Pod or an AIOC only with a label_holder or a decision_rule (Standard §4.1, items 10 and 11).",
+      "description": "The HOAC (Human Oversight & Accountability Control) label carried by this part, if any: [ORG]HOAC-GOV, [ORG]HOAC-TM or [ORG]HOAC-ACS (Standard §4.1). A label, never a code; the part keeps its own code. Since v1.5.0: on a Cell only when its filler_kind is human; on a Pod or an AIOC only with a label_holder (Standard §4.1, items 10 and 11; 49GAION/DR-0049).",
       "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)HOAC-(GOV|TM|ACS)$"
     },
     "filler_kind": {
@@ -430,11 +441,11 @@
     },
     "filler": {
       "type": "string",
-      "description": "For a Cell: the current filler, as recorded in the unit register (a person or an agent identity). A filler change is a register event, never a new Cell."
+      "description": "For an AI Cell: the current filler, as recorded in the unit register (an agent identity). A filler change is a register event, never a new Cell. A human Cell carries no filler: who holds the position is the organisation's own mechanism, outside the system (Standard §1.1, item 9; 49GAION/DR-0049)."
     },
     "attached_to": {
       "type": "string",
-      "description": "For an AI Cell that assists one person: the code of that person's human Cell. A person's AI assistants are separate registered AI Cells, never unnamed. Allowed only on a Cell whose filler_kind is ai.",
+      "description": "For an AI Cell that assists one human position: the code of that position's human Cell. A position's AI assistants are separate registered AI Cells, never unnamed. Allowed only on a Cell whose filler_kind is ai.",
       "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
     },
     "fixed_test": {
@@ -1029,7 +1040,7 @@
     "top_cell": {
       "type": "string",
       "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$",
-      "description": "For an AIOC or a Pod: exactly one Cell whose parent is this part; it gives the part's lead (Standard §1.7, item 11). Co-leadership is a Pod with a decision_rule."
+      "description": "For an AIOC or a Pod: exactly one Cell whose parent is this part; it gives the part's lead (Standard §1.7, item 11). Co-leaders or a board behind a position are the organisation's own mechanism, outside the system (49GAION/DR-0049)."
     },
     "label_holder": {
       "type": "string",
@@ -1037,45 +1048,9 @@
       "description": "For a Pod or an AIOC carrying a HOAC label: the one human Cell, whose parent is this part, that holds the label (Standard §4.1, item 10)."
     },
     "decision_rule": {
-      "type": "object",
-      "description": "For a Pod or an AIOC carrying a HOAC label that decides together: its member Cells, quorum, majority, chair and casting vote. Each member signs under their own Cell; one person holding two seats in the same body counts once (HF-18; Standard §4.1, item 10). Reading note (GOV, 15 October 2026): two positions are two parties (Standard §1.1, item 10); 'one person holding two seats in the same body counts once' reads 'each member Cell is its own party and counts once', even when one natural person occupies two member Cells.",
-      "required": [
-        "members",
-        "quorum",
-        "majority",
-        "chair",
-        "casting_vote"
-      ],
-      "additionalProperties": false,
-      "properties": {
-        "members": {
-          "type": "array",
-          "minItems": 2,
-          "uniqueItems": true,
-          "items": {
-            "type": "string",
-            "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
-          }
-        },
-        "quorum": {
-          "type": "integer",
-          "minimum": 1
-        },
-        "majority": {
-          "enum": [
-            "simple",
-            "two-thirds",
-            "unanimous"
-          ]
-        },
-        "chair": {
-          "type": "string",
-          "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)CELL-[A-Z0-9]{2,8}$"
-        },
-        "casting_vote": {
-          "type": "boolean"
-        }
-      }
+      "$comment": "RULE-DECISION-RULE-WITHDRAWN: a body behind a label is the organisation's own mechanism (49GAION/DR-0049)",
+      "description": "Withdrawn by 49GAION/DR-0049. A HOAC label is held by one position, its label_holder; a board, or any body behind a position, is the organisation's own mechanism, outside the system (Standard §4.1, item 10). A card that carries this field is refused. Several human positions in one Pod each sign as their own position, and a rule that needs several signers names its signing positions.",
+      "not": {}
     },
     "authority_scope": {
       "type": "object",
