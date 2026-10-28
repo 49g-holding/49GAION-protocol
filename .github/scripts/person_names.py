@@ -59,7 +59,7 @@ def main():
     for h in hits:
         print(f"::error::PERSON-NAMES a person name is on an added or changed line: {h}")
     if hits:
-        print(f"PERSON-NAMES: {len(hits)} line(s) name a person. Name the seat instead, e.g. the governing seat (GOV) of 49GAION; fillers go in the private holders register.")
+        print(f"PERSON-NAMES: {len(hits)} line(s) name a person. Name the position instead, e.g. the governing seat (GOV) of 49GAION; who holds a position is the organisation's own mechanism, outside the system (DR-0049).")
         sys.exit(1)
     print(f"person-names: {count} added or changed line(s) checked, none names a listed person.")
 
