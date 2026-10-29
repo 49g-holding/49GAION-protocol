@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """links (a step of ref-check): every relative link in a tracked Markdown file resolves to a file
-or folder of this repository at this commit (DR-0051). Links to the web, mail addresses and
+or folder of this repository at this commit (DR-0052). Links to the web, mail addresses and
 anchors in the same file are not followed. Links inside a text's list of superseded wording (from
 its heading "## Superseded wording" to the end of the file) are verbatim history and are not
 followed. Code spans and fenced code blocks are skipped.

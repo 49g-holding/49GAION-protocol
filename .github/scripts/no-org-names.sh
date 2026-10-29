@@ -2,7 +2,7 @@
 # no-org-names scanner.
 # Two checks:
 #  FULL  - organisation-specific names, hosts, 49-prefixed codes and the bare name of one organisation's product.
-#          Written variants are matched too (DR-0051): the short name with a space, dash or dot
+#          Written variants are matched too (DR-0052): the short name with a space, dash or dot
 #          ("49 G", "49-G", "49.G"), with an office prefix and a zero for O ("FO49G", "F049G"), spelled
 #          out ("Forty Nine Group"), the group name with a dot or a zero ("49.group", "49 gr0up"), and
 #          an office name with a curly apostrophe; zero-width characters are removed and curly

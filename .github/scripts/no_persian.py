@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """no-persian: no character of the Arabic script anywhere the public 49GAION repositories carry
-text (DR-0051). Every text is in English; originals in another language stay outside the
+text (DR-0052). Every text is in English; originals in another language stay outside the
 repositories, and a translation is marked "translated from Persian".
 Surfaces scanned:
   - every tracked text file: its contents and its path;

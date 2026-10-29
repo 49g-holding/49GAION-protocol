@@ -18,7 +18,7 @@
 #
 # Checks:
 #   pin           every uses line of this action equals PROTOCOL-PIN, and PROTOCOL-PIN is the commit
-#                 of a release tag v<major>.<minor>.<patch> of 49GAION-protocol (DR-0051)
+#                 of a release tag v<major>.<minor>.<patch> of 49GAION-protocol (DR-0052)
 #   cards         cards/ is exactly what tools/make_cards.py generates from the blueprint, and
 #                 validates against spec/schemas at the pin (mother repositories)
 #   pins          tools/check_pins.py reads every pin of the assembly back (assemblies)
@@ -28,7 +28,7 @@
 #   no-binaries   no binary file is added or changed (the caller checks out with fetch-depth 0)
 #   dr-frozen     a decision record on the base is never changed; a new one takes a new number
 #   links         every relative link in a Markdown file resolves, outside the lists of superseded
-#                 wording (DR-0051)
+#                 wording (DR-0052)
 #
 # Structure review of 26 October 2026, points D3 and D4; 49GAION/DR-0047.
 name: library-checks
@@ -57,7 +57,7 @@ runs:
         USES=$(grep -rhoE 'uses:[[:space:]]*49g-holding/49GAION-protocol/\.github/actions/library-checks@[0-9a-f]{40}' .github/workflows/ | sed -E 's/.*@//' | sort -u)
         if [ -z "$USES" ]; then echo "::error::PIN-UNREADABLE: no workflow of this repository uses library-checks at a full commit SHA."; exit 1; fi
         if [ "$(printf '%s\n' "$USES" | wc -l)" -ne 1 ] || [ "$USES" != "$PIN" ]; then echo "::error::PIN-MISMATCH: PROTOCOL-PIN is $PIN but library-checks is used at: $USES. Move both in one pull request."; exit 1; fi
-        # The pin names a released Protocol: the commit of a tag v<major>.<minor>.<patch> (DR-0051).
+        # The pin names a released Protocol: the commit of a tag v<major>.<minor>.<patch> (DR-0052).
         TAGS=$(git ls-remote --tags https://github.com/49g-holding/49GAION-protocol.git 'refs/tags/v*') || { echo "::error::PIN-UNREADABLE: the tags of 49GAION-protocol cannot be read; failing closed."; exit 1; }
         TAG=$(printf '%s\n' "$TAGS" | awk -v p="$PIN" '$1 == p && $2 ~ /^refs\/tags\/v[0-9]+\.[0-9]+\.[0-9]+(\^\{\})?$/ {sub(/^refs\/tags\//, "", $2); sub(/\^\{\}$/, "", $2); print $2; exit}')
         if [ -z "$TAG" ]; then echo "::error::PIN-UNTAGGED: PROTOCOL-PIN $PIN is not the commit of a release tag of 49GAION-protocol. Pin a released version."; exit 1; fi

@@ -43,7 +43,7 @@ if (S / "check_template_fill.py").exists():
         expect(f"template-fill: removing the required key {key} fails",
                run(ROOT, sys.executable, str(S / "check_template_fill.py"), str(t), schema), f"'{key}' is a required property")
 
-# ---------- no-persian, no-org-names variants, links (49GAION/DR-0051) ----------
+# ---------- no-persian, no-org-names variants, links (49GAION/DR-0052) ----------
 def tmp_repo(files, msg="c"):
     d = pathlib.Path(tempfile.mkdtemp())
     run(d, "git", "init", "-q"); run(d, "git", "config", "user.email", "ci@example.invalid"); run(d, "git", "config", "user.name", "ci")
