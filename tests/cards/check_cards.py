@@ -13,7 +13,7 @@
 - Code and version patterns accept the examples and reject malformed values.
 - Since v2.2.0: behaviour rules over each signature record of tests/signatures/ (and each signature
   of a signature set), with their own codes: SIG-SIGNER-IS-EXECUTOR (the signer's Cell, or its
-  credential where the executor's is recorded, is the executor's); SIG-EXPIRY (expires_at not after
+  credential where the executor's is recorded, or the Chief of Staff that signed under a grant, is the executor's); SIG-EXPIRY (expires_at not after
   issued_at); SIG-VALIDITY (valid longer than the type's max_validity, an ISO 8601 duration in
   weeks, days, hours, minutes and seconds, or than 366 days when the type sets none; an unreadable
   max_validity fails); SIG-TYPE (decision_type not an id of the signature list); SIG-SUBJECT
@@ -169,6 +169,9 @@ def sig_rules(s, types=None):
         errs.append(f"SIG-SIGNER-IS-EXECUTOR: {s['signer_cell']} signs an action it also executes")
     if s.get("executor_credential") is not None and s.get("executor_credential") == s.get("signer_credential"):
         errs.append("SIG-SIGNER-IS-EXECUTOR: the signing credential is the executor's credential")
+    cos = (s.get("under_grant") or {}).get("chief_of_staff_cell") if isinstance(s.get("under_grant"), dict) else None
+    if cos and cos == s.get("executor_cell"):
+        errs.append(f"SIG-SIGNER-IS-EXECUTOR: {cos}, the Chief of Staff that signed under a grant, also executes the action")
     iss, exp = _when(s.get("issued_at")), _when(s.get("expires_at"))
     if iss and exp:
         if exp <= iss:

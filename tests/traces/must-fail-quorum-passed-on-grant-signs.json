@@ -1,0 +1,170 @@
+{
+  "$comment": "An AI part that received access from Top Management's Chief of Staff approves a payment for Top Management: only the position's own Chief of Staff signs for it.",
+  "$expect": "HUMAN-FLOOR-QUORUM",
+  "events": [
+    {
+      "event_id": "EV-0001",
+      "run_id": "RUN-0001",
+      "seq": 1,
+      "time": "2026-10-29T10:01:00Z",
+      "prev_hash": null,
+      "event_type": "credential-in-force",
+      "position": "TenPOD-GW",
+      "credential_ref": "sys:gateway",
+      "gaion": {
+        "for_position": "TenCELL-TMS",
+        "credential_id": "pos:cred-tms",
+        "waiting_until": null
+      }
+    },
+    {
+      "event_id": "EV-0002",
+      "run_id": "RUN-0001",
+      "seq": 2,
+      "time": "2026-10-29T10:02:00Z",
+      "prev_hash": "sha256:16d6ba5526732e516c954621f60831bc21807a82d534ffa607fc9ddba1109fa8",
+      "event_type": "grant",
+      "position": "TenCELL-TMS",
+      "credential_ref": "pos:cred-tms",
+      "gaion": {
+        "grantee": "TenCELL-COSTM",
+        "grantee_credential": "bot:cred-costm",
+        "grantee_serves": "TenCELL-TMS",
+        "reach": [
+          "*"
+        ],
+        "may_grant": true,
+        "ends_at": null,
+        "revokes": null
+      }
+    },
+    {
+      "event_id": "EV-0003",
+      "run_id": "RUN-0001",
+      "seq": 3,
+      "time": "2026-10-29T10:03:00Z",
+      "prev_hash": "sha256:71c754a91ce5470fd25ffe41564342623ac0fccb701c64b66103e0e7d254d8f0",
+      "event_type": "grant",
+      "position": "TenCELL-COSTM",
+      "credential_ref": "bot:cred-costm",
+      "gaion": {
+        "grantee": "TenCELL-LGL",
+        "grantee_credential": "bot:cred-lgl",
+        "grantee_serves": null,
+        "reach": [
+          "commit-money"
+        ],
+        "may_grant": false,
+        "ends_at": "2026-10-29T18:00:00Z",
+        "revokes": null,
+        "under_grant": "EV-0002"
+      }
+    },
+    {
+      "event_id": "EV-0004",
+      "run_id": "RUN-0001",
+      "seq": 4,
+      "time": "2026-10-29T10:04:00Z",
+      "prev_hash": "sha256:1f99d03931bbc825f19db890a07acee1727bb21b9eeb40b0a7ae89ba33022ef6",
+      "event_type": "tool-call",
+      "position": "TenCELL-FNPY",
+      "credential_ref": "bot:cred-fnpy",
+      "gen_ai": {
+        "semconv": "1.39.0",
+        "attributes": {
+          "gen_ai.operation.name": "execute_tool",
+          "gen_ai.tool.name": "commit_payment",
+          "gen_ai.tool.call.id": "call-commit_payment",
+          "gen_ai.tool.type": "extension",
+          "mcp.method.name": "tools/call"
+        }
+      },
+      "gaion": {
+        "phase": "request",
+        "effect": "write-outside",
+        "permission": "ledger.pay",
+        "target_ref": "payee:vendor-12.example.invalid",
+        "payload_sha": "sha256:13fa1862ea59d00ac441cc24a684b7838115716ecc41e315ec5eead8bb405e4c",
+        "decision_type": "commit-money",
+        "mcp_server": "records",
+        "on_behalf_of": "TenCELL-FNPY",
+        "delegation_chain": [
+          {
+            "part": "TenCELL-FNPY",
+            "taint": false,
+            "permissions": [
+              "ledger.pay"
+            ]
+          }
+        ],
+        "effective_permissions": [
+          "ledger.pay"
+        ]
+      }
+    },
+    {
+      "event_id": "EV-0005",
+      "run_id": "RUN-0001",
+      "seq": 5,
+      "time": "2026-10-29T10:05:00Z",
+      "prev_hash": "sha256:3b42bfebf80c9a4cabef1b10a21a8908ec49203ff3fb9071e861e42652c0f152",
+      "event_type": "approval",
+      "position": "TenCELL-LGL",
+      "credential_ref": "bot:cred-lgl",
+      "gaion": {
+        "approver_position": "TenCELL-TMS",
+        "approver_credential_id": "bot:cred-lgl",
+        "decision_type": "commit-money",
+        "subject_ref": "EV-0004",
+        "subject_sha": "sha256:13fa1862ea59d00ac441cc24a684b7838115716ecc41e315ec5eead8bb405e4c",
+        "under_grant": "EV-0003"
+      }
+    },
+    {
+      "event_id": "EV-0006",
+      "run_id": "RUN-0001",
+      "seq": 6,
+      "time": "2026-10-29T10:06:00Z",
+      "prev_hash": "sha256:102c75683c4f0d11fa1f1564152870c7d805003d461517fa9593b1836a14617c",
+      "event_type": "gateway-decision",
+      "position": "TenPOD-GW",
+      "credential_ref": "sys:gateway",
+      "gaion": {
+        "decision": "allow",
+        "rule_id": "GW-ALLOW-SIGNED",
+        "policy_version": {
+          "tag": "gw-policy-v1.4.0",
+          "commit": "ff9606e1ca5998c3ab15bf001b6868dc4fd5ce1c"
+        },
+        "authorising_record": "49GAION/DR-0053",
+        "parent_call": "EV-0004"
+      }
+    },
+    {
+      "event_id": "EV-0007",
+      "run_id": "RUN-0001",
+      "seq": 7,
+      "time": "2026-10-29T10:07:00Z",
+      "prev_hash": "sha256:4bf0b0a926baa4d84c8db9fd371b6b6f96f89be8236f0816a7e1ca3da0e94e76",
+      "event_type": "tool-call",
+      "position": "TenCELL-FNPY",
+      "credential_ref": "bot:cred-fnpy",
+      "gen_ai": {
+        "semconv": "1.39.0",
+        "attributes": {
+          "gen_ai.operation.name": "execute_tool",
+          "gen_ai.tool.name": "commit_payment",
+          "gen_ai.tool.call.id": "call-commit_payment",
+          "gen_ai.tool.type": "extension",
+          "mcp.method.name": "tools/call"
+        }
+      },
+      "gaion": {
+        "phase": "run",
+        "request_ref": "EV-0004",
+        "payload_sha": "sha256:13fa1862ea59d00ac441cc24a684b7838115716ecc41e315ec5eead8bb405e4c",
+        "mcp_server": "records"
+      }
+    }
+  ]
+}

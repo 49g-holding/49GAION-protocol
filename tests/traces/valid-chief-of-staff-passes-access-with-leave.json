@@ -1,0 +1,63 @@
+{
+  "$comment": "Top Management grants its own Chief of Staff full reach and leave to pass access on; the Chief of Staff gives another AI part a narrower, shorter grant.",
+  "events": [
+    {
+      "event_id": "EV-0001",
+      "run_id": "RUN-0001",
+      "seq": 1,
+      "time": "2026-10-29T10:01:00Z",
+      "prev_hash": null,
+      "event_type": "credential-in-force",
+      "position": "TenPOD-GW",
+      "credential_ref": "sys:gateway",
+      "gaion": {
+        "for_position": "TenCELL-TMS",
+        "credential_id": "pos:cred-tms",
+        "waiting_until": null
+      }
+    },
+    {
+      "event_id": "EV-0002",
+      "run_id": "RUN-0001",
+      "seq": 2,
+      "time": "2026-10-29T10:02:00Z",
+      "prev_hash": "sha256:16d6ba5526732e516c954621f60831bc21807a82d534ffa607fc9ddba1109fa8",
+      "event_type": "grant",
+      "position": "TenCELL-TMS",
+      "credential_ref": "pos:cred-tms",
+      "gaion": {
+        "grantee": "TenCELL-COSTM",
+        "grantee_credential": "bot:cred-costm",
+        "grantee_serves": "TenCELL-TMS",
+        "reach": [
+          "*"
+        ],
+        "may_grant": true,
+        "ends_at": null,
+        "revokes": null
+      }
+    },
+    {
+      "event_id": "EV-0003",
+      "run_id": "RUN-0001",
+      "seq": 3,
+      "time": "2026-10-29T10:03:00Z",
+      "prev_hash": "sha256:71c754a91ce5470fd25ffe41564342623ac0fccb701c64b66103e0e7d254d8f0",
+      "event_type": "grant",
+      "position": "TenCELL-COSTM",
+      "credential_ref": "bot:cred-costm",
+      "gaion": {
+        "grantee": "TenCELL-LGL",
+        "grantee_credential": "bot:cred-lgl",
+        "grantee_serves": null,
+        "reach": [
+          "commit-money"
+        ],
+        "may_grant": false,
+        "ends_at": "2026-10-29T18:00:00Z",
+        "revokes": null,
+        "under_grant": "EV-0002"
+      }
+    }
+  ]
+}

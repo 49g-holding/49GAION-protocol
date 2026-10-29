@@ -33,10 +33,17 @@ trace whose every event passes the schema. The behaviour rules, by ID:
   AUTHORITY-ESCALATION   a call's permission lies in the intersection of the permissions of every
                          part of its delegation chain; effective_permissions claims nothing beyond
                          that intersection; the chain starts at on_behalf_of and ends at the acting
-                         position.
+                         position. A grant (Protocol §24, item 9) by a pos: credential goes only to
+                         the position's own Chief of Staff (grantee_serves is the granting position);
+                         a grant by a bot: credential rests on a grant in force to that Chief of Staff
+                         that lets it give (may_grant), within its reach and end; a revocation comes
+                         from the position that gave the grant.
   HUMAN-FLOOR-QUORUM     an approval of a listed type is made with a human position credential
-                         (prefix pos:; bot: and sys: never count) and repeats its envelope's position
-                         and credential; when a call of a listed type is allowed, or a restart lifts
+                         (prefix pos:) and repeats its envelope's position and credential, or by that
+                         position's own Chief of Staff (bot:) under a grant in force, given by the
+                         position with its pos: credential, that reaches the type; it then counts as
+                         the credential that signed the grant. Any other bot: and every sys: approval
+                         never counts; when a call of a listed type is allowed, or a restart lifts
                          a stop (type restart-stopped-unit), the approvals bound to it (same type,
                          subject_ref and subject_sha) hold the type's quorum of distinct credentials
                          and no credential counted twice. The quorum is signers_required from the
@@ -182,15 +189,48 @@ def check(trace, policy, types):
         g = req["gaion"]
         return {actor, g["on_behalf_of"]} | {h["part"] for h in g["delegation_chain"]}
 
+    grants, revoked, cos_of = {}, set(), {}
+
+    def grant_in_force(gid, at):
+        gr = grants.get(gid)
+        if gr is None or gid in revoked:
+            return None
+        end = gr["gaion"]["ends_at"]
+        return gr if (end is None or when(end) > when(at)) else None
+
+    def reaches(gr, dtype):
+        return "*" in gr["gaion"]["reach"] or dtype in gr["gaion"]["reach"]
+
+    def cos_grant(a):
+        """The grant a Chief of Staff's approval rests on, if it is valid; else None."""
+        ga = a["gaion"]
+        gr = grant_in_force(ga.get("under_grant"), a["time"]) if ga.get("under_grant") else None
+        if (gr is None or not gr["credential_ref"].startswith("pos:") or gr["position"] != ga["approver_position"]
+                or gr["gaion"]["grantee"] != a["position"] or gr["gaion"]["grantee_credential"] != a["credential_ref"]
+                or gr["gaion"]["grantee_serves"] != ga["approver_position"] or ga["approver_credential_id"] != a["credential_ref"]
+                or not reaches(gr, ga["decision_type"])):
+            return None
+        return gr
+
+    def counted(a):
+        """The credential an approval counts as toward a quorum, or None when it never counts."""
+        if (a["credential_ref"].startswith("pos:") and a["gaion"]["approver_position"] == a["position"]
+                and a["gaion"]["approver_credential_id"] == a["credential_ref"]):
+            return a["credential_ref"]
+        if a["credential_ref"].startswith("bot:"):
+            gr = cos_of.get(a["event_id"])
+            return gr["credential_ref"] if gr else None
+        return None
+
     def approval_counts(e, a):
-        return (a["credential_ref"].startswith("pos:") and a["gaion"]["approver_position"] == a["position"]
-                and a["gaion"]["approver_credential_id"] == a["credential_ref"])
+        return counted(a) is not None
 
     def check_quorum(e, dtype, subject_ref, subject_sha, cands, what):
         valid = [a for a in cands if a["gaion"]["decision_type"] == dtype and a["gaion"]["subject_ref"] == subject_ref
                  and a["gaion"]["subject_sha"] == subject_sha and approval_counts(e, a)]
-        creds = [a["gaion"]["approver_credential_id"] for a in valid]
-        twice = sorted({c for c in creds if creds.count(c) > 1})
+        made = [a["credential_ref"] for a in valid]
+        twice = sorted({c for c in made if made.count(c) > 1})
+        creds = [counted(a) for a in valid]
         if twice:
             f("HUMAN-FLOOR-QUORUM", e, f"{what}: credential {', '.join(twice)} counted twice toward the quorum of {dtype}")
         if len(set(creds)) < quorum(dtype):
@@ -211,12 +251,46 @@ def check(trace, policy, types):
                   or (g["cleared_by"] == "position" and e["credential_ref"].startswith("pos:")))
             if ok:
                 clearances[(run, g["clears"])].append(e)
+        elif ty == "grant":
+            if e["credential_ref"].startswith("pos:"):
+                cif = in_force.get(e["credential_ref"])
+                if cif is None or cif["gaion"]["for_position"] != e["position"]:
+                    f("FRESH-CREDENTIAL", e, f"no credential-in-force event for {e['credential_ref']} and {e['position']} before the grant")
+                if g["revokes"]:
+                    old = grants.get(g["revokes"])
+                    if old is None or old["position"] != e["position"]:
+                        f("AUTHORITY-ESCALATION", e, f"{e['position']} revokes {g['revokes']}, a grant it did not give")
+                    else:
+                        revoked.add(g["revokes"])
+                elif g["grantee_serves"] != e["position"]:
+                    f("AUTHORITY-ESCALATION", e, f"{e['position']} grants to {g['grantee']}, which is not its own Chief of Staff (it serves {g['grantee_serves']})")
+                else:
+                    grants[e["event_id"]] = e
+            elif e["credential_ref"].startswith("bot:"):
+                parent = grant_in_force(g.get("under_grant"), e["time"]) if g.get("under_grant") else None
+                if (parent is None or parent["gaion"]["grantee"] != e["position"] or parent["gaion"]["grantee_credential"] != e["credential_ref"]
+                        or not parent["gaion"]["may_grant"] or g["revokes"]):
+                    f("AUTHORITY-ESCALATION", e, f"{e['position']}, an AI part, gives a grant to {g['grantee']} with no grant of its position that lets it")
+                elif not ("*" in parent["gaion"]["reach"] or set(g["reach"]) <= set(parent["gaion"]["reach"])):
+                    f("AUTHORITY-ESCALATION", e, f"the grant to {g['grantee']} reaches {sorted(set(g['reach']) - set(parent['gaion']['reach']))}, beyond the grant it rests on")
+                elif parent["gaion"]["ends_at"] and (g["ends_at"] is None or when(g["ends_at"]) > when(parent["gaion"]["ends_at"])):
+                    f("AUTHORITY-ESCALATION", e, f"the grant to {g['grantee']} outlasts the grant it rests on")
+                else:
+                    grants[e["event_id"]] = e
+            else:
+                f("AUTHORITY-ESCALATION", e, "a grant is never given by a deterministic part")
         elif ty == "approval":
             approvals[e["event_id"]] = e
             by_subject[g["subject_ref"]].append(e)
-            if g["decision_type"] in listed:
+            if g["decision_type"] in listed and e["credential_ref"].startswith("bot:") and g.get("under_grant"):
+                gr = cos_grant(e)
+                if gr is None:
+                    f("HUMAN-FLOOR-QUORUM", e, f"approval of the listed type {g['decision_type']} by {e['position']} for {g['approver_position']} rests on no grant in force of that position that reaches it; it never counts")
+                else:
+                    cos_of[e["event_id"]] = gr
+            elif g["decision_type"] in listed:
                 if not e["credential_ref"].startswith("pos:"):
-                    f("HUMAN-FLOOR-QUORUM", e, f"approval of the listed type {g['decision_type']} made with a non-human credential ({e['credential_ref'].split(':')[0]}:); it never counts")
+                    f("HUMAN-FLOOR-QUORUM", e, f"approval of the listed type {g['decision_type']} made with a non-human credential ({e['credential_ref'].split(':')[0]}:) and under no grant of a position; it never counts")
                 elif g["approver_position"] != e["position"] or g["approver_credential_id"] != e["credential_ref"]:
                     f("HUMAN-FLOOR-QUORUM", e, "the approver position or credential differs from the position and credential that made the approval")
                 else:

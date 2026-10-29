@@ -86,6 +86,7 @@
         "restart",
         "control-change",
         "credential-in-force",
+        "grant",
         "taint",
         "clearance"
       ]
@@ -330,11 +331,11 @@
         },
         "approver_position": {
           "$ref": "#/$defs/position",
-          "description": "Approval: the approving position; the same as the envelope's position."
+          "description": "Approval: the position whose approval this is. The same as the envelope's position, except an approval by that position's own Chief of Staff under its grant, whose envelope names the Chief of Staff."
         },
         "approver_credential_id": {
           "$ref": "#/$defs/credential_ref",
-          "description": "Approval: the credential the approval was made with, the one counted toward a quorum; the same as the envelope's credential_ref."
+          "description": "Approval: the credential the approval was made with; the same as the envelope's credential_ref. A Chief of Staff's approval under a grant counts as the credential that signed the grant."
         },
         "subject_ref": {
           "$ref": "#/$defs/event_id",
@@ -433,6 +434,56 @@
           "format": "date-time",
           "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$",
           "description": "Credential in force: until when a fresh credential may not approve a listed type; null when there is no waiting period. A stop is never delayed by it."
+        },
+        "under_grant": {
+          "$ref": "#/$defs/event_id",
+          "description": "Approval or grant by a Chief of Staff: the event ID of the grant it acts under (Protocol §24, item 9)."
+        },
+        "grantee": {
+          "$ref": "#/$defs/position",
+          "description": "Grant: the Chief of Staff, or under a Chief of Staff's own grant the AI part, that receives it."
+        },
+        "grantee_credential": {
+          "$ref": "#/$defs/credential_ref",
+          "description": "Grant: the credential of the part that receives it."
+        },
+        "grantee_serves": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Grant: the position the receiving Chief of Staff serves; null for an AI part that is no position's Chief of Staff."
+        },
+        "reach": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^(\\*|[a-z][a-z0-9-]+)$"
+          },
+          "description": "Grant: the listed types it reaches, or \"*\" for every type and act of the position."
+        },
+        "may_grant": {
+          "type": "boolean",
+          "description": "Grant: whether the Chief of Staff may give access to another AI part, within this grant."
+        },
+        "ends_at": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$",
+          "description": "Grant: when it ends; null while the position has not set an end."
+        },
+        "revokes": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^EV-[0-9A-Za-z-]+$",
+          "description": "Grant: the earlier grant this event revokes; null for a new grant."
         }
       }
     }
@@ -820,6 +871,34 @@
               "cleared_by",
               "clearance_ref",
               "clears"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-GRANT-SHAPE: a grant names who receives it, the position served, its reach, whether it may be passed on, its end, and what it revokes",
+      "if": {
+        "properties": {
+          "event_type": {
+            "const": "grant"
+          }
+        },
+        "required": [
+          "event_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "gaion": {
+            "required": [
+              "grantee",
+              "grantee_credential",
+              "grantee_serves",
+              "reach",
+              "may_grant",
+              "ends_at",
+              "revokes"
             ]
           }
         }
