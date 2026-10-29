@@ -149,7 +149,7 @@ Each card is `DRAFT` until its test has run once with recorded evidence; no card
   10. A draft enters a record, log or plan only when a position inserts it.
   11. A level-2 change is reversible, has no legal, pay or employment effect, is a new version with rollback and is reported the same day; a type of the Human Floor signature list is refused at every level.
   12. A stop from any accountable position takes effect at once, outside the part's chat, and is never gated.
-  13. No output ranks, scores or watches the occupant of a position, infers emotion, or shows a measure for a single position; records of work enter only through the projection, and only after the impact assessment is recorded.
+  13. No output ranks, scores or watches a single position, infers emotion, or shows a measure for a single position; records of work enter only through the projection, and only after the impact assessment is recorded.
   14. A trial is judged by a seat other than the one that proposed it.
   15. A connection is used only within its signed scope; after revocation, a read through it is refused.
   16. Every artefact resolves to its design element, deciding position and decision, and back; a full export re-imports into a fresh instance.
@@ -266,10 +266,10 @@ Each card is `DRAFT` until its test has run once with recorded evidence; no card
 
 **49GAION Charter (addition, GOV, 19 October 2026; `49GAION/DR-0029`).** `charter.part-card.json` **v1**, validated against `spec/schemas/part-card.schema.json`.
 
-- **What it is.** The part from which the root AIOC of every `[ORG]AION` is made (Protocol §23). It holds the Cells that carry `[ORG]HOAC-GOV` and `[ORG]HOAC-TM`, and three Pods of shared services: Gateway, Records and Work.
+- **What it is.** The part from which the root AIOC of every `[ORG]AION` is made (Protocol §23). It holds the Cell that carries `[ORG]HOAC-GOV` and three Pods of shared services: Gateway, Records and Work; the Cell that carries `[ORG]HOAC-TM` sits in the Top Management Group, the first AIOC under it (correction, `49GAION/DR-0051`; the former wording: "It holds the Cells that carry `[ORG]HOAC-GOV` and `[ORG]HOAC-TM`, and three Pods of shared services: Gateway, Records and Work.").
 - **Its fixed test, TEST-CHARTER v1.** There is one case for every item of Protocol §23:
   1. The Charter's top Cell is the only Cell with no `accountable_to`; an installation or a change of the Charter without GOV's signature is refused, and one by `[ORG]AIOC-OCO` alone is refused.
-  2. The Charter holds the GOV and TM Cells and the three Pods; a part that names another root is refused.
+  2. The Charter holds the GOV Cell and the three Pods, and names the TM Cell in the Top Management Group under it; a part that names another root is refused. (Correction, `49GAION/DR-0051`; the former wording: "The Charter holds the GOV and TM Cells and the three Pods".)
   3. A call outside the gateway is refused; a listed type without a valid signature is held; an engine call served by an engine outside the register is void; an action the gateway cannot classify is refused and raised; a stop is never blocked.
   4. A number is never issued twice and never skipped, also under retry with the same request ID; a writer that mints its own number is refused; a write of a type the registry does not declare is refused with every failing condition named; a projection equals a rebuild from its events; the daily check finds a seeded gap, a seeded duplicate and a seeded projection difference; a read of the restricted partition by an unnamed position is refused.
   5. A Work Item with two owners, or written by a second writer, is refused; an item past its waiting time is raised by the watchdog; the router refuses an item whose part fails the receivability check; a woken part with no work makes no model call.

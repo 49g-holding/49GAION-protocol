@@ -1,10 +1,14 @@
 # 49GAION Edition Maker: product requirements
 
+**Current version: PRD v0.11** (`49GAION/DR-0051`). The lines below give each version in turn.
+
 **PRD v0.8** · approved as v0.7 by the governing seat (GOV) on 22 October 2026, with the edition engineer added; v0.8 adds the core's first named capability, Structural Adaptation (GOV, 25 October 2026).
 
 **PRD v0.9** brings the PRD into line with the complete definition of 49GAION, approved by the governing seat on 25 October 2026 (`49GAION/DR-0041`), and cuts nothing. Its additions are marked DR-0041 in sections 8 and 9, and listed in section 14.
 
 **PRD v0.10** brings the PRD into line with the complete definition `v2.1.0` (`49GAION/DR-0048`), by `49GAION/DR-0049`: every human place is a position, and who holds it, and how, is the organisation's own mechanism, outside the system. Its changes, and the wording they replaced, are listed in section 15.
+
+**PRD v0.11** corrects the PRD after two reviews of `v2.1.0` (`49GAION/DR-0051`): three engines at every step, and the step waits with fewer; the smallest edition by position; every request becomes the organisation's own `[ORG]AION`. Its changes, and the wording they replaced, are listed in section 16.
 
 **Addition (`49GAION/DR-0042`).** The governing seat confirmed on 25 October 2026 that it approved these requirements ("Yes, I set Edition Maker."); that confirmation is the source of their approval, read with `49GAION/DR-0039`. At the handover the organisation issues fresh keys for its gateway, and every key Edition Maker made, held or used for the edition is revoked. Edition Maker keeps its own rule: at every step one engine works and two challenge.
 
@@ -60,8 +64,8 @@ v0.4 superseded v0.3 and changed one thing: there is no separate "branded AION";
 - **The owner:** the organisation's governing seat, a position (`[ORG]HOAC-GOV`). In this PRD, "the owner" and "the governing seat" mean the same. Who holds the seat is the organisation's own mechanism, outside the system. The owner gives the sources, answers the questions and approves the result.
 - **Contributors:** the positions the owner names, which give sources or a spoken account.
 - **The edition engineer:** a human seat of 49GAION, accountable for one edition from its opening to its handover. This is the sensitive part of the work, and the seat is human: no AI holds it. The engineer takes each step forward and supervises it; runs several AI engines, one working and others challenging it; answers or escalates their findings; and signs each step as done before the next begins. The engineer is a position; who holds it is 49GAION's own mechanism, outside the system. The engineer never decides for the owner: the owner approves.
-- **Every request becomes an AION.** Every order or request made to 49GAION enters here. The size changes, never the shape.
-  - **Smallest:** one human seat holding both governance and top management, the `[ORG]AION`, and one AIOC.
+- **Every request becomes the organisation's own `[ORG]AION`.** Every order or request made to 49GAION enters here. The size changes, never the shape (the complete definition, §10, item 1).
+  - **Smallest:** a single position with one task: a governance position and a Top Management position, which the organisation's own mechanism may give to one person where the law allows, the positions kept distinct and each decision recorded under the position that takes it (the complete definition, §6, items 3 and 4); the `[ORG]AION`, and one AIOC.
   - **Largest:** a group of companies, each with its own entities and outputs.
 
 ---
@@ -94,7 +98,7 @@ Each step has its requirements, numbered `EM-R`.
   - The engine that did the work answers each finding: it accepts it, or gives its reason. There is one round in each step; a critique is not itself critiqued. A finding that matters and is still in dispute goes to the owner with both views, through the edition engineer. No engine settles a dispute about its own work.
   - A human act (an answer, a confirmation, an approval, a signature) is never done by an engine.
   - The findings and the answers are recorded beside the result, with no personal data in them.
-  - Three engines by default. Where the owner allows only two, the second engine challenges alone, and the record says so. Where the owner allows only one, the steps that need engines wait, and the matter goes to the owner as a missing item.
+  - Three engines at every step: one works and two challenge (the complete definition, §10, item 3; §20, item 5). Where the owner allows fewer than three, the steps that need engines wait, and the missing engines go to the owner as a missing item.
   - Nothing of the owner's is sent to any engine before the owner's consent and list of engines are taken (EM-R2a). Each engine receives only the data the owner allows it at that level of confidentiality; what it need not see is removed before sending.
   - The cost and the time of the challenge rounds count within the edition's limits (section 6.1, item 10).
 
@@ -165,7 +169,7 @@ Each step has its requirements, numbered `EM-R`.
 6. **Musts and must-nots:** the law and the licences in each place, safety, fairness, the owner's red lines, and the Human Floor items that apply.
 7. **Obligations in force:** signed contracts, duties to staff, and the controls already in place with what each protects against.
 8. **Components:** the companies, units, products, systems, data stores and suppliers that already exist, recorded as facts and never as the design.
-9. **What AI depends on:** the data (what, where, quality, access, the right to use it), the confidentiality levels, and the engines and suppliers allowed: at least two engines, three by default, with the data each may see (EM-R0, EM-R2a).
+9. **What AI depends on:** the data (what, where, quality, access, the right to use it), the confidentiality levels, and the engines and suppliers allowed: three engines, one to work and two to challenge (EM-R0), with the data each may see (EM-R0, EM-R2a).
 10. **Money and time:** the budget for building and for running, the engines' cost included, and the deadlines.
 11. **Outside parties:** customers, partners, regulators and suppliers.
 12. **The transition:** how today's work goes on while the AION is built.
@@ -345,7 +349,7 @@ Each case passes or fails.
 15. At the handover, the raw sources are returned to the owner and deleted from Edition Maker.
 16. The pack is built and checked without sending personal data to any engine the owner has not allowed.
 17. The core's instruction names its three stages (build; follow until a successful organisation; the central hub of reporting and oversight), and in none of them does it run the operation.
-18. **No step on one engine.** For every step where an engine worked, and for the core's first plan, the record shows the engine that did the work, the two engines that challenged it, their findings and the answers. Where only two engines were allowed, the record says so; where only one was allowed, the step waited.
+18. **No step on one engine.** For every step where an engine worked, and for the core's first plan, the record shows the engine that did the work, the two engines that challenged it, their findings and the answers. Where fewer than three engines were allowed, the step waited.
 19. **The edition engineer.** Every step in the record carries the edition engineer's sign-off, and no step began before the one before it was signed.
 20. **Structural Adaptation.** The core's instruction names Structural Adaptation and its rules: start small; thresholds set by the organisation, held for a set period; the options weighed with their costs; never merging a part with its checker; a human seat decides each split and merge.
 
@@ -413,6 +417,22 @@ On 28 October 2026 the governing seat merged the complete definition `v2.1.0` (`
   7. An edition for one person with one task and an edition for a group have the same pack files and the same core instruction.
 - **Section 14, item 6** · superseded by `49GAION/DR-0049`:
   6. **Positions.** The governance seat appoints Top Management directly and keeps the final right over who holds any position; one person may hold several, or all, where the law allows; 49GAION never speaks of a one-person organisation. The governance seat records who holds its own position and Top Management; Top Management records the positions below it. This reads section 8, item 6, task 2.
+
+
+## 16. Corrected after two reviews of `v2.1.0` (DR-0051)
+
+On 29 October 2026 the governing seat had two reviews of `v2.1.0` checked and corrected in one round (`49GAION/DR-0051`). The PRD said less than the complete definition in three places; each now says what the definition says.
+
+- **Section 3, every request** · superseded by `49GAION/DR-0051` (the complete definition, §10, item 1):
+  - **Every request becomes an AION.** Every order or request made to 49GAION enters here. The size changes, never the shape.
+- **Section 3, the smallest edition** · superseded by `49GAION/DR-0051` (the complete definition, §6, items 3 and 4):
+  - **Smallest:** one human seat holding both governance and top management, the `[ORG]AION`, and one AIOC.
+- **EM-R0, the number of engines** · superseded by `49GAION/DR-0051` (the complete definition, §10, item 3; §20, item 5):
+  - Three engines by default. Where the owner allows only two, the second engine challenges alone, and the record says so. Where the owner allows only one, the steps that need engines wait, and the matter goes to the owner as a missing item.
+- **Section 6.1, item 9, the engines allowed** · superseded by `49GAION/DR-0051`:
+  the engines and suppliers allowed: at least two engines, three by default, with the data each may see (EM-R0, EM-R2a).
+- **Section 11, case 18** · superseded by `49GAION/DR-0051`:
+  Where only two engines were allowed, the record says so; where only one was allowed, the step waited.
 
 ---
 
