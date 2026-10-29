@@ -26,7 +26,8 @@
 #                 branch, or the commits new to the change (the scanner of this repository at the pin)
 #   no-org-names  the scanner of this repository at the pin finds no organisation name, host or code
 #   no-binaries   no binary file is added or changed (the caller checks out with fetch-depth 0)
-#   dr-frozen     a decision record on the base is never changed; a new one takes a new number
+#   dr-frozen     a decision record on the base is never changed; a new one takes a new number,
+#                 and names its source and a date (dr-source, 49GAION/DR-0053)
 #   links         every relative link in a Markdown file resolves, outside the lists of superseded
 #                 wording (DR-0052)
 #
@@ -64,7 +65,7 @@ runs:
         echo "pin $PIN ($TAG)"
 
     - name: Check out 49GAION-protocol at the pin
-      if: inputs.check == 'cards' || inputs.check == 'no-org-names' || inputs.check == 'no-persian' || inputs.check == 'links'
+      if: inputs.check == 'cards' || inputs.check == 'no-org-names' || inputs.check == 'no-persian' || inputs.check == 'links' || inputs.check == 'dr-frozen'
       uses: actions/checkout@v4
       with:
         repository: 49g-holding/49GAION-protocol
@@ -148,3 +149,5 @@ runs:
         done < <(git diff --name-only --diff-filter=MDR "$BASE"...HEAD)
         if [ -n "$BAD" ]; then printf '%s' "$BAD"; echo "::error::DR-FROZEN: a decision record on the base was changed, renamed or deleted (listed above). A correction is a new record with the next number."; exit 1; fi
         echo "No decision record on the base was changed."
+        # Every record the change adds names its source and a date (49GAION/DR-0053).
+        python3 .deps/protocol/.github/scripts/check_dr_source.py "$BASE" HEAD

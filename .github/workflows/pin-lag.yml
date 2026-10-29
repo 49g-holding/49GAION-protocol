@@ -1,0 +1,20 @@
+# pin-lag (49GAION/DR-0053): a weekly report, never a gate. For each Library repository: the
+# Operating Protocol release its PROTOCOL-PIN names and how far behind the latest it is; and the
+# version the Library register pins against the mother's latest release. The report is the job
+# summary; nothing is opened or changed.
+name: pin-lag
+on:
+  schedule:
+    - cron: "17 5 * * 1"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  pin-lag:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Report the pins against the releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 .github/scripts/pin_lag.py

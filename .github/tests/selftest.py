@@ -76,6 +76,15 @@ for name, files, code in (("a link to a file of the repository passes", {"x.md":
     d, _ = tmp_repo(files)
     expect("links: " + name, run(d, sys.executable, str(S / "check_links.py")), code)
 
+# ---------- dr-source (49GAION/DR-0053) ----------
+GOOD = "# DR-9001\n\n- **Date:** 2026-10-29\n- **Decided by:** the governing seat (GOV) of 49GAION.\n- **Source:** the governing seat's words (translated): \"Confirmed.\"\n\n## Decision\n"
+for name, body, code in (("a record with quoted words and a date passes", GOOD, None),
+                         ("a record with no Source fails", GOOD.replace("- **Source:**", "- **Basis:**"), "DR-SOURCE-MISSING"),
+                         ("a record whose Source quotes nothing fails", GOOD.replace(": \"Confirmed.\"", " in the chat"), "DR-SOURCE-NO-WORDS"),
+                         ("a record with no date fails", GOOD.replace("- **Date:** 2026-10-29\n", ""), "DR-SOURCE-NO-DATE")):
+    d, base = tmp_repo({"decisions/DR-9001-x.md": body})
+    expect("dr-source: " + name, run(d, sys.executable, str(S / "check_dr_source.py"), base), code)
+
 # ---------- person-names (fictional name; the real list is never used here) ----------
 expect("person-names: selftest cases", subprocess.run([sys.executable, str(pathlib.Path(__file__).resolve().parent / "person_names_selftest.py")], capture_output=True, text=True))
 
