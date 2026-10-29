@@ -139,7 +139,7 @@
       }
     },
     {
-      "$comment": "RULE-BOT-NEVER-SIGNS: no bot claims a right to sign a listed type (Standard §4.4, item 8; 49GAION/DR-0051: a Chief of Staff signs other acts only within its position's grant).",
+      "$comment": "RULE-BOT-NEVER-SIGNS: no bot claims a right to sign a listed type (Standard §4.4, item 8; 49GAION/DR-0052: a Chief of Staff signs other acts only within its position's grant).",
       "properties": {
         "never_signs": {
           "const": true
