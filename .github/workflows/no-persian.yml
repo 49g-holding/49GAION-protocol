@@ -1,4 +1,4 @@
-# no-persian (DR-0051): no character of the Arabic script in any tracked file or file name, in the
+# no-persian (DR-0052): no character of the Arabic script in any tracked file or file name, in the
 # pull request's title, body or branch name, or in the messages, names and e-mail addresses of the
 # commits new to the change. Every text in GitHub is English; translations are marked "translated
 # from Persian". Earlier commits stay as history. The script is the copy on the base branch
