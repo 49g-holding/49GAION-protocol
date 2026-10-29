@@ -9,7 +9,7 @@
 #           with: { fetch-depth: 0 }
 #         - uses: 49g-holding/49GAION-protocol/.github/actions/library-checks@<commit>
 #           with: { check: cards }
-#     ... one job per check: pin, cards | pins, no-persian, no-org-names, no-binaries, dr-frozen
+#     ... one job per check: pin, cards | pins, no-persian, no-org-names, no-binaries, dr-frozen, links
 #
 # The caller's jobs keep the names its ruleset requires (cards or pins, no-persian, no-org-names).
 # One pin: every `uses:` line of the caller that names this action must equal the caller's
@@ -17,21 +17,25 @@
 # place and by one pull request. Every check reads this repository at that pin, never at main.
 #
 # Checks:
-#   pin           every uses line of this action equals PROTOCOL-PIN
+#   pin           every uses line of this action equals PROTOCOL-PIN, and PROTOCOL-PIN is the commit
+#                 of a release tag v<major>.<minor>.<patch> of 49GAION-protocol (DR-0051)
 #   cards         cards/ is exactly what tools/make_cards.py generates from the blueprint, and
 #                 validates against spec/schemas at the pin (mother repositories)
 #   pins          tools/check_pins.py reads every pin of the assembly back (assemblies)
-#   no-persian    no Persian or Arabic-script character in any tracked file, the PR title or body
+#   no-persian    no Arabic-script character in any tracked file or file name, the PR title, body or
+#                 branch, or the commits new to the change (the scanner of this repository at the pin)
 #   no-org-names  the scanner of this repository at the pin finds no organisation name, host or code
 #   no-binaries   no binary file is added or changed (the caller checks out with fetch-depth 0)
 #   dr-frozen     a decision record on the base is never changed; a new one takes a new number
+#   links         every relative link in a Markdown file resolves, outside the lists of superseded
+#                 wording (DR-0051)
 #
 # Structure review of 26 October 2026, points D3 and D4; 49GAION/DR-0047.
 name: library-checks
 description: The checks of a 49GAION Library repository, at the Protocol pin
 inputs:
   check:
-    description: "pin | cards | pins | no-persian | no-org-names | no-binaries | dr-frozen"
+    description: "pin | cards | pins | no-persian | no-org-names | no-binaries | dr-frozen | links"
     required: true
 runs:
   using: composite
@@ -53,10 +57,14 @@ runs:
         USES=$(grep -rhoE 'uses:[[:space:]]*49g-holding/49GAION-protocol/\.github/actions/library-checks@[0-9a-f]{40}' .github/workflows/ | sed -E 's/.*@//' | sort -u)
         if [ -z "$USES" ]; then echo "::error::PIN-UNREADABLE: no workflow of this repository uses library-checks at a full commit SHA."; exit 1; fi
         if [ "$(printf '%s\n' "$USES" | wc -l)" -ne 1 ] || [ "$USES" != "$PIN" ]; then echo "::error::PIN-MISMATCH: PROTOCOL-PIN is $PIN but library-checks is used at: $USES. Move both in one pull request."; exit 1; fi
-        echo "pin $PIN"
+        # The pin names a released Protocol: the commit of a tag v<major>.<minor>.<patch> (DR-0051).
+        TAGS=$(git ls-remote --tags https://github.com/49g-holding/49GAION-protocol.git 'refs/tags/v*') || { echo "::error::PIN-UNREADABLE: the tags of 49GAION-protocol cannot be read; failing closed."; exit 1; }
+        TAG=$(printf '%s\n' "$TAGS" | awk -v p="$PIN" '$1 == p && $2 ~ /^refs\/tags\/v[0-9]+\.[0-9]+\.[0-9]+(\^\{\})?$/ {sub(/^refs\/tags\//, "", $2); sub(/\^\{\}$/, "", $2); print $2; exit}')
+        if [ -z "$TAG" ]; then echo "::error::PIN-UNTAGGED: PROTOCOL-PIN $PIN is not the commit of a release tag of 49GAION-protocol. Pin a released version."; exit 1; fi
+        echo "pin $PIN ($TAG)"
 
     - name: Check out 49GAION-protocol at the pin
-      if: inputs.check == 'cards' || inputs.check == 'no-org-names'
+      if: inputs.check == 'cards' || inputs.check == 'no-org-names' || inputs.check == 'no-persian' || inputs.check == 'links'
       uses: actions/checkout@v4
       with:
         repository: 49g-holding/49GAION-protocol
@@ -82,30 +90,20 @@ runs:
       shell: bash
       run: python3 tools/check_pins.py
 
-    - name: Scan tracked files, the PR title and the PR body
+    - name: Scan files, names, the pull request and its new commits
       if: inputs.check == 'no-persian'
       shell: bash
       env:
+        BASE: ${{ github.event.pull_request.base.sha || github.event.before }}
         PR_TITLE: ${{ github.event.pull_request.title }}
         PR_BODY: ${{ github.event.pull_request.body }}
-      run: |
-        python3 - <<'PY'
-        import os, re, subprocess, sys
-        pat = re.compile('[\u0600-\u06FF\uFB50-\uFDFF\uFE70-\uFEFF]')
-        hits = []
-        for f in subprocess.run(['git', 'ls-files'], capture_output=True, text=True, check=True).stdout.splitlines():
-            try:
-                text = open(f, encoding='utf-8').read()
-            except (UnicodeDecodeError, IsADirectoryError, FileNotFoundError):
-                continue
-            hits += [f'{f}:{n}' for n, line in enumerate(text.splitlines(), 1) if pat.search(line)]
-        for name in ('PR_TITLE', 'PR_BODY'):
-            if pat.search(os.environ.get(name, '')):
-                hits.append(name)
-        for h in hits:
-            print(f'::error::Persian characters: {h}')
-        sys.exit(1 if hits else 0)
-        PY
+        HEAD_REF: ${{ github.head_ref }}
+      run: python3 .deps/protocol/.github/scripts/no_persian.py
+
+    - name: Every relative link resolves
+      if: inputs.check == 'links'
+      shell: bash
+      run: python3 .deps/protocol/.github/scripts/check_links.py
 
     - name: Scan tracked files for organisation names
       if: inputs.check == 'no-org-names'
