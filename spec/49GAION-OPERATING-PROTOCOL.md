@@ -1,6 +1,6 @@
 # 49GAION Operating Protocol
 
-**Version `v2.1.1` · approved by the governing seat (GOV) of 49GAION.** How AIOCs, Pods, Cells and the parts of 49GAION work together, at the general level. The rules of 49GAION are in the 49GAION Standard (`49g-holding/49GAION`, `upstream/49GAION-UPSTREAM.md`); exact values (limits, timings, tools, routes) live in the Protocol of each `[ORG]AION`. Where any text differs, the complete definition of 49GAION (`49GAION-FRAMEWORK.md` in the hub) governs; then the Standard with the Naming Standard; then this Protocol and every other text. Decisions are recorded once, in the hub ([`49GAION/decisions/README.md`](https://github.com/49g-holding/49GAION/blob/main/decisions/README.md)); this version follows `49GAION/DR-0002` and `49GAION/DR-0004`, and is brought into line with the complete definition `v2.1.0` (`49GAION/DR-0048`) by `49GAION/DR-0049`.
+**Version `v2.2.0` · approved by the governing seat (GOV) of 49GAION.** How AIOCs, Pods, Cells and the parts of 49GAION work together, at the general level. The rules of 49GAION are in the 49GAION Standard (`49g-holding/49GAION`, `upstream/49GAION-UPSTREAM.md`); exact values (limits, timings, tools, routes) live in the Protocol of each `[ORG]AION`. Where any text differs, the complete definition of 49GAION (`49GAION-FRAMEWORK.md` in the hub) governs; then the Standard with the Naming Standard; then this Protocol and every other text. Decisions are recorded once, in the hub ([`49GAION/decisions/README.md`](https://github.com/49g-holding/49GAION/blob/main/decisions/README.md)); this version follows `49GAION/DR-0002` and `49GAION/DR-0004`, and is brought into line with the complete definition `v2.1.0` (`49GAION/DR-0048`) by `49GAION/DR-0049`.
 
 49GAION is an organisation design framework: a framework for building organisations from interchangeable AI and human parts.
 
@@ -136,7 +136,10 @@ Sources: DR-0042, DR-0049.
 8. **Signers by label (GOV, 14 October 2026).** Where an `[ORG]AION` labels items by risk (Standard §4.4), the gateway reads the label from the item's recorded flags, never from the requester, and requires the signer pair the label selects, one signature record each (§4.10, item 9).
 9. **Class signature (GOV, 14 October 2026).** A standing action class (Standard §4.4) is recorded in `spec/schemas/action-class.schema.json` and signed once as `sign-standing-action-class`, its signature bound to the class version's digest. The gateway runs an action under a class only when the actor and target are in the class, the trigger is read from its own record and never from the actor's evidence, the envelope holds counted across actors and retries, and the class is neither narrowed past the action, expired nor revoked. Each use is logged with its before and after state. A narrowing applies at once as an overlay; a widening is a new version, signed again. A class whose actions map to `commit-money`, `grant-or-widen-access` or a type bound to HF-01, HF-02 or HF-15, or that is not reversible, is refused.
 
-Sources: DR-0042; GOV, 15 October 2026.
+10. **The floor of a type (`49GAION/DR-0053`).** A type may carry `floor` (`fixed`, set by the Standard; `org-choice`, added by an organisation) and `quorum` (the number of distinct credentials whose approvals the type needs; one when it sets none). A change of a signature list that removes a type, turns `fixed` into `org-choice` or lowers a quorum passes the human approval gate of Standard §4.4, item 20, read from the base of the change.
+11. **A signature bound to its subject (`49GAION/DR-0053`).** A signature record (`spec/schemas/signature.schema.json`) names the signing Cell and its credential, never a claim about the signer. The gateway checks that the credential was in force for that position when it signed, and that the position is the one the list and its `authority_scope` name; it binds the signature to its target and the hash of its payload; the nonce is used once; `issued_at` comes before `expires_at`, within the type's `max_validity`, or within 366 days where the type sets none; the signer and the executor differ by Cell and by credential (Standard §4.4, item 23). The test of the Protocol's forms fails a signature on each of these: SIG-SIGNER-IS-EXECUTOR, SIG-EXPIRY, SIG-VALIDITY, SIG-TYPE, SIG-SUBJECT.
+
+Sources: DR-0042, `49GAION/DR-0053`; GOV, 15 October 2026.
 
 ### 4.10 The unit register at work
 1. The unit register is append-only (Standard §4.4). `[ORG]AIOC-OCO` writes AI Cell records; `[ORG]HOAC-TM` writes human Cell records. An event whose decision type is on the Human Floor signature list (for example granting or widening access, or changing a parent) is written only with that seat's valid signature (§4.9); `[ORG]AIOC-OCO` cannot write it alone. An AI Cell's filler change, a parent change, a retirement, and each external port's `connected` and `disconnected` events are recorded events on the existing entry; who holds a human Cell is not a register event (`49GAION/DR-0049`).
@@ -168,7 +171,9 @@ Sources: DR-0042; GOV, 15 October 2026.
 21. **Empty position (GOV, 15 October 2026; `49GAION/DR-0049`).** A position is empty while the organisation's mechanism has no credential in force for it. While it is empty, its Chief of Staff only advises; the matter goes up the accountability path (§4.8); and an action that needs that position's signature goes to the delegating position, which may sign within its own authority, and is held when no filled HOAC above it can sign (§4.6, item 3; Standard §4.1, items 5 and 12). A type the position has marked personal is never signed by the delegating position; it stays held until the position is filled (§4.6, item 7).
    - **Empty overseeing position (GOV, 15 October 2026; `49GAION/DR-0049`).** If the overseeing position of an Overseen link is empty, the held action escalates to the position above the overseeing position, up to `[ORG]HOAC-GOV`, which may clear or stop it as the overseeing position would; it never passes automatically. If GOV is empty, the action stays held until GOV is filled through the founding configuration.
 
-Sources: DR-0013, DR-0015, DR-0030, DR-0049.
+22. **A new credential is an event (`49GAION/DR-0053`).** When the organisation's mechanism puts a credential in force for a position carrying a HOAC label, the gateway records a `credential-in-force` event: the position code, a reference to the credential, the time and the end of any waiting period, never a person. It reports the event at once to the internal-audit line (HF-19) and to the position above; for GOV, to the substitute the founding configuration names. During a waiting period the credential signs no listed type; it may always stop (Standard §4.4, item 21).
+
+Sources: DR-0013, DR-0015, DR-0030, DR-0049, DR-0053.
 
 ## 5. The ports and the input check
 
@@ -704,6 +709,31 @@ Sources: DR-0027, DR-0049.
 12. **The fixed test.** Every rule of this section has a case in TEST-CHARTER v1 (`library/cards/README.md`). The card stays `DRAFT`, with `last_result` `NOT_RUN`, until the test has run once with recorded evidence (§10, item 3).
 
 Sources: DR-0029, DR-0041, DR-0042.
+
+## 24. The event record, tainted runs and conformance
+
+1. **One record (`49GAION/DR-0053`).** Every event at the tool gateway is one entry of an append-only record in one envelope, `spec/schemas/event.schema.json`: a tool call (its request and its run), a gateway decision, an approval, a stop, a restart, a change of a control, a credential put in force, a taint label and a clearance. Each entry carries its event ID, the run, its place in order, the time, the position and the credential that act, and the hash of the entry before it, so that an entry deleted or altered mid-record breaks the chain (Standard §4.4, item 24). The record names parties only by position code and credential reference: no person and no reference to one.
+2. **A profile of the semantic conventions for generative AI.** The envelope's `gen_ai` group follows the OpenTelemetry semantic conventions for generative AI at the version the schema pins: a tool call is the operation `execute_tool` with its tool's name, and a call through the Model Context Protocol carries its method and tool. 49GAION's own fields sit under `gaion`, the name of the server of such a call among them.
+3. **The basis of every decision.** A gateway decision names the rule it applies, the version in force (the release tag and the commit it names) and the record that authorises it. A decision without its basis, or whose commit is not the one its tag names, does not count.
+4. **Authority along a chain.** An act done for another position names the position it is done for, the chain of parts it passed through, each with its permissions and its taint, and the permissions it uses, which lie within those common to every part of the chain. A part never does for another what that other may not do.
+5. **Tainted runs.** Every input carries a source label, internal or external, with its source. A run that has read an external input is tainted until it ends (Standard §4.4, item 22). Reading, drafting and writing inside the part's own space stay open; a send, a publication, a write outside the part's space, a write to a new target and a change of permission run only after a clearance: a deterministic check that passed, or the accountable position's approval, each recorded. What a tainted run stores keeps its label, and a run that reads it is tainted. The gateway, not the part, records the taint.
+6. **Credentials in the record.** A credential reference names its kind: a human position's credential, an AI Cell's own, or a deterministic part of the core such as the gateway. Only a human position's credential counts toward the approvals of a listed type, and one credential counts once.
+7. **The conformance scenarios.** The traces under `tests/traces/` are the scenarios: each trace that must fail breaks one rule (TRACE-CHAIN, CALL-WITHOUT-DECISION, CALL-AFTER-STOP, RESTART-BY-STOPPED, AUTHORITY-ESCALATION, HUMAN-FLOOR-QUORUM, FRESH-CREDENTIAL, TAINTED-RUN, DECISION-BASIS), and each trace that must pass shows the same act done right. `tests/traces/check_traces.py` checks them, and fails if a trace that must pass has a finding, so a checker that always refuses fails too.
+8. **What conformance means.** The traces here are written by hand: they test the checker, not an implementation. An implementation conforms when its own gateway, run on the same scenarios, records traces of its own that pass the checker (Standard §1.8, item 2). That gateway lives in the implementation's own repository, whose checks run this kit at a released tag; until then its claim reads "unverified".
+
+Sources: `49GAION/DR-0053`.
+
+## 25. The gateway and current agent interfaces (informative)
+
+This section maps the gateway onto interfaces in use today. It adds no rule; where it differs from a rule above, the rule governs.
+
+1. **Tool calls through the Model Context Protocol.** The gateway sits between every agent and every server it calls. Each call to a tool is a tool-call request in the record (§24, item 1), judged before it runs; a server is an external attachment, reached through a port of the Cell that uses it (Standard §4.4, item 7). The tools a part may call are its scope.
+2. **Credentials.** Each AI Cell calls with its own credential (§10, item 3). The keys to outside servers are held at the gateway; no part holds one.
+3. **Calls from one agent to another.** A request from one agent to another, inside the organisation or across it, is a Work Item between two nodes (§4). The agent that receives it acts for the position at the start of the chain, within the permissions common to every part of the chain (§24, item 4): a request never gives the receiver more than the asker may do.
+4. **The stop.** A stop revokes the part's credentials at the gateway, which ends every open session and task of that part at once and refuses every queued call (§4.4).
+5. **Taint across interfaces.** What a server or an agent outside the organisation returns is external input, and taints the run that reads it (§24, item 5).
+
+Sources: `49GAION/DR-0053`.
 
 ## Superseded wording, by version
 
