@@ -1,0 +1,7 @@
+{
+  "$comment": "The gateway policy versions the trace fixtures name: each tag maps to the one commit it names. A gateway decision whose policy_version commit is not its tag's commit here fails DECISION-BASIS.",
+  "versions": {
+    "gw-policy-v1.3.2": "eb361d9b11263f487d0b7efa06ffbd41cffb6345",
+    "gw-policy-v1.4.0": "ff9606e1ca5998c3ab15bf001b6868dc4fd5ce1c"
+  }
+}

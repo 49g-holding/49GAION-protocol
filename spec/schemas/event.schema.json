@@ -1,0 +1,829 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/49g-holding/49GAION-protocol/spec/schemas/event.schema.json",
+  "title": "49GAION Operating Protocol - event record",
+  "description": "One append-only envelope for every event of a run at the tool gateway: a tool call (its request and its run), a gateway decision, an approval, a stop, a restart, a control change, a credential put in force, a taint label and a clearance. A trace is the gateway's log of such events in seq order; each event holds the hash of the event before it, so an event deleted or altered mid-trace breaks the chain. The envelope names parties only by position code and credential reference: no person's identity and no reference to one (Standard §1.1, item 9; 49GAION/DR-0049). Two attribute groups follow the envelope: gen_ai, a small profile of the OpenTelemetry semantic conventions for generative AI, and gaion, the fields 49GAION adds. The record holds strings, booleans and integers only, never a floating-point number, so its canonical JSON (RFC 8785) is the JSON text with keys sorted, no whitespace and UTF-8 encoding. This schema proves shape only; behaviour over the sequence (the chain, a call without a decision, a call after a stop, a restart approved by the stopped part, authority along a delegation chain, the Human Floor quorum, a fresh credential, taint, the basis of a decision) is checked by tests/traces/check_traces.py.",
+  "type": "object",
+  "required": [
+    "event_id",
+    "run_id",
+    "seq",
+    "time",
+    "prev_hash",
+    "event_type",
+    "position",
+    "credential_ref",
+    "gaion"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "event_id": {
+      "type": "string",
+      "pattern": "^EV-[0-9A-Za-z-]+$",
+      "description": "An event ID, unique within the trace."
+    },
+    "time": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$",
+      "description": "An RFC 3339 date-time with its offset."
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "position": {
+      "$comment": "RULE-POSITION-CODE: parties are named by position code only (49GAION/DR-0049)",
+      "type": "string",
+      "pattern": "^(\\[ORG\\]|[0-9A-Za-z]+)(AIOC-[A-Z]{2,5}(-[A-Z]{2,5})?|POD-[A-Z0-9]{2,8}|CELL-[A-Z0-9]{2,8}|HOAC-(GOV|TM|ACS))$",
+      "description": "A position: the code of an AIOC, a Pod or a Cell (Naming Standard R14), e.g. [ORG]CELL-TMS or TenAIOC-SL, or a HOAC label, e.g. TenHOAC-GOV. Never a person."
+    },
+    "credential_ref": {
+      "$comment": "RULE-CREDENTIAL-KIND: a credential reference names its kind and nothing about a person",
+      "type": "string",
+      "pattern": "^(pos|bot|sys):[0-9A-Za-z][0-9A-Za-z._-]{0,63}$",
+      "description": "An opaque credential reference after a kind prefix. pos: a credential the organisation's mechanism issued for a human position, used with a fresh live sign-in (HF-10). bot: an AI Cell's own credential, as on its bot identity card. sys: a deterministic component of the core, such as the gateway or a check runner. The part after the prefix is opaque and never names or points to a person."
+    },
+    "permission": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9.-]*$",
+      "description": "A permission name, e.g. mail.send."
+    }
+  },
+  "properties": {
+    "event_id": {
+      "$ref": "#/$defs/event_id"
+    },
+    "run_id": {
+      "type": "string",
+      "pattern": "^RUN-[0-9A-Za-z-]+$",
+      "description": "The run the event belongs to. A trace may hold several runs; taint is judged per run."
+    },
+    "seq": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The event's place in the trace: 1 for the first event, and one more than the event before it for every other."
+    },
+    "time": {
+      "$ref": "#/$defs/time",
+      "description": "When the event was written; never earlier than the event before it."
+    },
+    "prev_hash": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "sha256: and the hex SHA-256 of the canonical JSON of the event before this one in the trace (the whole event, its own prev_hash included); null for the first event of the trace."
+    },
+    "event_type": {
+      "type": "string",
+      "enum": [
+        "tool-call",
+        "gateway-decision",
+        "approval",
+        "stop",
+        "restart",
+        "control-change",
+        "credential-in-force",
+        "taint",
+        "clearance"
+      ]
+    },
+    "position": {
+      "$ref": "#/$defs/position",
+      "description": "The position that acts in this event: for a tool call, the Cell that asks for or runs it; for a gateway decision, a restart or a deterministic clearance, the gateway; for an approval, a stop or a clearance by a position, that position; for a taint label, the part whose context the content entered; for a credential put in force, the gateway that records it."
+    },
+    "credential_ref": {
+      "$ref": "#/$defs/credential_ref",
+      "description": "The credential under which the position acts in this event."
+    },
+    "gen_ai": {
+      "$comment": "RULE-SEMCONV-PROFILE: the gen_ai group holds only the attributes of this profile, under the semantic conventions version it names",
+      "type": "object",
+      "required": [
+        "semconv",
+        "attributes"
+      ],
+      "additionalProperties": false,
+      "description": "A profile of the OpenTelemetry semantic conventions for generative AI. Attribute names and values are those of the conventions at the version in semconv, flat as OpenTelemetry writes them. The profile keeps a small closed set: a tool call carries gen_ai.operation.name execute_tool and gen_ai.tool.name; a call to a tool of an MCP server also carries mcp.method.name tools/call, and its server's registered name in gaion.mcp_server (the conventions have no attribute for a server's name; server.address carries where it runs). An attribute outside this set comes with a new version of this schema.",
+      "properties": {
+        "semconv": {
+          "const": "1.39.0",
+          "description": "The version of the OpenTelemetry semantic conventions the attributes follow: 1.39.0, the first release that holds both the generative AI tool attributes and the MCP attributes used here."
+        },
+        "attributes": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "gen_ai.operation.name": {
+              "type": "string",
+              "enum": [
+                "execute_tool",
+                "invoke_agent",
+                "chat",
+                "generate_content",
+                "text_completion",
+                "embeddings",
+                "create_agent"
+              ],
+              "description": "The operation; execute_tool for every tool call."
+            },
+            "gen_ai.tool.name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The tool's name as the model called it; for an MCP tool, the tool's name on its server."
+            },
+            "gen_ai.tool.call.id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The tool call's ID as the model gave it."
+            },
+            "gen_ai.tool.type": {
+              "type": "string",
+              "enum": [
+                "function",
+                "extension",
+                "datastore"
+              ]
+            },
+            "gen_ai.agent.id": {
+              "type": "string",
+              "minLength": 1,
+              "description": "The agent's ID: the code of the AI Cell it runs in, never a person."
+            },
+            "gen_ai.conversation.id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "gen_ai.provider.name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "gen_ai.request.model": {
+              "type": "string",
+              "minLength": 1
+            },
+            "mcp.method.name": {
+              "type": "string",
+              "minLength": 1,
+              "description": "For a call to an MCP server: tools/call."
+            },
+            "mcp.protocol.version": {
+              "type": "string",
+              "minLength": 1
+            },
+            "server.address": {
+              "type": "string",
+              "minLength": 1
+            },
+            "server.port": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            },
+            "error.type": {
+              "type": "string",
+              "minLength": 1
+            }
+          }
+        }
+      }
+    },
+    "gaion": {
+      "$comment": "RULE-GAION-FIELDS: the gaion group holds only the fields 49GAION defines",
+      "type": "object",
+      "additionalProperties": false,
+      "description": "49GAION's fields. Which of them an event must carry depends on its event_type (the rules under allOf).",
+      "properties": {
+        "phase": {
+          "type": "string",
+          "enum": [
+            "request",
+            "run"
+          ],
+          "description": "Tool call: request when the model asks for the call (model text, which alone never opens an action); run when the call is carried out, after the gateway allowed its request."
+        },
+        "request_ref": {
+          "$ref": "#/$defs/event_id",
+          "description": "Tool call, run: the event_id of the request it carries out."
+        },
+        "effect": {
+          "type": "string",
+          "enum": [
+            "read",
+            "draft",
+            "write-inside",
+            "send",
+            "publish",
+            "write-outside",
+            "new-target",
+            "permission"
+          ],
+          "description": "Tool call, request: the effect class of the call. read reads content; draft prepares a draft that stays inside; write-inside stores content inside the organisation (memory, a register); send sends to a target already known; publish makes content public; write-outside writes to a system outside the organisation; new-target acts on a target the organisation has not used before (a new address or endpoint); permission changes a permission or a grant. In a run that read external input, send, publish, write-outside, new-target and permission are allowed only after a clearance."
+        },
+        "permission": {
+          "$ref": "#/$defs/permission",
+          "description": "Tool call, request: the permission the call uses."
+        },
+        "target_ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Tool call, request: where the effect lands, e.g. a mailbox, a page or a stored item; never a person's name or contact."
+        },
+        "payload_sha": {
+          "$ref": "#/$defs/sha256",
+          "description": "Tool call: the hash of the call's canonical payload; the run carries the same hash as its request."
+        },
+        "decision_type": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9-]+$",
+          "description": "Tool call, request: the decision type of the signature list the call falls under, if any. Approval: the decision type approved."
+        },
+        "mcp_server": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9.-]*$",
+          "description": "Tool call: the registered name of the MCP server the tool belongs to, as its port card names it."
+        },
+        "on_behalf_of": {
+          "$ref": "#/$defs/position",
+          "description": "Tool call, request: the originating position the call is made for; the first part of the delegation chain."
+        },
+        "delegation_chain": {
+          "type": "array",
+          "minItems": 1,
+          "description": "Tool call, request: the parts the act passed through, from the originating position to the acting position, each with the permissions it holds and whether its context holds tainted content. Taint never clears along the chain: once a part is tainted, every later part is.",
+          "items": {
+            "type": "object",
+            "required": [
+              "part",
+              "taint",
+              "permissions"
+            ],
+            "additionalProperties": false,
+            "properties": {
+              "part": {
+                "$ref": "#/$defs/position"
+              },
+              "taint": {
+                "type": "boolean"
+              },
+              "permissions": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/$defs/permission"
+                },
+                "uniqueItems": true
+              }
+            }
+          }
+        },
+        "effective_permissions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/permission"
+          },
+          "uniqueItems": true,
+          "description": "Tool call, request: the permissions in effect for the act: the intersection of the permissions of every part of the delegation chain, never more."
+        },
+        "decision": {
+          "type": "string",
+          "enum": [
+            "allow",
+            "deny"
+          ],
+          "description": "Gateway decision: allow or deny."
+        },
+        "rule_id": {
+          "type": "string",
+          "pattern": "^[A-Z][A-Z0-9-]+$",
+          "description": "Gateway decision: the policy rule applied."
+        },
+        "policy_version": {
+          "$comment": "RULE-DECISION-BASIS: a decision names the policy version it applied, by tag and commit",
+          "type": "object",
+          "required": [
+            "tag",
+            "commit"
+          ],
+          "additionalProperties": false,
+          "description": "Gateway decision: the version of the gateway policy applied, by its tag and the commit the tag names.",
+          "properties": {
+            "tag": {
+              "type": "string",
+              "minLength": 1
+            },
+            "commit": {
+              "type": "string",
+              "pattern": "^[0-9a-f]{40}([0-9a-f]{24})?$"
+            }
+          }
+        },
+        "authorising_record": {
+          "type": "string",
+          "pattern": "^[0-9A-Za-z\\[\\]]+/[0-9A-Za-z-]+$",
+          "description": "Gateway decision: the decision record that authorises the rule, e.g. 49GAION/DR-0053."
+        },
+        "parent_call": {
+          "$ref": "#/$defs/event_id",
+          "description": "Gateway decision: the event_id of the tool-call request it judges."
+        },
+        "approver_position": {
+          "$ref": "#/$defs/position",
+          "description": "Approval: the approving position; the same as the envelope's position."
+        },
+        "approver_credential_id": {
+          "$ref": "#/$defs/credential_ref",
+          "description": "Approval: the credential the approval was made with, the one counted toward a quorum; the same as the envelope's credential_ref."
+        },
+        "subject_ref": {
+          "$ref": "#/$defs/event_id",
+          "description": "Approval: what is approved: a tool-call request, or the stop a restart lifts."
+        },
+        "subject_sha": {
+          "$ref": "#/$defs/sha256",
+          "description": "Approval: the payload_sha of the approved request, or the event hash of the stop a restart lifts. An approval binds to this hash only."
+        },
+        "covers": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/position"
+          },
+          "description": "Stop: every part and position the stop covers, resolved when it is made. A stop takes effect at once and is never delayed."
+        },
+        "lifts": {
+          "$ref": "#/$defs/event_id",
+          "description": "Restart: the event_id of the stop it lifts."
+        },
+        "approval_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/event_id"
+          },
+          "description": "Restart, control change: the approvals it rests on."
+        },
+        "control_ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Control change: the control changed, e.g. a gateway policy tag or a threshold."
+        },
+        "source_label": {
+          "type": "string",
+          "enum": [
+            "internal",
+            "external"
+          ],
+          "description": "Taint: where the content read comes from: inside the organisation, or outside it (an inbound message, a web page, a document from a third party)."
+        },
+        "source_ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Taint: the content read, e.g. an inbound message or a stored item."
+        },
+        "stored_label": {
+          "type": "string",
+          "enum": [
+            "internal",
+            "external"
+          ],
+          "description": "Taint, for a stored item: the label the item was stored with. An item written by a run that read external input carries external, and so taints every run that reads it."
+        },
+        "content_sha": {
+          "$ref": "#/$defs/sha256",
+          "description": "Taint: the hash of the content read."
+        },
+        "tainted": {
+          "type": "boolean",
+          "description": "Taint: true when the content read is of external origin, directly or through a stored item."
+        },
+        "cleared_by": {
+          "type": "string",
+          "enum": [
+            "deterministic-check",
+            "position"
+          ],
+          "description": "Clearance: by a deterministic check of the core (sys: credential), or by a position (pos: credential)."
+        },
+        "clearance_ref": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Clearance: the record of the check or of the position's clearance."
+        },
+        "clears": {
+          "$ref": "#/$defs/event_id",
+          "description": "Clearance: the event_id of the tool-call request it clears."
+        },
+        "for_position": {
+          "$ref": "#/$defs/position",
+          "description": "Credential in force: the position the credential is in force for."
+        },
+        "credential_id": {
+          "$ref": "#/$defs/credential_ref",
+          "description": "Credential in force: the credential put in force."
+        },
+        "waiting_until": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}(\\.[0-9]+)?(Z|[+-][0-9]{2}:[0-9]{2})$",
+          "description": "Credential in force: until when a fresh credential may not approve a listed type; null when there is no waiting period. A stop is never delayed by it."
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "$comment": "RULE-TOOL-CALL-SHAPE: a tool call carries the gen_ai profile of an execute_tool operation, its phase and its payload hash",
+      "if": {
+        "properties": {
+          "event_type": {
+            "const": "tool-call"
+          }
+        },
+        "required": [
+          "event_type"
+        ]
+      },
+      "then": {
+        "required": [
+          "gen_ai"
+        ],
+        "properties": {
+          "gen_ai": {
+            "properties": {
+              "attributes": {
+                "required": [
+                  "gen_ai.operation.name",
+                  "gen_ai.tool.name"
+                ],
+                "properties": {
+                  "gen_ai.operation.name": {
+                    "const": "execute_tool"
+                  }
+                }
+              }
+            }
+          },
+          "gaion": {
+            "required": [
+              "phase",
+              "payload_sha"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-TOOL-CALL-REQUEST: a request names its effect class, the permission it uses and its authority",
+      "if": {
+        "properties": {
+          "event_type": {
+            "const": "tool-call"
+          },
+          "gaion": {
+            "properties": {
+              "phase": {
+                "const": "request"
+              }
+            },
+            "required": [
+              "phase"
+            ]
+          }
+        },
+        "required": [
+          "event_type",
+          "gaion"
+        ]
+      },
+      "then": {
+        "properties": {
+          "gaion": {
+            "required": [
+              "effect",
+              "permission",
+              "on_behalf_of",
+              "delegation_chain",
+              "effective_permissions"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-TOOL-CALL-RUN: a run names the request it carries out",
+      "if": {
+        "properties": {
+          "event_type": {
+            "const": "tool-call"
+          },
+          "gaion": {
+            "properties": {
+              "phase": {
+                "const": "run"
+              }
+            },
+            "required": [
+              "phase"
+            ]
+          }
+        },
+        "required": [
+          "event_type",
+          "gaion"
+        ]
+      },
+      "then": {
+        "properties": {
+          "gaion": {
+            "required": [
+              "request_ref"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-MCP-TOOL: a call to a tool of an MCP server records the tools/call method",
+      "if": {
+        "properties": {
+          "gaion": {
+            "required": [
+              "mcp_server"
+            ]
+          }
+        },
+        "required": [
+          "gaion"
+        ]
+      },
+      "then": {
+        "required": [
+          "gen_ai"
+        ],
+        "properties": {
+          "gen_ai": {
+            "properties": {
+              "attributes": {
+                "required": [
+                  "mcp.method.name"
+                ],
+                "properties": {
+                  "mcp.method.name": {
+                    "const": "tools/call"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-DECISION-BASIS: a gateway decision names its decision, the rule applied, the policy version, the authorising record and the call it judges",
+      "if": {
+        "properties": {
+          "event_type": {
+            "const": "gateway-decision"
+          }
+        },
+        "required": [
+          "event_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "gaion": {
+            "required": [
+              "decision",
+              "rule_id",
+              "policy_version",
+              "authorising_record",
+              "parent_call"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-APPROVAL-SHAPE: an approval names its approver by position and credential, the decision type, and what it approves by reference and hash",
+      "if": {
+        "properties": {
+          "event_type": {
+            "const": "approval"
+          }
+        },
+        "required": [
+          "event_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "gaion": {
+            "required": [
+              "approver_position",
+              "approver_credential_id",
+              "decision_type",
+              "subject_ref",
+              "subject_sha"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-STOP-SHAPE: a stop names what it covers",
+      "if": {
+        "properties": {
+          "event_type": {
+            "const": "stop"
+          }
+        },
+        "required": [
+          "event_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "gaion": {
+            "required": [
+              "covers"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-RESTART-SHAPE: a restart names the stop it lifts and the approvals it rests on",
+      "if": {
+        "properties": {
+          "event_type": {
+            "const": "restart"
+          }
+        },
+        "required": [
+          "event_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "gaion": {
+            "required": [
+              "lifts",
+              "approval_refs"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-CONTROL-CHANGE-SHAPE: a control change names the control changed",
+      "if": {
+        "properties": {
+          "event_type": {
+            "const": "control-change"
+          }
+        },
+        "required": [
+          "event_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "gaion": {
+            "required": [
+              "control_ref"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-CREDENTIAL-IN-FORCE-SHAPE: a credential put in force names the credential, its position and its waiting period",
+      "if": {
+        "properties": {
+          "event_type": {
+            "const": "credential-in-force"
+          }
+        },
+        "required": [
+          "event_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "gaion": {
+            "required": [
+              "for_position",
+              "credential_id",
+              "waiting_until"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-TAINT-SHAPE: a taint label names the source, its label and whether the content is tainted",
+      "if": {
+        "properties": {
+          "event_type": {
+            "const": "taint"
+          }
+        },
+        "required": [
+          "event_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "gaion": {
+            "required": [
+              "source_label",
+              "source_ref",
+              "tainted"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-TAINT-LABEL: content of external origin, read directly or from a stored item labelled external, is tainted",
+      "if": {
+        "properties": {
+          "event_type": {
+            "const": "taint"
+          },
+          "gaion": {
+            "anyOf": [
+              {
+                "properties": {
+                  "source_label": {
+                    "const": "external"
+                  }
+                },
+                "required": [
+                  "source_label"
+                ]
+              },
+              {
+                "properties": {
+                  "stored_label": {
+                    "const": "external"
+                  }
+                },
+                "required": [
+                  "stored_label"
+                ]
+              }
+            ]
+          }
+        },
+        "required": [
+          "event_type",
+          "gaion"
+        ]
+      },
+      "then": {
+        "properties": {
+          "gaion": {
+            "properties": {
+              "tainted": {
+                "const": true
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "$comment": "RULE-CLEARANCE-SHAPE: a clearance names who cleared, its record and the request it clears",
+      "if": {
+        "properties": {
+          "event_type": {
+            "const": "clearance"
+          }
+        },
+        "required": [
+          "event_type"
+        ]
+      },
+      "then": {
+        "properties": {
+          "gaion": {
+            "required": [
+              "cleared_by",
+              "clearance_ref",
+              "clears"
+            ]
+          }
+        }
+      }
+    }
+  ]
+}

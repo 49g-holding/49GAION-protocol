@@ -10,8 +10,20 @@
 - Superseded fixtures under tests/cards/superseded/ and tests/signatures/sets/superseded/ are reported for reading only.
 - Since (GOV, 15 October 2026): two positions are two parties; signature sets count distinct signing
   positions other than the requesting position (SIG-DUAL), never the persons behind them.
-- Code and version patterns accept the examples and reject malformed values."""
-import json, pathlib, sys
+- Code and version patterns accept the examples and reject malformed values.
+- Since v2.2.0: behaviour rules over each signature record of tests/signatures/ (and each signature
+  of a signature set), with their own codes: SIG-SIGNER-IS-EXECUTOR (the signer's Cell, or its
+  credential where the executor's is recorded, is the executor's); SIG-EXPIRY (expires_at not after
+  issued_at); SIG-VALIDITY (valid longer than the type's max_validity, an ISO 8601 duration in
+  weeks, days, hours, minutes and seconds, or than 366 days when the type sets none; an unreadable
+  max_validity fails); SIG-TYPE (decision_type not an id of the signature list); SIG-SUBJECT
+  (target_code present but not a part code; a missing target_code or payload_hash is the schema's
+  own rule). The signature list is the hub's own when HUB_DIR is set
+  ($HUB_DIR/upstream/human-floor-signature-types.json), else the vendored copy of its ids and
+  max_validity values at tests/fixtures/signature-list/. A must-fail signature fixture counts only
+  when it fails on its own rule alone: a SIG-* fixture with no schema error and no other SIG-* code,
+  a schema fixture with no SIG-* code."""
+import datetime, json, os, pathlib, sys
 from jsonschema import Draft202012Validator
 from referencing import Registry, Resource
 
@@ -62,22 +74,32 @@ def code_rules(card):
         errs.append("RULE-TEST-OWNER")
     return errs
 
-def run(folder, schema_name, extra=lambda c: []):
+def codes_of(found):
+    """The rule codes of behaviour findings written "CODE: message" or "CODE message"."""
+    return {x.split(":")[0].split(" ")[0] for x in found}
+
+def run(folder, schema_name, extra=lambda c: [], isolate=False):
+    """isolate: a must-fail fixture counts only when it fails on its own rule alone (v2.2.0)."""
     global ok
     d = ROOT / folder
     for f in sorted(d.glob("valid-*.json")):
         c = json.loads(f.read_text())
         raw = list(V[schema_name].iter_errors(c))
         errs = [e.message for e in raw] + extra(c)
-        rules = sorted({s for e in raw for s in signatures(schema_name, e) if s.startswith("RULE-")} | {x for x in extra(c) if x.startswith("RULE-")})
+        rules = sorted({s for e in raw for s in signatures(schema_name, e) if s.startswith("RULE-")} | codes_of(extra(c)))
         print(f"{folder}/{f.name}:", "valid" if not errs else f"NOT VALID {rules} {errs[:3]}"); ok &= not errs
         row(f"{folder}/{f.name}", "pass", "pass" if not errs else "fail " + ",".join(rules or ["schema"]), not errs)
     for f in sorted(d.glob("must-fail-*.json")):
         c = json.loads(f.read_text()); want = c.pop("$expect", None) or LEGACY.get(f.name)
         errs = list(V[schema_name].iter_errors(c)); sigs = set().union(*[signatures(schema_name, e) for e in errs]) | set(extra(c))
         hit = want is not None and any(want == s or s.startswith(want) or want in s for s in sigs)
-        print(f"{folder}/{f.name}:", f"rejected on {want}" if hit else f"NOT REJECTED ON {want} (got {sorted(sigs)[:6]})"); ok &= hit
+        codes = codes_of(extra(c))
+        if isolate:  # alone: a behaviour fixture has no schema error and no other code; a schema fixture has no behaviour code
+            hit = hit and ((not errs and codes == {want}) if want in codes else not codes)
+        print(f"{folder}/{f.name}:", f"rejected on {want}" if hit else f"NOT REJECTED ON {want} ALONE (got {sorted(sigs)[:6]})"); ok &= hit
         got = sorted(s for s in sigs if s.startswith("RULE-") or s == want) or sorted(sigs)[:2]
+        if isolate:
+            got = sorted(set(got) - set(extra(c)) | codes)
         row(f"{folder}/{f.name}", f"fail {want}", ("fail " + ",".join(got)) if errs or extra(c) else "pass", hit)
 
 run("tests/cards", "unit-card.schema.json", code_rules)
@@ -105,7 +127,72 @@ for g in sorted(p for p in _b.glob("must-fail-*") if p.is_dir()):
     errs = [e.message for _, c in cards for e in V["bot-identity-card.schema.json"].iter_errors(c)]
     hit = bool(shared_credentials(cards)) and not errs
     print(f"tests/cards/bots/{g.name}/:", "rejected on RULE-CREDENTIAL-SHARED" if hit else "NOT REJECTED ON RULE-CREDENTIAL-SHARED"); ok &= hit
-run("tests/signatures", "signature.schema.json")
+# Signature behaviour rules (v2.2.0): what JSON Schema cannot state over one signature record.
+VENDORED_LIST = ROOT / "tests/fixtures/signature-list/human-floor-signature-types.json"
+def signature_list():
+    """The Human Floor signature list: the hub's own when HUB_DIR is set, else the vendored copy."""
+    hub = os.environ.get("HUB_DIR")
+    src = pathlib.Path(hub) / "upstream/human-floor-signature-types.json" if hub else VENDORED_LIST
+    if not src.exists():
+        print(f"signature list not found: {src}"); sys.exit(1)
+    return {t["id"]: t for t in json.loads(src.read_text())["decision_types"]}, src
+SIG_TYPES, _sig_src = signature_list()
+print(f"signature list: {_sig_src.resolve().relative_to(ROOT) if _sig_src.resolve().is_relative_to(ROOT) else _sig_src} ({len(SIG_TYPES)} types)")
+if os.environ.get("HUB_DIR"):
+    _vend = {t["id"]: t.get("max_validity") for t in json.loads(VENDORED_LIST.read_text())["decision_types"]}
+    _hub = {i: t.get("max_validity") for i, t in SIG_TYPES.items()}
+    if _vend != _hub:
+        print(f"note: the vendored signature list differs from the hub's (only in the hub: {sorted(set(_hub) - set(_vend))}; "
+              f"only vendored: {sorted(set(_vend) - set(_hub))}; max_validity differs: "
+              f"{sorted(i for i in set(_hub) & set(_vend) if _hub[i] != _vend[i])}); refresh {VENDORED_LIST.relative_to(ROOT)}")
+DEFAULT_MAX_VALIDITY = datetime.timedelta(days=366)
+_DURATION = re.compile(r"^P(?:([0-9]+)W)?(?:([0-9]+)D)?(?:T(?=[0-9])(?:([0-9]+)H)?(?:([0-9]+)M)?(?:([0-9]+)S)?)?$")
+def duration(s):
+    """An ISO 8601 duration in weeks, days, hours, minutes and seconds (e.g. PT1H, P30D); None when unreadable."""
+    m = _DURATION.match(s) if isinstance(s, str) else None
+    if not m or not any(m.groups()):
+        return None
+    w, d, h, mi, se = (int(x or 0) for x in m.groups())
+    return datetime.timedelta(weeks=w, days=d, hours=h, minutes=mi, seconds=se)
+def _when(s):
+    try:
+        t = datetime.datetime.fromisoformat(str(s).replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    return t if t.tzinfo else t.replace(tzinfo=datetime.timezone.utc)
+_PART_CODE = re.compile(schemas["unit-card.schema.json"]["properties"]["code"]["pattern"])
+def sig_rules(s, types=None):
+    """SIG-SIGNER-IS-EXECUTOR, SIG-EXPIRY, SIG-VALIDITY, SIG-TYPE and SIG-SUBJECT over one signature record."""
+    types = SIG_TYPES if types is None else types
+    errs = []
+    if s.get("signer_cell") and s.get("signer_cell") == s.get("executor_cell"):
+        errs.append(f"SIG-SIGNER-IS-EXECUTOR: {s['signer_cell']} signs an action it also executes")
+    if s.get("executor_credential") is not None and s.get("executor_credential") == s.get("signer_credential"):
+        errs.append("SIG-SIGNER-IS-EXECUTOR: the signing credential is the executor's credential")
+    iss, exp = _when(s.get("issued_at")), _when(s.get("expires_at"))
+    if iss and exp:
+        if exp <= iss:
+            errs.append(f"SIG-EXPIRY: expires_at {s['expires_at']} is not after issued_at {s['issued_at']}")
+        else:
+            mv = types.get(s.get("decision_type"), {}).get("max_validity")
+            limit = DEFAULT_MAX_VALIDITY if mv is None else duration(mv)
+            if limit is None:
+                errs.append(f"SIG-VALIDITY: the type's max_validity {mv!r} is not a duration the gateway can apply")
+            elif exp - iss > limit:
+                errs.append(f"SIG-VALIDITY: valid for {exp - iss}, longer than {mv or 'the default of 366 days'}")
+    if "decision_type" in s and s["decision_type"] not in types:
+        errs.append(f"SIG-TYPE: {s['decision_type']} is not a type of the signature list")
+    if "target_code" in s and not (isinstance(s["target_code"], str) and _PART_CODE.match(s["target_code"])):
+        errs.append(f"SIG-SUBJECT: target_code {s['target_code']!r} binds the signature to no part")
+    return errs
+run("tests/signatures", "signature.schema.json", sig_rules, isolate=True)
+# SIG-VALIDITY reads a type's own max_validity when the list sets one (no type of the list sets one today).
+_vs = json.loads((ROOT / "tests/signatures/valid-signature.json").read_text())
+for _mv, _want in (("PT30M", True), ("PT1H", False), ("P1D", False), ("P1Y", True)):
+    _got = any(e.startswith("SIG-VALIDITY") for e in sig_rules(_vs, {**SIG_TYPES, _vs["decision_type"]: {"id": _vs["decision_type"], "max_validity": _mv}}))
+    print(f"SIG-VALIDITY, valid-signature.json (one hour) under max_validity {_mv}:", "rejected" if _got else "valid"); ok &= _got == _want
+    row(f"rule SIG-VALIDITY: tests/signatures/valid-signature.json under a max_validity of {_mv}", "fail SIG-VALIDITY" if _want else "pass",
+        "fail SIG-VALIDITY" if _got else "pass", _got == _want)
 run("tests/work-items", "work-item.schema.json")
 def verdict_rules(v):
     """RULE-VERDICT-NON-AUTHOR: the verifier is never the producer (Protocol §8, item 5)."""
@@ -119,6 +206,7 @@ def set_rules(S):
     ty, tgt, sigs = S["type"], S["target"], S["signatures"]
     for s in sigs:
         errs += ["SIG-SCHEMA " + e.message for e in V["signature.schema.json"].iter_errors(s)]
+        errs += sig_rules(s)
     if NEVER_HELD.search(ty["id"]) or ty.get("never_held"):
         errs.append("SIG-NEVER-HELD: a stop, disconnection, narrowing or revoking of AI access or raising to a human is never listed or held")
     for s in sigs:

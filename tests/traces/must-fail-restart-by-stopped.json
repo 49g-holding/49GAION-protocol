@@ -1,0 +1,175 @@
+{
+  "$comment": "The restart of a stopped unit rests on an approval by the unit's own head position, which the stop covered.",
+  "$expect": "RESTART-BY-STOPPED",
+  "events": [
+    {
+      "event_id": "EV-0001",
+      "run_id": "RUN-0001",
+      "seq": 1,
+      "time": "2026-10-29T09:00:00Z",
+      "prev_hash": null,
+      "event_type": "credential-in-force",
+      "position": "TenPOD-GW",
+      "credential_ref": "sys:gateway",
+      "gaion": {
+        "for_position": "TenCELL-GOV",
+        "credential_id": "pos:cred-gov",
+        "waiting_until": null
+      }
+    },
+    {
+      "event_id": "EV-0002",
+      "run_id": "RUN-0001",
+      "seq": 2,
+      "time": "2026-10-29T09:01:00Z",
+      "prev_hash": "sha256:313e609c86297c5894d93ab72e109bf1d5012d331d1e9d0fe7432ed549dd6d3e",
+      "event_type": "credential-in-force",
+      "position": "TenPOD-GW",
+      "credential_ref": "sys:gateway",
+      "gaion": {
+        "for_position": "TenCELL-SLCS",
+        "credential_id": "pos:cred-slcs",
+        "waiting_until": null
+      }
+    },
+    {
+      "event_id": "EV-0003",
+      "run_id": "RUN-0001",
+      "seq": 3,
+      "time": "2026-10-29T09:02:00Z",
+      "prev_hash": "sha256:0f428195a86540f49c8314f6794af9d1e58a9af8d3ac90aadc0023b4d99994ec",
+      "event_type": "stop",
+      "position": "TenCELL-GOV",
+      "credential_ref": "pos:cred-gov",
+      "gaion": {
+        "covers": [
+          "TenAIOC-SL",
+          "TenCELL-SLCS",
+          "TenCELL-SLWR"
+        ]
+      }
+    },
+    {
+      "event_id": "EV-0004",
+      "run_id": "RUN-0001",
+      "seq": 4,
+      "time": "2026-10-29T09:03:00Z",
+      "prev_hash": "sha256:c83f5392fb9d7f5324f0208148c7c2b455553ef0babe5cc0cc917bfb12db79b0",
+      "event_type": "approval",
+      "position": "TenCELL-SLCS",
+      "credential_ref": "pos:cred-slcs",
+      "gaion": {
+        "approver_position": "TenCELL-SLCS",
+        "approver_credential_id": "pos:cred-slcs",
+        "decision_type": "restart-stopped-unit",
+        "subject_ref": "EV-0003",
+        "subject_sha": "sha256:c83f5392fb9d7f5324f0208148c7c2b455553ef0babe5cc0cc917bfb12db79b0"
+      }
+    },
+    {
+      "event_id": "EV-0005",
+      "run_id": "RUN-0001",
+      "seq": 5,
+      "time": "2026-10-29T09:04:00Z",
+      "prev_hash": "sha256:3e91bd284905523acfd1f252422a3bb34163f0c47456d79fc5d848dc2fb6d903",
+      "event_type": "restart",
+      "position": "TenPOD-GW",
+      "credential_ref": "sys:gateway",
+      "gaion": {
+        "lifts": "EV-0003",
+        "approval_refs": [
+          "EV-0004"
+        ]
+      }
+    },
+    {
+      "event_id": "EV-0006",
+      "run_id": "RUN-0001",
+      "seq": 6,
+      "time": "2026-10-29T09:05:00Z",
+      "prev_hash": "sha256:422036db02e11c8936bb971d18f65ff402406120bd700a6ae33a234e2e5f44df",
+      "event_type": "tool-call",
+      "position": "TenCELL-SLWR",
+      "credential_ref": "bot:cred-slwr",
+      "gen_ai": {
+        "semconv": "1.39.0",
+        "attributes": {
+          "gen_ai.operation.name": "execute_tool",
+          "gen_ai.tool.name": "draft_reply",
+          "gen_ai.tool.call.id": "call-0006",
+          "gen_ai.tool.type": "extension",
+          "mcp.method.name": "tools/call"
+        }
+      },
+      "gaion": {
+        "phase": "request",
+        "effect": "draft",
+        "permission": "mail.draft",
+        "target_ref": "draft:work-item-44",
+        "payload_sha": "sha256:66aedc0354b44632c8e4ed7e8d474bf25bf259d2f7953264f77bdd39342c4083",
+        "mcp_server": "mail",
+        "on_behalf_of": "TenCELL-SLWR",
+        "delegation_chain": [
+          {
+            "part": "TenCELL-SLWR",
+            "taint": false,
+            "permissions": [
+              "mail.draft",
+              "mail.read"
+            ]
+          }
+        ],
+        "effective_permissions": [
+          "mail.draft",
+          "mail.read"
+        ]
+      }
+    },
+    {
+      "event_id": "EV-0007",
+      "run_id": "RUN-0001",
+      "seq": 7,
+      "time": "2026-10-29T09:06:00Z",
+      "prev_hash": "sha256:46fdddccfbde68afc0749918c6336a67bdfada8864ae9815c34bf04628f7a0d6",
+      "event_type": "gateway-decision",
+      "position": "TenPOD-GW",
+      "credential_ref": "sys:gateway",
+      "gaion": {
+        "decision": "allow",
+        "rule_id": "GW-ALLOW-DRAFT",
+        "policy_version": {
+          "tag": "gw-policy-v1.4.0",
+          "commit": "ff9606e1ca5998c3ab15bf001b6868dc4fd5ce1c"
+        },
+        "authorising_record": "49GAION/DR-0053",
+        "parent_call": "EV-0006"
+      }
+    },
+    {
+      "event_id": "EV-0008",
+      "run_id": "RUN-0001",
+      "seq": 8,
+      "time": "2026-10-29T09:07:00Z",
+      "prev_hash": "sha256:dc3f4ca30afee7e155336def65917912e0c47770f363d1a9cc341d6db80d7db3",
+      "event_type": "tool-call",
+      "position": "TenCELL-SLWR",
+      "credential_ref": "bot:cred-slwr",
+      "gen_ai": {
+        "semconv": "1.39.0",
+        "attributes": {
+          "gen_ai.operation.name": "execute_tool",
+          "gen_ai.tool.name": "draft_reply",
+          "gen_ai.tool.call.id": "call-0006",
+          "gen_ai.tool.type": "extension",
+          "mcp.method.name": "tools/call"
+        }
+      },
+      "gaion": {
+        "phase": "run",
+        "request_ref": "EV-0006",
+        "payload_sha": "sha256:66aedc0354b44632c8e4ed7e8d474bf25bf259d2f7953264f77bdd39342c4083",
+        "mcp_server": "mail"
+      }
+    }
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "$comment": "The same send in a run that read no external input: the gateway allows it without a clearance.",
+  "events": [
+    {
+      "event_id": "EV-0001",
+      "run_id": "RUN-0001",
+      "seq": 1,
+      "time": "2026-10-29T09:00:00Z",
+      "prev_hash": null,
+      "event_type": "taint",
+      "position": "TenCELL-SLRD",
+      "credential_ref": "bot:cred-slrd",
+      "gaion": {
+        "source_label": "internal",
+        "source_ref": "work-item:WI-0042",
+        "content_sha": "sha256:ac2411401ef6518ad809f6c972d6e23c08118d2e234552131661b6a3934e4d27",
+        "tainted": false
+      }
+    },
+    {
+      "event_id": "EV-0002",
+      "run_id": "RUN-0001",
+      "seq": 2,
+      "time": "2026-10-29T09:01:00Z",
+      "prev_hash": "sha256:dfb5c3844ce1fd86e2cca1955d1384239339db74fa8e328b9686072ca63b1aca",
+      "event_type": "taint",
+      "position": "TenCELL-SLRD",
+      "credential_ref": "bot:cred-slrd",
+      "gaion": {
+        "source_label": "internal",
+        "source_ref": "register:counterparties/row-7",
+        "content_sha": "sha256:a801c55852bcdd30b07daad842516767f17e45797153c2fb2f336b0510e3da22",
+        "tainted": false
+      }
+    },
+    {
+      "event_id": "EV-0003",
+      "run_id": "RUN-0001",
+      "seq": 3,
+      "time": "2026-10-29T09:02:00Z",
+      "prev_hash": "sha256:e313e06f1cea7c60854c7e1455093ead20bcef3b80c36b93baadef2f26cb76ca",
+      "event_type": "tool-call",
+      "position": "TenCELL-SLSN",
+      "credential_ref": "bot:cred-slsn",
+      "gen_ai": {
+        "semconv": "1.39.0",
+        "attributes": {
+          "gen_ai.operation.name": "execute_tool",
+          "gen_ai.tool.name": "send_email",
+          "gen_ai.tool.call.id": "call-0003",
+          "gen_ai.tool.type": "extension",
+          "mcp.method.name": "tools/call"
+        }
+      },
+      "gaion": {
+        "phase": "request",
+        "effect": "send",
+        "permission": "mail.send",
+        "target_ref": "mail-to:partner-desk.example.invalid",
+        "payload_sha": "sha256:2f35e733b5551e5660dd7d99b6e87ffd66bd905aee29c216be9acd24289dbec8",
+        "mcp_server": "mail",
+        "on_behalf_of": "TenCELL-SLRD",
+        "delegation_chain": [
+          {
+            "part": "TenCELL-SLRD",
+            "taint": false,
+            "permissions": [
+              "mail.read",
+              "mail.send"
+            ]
+          },
+          {
+            "part": "TenCELL-SLSN",
+            "taint": false,
+            "permissions": [
+              "mail.read",
+              "mail.send"
+            ]
+          }
+        ],
+        "effective_permissions": [
+          "mail.read",
+          "mail.send"
+        ]
+      }
+    },
+    {
+      "event_id": "EV-0004",
+      "run_id": "RUN-0001",
+      "seq": 4,
+      "time": "2026-10-29T09:03:00Z",
+      "prev_hash": "sha256:c4d554a897f49d859b21d6559e253ec2eee1c8f3c07f80747133e52fa8e43a73",
+      "event_type": "gateway-decision",
+      "position": "TenPOD-GW",
+      "credential_ref": "sys:gateway",
+      "gaion": {
+        "decision": "allow",
+        "rule_id": "GW-ALLOW-SEND",
+        "policy_version": {
+          "tag": "gw-policy-v1.4.0",
+          "commit": "ff9606e1ca5998c3ab15bf001b6868dc4fd5ce1c"
+        },
+        "authorising_record": "49GAION/DR-0053",
+        "parent_call": "EV-0003"
+      }
+    },
+    {
+      "event_id": "EV-0005",
+      "run_id": "RUN-0001",
+      "seq": 5,
+      "time": "2026-10-29T09:04:00Z",
+      "prev_hash": "sha256:2c67386f908620414d1b8a01b4f480f407c1db1bf0abe297464d10bad0f59d0e",
+      "event_type": "tool-call",
+      "position": "TenCELL-SLSN",
+      "credential_ref": "bot:cred-slsn",
+      "gen_ai": {
+        "semconv": "1.39.0",
+        "attributes": {
+          "gen_ai.operation.name": "execute_tool",
+          "gen_ai.tool.name": "send_email",
+          "gen_ai.tool.call.id": "call-0003",
+          "gen_ai.tool.type": "extension",
+          "mcp.method.name": "tools/call"
+        }
+      },
+      "gaion": {
+        "phase": "run",
+        "request_ref": "EV-0003",
+        "payload_sha": "sha256:2f35e733b5551e5660dd7d99b6e87ffd66bd905aee29c216be9acd24289dbec8",
+        "mcp_server": "mail"
+      }
+    }
+  ]
+}

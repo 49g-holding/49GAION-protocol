@@ -1,0 +1,150 @@
+{
+  "$comment": "The part acting for a tainted part is marked untainted in the delegation chain after the earlier part read external input.",
+  "$expect": "TAINTED-RUN",
+  "events": [
+    {
+      "event_id": "EV-0001",
+      "run_id": "RUN-0001",
+      "seq": 1,
+      "time": "2026-10-29T09:00:00Z",
+      "prev_hash": null,
+      "event_type": "taint",
+      "position": "TenCELL-SLRD",
+      "credential_ref": "bot:cred-slrd",
+      "gaion": {
+        "source_label": "external",
+        "source_ref": "inbound:mail-0091",
+        "content_sha": "sha256:cef07b93f165841ea2875e6a260dc37755ccc9defc85aacce35961767333c234",
+        "tainted": true
+      }
+    },
+    {
+      "event_id": "EV-0002",
+      "run_id": "RUN-0001",
+      "seq": 2,
+      "time": "2026-10-29T09:01:00Z",
+      "prev_hash": "sha256:2fb01539f3d4d0bf3721e1707eeeca4ee878b6a5f4dff44fa9addbc324c20734",
+      "event_type": "taint",
+      "position": "TenCELL-SLRD",
+      "credential_ref": "bot:cred-slrd",
+      "gaion": {
+        "source_label": "internal",
+        "source_ref": "register:counterparties/row-7",
+        "content_sha": "sha256:a801c55852bcdd30b07daad842516767f17e45797153c2fb2f336b0510e3da22",
+        "tainted": false
+      }
+    },
+    {
+      "event_id": "EV-0003",
+      "run_id": "RUN-0001",
+      "seq": 3,
+      "time": "2026-10-29T09:02:00Z",
+      "prev_hash": "sha256:c2568676578fd1e7746d11c4e5501ff3a07ff80cf07aa0d0e72b702050e44b17",
+      "event_type": "tool-call",
+      "position": "TenCELL-SLSN",
+      "credential_ref": "bot:cred-slsn",
+      "gen_ai": {
+        "semconv": "1.39.0",
+        "attributes": {
+          "gen_ai.operation.name": "execute_tool",
+          "gen_ai.tool.name": "send_email",
+          "gen_ai.tool.call.id": "call-0003",
+          "gen_ai.tool.type": "extension",
+          "mcp.method.name": "tools/call"
+        }
+      },
+      "gaion": {
+        "phase": "request",
+        "effect": "send",
+        "permission": "mail.send",
+        "target_ref": "mail-to:partner-desk.example.invalid",
+        "payload_sha": "sha256:2f35e733b5551e5660dd7d99b6e87ffd66bd905aee29c216be9acd24289dbec8",
+        "mcp_server": "mail",
+        "on_behalf_of": "TenCELL-SLRD",
+        "delegation_chain": [
+          {
+            "part": "TenCELL-SLRD",
+            "taint": true,
+            "permissions": [
+              "mail.read",
+              "mail.send"
+            ]
+          },
+          {
+            "part": "TenCELL-SLSN",
+            "taint": false,
+            "permissions": [
+              "mail.read",
+              "mail.send"
+            ]
+          }
+        ],
+        "effective_permissions": [
+          "mail.read",
+          "mail.send"
+        ]
+      }
+    },
+    {
+      "event_id": "EV-0004",
+      "run_id": "RUN-0001",
+      "seq": 4,
+      "time": "2026-10-29T09:03:00Z",
+      "prev_hash": "sha256:32e0c6b49452745f623b528699a21aff8ab08a1b2b4966b43cea4dd0012a32c8",
+      "event_type": "clearance",
+      "position": "TenCELL-SLCS",
+      "credential_ref": "pos:cred-slcs",
+      "gaion": {
+        "cleared_by": "position",
+        "clearance_ref": "WI-0051",
+        "clears": "EV-0003"
+      }
+    },
+    {
+      "event_id": "EV-0005",
+      "run_id": "RUN-0001",
+      "seq": 5,
+      "time": "2026-10-29T09:04:00Z",
+      "prev_hash": "sha256:05051560178b9b325fa451a24ed4e0de64453cb0a6864ac3e134dce1a38f0865",
+      "event_type": "gateway-decision",
+      "position": "TenPOD-GW",
+      "credential_ref": "sys:gateway",
+      "gaion": {
+        "decision": "allow",
+        "rule_id": "GW-ALLOW-SEND-CLEARED",
+        "policy_version": {
+          "tag": "gw-policy-v1.4.0",
+          "commit": "ff9606e1ca5998c3ab15bf001b6868dc4fd5ce1c"
+        },
+        "authorising_record": "49GAION/DR-0053",
+        "parent_call": "EV-0003"
+      }
+    },
+    {
+      "event_id": "EV-0006",
+      "run_id": "RUN-0001",
+      "seq": 6,
+      "time": "2026-10-29T09:05:00Z",
+      "prev_hash": "sha256:1a06dd06afa06a36f4087e38984fe95a64b100750ef8491be5ac3477b52c5d3f",
+      "event_type": "tool-call",
+      "position": "TenCELL-SLSN",
+      "credential_ref": "bot:cred-slsn",
+      "gen_ai": {
+        "semconv": "1.39.0",
+        "attributes": {
+          "gen_ai.operation.name": "execute_tool",
+          "gen_ai.tool.name": "send_email",
+          "gen_ai.tool.call.id": "call-0003",
+          "gen_ai.tool.type": "extension",
+          "mcp.method.name": "tools/call"
+        }
+      },
+      "gaion": {
+        "phase": "run",
+        "request_ref": "EV-0003",
+        "payload_sha": "sha256:2f35e733b5551e5660dd7d99b6e87ffd66bd905aee29c216be9acd24289dbec8",
+        "mcp_server": "mail"
+      }
+    }
+  ]
+}
