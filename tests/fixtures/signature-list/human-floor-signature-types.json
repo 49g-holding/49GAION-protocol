@@ -1,0 +1,99 @@
+{
+  "$comment": "Vendored copy of the ids (and any max_validity values) of the hub's Human Floor signature list, upstream/human-floor-signature-types.json of the 49GAION repository. tests/cards/check_cards.py and tests/traces/check_traces.py read the hub's own list when HUB_DIR is set, and this copy otherwise; check_cards.py notes any difference between the two when HUB_DIR is set. Refresh this copy whenever the hub list changes. At this copy no type sets max_validity, so the default maximum of 366 days applies to every type.",
+  "source": "49GAION upstream/human-floor-signature-types.json, as of the Standard v2.1.1",
+  "decision_types": [
+    {
+      "id": "sign-contract"
+    },
+    {
+      "id": "commit-money"
+    },
+    {
+      "id": "legal-filing"
+    },
+    {
+      "id": "accept-irreversible-risk"
+    },
+    {
+      "id": "delegate-authority"
+    },
+    {
+      "id": "change-parent"
+    },
+    {
+      "id": "grant-or-widen-access"
+    },
+    {
+      "id": "set-purpose-or-values"
+    },
+    {
+      "id": "restart-stopped-unit"
+    },
+    {
+      "id": "create-or-install-unit"
+    },
+    {
+      "id": "change-filler"
+    },
+    {
+      "id": "retire-unit"
+    },
+    {
+      "id": "set-or-move-hoac-label"
+    },
+    {
+      "id": "widen-ai-budget-or-unattended-action"
+    },
+    {
+      "id": "connect-external-port"
+    },
+    {
+      "id": "move-work-toward-ai"
+    },
+    {
+      "id": "change-fixed-test-or-threshold"
+    },
+    {
+      "id": "set-or-rotate-golden-set"
+    },
+    {
+      "id": "approve-change-or-promote-challenger"
+    },
+    {
+      "id": "restore-or-rollback"
+    },
+    {
+      "id": "change-org-standard-or-signature-list"
+    },
+    {
+      "id": "change-gateway-policy"
+    },
+    {
+      "id": "use-root-key"
+    },
+    {
+      "id": "open-break-glass"
+    },
+    {
+      "id": "export-share-or-purge-personal-data"
+    },
+    {
+      "id": "change-assurance-or-audit-line"
+    },
+    {
+      "id": "issue-statement-of-trust"
+    },
+    {
+      "id": "mark-physical-step-done"
+    },
+    {
+      "id": "change-signer-identity-binding"
+    },
+    {
+      "id": "sign-standing-action-class"
+    },
+    {
+      "id": "dispose-records-or-data"
+    }
+  ]
+}

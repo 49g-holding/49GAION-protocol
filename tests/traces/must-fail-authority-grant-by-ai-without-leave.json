@@ -1,0 +1,64 @@
+{
+  "$comment": "Top Management's Chief of Staff passes access on to another AI part, though its grant does not let it give: AI does not give to AI without its position's leave.",
+  "$expect": "AUTHORITY-ESCALATION",
+  "events": [
+    {
+      "event_id": "EV-0001",
+      "run_id": "RUN-0001",
+      "seq": 1,
+      "time": "2026-10-29T10:01:00Z",
+      "prev_hash": null,
+      "event_type": "credential-in-force",
+      "position": "TenPOD-GW",
+      "credential_ref": "sys:gateway",
+      "gaion": {
+        "for_position": "TenCELL-TMS",
+        "credential_id": "pos:cred-tms",
+        "waiting_until": null
+      }
+    },
+    {
+      "event_id": "EV-0002",
+      "run_id": "RUN-0001",
+      "seq": 2,
+      "time": "2026-10-29T10:02:00Z",
+      "prev_hash": "sha256:16d6ba5526732e516c954621f60831bc21807a82d534ffa607fc9ddba1109fa8",
+      "event_type": "grant",
+      "position": "TenCELL-TMS",
+      "credential_ref": "pos:cred-tms",
+      "gaion": {
+        "grantee": "TenCELL-COSTM",
+        "grantee_credential": "bot:cred-costm",
+        "grantee_serves": "TenCELL-TMS",
+        "reach": [
+          "commit-money"
+        ],
+        "may_grant": false,
+        "ends_at": "2026-10-30T09:00:00Z",
+        "revokes": null
+      }
+    },
+    {
+      "event_id": "EV-0003",
+      "run_id": "RUN-0001",
+      "seq": 3,
+      "time": "2026-10-29T10:03:00Z",
+      "prev_hash": "sha256:821d4696276fcd8e11ac1b8869314a94cf60b65ca560d2e32d381bb224250984",
+      "event_type": "grant",
+      "position": "TenCELL-COSTM",
+      "credential_ref": "bot:cred-costm",
+      "gaion": {
+        "grantee": "TenCELL-LGL",
+        "grantee_credential": "bot:cred-lgl",
+        "grantee_serves": null,
+        "reach": [
+          "commit-money"
+        ],
+        "may_grant": false,
+        "ends_at": "2026-10-30T09:00:00Z",
+        "revokes": null,
+        "under_grant": "EV-0002"
+      }
+    }
+  ]
+}
