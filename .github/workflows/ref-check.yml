@@ -2,6 +2,8 @@
 # changes; on main, every file. Every reference to a decision record (DR-####), a section
 # (§N.N), a Naming Standard rule (R#), a Human Floor item (HF-##) or a delivery test
 # line (D-#) must exist; references to decision IDs that exist nowhere fail.
+# Every relative link in a tracked Markdown file resolves, outside the lists of superseded
+# wording (check_links.py, DR-0051).
 # The companion repositories are read at main, or at the ref in the repository
 # variables HUB_REF / PROTOCOL_REF / AIOC_REF when set and still present.
 name: ref-check
@@ -30,3 +32,5 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
           AIOC_DIR: .deps/aioc
         run: python3 .github/scripts/check_refs.py
+      - name: Every relative link resolves (DR-0051)
+        run: python3 .github/scripts/check_links.py
