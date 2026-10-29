@@ -1,0 +1,42 @@
+{
+  "$comment": "Top Management grants to the Chief of Staff of the finance position: a position grants only to its own Chief of Staff.",
+  "$expect": "AUTHORITY-ESCALATION",
+  "events": [
+    {
+      "event_id": "EV-0001",
+      "run_id": "RUN-0001",
+      "seq": 1,
+      "time": "2026-10-29T10:01:00Z",
+      "prev_hash": null,
+      "event_type": "credential-in-force",
+      "position": "TenPOD-GW",
+      "credential_ref": "sys:gateway",
+      "gaion": {
+        "for_position": "TenCELL-TMS",
+        "credential_id": "pos:cred-tms",
+        "waiting_until": null
+      }
+    },
+    {
+      "event_id": "EV-0002",
+      "run_id": "RUN-0001",
+      "seq": 2,
+      "time": "2026-10-29T10:02:00Z",
+      "prev_hash": "sha256:16d6ba5526732e516c954621f60831bc21807a82d534ffa607fc9ddba1109fa8",
+      "event_type": "grant",
+      "position": "TenCELL-TMS",
+      "credential_ref": "pos:cred-tms",
+      "gaion": {
+        "grantee": "TenCELL-COSFN",
+        "grantee_credential": "bot:cred-cosfn",
+        "grantee_serves": "TenCELL-FIN",
+        "reach": [
+          "commit-money"
+        ],
+        "may_grant": false,
+        "ends_at": "2026-10-30T09:00:00Z",
+        "revokes": null
+      }
+    }
+  ]
+}

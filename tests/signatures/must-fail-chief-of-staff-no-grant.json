@@ -1,0 +1,22 @@
+{
+  "$expect": "RULE-COS-UNDER-GRANT",
+  "signature_id": "SIG-0002",
+  "decision_type": "sign-contract",
+  "target_code": "TenAIOC-SL",
+  "payload_hash": "sha256:abababababababababababababababababababababababababababababababab",
+  "signer_cell": "TenCELL-TMS",
+  "signer_seat_kind": "human",
+  "signer_credential": {
+    "kind": "chief-of-staff-under-grant",
+    "authenticator": "phishing-resistant"
+  },
+  "executor_cell": "TenCELL-SLCS",
+  "work_item_id": "WI-0042",
+  "nonce": "n-8d2e1f3a0b6c5d4e",
+  "issued_at": "2026-10-13T09:00:00Z",
+  "expires_at": "2026-10-13T10:00:00Z",
+  "sign_in_evidence": {
+    "signed_in_at": "2026-10-13T08:59:30Z",
+    "session_ref": "sess-91"
+  }
+}

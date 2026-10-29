@@ -1,0 +1,105 @@
+{
+  "$comment": "An AI Cell sends mail for another AI Cell that may not send: the act lies outside the chain's intersection.",
+  "$expect": "AUTHORITY-ESCALATION",
+  "events": [
+    {
+      "event_id": "EV-0001",
+      "run_id": "RUN-0001",
+      "seq": 1,
+      "time": "2026-10-29T09:00:00Z",
+      "prev_hash": null,
+      "event_type": "tool-call",
+      "position": "TenCELL-SLSN",
+      "credential_ref": "bot:cred-slsn",
+      "gen_ai": {
+        "semconv": "1.39.0",
+        "attributes": {
+          "gen_ai.operation.name": "execute_tool",
+          "gen_ai.tool.name": "send_email",
+          "gen_ai.tool.call.id": "call-0001",
+          "gen_ai.tool.type": "extension",
+          "mcp.method.name": "tools/call"
+        }
+      },
+      "gaion": {
+        "phase": "request",
+        "effect": "send",
+        "permission": "mail.send",
+        "target_ref": "mail-to:partner-desk.example.invalid",
+        "payload_sha": "sha256:2f35e733b5551e5660dd7d99b6e87ffd66bd905aee29c216be9acd24289dbec8",
+        "mcp_server": "mail",
+        "on_behalf_of": "TenCELL-SLRD",
+        "delegation_chain": [
+          {
+            "part": "TenCELL-SLRD",
+            "taint": false,
+            "permissions": [
+              "mail.draft",
+              "mail.read"
+            ]
+          },
+          {
+            "part": "TenCELL-SLSN",
+            "taint": false,
+            "permissions": [
+              "mail.draft",
+              "mail.read",
+              "mail.send"
+            ]
+          }
+        ],
+        "effective_permissions": [
+          "mail.draft",
+          "mail.read",
+          "mail.send"
+        ]
+      }
+    },
+    {
+      "event_id": "EV-0002",
+      "run_id": "RUN-0001",
+      "seq": 2,
+      "time": "2026-10-29T09:01:00Z",
+      "prev_hash": "sha256:4acea177864d9fc12773a7308b16c3c1e9782163ffe02d486760b76d224707b9",
+      "event_type": "gateway-decision",
+      "position": "TenPOD-GW",
+      "credential_ref": "sys:gateway",
+      "gaion": {
+        "decision": "allow",
+        "rule_id": "GW-ALLOW-SEND",
+        "policy_version": {
+          "tag": "gw-policy-v1.4.0",
+          "commit": "ff9606e1ca5998c3ab15bf001b6868dc4fd5ce1c"
+        },
+        "authorising_record": "49GAION/DR-0053",
+        "parent_call": "EV-0001"
+      }
+    },
+    {
+      "event_id": "EV-0003",
+      "run_id": "RUN-0001",
+      "seq": 3,
+      "time": "2026-10-29T09:02:00Z",
+      "prev_hash": "sha256:640ef926044d5c03afd558b2e6cf309f40428943211b5a0a27650f9a85cb1f28",
+      "event_type": "tool-call",
+      "position": "TenCELL-SLSN",
+      "credential_ref": "bot:cred-slsn",
+      "gen_ai": {
+        "semconv": "1.39.0",
+        "attributes": {
+          "gen_ai.operation.name": "execute_tool",
+          "gen_ai.tool.name": "send_email",
+          "gen_ai.tool.call.id": "call-0001",
+          "gen_ai.tool.type": "extension",
+          "mcp.method.name": "tools/call"
+        }
+      },
+      "gaion": {
+        "phase": "run",
+        "request_ref": "EV-0001",
+        "payload_sha": "sha256:2f35e733b5551e5660dd7d99b6e87ffd66bd905aee29c216be9acd24289dbec8",
+        "mcp_server": "mail"
+      }
+    }
+  ]
+}
