@@ -1,6 +1,6 @@
 # 49GAION Edition Maker: product requirements
 
-**Current version: PRD v0.11** (`49GAION/DR-0051`). The lines below give each version in turn.
+**Current version: PRD v0.11** (`49GAION/DR-0052`). The lines below give each version in turn.
 
 **PRD v0.8** · approved as v0.7 by the governing seat (GOV) on 22 October 2026, with the edition engineer added; v0.8 adds the core's first named capability, Structural Adaptation (GOV, 25 October 2026).
 
@@ -8,7 +8,7 @@
 
 **PRD v0.10** brings the PRD into line with the complete definition `v2.1.0` (`49GAION/DR-0048`), by `49GAION/DR-0049`: every human place is a position, and who holds it, and how, is the organisation's own mechanism, outside the system. Its changes, and the wording they replaced, are listed in section 15.
 
-**PRD v0.11** corrects the PRD after two reviews of `v2.1.0` (`49GAION/DR-0051`): three engines at every step, and the step waits with fewer; the smallest edition by position; every request becomes the organisation's own `[ORG]AION`. Its changes, and the wording they replaced, are listed in section 16.
+**PRD v0.11** corrects the PRD after two reviews of `v2.1.0` (`49GAION/DR-0052`): three engines at every step, and the step waits with fewer; the smallest edition by position; every request becomes the organisation's own `[ORG]AION`. Its changes, and the wording they replaced, are listed in section 16.
 
 **Addition (`49GAION/DR-0042`).** The governing seat confirmed on 25 October 2026 that it approved these requirements ("Yes, I set Edition Maker."); that confirmation is the source of their approval, read with `49GAION/DR-0039`. At the handover the organisation issues fresh keys for its gateway, and every key Edition Maker made, held or used for the edition is revoked. Edition Maker keeps its own rule: at every step one engine works and two challenge.
 
@@ -419,19 +419,19 @@ On 28 October 2026 the governing seat merged the complete definition `v2.1.0` (`
   6. **Positions.** The governance seat appoints Top Management directly and keeps the final right over who holds any position; one person may hold several, or all, where the law allows; 49GAION never speaks of a one-person organisation. The governance seat records who holds its own position and Top Management; Top Management records the positions below it. This reads section 8, item 6, task 2.
 
 
-## 16. Corrected after two reviews of `v2.1.0` (DR-0051)
+## 16. Corrected after two reviews of `v2.1.0` (DR-0052)
 
-On 29 October 2026 the governing seat had two reviews of `v2.1.0` checked and corrected in one round (`49GAION/DR-0051`). The PRD said less than the complete definition in three places; each now says what the definition says.
+On 29 October 2026 the governing seat had two reviews of `v2.1.0` checked and corrected in one round (`49GAION/DR-0052`). The PRD said less than the complete definition in three places; each now says what the definition says.
 
-- **Section 3, every request** · superseded by `49GAION/DR-0051` (the complete definition, §10, item 1):
+- **Section 3, every request** · superseded by `49GAION/DR-0052` (the complete definition, §10, item 1):
   - **Every request becomes an AION.** Every order or request made to 49GAION enters here. The size changes, never the shape.
-- **Section 3, the smallest edition** · superseded by `49GAION/DR-0051` (the complete definition, §6, items 3 and 4):
+- **Section 3, the smallest edition** · superseded by `49GAION/DR-0052` (the complete definition, §6, items 3 and 4):
   - **Smallest:** one human seat holding both governance and top management, the `[ORG]AION`, and one AIOC.
-- **EM-R0, the number of engines** · superseded by `49GAION/DR-0051` (the complete definition, §10, item 3; §20, item 5):
+- **EM-R0, the number of engines** · superseded by `49GAION/DR-0052` (the complete definition, §10, item 3; §20, item 5):
   - Three engines by default. Where the owner allows only two, the second engine challenges alone, and the record says so. Where the owner allows only one, the steps that need engines wait, and the matter goes to the owner as a missing item.
-- **Section 6.1, item 9, the engines allowed** · superseded by `49GAION/DR-0051`:
+- **Section 6.1, item 9, the engines allowed** · superseded by `49GAION/DR-0052`:
   the engines and suppliers allowed: at least two engines, three by default, with the data each may see (EM-R0, EM-R2a).
-- **Section 11, case 18** · superseded by `49GAION/DR-0051`:
+- **Section 11, case 18** · superseded by `49GAION/DR-0052`:
   Where only two engines were allowed, the record says so; where only one was allowed, the step waited.
 
 ---

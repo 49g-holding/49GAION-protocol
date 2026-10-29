@@ -144,7 +144,7 @@ Sources: DR-0042; GOV, 15 October 2026.
 3. A signature is recorded with the code of the Cell it is given for. Two approvals under two Cells are approvals of two parties and count as two, even when one natural person gave both; no AI part or check compares the persons behind them (Standard §1.1, item 10).
 4. Work moves from human to AI, or from one version to the next, only when the fixed test owned by the seat passes; it moves back when the score drops below the recorded threshold.
 5. **External attachments.** An external service, API or tool is not a Cell. Each connection is a port on the card of the Cell that receives (input) or sends (output), and passes only through the tool gateway. The intake Cell normalises what arrives to the AIOC's standard and has its own fixed test. Stopping or retiring the owning Cell cuts the connection automatically. An external AI agent that acts directly in the work is registered as an AI Cell whose access the organisation grants and whose stop door it holds.
-6. An AI Cell attached to a human position, including that position's Chief of Staff, signs for that position only within the grant the position has given it, and never a listed action (item 7); each such signature is tagged as a delegated act (Standard §5.2, Position Chief of Staff; `49GAION/DR-0051`).
+6. An AI Cell attached to a human position, including that position's Chief of Staff, signs for that position only within the grant the position has given it, and never a listed action (item 7); each such signature is tagged as a delegated act (Standard §5.2, Position Chief of Staff; `49GAION/DR-0052`).
 7. A listed action counts as signed only when the signature is made with the credential the organisation's mechanism issued for the signing human position, with a fresh live sign-in (HF-10). A signature from any AI Cell's credentials, including an attached assistant, is rejected.
 8. The signature is the human seat's own decision; once it is given, an AI Cell may carry out the signed action. The AI Cell's call carries a reference to that signature, and the gateway runs it only if the signature matches the exact action and is still valid.
 
@@ -161,7 +161,7 @@ Sources: DR-0042; GOV, 15 October 2026.
 18. **Signatures at action time (GOV, 15 October 2026; `49GAION/DR-0049`).** When a signature is made, the gateway verifies the credential the organisation's mechanism issued for the signing position, with a fresh live sign-in (HF-10); when the signed action runs, it checks that the credential is still in force (item 9). Each signed decision is stamped with the position code and time; never an occupant ID, a person ID or any reference to a person.
    - **Overseen, pre (GOV, 15 October 2026).** The action waits at the gateway until the overseeing position clears it or, for a reversible action only, until the recorded hold window lapses with no stop. A clearance is a stamped decision (overseeing position, time). For a reversible action, a lapse writes a "window lapsed, no stop" entry and counts only if the overseeing position is filled at that moment and a window is recorded.
    - **Overseen, post (GOV, 15 October 2026).** The action runs; it is reversed only by a new signed decision that references the identifier of the reversed decision. The original stays and is marked reversed.
-   - **Irreversible actions (GOV, 15 October 2026).** The gateway marks each tool action reversible or not. An irreversible tool action (a sent message, a payment, a deletion) under Overseen always goes through pre, whatever timing form is recorded, and runs only on the overseeing position's clearance: a lapsed window never releases it; it stays held, and the lapse is raised to the overseeing position and to the position above it (`49GAION/DR-0051`).
+   - **Irreversible actions (GOV, 15 October 2026).** The gateway marks each tool action reversible or not. An irreversible tool action (a sent message, a payment, a deletion) under Overseen always goes through pre, whatever timing form is recorded, and runs only on the overseeing position's clearance: a lapsed window never releases it; it stays held, and the lapse is raised to the overseeing position and to the position above it (`49GAION/DR-0052`).
 19. **Who may set an Overseen link (GOV, 15 October 2026; `49GAION/DR-0049`).** The gateway accepts an Overseen link, or a change to one, on a position below `[ORG]HOAC-TM` only from TM, on TM only from `[ORG]HOAC-GOV`, and never on GOV from a lower position. No position sets or changes a link on itself.
    - **Overseen link and trials (GOV, 15 October 2026; `49GAION/DR-0049`).** An Overseen link records the overseeing position and the timing form, pre or post, with the hold window where one is set; it is recorded on the position that is overseen. Arrangement entries are withdrawn. A trial is a time-boxed run of a link, not a model of its own.
 20. **Overseen links resolve (GOV, 15 October 2026; `49GAION/DR-0049`).** An Overseen link must not loop; a link that loops is rejected. A link in which `[ORG]HOAC-GOV` is overseen by a lower position is rejected (GOV, 15 October 2026). Whether a position is filled is not a link: a position is filled while the organisation's mechanism has a credential in force for it (Standard §4.1, item 3).
@@ -677,7 +677,7 @@ Sources: DR-0027, DR-0049.
 
 1. **Its place.** The root AIOC, and the core of the `[ORG]AION`, at the governance level. Its top Cell, the one carrying `[ORG]HOAC-GOV`, is the only Cell with no `accountable_to` (Standard §1.7, item 13), and every other part is installed under it. `[ORG]AIOC-OCO` prepares it; GOV installs it and signs every change to it. OCO never installs or changes it alone. As the core, it holds the human position of the governance seat, which the core's AI serves and never holds, the governance panel and the organisation's own Standard, Blueprint and Library; the Top Management position sits in the Top Management Group, the first AIOC under the core.
    - **The gateway and the stop beside the core.** They are installed with the core but run as code beside it, outside the reach of every AI, the core's own included. The core's own stop is held directly by the governance seat. Any change to the code of the gateway or the stop counts as loosening: it needs a human signature and is made by a party other than the AI it constrains. At the handover the organisation issues fresh gateway keys, and every key Edition Maker made, held or used is revoked.
-2. **What it holds.** The Cell that carries `[ORG]HOAC-GOV`, with its Office; and three Pods of shared services: Gateway, Records and Work. The Cell that carries `[ORG]HOAC-TM`, with its Office, sits in the Top Management Group, the first AIOC under the core (item 1; the complete definition, §19); the Charter names it where top management signs, owns a test or receives a raise (`49GAION/DR-0051`). Each Pod follows the Protocol sections named below; this section adds only what joins them.
+2. **What it holds.** The Cell that carries `[ORG]HOAC-GOV`, with its Office; and three Pods of shared services: Gateway, Records and Work. The Cell that carries `[ORG]HOAC-TM`, with its Office, sits in the Top Management Group, the first AIOC under the core (item 1; the complete definition, §19); the Charter names it where top management signs, owns a test or receives a raise (`49GAION/DR-0052`). Each Pod follows the Protocol sections named below; this section adds only what joins them.
 3. **The Gateway Pod.** The tool gateway of §4.9 and Standard §4.4, item 11.
    - Every tool and engine call of every part passes through it.
    - It checks each listed type against the loaded signature list, binds each engine from its engine register (`49GAION/DR-0020`), logs every call, and fails closed.
@@ -791,29 +791,29 @@ The wording below left the body of this text when it was written clean at `v2.0.
 - **§22, item 12, "Handover lists"** · superseded by `49GAION/DR-0049`: the mechanism behind a position is the organisation's own, outside the system (the complete definition, §6):
   A position's handover list, built on request, holds its open entries and commitments for top management's handover entry (§4.10, item 17). The register never reads an occupancy or handover entry.
 
-**`v2.1.1` (`49GAION/DR-0051`).** The wording below left the body when two reviews of `v2.1.0` were checked against the complete definition and corrected; the two decisions of the governing seat are DR-0051, items 1 and 2.
+**`v2.1.1` (`49GAION/DR-0052`).** The wording below left the body when two reviews of `v2.1.0` were checked against the complete definition and corrected; the two decisions of the governing seat are DR-0052, items 1 and 2.
 
-- **§4.2, status `needs-input`** · superseded by `49GAION/DR-0051` (a correction to the complete definition; no new rule):
+- **§4.2, status `needs-input`** · superseded by `49GAION/DR-0052` (a correction to the complete definition; no new rule):
   | `needs-input` | The holder cannot continue without something from another node; the reason is written |
-- **§4.10, item 6** · superseded by `49GAION/DR-0051`, item 2 (a Chief of Staff signs only within its position's grant):
+- **§4.10, item 6** · superseded by `49GAION/DR-0052`, item 2 (a Chief of Staff signs only within its position's grant):
   6. An AI Cell attached to a human position, including that position's Chief of Staff, never provides that position's signature.
-- **§4.10, item 18, Overseen, pre** · superseded by `49GAION/DR-0051`, item 1 (an irreversible action runs only on a clearance):
+- **§4.10, item 18, Overseen, pre** · superseded by `49GAION/DR-0052`, item 1 (an irreversible action runs only on a clearance):
   The action waits at the gateway until the overseeing position clears it, or until the recorded hold window lapses with no stop.
-- **§4.10, item 18, Overseen, pre, the lapse** · superseded by `49GAION/DR-0051`, item 1:
+- **§4.10, item 18, Overseen, pre, the lapse** · superseded by `49GAION/DR-0052`, item 1:
   A lapse writes a "window lapsed, no stop" entry and counts only if
-- **§4.10, item 18, irreversible actions** · superseded by `49GAION/DR-0051`, item 1:
+- **§4.10, item 18, irreversible actions** · superseded by `49GAION/DR-0052`, item 1:
   An irreversible tool action (a sent message, a payment, a deletion) under Overseen always goes through pre, whatever timing form is recorded.
-- **§10, item 3, bots** · superseded by `49GAION/DR-0051`, item 2:
+- **§10, item 3, bots** · superseded by `49GAION/DR-0052`, item 2:
   A bot never signs: this covers every bot, in an AI Cell, an attached AI Cell or a Chief of Staff Cell (`never_signs: true`); no signature record (§4.10) names a bot as signer.
-- **§10, item 6, the shared gateway** · superseded by `49GAION/DR-0051` (a correction to the complete definition; no new rule): the gateway runs as code beside the core (the complete definition, §13, item 1):
+- **§10, item 6, the shared gateway** · superseded by `49GAION/DR-0052` (a correction to the complete definition; no new rule): the gateway runs as code beside the core (the complete definition, §13, item 1):
   The shared gateway is the tool gateway of each `[ORG]AION`, a registered part held in the Charter, the root AIOC (Standard §1.7, item 13), and outside every other AIOC
-- **§13, bots and requests** · superseded by `49GAION/DR-0051`, item 2:
+- **§13, bots and requests** · superseded by `49GAION/DR-0052`, item 2:
   No bot approves a request or sets a scope; a bot never signs (§10, item 3).
-- **§13, the gateway** · superseded by `49GAION/DR-0051` (a correction to the complete definition; no new rule):
+- **§13, the gateway** · superseded by `49GAION/DR-0052` (a correction to the complete definition; no new rule):
   Every source connection runs through the tool gateway, held in the Charter (Standard §4.4, item 11).
-- **§20, item 7** · superseded by `49GAION/DR-0051` (a correction to the complete definition; no new rule): positions only (DR-0049):
+- **§20, item 7** · superseded by `49GAION/DR-0052` (a correction to the complete definition; no new rule): positions only (DR-0049):
   It never ranks, scores or watches the occupant of a position,
-- **§23, the gateway and the stop** · superseded by `49GAION/DR-0051` (a correction to the complete definition; no new rule): "a party other than" (the complete definition, §20, item 8):
+- **§23, the gateway and the stop** · superseded by `49GAION/DR-0052` (a correction to the complete definition; no new rule): "a party other than" (the complete definition, §20, item 8):
   it needs a human signature and is made by someone other than the AI it constrains.
-- **§23, item 2 (What it holds)** · superseded by `49GAION/DR-0051` (a correction to the complete definition, §19; no new rule):
+- **§23, item 2 (What it holds)** · superseded by `49GAION/DR-0052` (a correction to the complete definition, §19; no new rule):
   2. **What it holds.** The Cells that carry `[ORG]HOAC-GOV` and `[ORG]HOAC-TM`, with their Offices, the latter in the Top Management Group, the first AIOC under the core, where the Top Management position sits (item 1); and three Pods of shared services: Gateway, Records and Work.
