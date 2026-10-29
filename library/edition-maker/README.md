@@ -8,7 +8,7 @@ Edition Maker is not built yet. Its requirements are written and approved, and t
 
 | Path | What it is |
 |---|---|
-| [`PRD.md`](PRD.md) | The product requirements, v0.8: v0.7 approved by the governing seat (GOV) on 22 October 2026, with the core's first named capability, Structural Adaptation, added on 25 October 2026 |
+| [`PRD.md`](PRD.md) | The product requirements, v0.11: v0.7 approved by the governing seat (GOV) on 22 October 2026, with the core's first named capability, Structural Adaptation, added on 25 October 2026; brought into line with the complete definition in v0.9 and v0.10, and corrected in v0.11 (`49GAION/DR-0051`) |
 | [`TEST-EDITION-MAKER.md`](TEST-EDITION-MAKER.md) | The fixed test, TEST-EDITION-MAKER v5: the state of each of its 20 cases |
 | [`REASONS.md`](REASONS.md) | The intake-and-output paper, v0.3: the reasons and the reviews behind each line of the PRD |
 | [`reviews/`](reviews/) | The reviews by other AI engines, kept as received, with what was applied and what was not |
