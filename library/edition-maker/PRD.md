@@ -1,14 +1,16 @@
 # 49GAION Edition Maker: product requirements
 
-**Current version: PRD v0.11** (`49GAION/DR-0052`). The lines below give each version in turn.
+**Current version: PRD v0.12** (`49GAION/DR-0054`). The lines below give each version in turn.
 
 **PRD v0.8** · approved as v0.7 by the governing seat (GOV) on 22 October 2026, with the edition engineer added; v0.8 adds the core's first named capability, Structural Adaptation (GOV, 25 October 2026).
 
 **PRD v0.9** brings the PRD into line with the complete definition of 49GAION, approved by the governing seat on 25 October 2026 (`49GAION/DR-0041`), and cuts nothing. Its additions are marked DR-0041 in sections 8 and 9, and listed in section 14.
 
-**PRD v0.10** brings the PRD into line with the complete definition `v2.1.0` (`49GAION/DR-0048`), by `49GAION/DR-0049`: every human place is a position, and who holds it, and how, is the organisation's own mechanism, outside the system. Its changes, and the wording they replaced, are listed in section 15.
+**PRD v0.10** brings the PRD into line with the complete definition `v2.1.0` (`49GAION/DR-0048`), by `49GAION/DR-0049`: every human place is a position, and who holds it, and how, is the organisation's own mechanism, outside the system. Its changes are listed in section 15.
 
-**PRD v0.11** corrects the PRD after two reviews of `v2.1.0` (`49GAION/DR-0052`): three engines at every step, and the step waits with fewer; the smallest edition by position; every request becomes the organisation's own `[ORG]AION`. Its changes, and the wording they replaced, are listed in section 16.
+**PRD v0.11** corrects the PRD after two reviews of `v2.1.0` (`49GAION/DR-0052`): three engines at every step, and the step waits with fewer; the smallest edition by position; every request becomes the organisation's own `[ORG]AION`. Its changes are listed in section 16.
+
+**PRD v0.12** follows a review of `v2.2.0` (`49GAION/DR-0054`): section 14, item 6, says what the complete definition says of one person holding every position, and sections 15 and 16 no longer carry the wording they replaced, which stays readable at the Protocol's earlier releases.
 
 **Addition (`49GAION/DR-0042`).** The governing seat confirmed on 25 October 2026 that it approved these requirements ("Yes, I set Edition Maker."); that confirmation is the source of their approval, read with `49GAION/DR-0039`. At the handover the organisation issues fresh keys for its gateway, and every key Edition Maker made, held or used for the edition is revoked. Edition Maker keeps its own rule: at every step one engine works and two challenge.
 
@@ -386,7 +388,7 @@ On 25 October 2026 the governing seat approved the complete definition of 49GAIO
 3. **The core is the root,** made from the Library part 49GAION Charter, with the gateway and the stop. It holds the human position of the governance seat, which its AI serves and never holds, the governance panel, and the organisation's own Standard, Blueprint and Library, which are the organisation's IP.
 4. **The handover** is complete when the governance seat accepts the edition; an edition it does not accept comes back to Edition Maker with its reasons.
 5. **The first proposal** (section 8, item 6).
-6. **Positions.** Every human place in the edition is a position. Who holds each position, and how, is the organisation's own mechanism, outside the system, under the governance seat's ultimate authority (the complete definition, §6); one person may hold several positions, or all, where the law allows; 49GAION never speaks of a one-person organisation. This reads section 8, item 6, task 2.
+6. **Positions.** Every human place in the edition is a position. Who holds each position, and how, is the organisation's own mechanism, outside the system, under the governance seat's ultimate authority (the complete definition, §6); one person may hold several positions, or all, where the law allows; one person holding every position is a model 49GAION introduces and promotes, and even then the positions stay distinct (the complete definition, §6, item 4; `49GAION/DR-0051`). This reads section 8, item 6, task 2.
 7. **Proposing is open to all;** the `[ORG]AION` rejects with a reason, or applies with the governance seat's approval, within the dial the seat holds.
 8. **The Top Management Group** is the hub of the operation and builds everything in it (section 8, item 7).
 9. **Panels and back offices** (section 9.1, item 5; section 9.3).
@@ -395,44 +397,13 @@ On 25 October 2026 the governing seat approved the complete definition of 49GAIO
 
 ## 15. Brought into line with the complete definition `v2.1.0` (DR-0049)
 
-On 28 October 2026 the governing seat merged the complete definition `v2.1.0` (`49GAION/DR-0048`): the system knows only AIOCs and HOAC positions, and each organisation keeps its own mechanism, outside the system, for who holds its positions. `49GAION/DR-0049` brings the texts into line. In this PRD it changes the places below; each is listed with the wording it replaced.
-
-- **Section 3, the owner** · superseded by `49GAION/DR-0049`:
-  - **The owner:** the human who holds the organisation's governing seat. In this PRD, "the owner" and "the governing seat" mean the same. The owner gives the sources, answers the questions and approves the result.
-- **Section 3, contributors** · superseded by `49GAION/DR-0049`:
-  - **Contributors:** anyone the owner names, who gives sources or a spoken account.
-- **Section 3, the edition engineer, who holds it** · superseded by `49GAION/DR-0049`:
-  This is the sensitive part of the work, and a human holds it.
-- **Section 3, the edition engineer, its holder** · superseded by `49GAION/DR-0049`:
-  The engineer is a position; its holder is kept in 49GAION's private holders register.
-- **EM-R2** · superseded by `49GAION/DR-0049`:
-  - **EM-R2.** The evidence of the seat's authority is taken in, for example the constituting documents. The holder's identity is kept in the private holders register, never in the edition.
-- **Section 6.4 (Never taken in), the last item** · superseded by `49GAION/DR-0049`:
-  - the owner's choice of where to put more people than the Human Floor needs; that comes after the AI-native design.
-- **Section 8, item 6, the first proposal** · superseded by `49GAION/DR-0049`:
-  As soon as the governance seat is in place, whatever the knowledge of its holder, the core takes the seat's brief
-- **Section 8, item 6, task 2** · superseded by `49GAION/DR-0049`:
-  2. Propose the Top Management AIOC and its authority, so that operation can start; and with it, where the link between positions and the people who hold them is kept. By the Standard, that link is Top Management's alone, in its own private mechanism, and never in a unit (Standard §1.1, item 9).
-- **Section 11, case 7** · superseded by `49GAION/DR-0049`:
-  7. An edition for one person with one task and an edition for a group have the same pack files and the same core instruction.
-- **Section 14, item 6** · superseded by `49GAION/DR-0049`:
-  6. **Positions.** The governance seat appoints Top Management directly and keeps the final right over who holds any position; one person may hold several, or all, where the law allows; 49GAION never speaks of a one-person organisation. The governance seat records who holds its own position and Top Management; Top Management records the positions below it. This reads section 8, item 6, task 2.
-
+On 28 October 2026 the governing seat merged the complete definition `v2.1.0` (`49GAION/DR-0048`): the system knows only AIOCs and HOAC positions, and each organisation keeps its own mechanism, outside the system, for who holds its positions. `49GAION/DR-0049` brings the texts into line. In this PRD it changed section 3 (the owner, contributors and the edition engineer), EM-R2, section 6.4 (the last item), section 8 (item 6: the first proposal and task 2), section 11 (case 7) and section 14 (item 6). The wording it replaced stays readable at the Protocol's release `v2.0.0`.
 
 ## 16. Corrected after two reviews of `v2.1.0` (DR-0052)
 
 On 29 October 2026 the governing seat had two reviews of `v2.1.0` checked and corrected in one round (`49GAION/DR-0052`). The PRD said less than the complete definition in three places; each now says what the definition says.
 
-- **Section 3, every request** · superseded by `49GAION/DR-0052` (the complete definition, §10, item 1):
-  - **Every request becomes an AION.** Every order or request made to 49GAION enters here. The size changes, never the shape.
-- **Section 3, the smallest edition** · superseded by `49GAION/DR-0052` (the complete definition, §6, items 3 and 4):
-  - **Smallest:** one human seat holding both governance and top management, the `[ORG]AION`, and one AIOC.
-- **EM-R0, the number of engines** · superseded by `49GAION/DR-0052` (the complete definition, §10, item 3; §20, item 5):
-  - Three engines by default. Where the owner allows only two, the second engine challenges alone, and the record says so. Where the owner allows only one, the steps that need engines wait, and the matter goes to the owner as a missing item.
-- **Section 6.1, item 9, the engines allowed** · superseded by `49GAION/DR-0052`:
-  the engines and suppliers allowed: at least two engines, three by default, with the data each may see (EM-R0, EM-R2a).
-- **Section 11, case 18** · superseded by `49GAION/DR-0052`:
-  Where only two engines were allowed, the record says so; where only one was allowed, the step waited.
+It changed section 3 (every request; the smallest edition), EM-R0, section 6.1 (item 9) and section 11 (case 18). The wording it replaced stays readable at the Protocol's release `v2.1.0`.
 
 ---
 

@@ -45,7 +45,7 @@ Sources: DR-0025.
 | Part | Where it works | Card | Protocol | Standard | Fixed test | Status |
 |---|---|---|---|---|---|---|
 | Self-Improvement | a process of the Cell carrying `[ORG]HOAC-TM`, served by AI Cells | `org-aion-self-improvement.part-card.v3.json`, `org-aion-self-improvement.bot-identity-card.v3.json`, `org-aion-top-management.unit-card.json` | §10 | §2 | TEST-ORG-AION-SI v2 | `DRAFT`, `NOT_RUN` |
-| 49GAION Edition Maker | 49GAION itself, under its governing seat: the start point that processes every order or request made to 49GAION, through its own intake stages; it takes in what an organisation is for and gives back its own edition of an AION, the first core of its `[ORG]AION`, a first AIOC at the level of the governing seat (GOV); it hands over no finished design or configuration, and gives them to AI | not yet written | — | §1.2, §1.3 | TEST-EDITION-MAKER v5, `NOT_RUN` ([`edition-maker/TEST-EDITION-MAKER.md`](edition-maker/TEST-EDITION-MAKER.md)) | named; its requirements are written and approved, [`edition-maker/PRD.md`](edition-maker/PRD.md) v0.11, with their reasons, reviews and a light dry run on the sample Ten, in [`edition-maker/`](edition-maker/README.md); built later (GOV, 22 October 2026) |
+| 49GAION Edition Maker | 49GAION itself, under its governing seat: the start point that processes every order or request made to 49GAION, through its own intake stages; it takes in what an organisation is for and gives back its own edition of an AION, the first core of its `[ORG]AION`, a first AIOC at the level of the governing seat (GOV); it hands over no finished design or configuration, and gives them to AI | not yet written | — | §1.2, §1.3 | TEST-EDITION-MAKER v5, `NOT_RUN` ([`edition-maker/TEST-EDITION-MAKER.md`](edition-maker/TEST-EDITION-MAKER.md)) | named; its requirements are written and approved, [`edition-maker/PRD.md`](edition-maker/PRD.md) v0.12, with their reasons, reviews and a light dry run on the sample Ten, in [`edition-maker/`](edition-maker/README.md); built later (GOV, 22 October 2026) |
 | Duty Deputy | inside an `[ORG]AION` | `duty-deputy.part-card.json` | §16 | — | TEST-DUTY-DEPUTY v1 | `DRAFT`, `NOT_RUN` |
 | Outside Inspector | outside the AIOC it inspects | `outside-inspector.part-card.json` | §16 | §3.2, item 12 | TEST-OUTSIDE-INSPECTOR v1 | `DRAFT`, `NOT_RUN` |
 | Advisory Council | inside an `[ORG]AION` | `advisory-council.part-card.json` | §16 | — | TEST-ADVISORY-COUNCIL v1 | `DRAFT`, `NOT_RUN` |
@@ -69,7 +69,7 @@ Sources: DR-0025.
 | Product | Kind | Parts (pinned under Parts) | Connections | Shared test | Status |
 |---|---|---|---|---|---|
 | 49GAION Source Lifecycle | a single part, offered alone; it runs on its own | 49GAION Source Lifecycle | none | TEST-SOURCE-LIFECYCLE v4 | `DRAFT`, `NOT_RUN` |
-| 49GAION Organisation Design and Delivery | assembly | 49GAION Source Lifecycle, Target Operating Model, Process and Position Design, Delivery and Implementation | the release notice contract, from each stage to the next; the design return contract, from each later stage to the stage whose release it reads (Protocol §21); Source Lifecycle's sockets contract (needs request, needs answer, needs status, Missing Report, source reference); each stage's filing of its releases, and each later stage's filing of its returns, into Source Lifecycle (Protocol §13, item 9; §21, items 2 and 4) | TEST-DESIGN-CHAIN v2 (below) | named and defined, built later (`49GAION/DR-0025`); its parts `DRAFT`, `NOT_RUN`; Delivery and Implementation written in full (v0.2.2 as pinned above) |
+| 49GAION Organisation Design and Delivery | assembly | 49GAION Source Lifecycle, Target Operating Model, Process and Position Design, Delivery and Implementation | the release notice contract, from each stage to the next; the design return contract, from each later stage to the stage whose release it reads (Protocol §21); Source Lifecycle's sockets contract (needs request, needs answer, needs status, Missing Report, source reference); each stage's filing of its releases, and each later stage's filing of its returns, into Source Lifecycle (Protocol §13, item 9; §21, items 2 and 4) | TEST-DESIGN-CHAIN v2 (below) | named and defined, built later (`49GAION/DR-0025`); its parts `DRAFT`, `NOT_RUN`; Delivery and Implementation written in full (as pinned above) |
 | 49GAION Operations Event Register | a single part, offered alone; it runs on its own | 49GAION Operations Event Register | none | TEST-OPERATIONS-EVENT-REGISTER v1 | `DRAFT`, `NOT_RUN` |
 | 49GAION Organisation Memory | assembly | 49GAION Source Lifecycle, Operations Event Register | the register's scope in Source Lifecycle (it writes origin kinds `correspondence` and `export`, and reads references only) and its gap signals (Protocol §13, item 12; §22, item 11); Source Lifecycle's notices back to the register | TEST-ORGANISATION-MEMORY v1 (below) | named and defined, built later (`49GAION/DR-0027`); its parts `DRAFT`, `NOT_RUN` |
 
@@ -114,12 +114,5 @@ The shared test of 49GAION Organisation Memory (`49GAION/DR-0027`), run across t
 7. A source superseded in Source Lifecycle marks, in the register, the acts that cited it after its supersession.
 8. Over the fixture run, no number stream has a gap or a duplicate.
 9. Nothing in either part names a person or reads who occupies a position, and nothing gives a figure for one human position.
-
-## Superseded wording, by version
-
-The wording below left the body of this text when it was written clean at `v2.0.0`. Each entry names what superseded it. Nothing is lost: the layered texts up to `v1.8.0` are kept at their tags.
-
-- **The register › Parts › Capability parts and unit cards, Self-Improvement (line 48)** · superseded by the v3 cards named in the Self-Improvement row: org-aion-self-improvement.part-card.v3.json, org-aion-self-improvement.bot-identity-card.v3.json (library/cards/README.md):
-  The v2 cards of Self-Improvement are kept and marked `REPLACED` (`library/cards/README.md`).
 
 Powered by 49GAION
