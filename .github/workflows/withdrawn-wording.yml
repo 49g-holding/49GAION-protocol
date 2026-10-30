@@ -1,0 +1,43 @@
+# Required check on main (49GAION/DR-0054). Wording that the governing seat has withdrawn never comes back
+# into a text: the list .github/withdrawn-wording.tsv names each phrase, the record that withdrew it and
+# what it was, and a list of superseded wording is one of them. Decision records and their index, raw
+# records, release notes, change logs and raw reviews keep history verbatim and are not read.
+# Script and list are the copies on the base branch (trusted code).
+name: withdrawn-wording
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  withdrawn-wording:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Load the check from the base branch (trusted code)
+        shell: bash
+        env:
+          TRUSTED: ${{ github.event.pull_request.base.sha || github.sha }}
+          EVENT: ${{ github.event_name }}
+          BASE: ${{ github.event.pull_request.base.sha }}
+          FILES: ".github/scripts/check_withdrawn_wording.py .github/withdrawn-wording.tsv"
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/trusted"
+          for f in $FILES; do
+            if git cat-file -e "$TRUSTED:$f" 2>/dev/null; then
+              git show "$TRUSTED:$f" > "$RUNNER_TEMP/trusted/$(basename "$f")"
+            elif [ "$EVENT" = pull_request ] && [ -z "$(git diff --name-only "$BASE"...HEAD | grep -v "^\.github/" || true)" ]; then
+              echo "::warning::$f is not on the base branch yet. This .github/-only pull request introduces it, so its own copy runs this once."
+              cp "$f" "$RUNNER_TEMP/trusted/$(basename "$f")"
+            else
+              echo "::error::$f cannot be read from the base branch ($TRUSTED); failing closed."
+              exit 1
+            fi
+          done
+      - name: No withdrawn wording in the texts
+        run: python3 "$RUNNER_TEMP/trusted/check_withdrawn_wording.py" "$RUNNER_TEMP/trusted/withdrawn-wording.tsv"
