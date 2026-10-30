@@ -1,0 +1,4 @@
+# withdrawn-wording (49GAION/DR-0054). Columns, tab-separated: id, regular expression (case-insensitive, multi-line), the record that withdrew it, what it was.
+# A row leaves this list, or changes, only by a pull request that changes .github/ alone, under a record of the governing seat.
+one-person-organisation	one[- ]person organi[sz]ation	49GAION/DR-0051	the phrase that 49GAION never speaks of, or never introduces, a one-person organisation; one person holding every position is a model 49GAION introduces and promotes (the complete definition, §6, item 4)
+superseded-wording-list	^#{1,6}[ \t]+superseded wording\b	49GAION/DR-0054	a list of superseded wording in a text; the former wording stays readable at the earlier release tags

@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 """links (a step of ref-check): every relative link in a tracked Markdown file resolves to a file
 or folder of this repository at this commit (DR-0052). Links to the web, mail addresses and
-anchors in the same file are not followed. Links inside a text's list of superseded wording (from
-its heading "## Superseded wording" to the end of the file) are verbatim history and are not
-followed. Code spans and fenced code blocks are skipped.
+anchors in the same file are not followed. Since 49GAION/DR-0054 no text carries a list of
+superseded wording, so no part of a text is exempt. Code spans and fenced code blocks are skipped.
 Records that are never edited are not followed either, so that a later move of a file never
 leaves the check red on history: decision records and their index (decisions/), raw records
 (references/), release notes, change logs, and the Edition Maker's raw reviews and trials.
@@ -44,8 +43,6 @@ for f in sorted(p for p in tracked if p.endswith(".md") and not p.startswith(SKI
         if re.match(r"^\s*(```|~~~)", line):
             fence = not fence; continue
         if fence: continue
-        if re.match(r"^##\s+Superseded wording", line):
-            break
         for t in targets(line):
             if re.match(r"^[a-zA-Z][a-zA-Z0-9+.-]*:", t) or t.startswith("#") or t.startswith("//"):
                 continue

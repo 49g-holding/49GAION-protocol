@@ -71,10 +71,22 @@ results.append(("no-org-names: six written variants are flagged", _n == 6))
 print(f"{'ok  ' if _n == 6 else 'FAIL'} no-org-names: six written variants are flagged ({_n})")
 for name, files, code in (("a link to a file of the repository passes", {"x.md": "see [b](docs/b.md#x)\n", "docs/b.md": "b\n"}, None),
                           ("a link to a missing file fails", {"x.md": "see [g](guide/OLD.md)\n"}, "LINK-DEAD guide/OLD.md"),
-                          ("a link in the list of superseded wording is not followed",
-                           {"x.md": "body\n\n## Superseded wording, by version\n\n- [old](guide/OLD.md)\n"}, None)):
+                          ("a link under a heading of superseded wording is followed (49GAION/DR-0054)",
+                           {"x.md": "body\n\n## Superseded wording, by version\n\n- [old](guide/OLD.md)\n"}, "LINK-DEAD guide/OLD.md")):
     d, _ = tmp_repo(files)
     expect("links: " + name, run(d, sys.executable, str(S / "check_links.py")), code)
+
+# ---------- withdrawn-wording (49GAION/DR-0054) ----------
+_e = pathlib.Path(tempfile.mkdtemp()) / "empty.tsv"; _e.write_text("# no rows\n", encoding="utf-8")
+for name, files, code, lst in (
+        ("a text without withdrawn wording passes", {"x.md": "One person may hold every position; the positions stay distinct.\n"}, None, None),
+        ("the phrase one-person organisation fails", {"x.md": "49GAION never speaks of a one-person organisation.\n"}, "WITHDRAWN-WORDING one-person-organisation", None),
+        ("the phrase in a code span still fails", {"x.md": "`one person organization`\n"}, "WITHDRAWN-WORDING one-person-organisation", None),
+        ("the phrase in a decision record passes", {"decisions/DR-9001-x.md": "never a one-person organisation\n"}, None, None),
+        ("a list of superseded wording fails", {"x.md": "body\n\n## Superseded wording, by version\n\n- old\n"}, "WITHDRAWN-WORDING superseded-wording-list", None),
+        ("an empty list fails closed", {"x.md": "clean\n"}, "WITHDRAWN-WORDING-LIST", _e)):
+    d, _ = tmp_repo(files)
+    expect("withdrawn-wording: " + name, run(d, sys.executable, str(S / "check_withdrawn_wording.py"), str(lst or ROOT / ".github/withdrawn-wording.tsv")), code)
 
 # ---------- dr-source (49GAION/DR-0053) ----------
 GOOD = "# DR-9001\n\n- **Date:** 2026-10-29\n- **Decided by:** the governing seat (GOV) of 49GAION.\n- **Source:** the governing seat's words (translated): \"Confirmed.\"\n\n## Decision\n"

@@ -28,8 +28,8 @@
 #   no-binaries   no binary file is added or changed (the caller checks out with fetch-depth 0)
 #   dr-frozen     a decision record on the base is never changed; a new one takes a new number,
 #                 and names its source and a date (dr-source, 49GAION/DR-0053)
-#   links         every relative link in a Markdown file resolves, outside the lists of superseded
-#                 wording (DR-0052)
+#   links         every relative link in a Markdown file resolves (DR-0052); since 49GAION/DR-0054
+#                 no list of superseded wording is exempt
 #
 # Structure review of 26 October 2026, points D3 and D4; 49GAION/DR-0047.
 name: library-checks
